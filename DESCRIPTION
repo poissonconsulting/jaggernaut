@@ -1,0 +1,70 @@
+Package: jaggernaut
+Type: Package
+Title: A package to facilitate Bayesian analysis using JAGS.
+Version: 0.1
+Date: 2013-01-02
+Author: Joe Thorley <joe@poissonconsulting.ca>
+Maintainer: Joe Thorley <joe@poissonconsulting.ca>
+Description: An R package to facilitate Bayesian analysis using JAGS.
+Depends:
+    abind,
+    foreach,
+    iterators,
+    rjags
+Suggests:
+    testthat,
+    multicore,
+    doMC,
+    ddata
+License: GPL-2
+Collate:
+    'plot.r'
+    'nchain.r'
+    'rjags.r'
+    'niter.r'
+    'as.r'
+    'is.r'
+    'gsmcmc.r'
+    'nsim.r'
+    'add-iterations.r'
+    'add-chains.r'
+    'calc-derived.r'
+    'calc-convergence.r'
+    'calc-estimates.r'
+    'check-convergence.r'
+    'get-sims.r'
+    'calc-expected.r'
+    'translate-data.r'
+    'multiply.r'
+    'operators.r'
+    'set-random.r'
+    'summary.r'
+    'get-pars.r'
+    'get-data.r'
+    'zero-random.r'
+    'get-base.r'
+    'set-derived.r'
+    'jags_analysis.r'
+    'update.r'
+    'print.r'
+    'process-select.r'
+    'add-reps.r'
+    'add-values.r'
+    'calc-power.r'
+    'extract-estimates.r'
+    'get-power.r'
+    'get-samples.r'
+    'gspower.r'
+    'gssimulation.r'
+    'is-same.r'
+    'convert-data.r'
+    'convert-variable.r'
+    'dvariable.r'
+    'generate-data.r'
+    'generate-range.r'
+    'get-mean.r'
+    'help.r'
+    'unique.r'
+    'jmodel.r'
+    'janalysis.r'
+    'get-subset.r'
