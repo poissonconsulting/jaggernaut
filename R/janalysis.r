@@ -24,7 +24,8 @@
 janalysis <- function (
   model, data, n.iter = 1000, n.chain = 3, resample = 3,
   convergence = 1.1, independence = 0,
-  parallel = FALSE, debug = FALSE, quiet = FALSE
+  parallel = .Platform$OS.type != "windows", 
+  debug = FALSE, quiet = FALSE
 )
 {  
   if(!is.jmodel(model))
@@ -33,7 +34,7 @@ janalysis <- function (
   if(!is.data.frame(data))
     stop ("data should be class data.frame")
   
-  if(parallel && .Platform$OS.type != "unix") {
+  if(parallel && .Platform$OS.type == "windows") {
     warning("parallel is not currently defined for windows")
     parallel <- FALSE
   }
@@ -41,7 +42,7 @@ janalysis <- function (
   stopifnot(n.iter >= 100)
   stopifnot(n.chain %in% 2:4)
   stopifnot(resample %in% 0:3)
-  stopifnot(convergence >= 1.0)
+  stopifnot(convergence >= 1.0 && convergence <= 1.5)
   stopifnot(independence %in% 0:100)
     
   cat_convergence <- function (object) {
