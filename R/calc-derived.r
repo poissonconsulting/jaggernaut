@@ -13,7 +13,7 @@ calc_derived.gsmcmc <- function (object, model, monitor, calc_estimates = TRUE) 
       
   model <- jmodel (model, monitor)
   options(jags.pb = "none")
-    
+
   file <- tempfile(fileext=".bug")
   cat(model$model, file=file)
 
