@@ -35,11 +35,11 @@ janalysis <- function (
   
   if(parallel && .Platform$OS.type != "unix") {
     warning("parallel is not currently defined for windows")
-    parallel <- F
+    parallel <- FALSE
   }
   
   stopifnot(n.iter >= 100)
-  stopifnot(n.chain %in% 2:3)
+  stopifnot(n.chain %in% 2:4)
   stopifnot(resample %in% 0:3)
   stopifnot(convergence >= 1.0)
   stopifnot(independence %in% 0:100)
@@ -59,15 +59,19 @@ janalysis <- function (
     quiet <- FALSE
     resample <- 0
     parallel <- F
-  } 
-  
+  }
+    
   if (quiet) {
     options(jags.pb = "none")
   } else {
     options(jags.pb = "text")
   }
+
+  if(!is.null(model$monitor)) {
+    model$monitor <- sort(unique(c(model$monitor,"deviance")))
+  }
   
-  data_analysis <- translate_data(model, data)  
+  data_analysis <- translate_data(model, data) 
        
   if (is.function(model$gen_inits)) {
     inits <- list()
@@ -75,9 +79,7 @@ janalysis <- function (
       inits[[i]] <- model$gen_inits(data_analysis)
   } else
     inits <- NULL
-          
-  monitor <- model$monitor  
-  
+              
   n.adapt <- 100
   n.burnin <- as.integer(n.iter /2)
   n.sim <- as.integer(n.iter /2)
@@ -96,32 +98,31 @@ janalysis <- function (
     } else
       inits <- rngs
     
-    mcmc <- foreach(i = 1:n.chain, .combine = add_chains_gsmcmc) %dopar% { 
-      file <- tempfile(fileext=".bug")
-      cat(model$model, file=file)
-      
-      jags_analysis (
-        data = data_analysis, file=file, monitor = monitor, 
-        inits = inits[i], n.chain = 1, 
-        n.adapt = n.adapt, n.burnin = n.burnin, n.sim = n.sim, n.thin = n.thin, 
-        quiet = quiet
-      )
-    }
+      mcmc <- foreach(i = 1:n.chain, .combine = add_chains_gsmcmc) %dopar% { 
+        file <- tempfile(fileext=".bug")
+        cat(model$model, file=file)
+        
+        jags_analysis (
+          data = data_analysis, file=file, monitor = model$monitor, 
+          inits = inits[i], n.chain = 1, 
+          n.adapt = n.adapt, n.burnin = n.burnin, n.sim = n.sim, n.thin = n.thin, 
+          quiet = quiet
+        )
+      }
   } else {    
     file <- tempfile(fileext=".bug")
     cat(model$model, file=file)
     
     mcmc <- jags_analysis (
-      data = data_analysis, file=file, monitor = monitor, 
+      data = data_analysis, file=file, monitor = model$monitor, 
       inits = inits, n.chain = n.chain, 
       n.adapt = n.adapt, n.burnin = n.burnin, n.sim = n.sim, n.thin = n.thin, 
       quiet = quiet
     )
   }
-  if(is.null(monitor)) {
-    monitor <- names(mcmc$mcmc)
-    monitor <- sort(monitor)
-    model$monitor <- monitor
+  if(is.null(model$monitor)) {
+    model$monitor <- names(mcmc$mcmc)
+    model$monitor <- sort(model$monitor)
   }
   
   object <- list(
@@ -136,6 +137,7 @@ janalysis <- function (
     )
   
   class(object) <- c("janalysis")
+  check_convergence (object)
   
   while (!check_convergence (object) && resample > 0) 
   {

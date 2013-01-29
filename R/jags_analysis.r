@@ -30,8 +30,9 @@ jags_analysis <- function (data, file, monitor, inits, n.chain, n.adapt, n.burni
     bol <- substr(monitor,1,1) %in% c('d','e','i')
     bol <- bol & substr(monitor,2,2) == toupper(substr(monitor,2,2))
     monitor <- monitor[!bol]
-    monitor <- sort(monitor)
   }
+  monitor <- c(monitor,"deviance")
+  monitor <- sort(unique(monitor))
   
   mcmc <- jags.samples(
     model = jags, variable.names = monitor, n.iter = n.sim, thin = n.thin

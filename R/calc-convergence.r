@@ -4,8 +4,9 @@ calc_convergence <- function (object, ...) {
 }
 
 calc_convergence.gsmcmc <- function (object, summarise = FALSE, pars = NULL) {
-  nsim <- nsim(object)
 
+  nsim <- nsim(object)
+  
   mcmc <- as.mcmc.list (object)
   
   vars<-varnames(mcmc)

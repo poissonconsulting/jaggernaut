@@ -45,8 +45,8 @@ summary.janalysis <- function (object)
   cat("\nEstimates:\n")        
   print(calc_estimates(object))
 
-  cat("\nBase:\n")        
-  print(get_base(object))
+  cat("\nDeviance Information Criterion:\n")        
+  print(dic(object))
   
   invisible (NULL)  
 }

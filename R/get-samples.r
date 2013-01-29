@@ -9,8 +9,10 @@ get_samples <- function (model, data, file) {
                       n.chains = 1, n.adapt = 0, quiet = T
   )
 
+  monitor <- model$monitor
+  monitor <- monitor[monitor != "deviance"]
   samples <- jags.samples(
-    model = jags, variable.names = model$monitor, n.iter = 1
+    model = jags, variable.names = monitor, n.iter = 1
   )
   options (warn)
   

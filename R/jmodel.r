@@ -55,8 +55,9 @@ jmodel <- function (model, monitor = NULL, select = NULL, modify_data = NULL,
   if (!(is.null(description) || (is.character(description) & !is.null(names(description)))))
     stop ("description must be NULL or a named character vector")
   
-  if(!is.null(monitor))
-    monitor <- sort(monitor)
+  if(!is.null(monitor)) {
+    monitor <- sort(unique(monitor))
+  }
   
   object<-list(
     model = model,
