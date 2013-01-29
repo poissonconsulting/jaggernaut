@@ -13,17 +13,19 @@ calc_derived.gsmcmc <- function (object, model, monitor, calc_estimates = TRUE) 
       
   model <- gsmodel (model, monitor)
   options(jags.pb = "none")
-  cat(model$model, file='model.bug')
+  
+  file <- tempfile(fileext=".bug")
+  cat(model$model, file=file)
 
   nchain <- nchain (object)
   niter <- niter (object)
   
   list <- list ()
   for (j in 1:nchain) {
-    list[[j]] <- get_samples (model,data = as.list(get_subset_gsmcmc(object, iter = 1, chain = j)))
+    list[[j]] <- get_samples (model,data = as.list(get_subset_gsmcmc(object, iter = 1, chain = j)), file = file)
     if (niter > 1) {
       for (i in 2:niter) {
-        samples <- get_samples (model,data = as.list(get_subset_gsmcmc(object, iter = i, chain = j)))
+        samples <- get_samples (model,data = as.list(get_subset_gsmcmc(object, iter = i, chain = j)), file = file)
         list[[j]] <- add_iterations (list[[j]], samples)
       }
     }

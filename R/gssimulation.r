@@ -23,12 +23,13 @@ gssimulation <- function (
   } else
     inits <- NULL
   
-  cat(block$block, file='model.bug')
+  file <- tempfile(fileext=".bug")
+  cat(block$block, file=file)
   
   monitor <- block$monitor  
   
   mcmc <- jags_analysis ( 
-      data = data_analysis, file='model.bug', monitor = monitor, 
+      data = data_analysis, file=file, monitor = monitor, 
       inits = inits, n.chain = 1, 
       n.adapt = 0, n.burnin = 0, n.sim = 1, n.thin = 1, 
       quiet = quiet
