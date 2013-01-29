@@ -11,19 +11,21 @@ calc_derived.gsmcmc <- function (object, model, monitor, calc_estimates = TRUE) 
   if (!inherits(monitor,"character") || length(monitor) < 1) 
     stop ("monitor must be a character vector of length 1 or more")
       
-  model <- gsmodel (model, monitor)
+  model <- jmodel (model, monitor)
   options(jags.pb = "none")
-  cat(model$model, file='model.bug')
+    
+  file <- tempfile(fileext=".bug")
+  cat(model$model, file=file)
 
   nchain <- nchain (object)
   niter <- niter (object)
   
   list <- list ()
   for (j in 1:nchain) {
-    list[[j]] <- get_samples (model,data = as.list(get_subset_gsmcmc(object, iter = 1, chain = j)))
+    list[[j]] <- get_samples (model,data = as.list(get_subset_gsmcmc(object, iter = 1, chain = j)), file = file)
     if (niter > 1) {
       for (i in 2:niter) {
-        samples <- get_samples (model,data = as.list(get_subset_gsmcmc(object, iter = i, chain = j)))
+        samples <- get_samples (model,data = as.list(get_subset_gsmcmc(object, iter = i, chain = j)), file = file)
         list[[j]] <- add_iterations (list[[j]], samples)
       }
     }
@@ -61,8 +63,9 @@ calc_derived.janalysis <- function (object, model, monitor,
   dat <- translate_data(object$model,object$data, dat = data)  
   model <- jmodel (model= model, monitor = monitor)
   options(jags.pb = "none")
-  cat(model$model, file='model.bug')
-
+  file <- tempfile(fileext=".bug")
+  cat(model$model, file=file)
+  
   object <- zero_random (object,data)
   
   nchain <- nchain (object)
@@ -72,10 +75,10 @@ calc_derived.janalysis <- function (object, model, monitor,
   for (j in 1:nchain) {
     
     data <- c(dat,as.list(get_subset_gsmcmc(object$mcmc, iter = 1, chain = j)))
-    list[[j]] <- get_samples (model,data = c(dat,as.list(get_subset_gsmcmc(object$mcmc, iter = 1, chain = j))))    
+    list[[j]] <- get_samples (model,data = c(dat,as.list(get_subset_gsmcmc(object$mcmc, iter = 1, chain = j))),file = file)    
     if (niter > 1) {
       for (i in 2:niter) {
-        samples <- get_samples (model,data = c(dat,as.list(get_subset_gsmcmc(object$mcmc, iter = i, chain = j))))
+        samples <- get_samples (model,data = c(dat,as.list(get_subset_gsmcmc(object$mcmc, iter = i, chain = j))), file = file)
         list[[j]] <- add_iterations (list[[j]], samples)
       }
     }

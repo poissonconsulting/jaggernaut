@@ -64,10 +64,10 @@ calc_expected <- function (analysis, parameter, data = "", base = FALSE,
     model <- derived
   } else
     model <- analysis$model$derived
-    
+      
   emcmc <- calc_derived (analysis, model=model, 
     monitor=parameter, data = data, calc_estimates = F)  
-    
+      
   if (is.data.frame(base)) {
     
     base <- calc_derived (analysis, model = model, 
