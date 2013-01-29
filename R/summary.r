@@ -33,22 +33,21 @@ summary.gsmcmc <- function (object) {
 #' summary(analysis)
 summary.janalysis <- function (object)
 {
-  cat("\nGeneration:\n")
-  print(c(iterations = object$iterations,time = round(object$time,2)))
+  summ <- list()
   
-  cat("\nDimensions:\n")
-  print(c(simulations = nsim(object),chains = nchain(object)))
+  summ[["Generation"]] <- c(iterations = object$iterations,time = round(object$time,2))
   
-  cat("\nConvergence:\n")
-  print(calc_convergence(object))
-  
-  cat("\nEstimates:\n")        
-  print(calc_estimates(object))
+  summ[["Dimensions"]] <- c(simulations = nsim(object),chains = nchain(object))
 
-  cat("\nDeviance Information Criterion:\n")        
-  print(dic(object))
+  summ[["Convergence"]] <- calc_convergence(object)
+
+  summ[["Estimates"]] <- calc_estimates(object)
+
+  summ[["Deviance Information Criterion"]] <- dic(object)
   
-  invisible (NULL)  
+  class (summ) <- "summary_janalysis"
+  
+  return (summ)  
 }
 
 summary.gspower <- function (object)
