@@ -23,10 +23,10 @@ nchain.gsmcmc <- function (object)
   return (nchain (object$mcmc[[1]]))
 }
 
-nchain.janalysis <- function (object)
+nchain.jagr_analysis <- function (object)
 {
-  if (!inherits(object,"janalysis"))
-    stop ("object should be class janalysis")
+  if (!inherits(object,"jagr_analysis"))
+    stop ("object should be class jagr_analysis")
   
   return (nchain (object$mcmc))
 }

@@ -1,4 +1,3 @@
-#
 
 add_reps <- function (power, nreps = 10, ...) {
   

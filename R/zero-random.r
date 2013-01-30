@@ -26,7 +26,7 @@ zero_random.gsmcmc <- function (object, random) {
   return (object)
 }
 
-zero_random.janalysis <- function (object, data) {
+zero_random.jagr_analysis <- function (object, data) {
   data <- as.data.frame (data)
   
   dat <- convert_data(object$data, standardise=object$model$standardise,

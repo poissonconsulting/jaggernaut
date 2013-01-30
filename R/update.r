@@ -1,5 +1,5 @@
 
-update.janalysis <- function (object, quiet = F)
+update.jagr_analysis <- function (object, quiet = F)
 {  
   n.chain <- nchain(object)
   n.sim <- object$iterations

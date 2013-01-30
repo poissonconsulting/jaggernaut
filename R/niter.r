@@ -23,10 +23,10 @@ niter.gsmcmc <- function (object)
   return (niter (object$mcmc[[1]]))
 }
 
-niter.janalysis <- function (object)
+niter.jagr_analysis <- function (object)
 {
-  if (!inherits(object,"janalysis"))
-    stop ("object should be class janalysis")
+  if (!inherits(object,"jagr_analysis"))
+    stop ("object should be class jagr_analysis")
   
   return (niter (object$mcmc))
 }

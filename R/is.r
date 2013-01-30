@@ -11,6 +11,10 @@ is.jmodel <- function (object) {
   inherits(object, "jmodel")
 }
 
+is.jagr_analysis <- function (object) {
+  inherits(object, "jagr_analysis")
+}
+
 is.janalysis <- function (object) {
   inherits(object, "janalysis")
 }

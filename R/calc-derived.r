@@ -4,7 +4,7 @@ calc_derived<- function (object, ...) {
 }
 
 calc_derived.gsmcmc <- function (object, model, monitor, calc_estimates = TRUE) {
-  if (!inherits(object,'gsmcmc'))
+  if (!inherits(object,"gsmcmc"))
     stop ("object should be class gsmcmc")
   if (length(model) != 1 || !inherits(model,"character")) 
     stop ("model must be a character vector of length 1")
@@ -44,10 +44,10 @@ calc_derived.gsmcmc <- function (object, model, monitor, calc_estimates = TRUE) 
   return (mcmc)
 }
 
-calc_derived.janalysis <- function (object, model, monitor, 
+calc_derived.jagr_analysis <- function (object, model, monitor, 
   data = NULL, calc_estimates = TRUE) {
-  if (!inherits(object,'janalysis'))
-    stop ("object should be class janalysis")
+  if (!is.jagr_analysis(object))
+    stop ("object should be class jagr_analysis")
   if (length(model) != 1 || !inherits(model,"character")) 
     stop ("model must be a character vector of length 1")
   if (!inherits(monitor,"character") || length(monitor) < 1) 

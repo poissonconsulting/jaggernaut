@@ -1,7 +1,7 @@
 
 check_convergence <- function (object, type = "all") {
-  if (!is.janalysis (object))
-    stop ("object should be class janalysis")
+  if (!is.jagr_analysis (object))
+    stop ("object should be class jagr_analysis")
   
   convergence <- calc_convergence (object, summarise = T, type = type)
   

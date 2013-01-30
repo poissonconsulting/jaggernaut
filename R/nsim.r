@@ -19,10 +19,10 @@ nsim.gsmcmc <- function (object)
   return (nchain(object)  * niter(object))
 }
 
-nsim.janalysis <- function (object)
+nsim.jagr_analysis <- function (object)
 {
-  if (!inherits(object,"janalysis"))
-    stop ("object should be class janalysis")
+  if (!inherits(object,"jagr_analysis"))
+    stop ("object should be class jagr_analysis")
   
   return (nchain(object)  * niter(object))
 }

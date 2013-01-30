@@ -18,12 +18,12 @@ add_iterations.mcarray <- function (object, iteration) {
   if (!identical(dimobj[-(length(dimobj)-1)],dimiter[-(length(dimiter)-1)]))
     stop ("object and iteration should have the same dimensions (except iterations)")
 
-  class(object)<-'array'
-  class(iteration)<-'array'
+  class(object)<-"array"
+  class(iteration)<-"array"
   object <- abind (object,iteration,along=length(dimobj)-1)
 
   names(dim(object)) <- dnames
-  class(object)<-'mcarray'
+  class(object)<-"mcarray"
   
   return (object)
 }

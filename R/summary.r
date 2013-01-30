@@ -18,20 +18,7 @@ summary.gsmcmc <- function (object) {
   return (NULL)  
 }
 
-#' Summary for JAGS analysis
-#'
-#' Prints a summary of a JAGS analysis object parameter estimates for JAGS analysis
-#' 
-#' @param object a janalysis object
-#' @return NULL
-#' @S3method summary janalysis
-#' @export
-#' @examples
-#' model <- jmodel("model { bLambda ~ dunif(0,10) for (i in 1:nrow) { x[i]~dpois(bLambda) } }")
-#' data <- data.frame(x = rpois(100,1))
-#' analysis <- janalysis (model, data)
-#' summary(analysis)
-summary.janalysis <- function (object)
+summary.jagr_analysis <- function (object)
 {
   summ <- list()
   
@@ -45,10 +32,41 @@ summary.janalysis <- function (object)
 
   summ[["Deviance Information Criterion"]] <- dic(object)
   
+  class (summ) <- "summary_jagr_analysis"
+  
+  return (summ)  
+}
+
+
+#' Summary for JAGS analysis
+#'
+#' Creates a summary of a JAGS analysis object
+#' 
+#' @param object a janalysis object
+#' @return a janalysis_summary object
+#' @S3method summary janalysis
+#' @export
+#' @examples
+#' model <- jmodel("model { bLambda ~ dunif(0,10) for (i in 1:nrow) { x[i]~dpois(bLambda) } }")
+#' data <- data.frame(x = rpois(100,1))
+#' analysis <- janalysis (model, data)
+#' summary(analysis)
+summary.janalysis <- function (object)
+{
+  summ <- list()
+  
+  n <- length(object$analyses)
+  
+  for (i in 1:n) {
+    summ[[paste0("Model",i)]] <- summary(object$analyses[[i]])
+  }
+  summ[["Model Comparison"]] <- object$dic
+  
   class (summ) <- "summary_janalysis"
   
   return (summ)  
 }
+
 
 summary.gspower <- function (object)
 {  

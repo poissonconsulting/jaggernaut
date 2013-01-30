@@ -1,7 +1,7 @@
 
 get_data <- function (object) {
-  if(!is.gsanalysis (object)) 
-    stop ("object must be of class gsanalysis")
+  if(!is.janalysis (object)) 
+    stop ("object must be of class janalysis")
 
   return (object$data)  
 }

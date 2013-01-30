@@ -12,7 +12,7 @@ as.array.mcarray <- function (object) {
   dim[length(dim)] <- nsim (object)
   dim(object) <- dim
   names(dim) <- NULL
-  class(object)<-'array'
+  class(object)<-"array"
   object<-drop(object)
 
   return (object)
@@ -51,14 +51,14 @@ as.mcmc.list.gsmcmc <- function (x) {
         var.i[, j] <- values[j + (0:(niter - 1)) * nvar + 
           (ch - 1) * niter * nvar]
       }
-      vnames.ch <- c(vnames.ch, coda.names(varname, vardim))
+      vnames.ch <- c(vnames.ch, rjags:::coda.names(varname, vardim))
       ans.ch[[i]] <- var.i
     }
     ans.ch <- do.call("cbind", ans.ch)
     colnames(ans.ch) <- vnames.ch
     ans[[ch]] <- mcmc(ans.ch)
   }
-  return (mcmc.list(ans))
+  return (coda::mcmc.list(ans))
 }
 
 as.matrix.gsmcmc <- function (x) {
@@ -74,10 +74,10 @@ as.data.frame.gsmcmc <- function (x) {
 }
 
 as.data.frame.gsanalysis <- function (x) {
-  if (!is.gsanalysis(x))
+  if (!inherits(object,"gsanalysis"))
     stop ("x should be class gsmcmc")
-  return (x$data)
-}
+   return (x$data)
+ }
 
 as.gsmcmc.gsanalysis <- function (object) {
   if (!inherits(object,"gsanalysis"))

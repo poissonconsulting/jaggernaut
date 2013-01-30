@@ -1,4 +1,3 @@
-#
 
 get_samples <- function (model, data, file) {
   # could remove unnecessary data so not need to suppress warning messages...

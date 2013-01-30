@@ -6,6 +6,13 @@ plot.gsmcmc <- function (x) {
   return (plot(as.mcmc.list(x)))
 }
 
+plot.jagr_analysis <- function (x) {
+  if (!is.jagr_analysis(x))
+    stop ('x should be of class jagr_analysis')
+  
+  return (plot(x$mcmc))
+}
+
 #' Plot JAGS analysis
 #'
 #' Produces trace plots for a JAGS analysis object
@@ -19,10 +26,9 @@ plot.gsmcmc <- function (x) {
 #' data <- data.frame(x = rpois(100,1))
 #' analysis <- janalysis (model, data)
 #' plot(analysis)
-
 plot.janalysis <- function (x) {
-  if (!inherits (x, 'janalysis'))
+  if (!is.janalysis(x))
     stop ('x should be of class janalysis')
   
-  return (plot(x$mcmc))
+  return (plot(top_model(x)))
 }

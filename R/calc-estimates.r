@@ -1,3 +1,4 @@
+
 #' @export
 calc_estimates<- function (object, ...) {
   UseMethod("calc_estimates", object)
@@ -32,6 +33,20 @@ calc_estimates.gsmcmc <- function (object, pars = NULL) {
   return (calc_estimates (get_sims (object, pars)))
 }
 
+calc_estimates.jagr_analysis <- function (object, pars = "fixed") {
+  
+  if(!is.jagr_analysis(object))
+    stop ("object should be class jagr_analysis")
+  
+  if (!(is.null(pars) || is.character(pars)))
+    stop ("pars must be NULL or a character vector")
+  
+  if (is.null(pars) || (length(pars) == 1 && pars %in% c("all","fixed","random")))
+    pars <- get_pars (object$model, type = pars)
+  
+  return (calc_estimates (object$mcmc, pars = pars))
+}
+
 #' Calculate parameter estimates for JAGS analysis
 #'
 #' Calculate parameter estimates for JAGS analysis
@@ -50,16 +65,7 @@ calc_estimates.gsmcmc <- function (object, pars = NULL) {
 #' calc_estimates(analysis)
 calc_estimates.janalysis <- function (object, pars = "fixed") {
   
-  if(!is.janalysis(object))
-    stop ("object should be class janalysis")
-  
-  if (!(is.null(pars) || is.character(pars)))
-    stop ("pars must be NULL or a character vector")
-  
-  if (is.null(pars) || (length(pars) == 1 && pars %in% c("all","fixed","random")))
-    pars <- get_pars (object$model, type = pars)
-  
-  return (calc_estimates (object$mcmc, pars = pars))
+  return (calc_estimates(top_model(object),pars = pars))
 }
 
 calc_estimates.gssimulation <- function (object, pars = NULL) {

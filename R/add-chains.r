@@ -18,12 +18,12 @@ add_chains.mcarray <- function (object, chain) {
   if (!identical(dimobj[-length(dimobj)],dimchain[-length(dimchain)]))
     stop ("object and chain should have the same dimensions (except chains)")
   
-  class(object)<-'array'
-  class(chain)<-'array'
+  class(object)<-"array"
+  class(chain)<-"array"
   object <- abind (object,chain,along=length(dimobj))
   
   names(dim(object)) <- dnames
-  class(object)<-'mcarray'
+  class(object)<-"mcarray"
   
   return (object)
 }

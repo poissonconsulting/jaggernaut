@@ -2,9 +2,11 @@
 \alias{janalysis}
 \title{Perform JAGS analysis}
 \usage{
-  janalysis(model, data, n.iter = 1000, n.chain = 3,
+  janalysis(models, data, n.iter = 1000, n.chain = 3,
     resample = 3, convergence = 1.1, independence = 0,
-    parallel = FALSE, debug = FALSE, quiet = FALSE)
+    parallelChains = .Platform$OS.type != "windows",
+    parallelModels = .Platform$OS.type != "windows",
+    debug = FALSE, quiet = FALSE)
 }
 \arguments{
   \item{model}{a jmodel object specifying the JAGS model}
@@ -23,8 +25,11 @@
 
   \item{independence}{the threshold for indepedence}
 
-  \item{parallel}{a boolean indicating whether the analysis
-  should be run on parallel processors}
+  \item{parallelChains}{a boolean indicating whether the
+  chains should be run on separate processes}
+
+  \item{parallelModels}{a boolean indicating whether the
+  models should be run on separate processes}
 
   \item{debug}{a boolean indicating whether or not the
   intent is to debug the model}
