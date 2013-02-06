@@ -33,9 +33,12 @@ calc_expected.jagr_analysis <- function (analysis, parameter, data = "", base = 
   } else if (is.character(data))
     data <- generate_data (analysis$data, range = data, length.out=length.out)
     
-  if(!is.data.frame(base) && base)
-    base <- generate_data(analysis$data)
-    
+  if(is.data.frame(base) || base) {
+    bas <- generate_data(analysis$data)
+    bas <- bas[,!colnames(bas) %in% colnames(base)]
+    base <- cbind(base, bas)
+  }
+  
   if (!is.null(derived)) {
     model <- derived
   } else
