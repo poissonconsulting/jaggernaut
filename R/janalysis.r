@@ -84,7 +84,7 @@ janalysis <- function (
                                             debug = debug, quiet = quiet)
     }
   }
-  print(class(object))
+
   object$dic <- t(sapply(object$analyses,dic))
   rownames(object$dic) <- paste0("Model",1:nrow(object$dic))
   names(object$analyses) <- rownames(object$dic)
