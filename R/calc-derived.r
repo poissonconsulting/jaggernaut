@@ -1,4 +1,5 @@
 
+#' @export
 calc_derived<- function (object, ...) {
   UseMethod("calc_derived", object)
 }
@@ -95,5 +96,22 @@ calc_derived.jagr_analysis <- function (object, model, monitor,
     return (calc_estimates (mcmc))
   }
   return (mcmc)
+}
+
+#' @method calc_derived janalysis
+#' @S3method calc_derived janalysis
+#' @export
+calc_derived.janalysis <- function (object, model = NULL, monitor, 
+                                    data = NULL, calc_estimates = TRUE) {
+  
+  if (!is.janalysis(object))
+    stop ("analyses should be class janalysis")
+  
+  analysis <- top_model(object)
+  if(is.null(model))
+    model <- analysis$model$derived
+  
+  return (calc_derived(top_model(object), model = model, monitor = monitor, 
+                        data = data, calc_estimates = calc_estimates))
 }
 
