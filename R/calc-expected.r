@@ -5,7 +5,7 @@ calc_expected<- function (object, ...) {
 }
 
 calc_expected.jagr_analysis <- function (analysis, parameter, data = "", base = FALSE, 
-                           derived = NULL, random = NULL, length.out = 30) {
+                           values = NULL, derived = NULL, random = NULL, length.out = 30) {
   
   if (!is.jagr_analysis(analysis))
     stop ("analysis should be class jagr_analysis")
@@ -21,7 +21,9 @@ calc_expected.jagr_analysis <- function (analysis, parameter, data = "", base = 
     stop ("random must be NULL or a named list")  
   if (!(is.null(derived) || is.character(derived)))
     stop ("derived must be NULL or a character")
-  
+  if(!(is.null(values) || (is.data.frame (values) && nrow(values)==1)))
+    stop ("values should be null or a data frame with only one row")
+
   if(!is.null(random)) {
     analysis$model$random <- random
   }
@@ -30,25 +32,43 @@ calc_expected.jagr_analysis <- function (analysis, parameter, data = "", base = 
   
   if (is.null(data)) {
     data <- analysis$data
-  } else if (is.character(data))
+  } else if (is.character(data)) {
     data <- generate_data (analysis$data, range = data, length.out=length.out)
-    
-  if(is.data.frame(base) || base) {
+  }
+     
+  if(is.data.frame(base)) {
     bas <- generate_data(analysis$data)
     bas <- bas[,!colnames(bas) %in% colnames(base)]
     base <- cbind(base, bas)
+  } else if (base) {
+    base <- generate_data(analysis$data)
   }
+     
+     if(is.data.frame(values)) {
+       for (col in colnames(values)) {
+         if (col %in% colnames(data)) {
+            x <- data[,col,drop = T]
+            if (length(unique(x)) > 1) {            # not sure why this warning not being passed up?
+             warning(paste("replacing variable column",col,"in data with single value in values"))
+          }
+         }
+         data[,col] <- values[1,col]
+         if (is.data.frame(base)) {
+           base[,col] <- values[1,col]
+         }
+       }
+     }
   
   if (!is.null(derived)) {
     model <- derived
   } else
     model <- analysis$model$derived
-      
+        
   emcmc <- calc_derived (analysis, model=model, 
     monitor=parameter, data = data, calc_estimates = F)  
       
   if (is.data.frame(base)) {
-    
+        
     base <- calc_derived (analysis, model = model, 
       monitor = parameter, data = base, calc_estimates = F)
         
@@ -99,12 +119,12 @@ calc_expected.jagr_analysis <- function (analysis, parameter, data = "", base = 
 #' calc_expected(analysis, "eResidual", data = NULL)
 #' 
 calc_expected.janalysis <- function (analysis, parameter, data = "", base = FALSE, 
-                                     derived = NULL, random = NULL, length.out = 30) {
+                                     values = NULL, derived = NULL, random = NULL, length.out = 30) {
   
   if (!is.janalysis(analysis))
     stop ("analyses should be class janalysis")
 
   return (calc_expected(top_model(analysis), parameter = parameter, data = data, 
-                        base = base, derived = derived, random = random, 
+                        base = base, values = values, derived = derived, random = random, 
                         length.out = length.out))
 }
