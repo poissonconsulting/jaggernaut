@@ -48,11 +48,12 @@ calc_expected.jagr_analysis <- function (analysis, parameter, data = "", base = 
        for (col in colnames(values)) {
          if (col %in% colnames(data)) {
             x <- data[,col,drop = T]
-            if (length(unique(x)) > 1) {            # not sure why this warning not being passed up?
-             warning(paste("replacing variable column",col,"in data with single value in values"))
-          }
+            if (length(unique(x)) == 1) {            
+              data[,col] <- values[1,col]
+            }
+         } else {
+            data[,col] <- values[1,col]
          }
-         data[,col] <- values[1,col]
          if (is.data.frame(base)) {
            base[,col] <- values[1,col]
          }
