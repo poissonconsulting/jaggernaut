@@ -29,6 +29,7 @@ calc_expected.jagr_analysis <- function (analysis, parameter, data = "", base = 
   }
   
   doSelect <- !is.null(analysis$model$select) && !is.data.frame(data)
+  doSelect <- FALSE
   
   if (is.null(data)) {
     data <- analysis$data
