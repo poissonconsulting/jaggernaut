@@ -5,7 +5,8 @@ calc_expected<- function (object, ...) {
 }
 
 calc_expected.jagr_analysis <- function (analysis, parameter, data = "", base = FALSE, 
-                           values = NULL, derived = NULL, random = NULL, length.out = 30) {
+                           values = NULL, derived = NULL, random = NULL, 
+                                         length.out = 30, calc_estimates = T) {
   
   if (!is.jagr_analysis(analysis))
     stop ("analysis should be class jagr_analysis")
@@ -23,13 +24,12 @@ calc_expected.jagr_analysis <- function (analysis, parameter, data = "", base = 
     stop ("derived must be NULL or a character")
   if(!(is.null(values) || (is.data.frame (values) && nrow(values)==1)))
     stop ("values should be null or a data frame with only one row")
-
+  if(!is.logical(calc_estimates))
+    stop ("calc_estimates should be TRUE or FALSE")
+  
   if(!is.null(random)) {
     analysis$model$random <- random
   }
-  
-  doSelect <- !is.null(analysis$model$select) && !is.data.frame(data)
-  doSelect <- FALSE
   
   if (is.null(data)) {
     data <- analysis$data
@@ -78,12 +78,12 @@ calc_expected.jagr_analysis <- function (analysis, parameter, data = "", base = 
     emcmc <- (emcmc - base) / base
   }
 
-  emcmc <- calc_estimates (emcmc)
-  if (doSelect) {
-    select <- process_select(analysis$model$select)
-    select <- select[select %in% colnames (data)]
-    data <- subset(data, select = select) 
+  if(calc_estimates) {
+    emcmc <- calc_estimates (emcmc)
+  } else {
+    emcmc <- as.data.frame(t(get_sims (emcmc, parameter)))
   }
+  
   data <- cbind (data,emcmc)
   return (data)
 }
@@ -121,12 +121,13 @@ calc_expected.jagr_analysis <- function (analysis, parameter, data = "", base = 
 #' calc_expected(analysis, "eResidual", data = NULL)
 #' 
 calc_expected.janalysis <- function (analysis, parameter, data = "", base = FALSE, 
-                                     values = NULL, derived = NULL, random = NULL, length.out = 30) {
+                                     values = NULL, derived = NULL, random = NULL, 
+                                     length.out = 30, calc_estimates = T) {
   
   if (!is.janalysis(analysis))
     stop ("analyses should be class janalysis")
 
   return (calc_expected(top_model(analysis), parameter = parameter, data = data, 
                         base = base, values = values, derived = derived, random = random, 
-                        length.out = length.out))
+                        length.out = length.out, calc_estimates = calc_estimates))
 }

@@ -4,7 +4,7 @@ calc_derived<- function (object, ...) {
   UseMethod("calc_derived", object)
 }
 
-calc_derived.gsmcmc <- function (object, model, monitor, calc_estimates = TRUE) {
+calc_derived.gsmcmc <- function (object, model, monitor, calc_estimates = FALSE) {
   if (!inherits(object,"gsmcmc"))
     stop ("object should be class gsmcmc")
   if (length(model) != 1 || !inherits(model,"character")) 
@@ -46,7 +46,7 @@ calc_derived.gsmcmc <- function (object, model, monitor, calc_estimates = TRUE) 
 }
 
 calc_derived.jagr_analysis <- function (object, model, monitor, 
-  data = NULL, calc_estimates = TRUE) {
+  data = NULL, calc_estimates = FALSE) {
   if (!is.jagr_analysis(object))
     stop ("object should be class jagr_analysis")
   if (length(model) != 1 || !inherits(model,"character")) 
@@ -102,7 +102,7 @@ calc_derived.jagr_analysis <- function (object, model, monitor,
 #' @S3method calc_derived janalysis
 #' @export
 calc_derived.janalysis <- function (object, model = NULL, monitor, 
-                                    data = NULL, calc_estimates = TRUE) {
+                                    data = NULL, calc_estimates = FALSE) {
   
   if (!is.janalysis(object))
     stop ("analyses should be class janalysis")
