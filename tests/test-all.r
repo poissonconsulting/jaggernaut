@@ -1,4 +1,4 @@
 library(testthat)
-library(jaggernaught)
+library(jaggernaut)
 
-test_package("jaggernaught")
+test_package("jaggernaut")
