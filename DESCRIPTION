@@ -1,11 +1,11 @@
 Package: jaggernaut
 Type: Package
-Title: A package to facilitate Bayesian analysis using JAGS.
-Version: 0.1.1
-Date: 2013-01-29
+Title: A package to facilitate Bayesian analyses using JAGS.
+Version: 0.1.2
+Date: 2013-03-17
 Author: Joe Thorley <joe@poissonconsulting.ca>
 Maintainer: Joe Thorley <joe@poissonconsulting.ca>
-Description: An R package to facilitate Bayesian analysis using JAGS.
+Description: An R package to facilitate Bayesian analyses using JAGS.
 Depends:
     abind,
     foreach,
@@ -69,3 +69,4 @@ Collate:
     'jagr_analysis.r'
     'top-model.r'
     'base-values.r'
+    'combine_expected.r'
