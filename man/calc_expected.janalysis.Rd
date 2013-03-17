@@ -3,8 +3,8 @@
 \title{Calculate expected values for JAGS analysis}
 \usage{
   \method{calc_expected}{janalysis} (analysis, parameter,
-    data = "", base = FALSE, derived = NULL, random = NULL,
-    length.out = 30)
+    data = "", base = FALSE, values = NULL, derived = NULL,
+    random = NULL, length.out = 30, calc_estimates = T)
 }
 \arguments{
   \item{analysis}{a JAGS analysis object.}
