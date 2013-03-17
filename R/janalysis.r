@@ -76,7 +76,8 @@ janalysis <- function (
     }
   } else {
     for (i in 1:n.model) {
-      cat(paste("\n\nModel",i,"of",n.model,"\n\n"))
+      if (!quiet)
+        cat(paste("\n\nModel",i,"of",n.model,"\n\n"))
       object$analyses[[i]] <- jagr_analysis(models[[i]], data,
                                             n.iter = n.iter, n.chain = n.chain, resample = resample,
                                             convergence = convergence, independence = independence,
