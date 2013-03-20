@@ -25,8 +25,7 @@
   Convert (by numericising, centring or standardising) the
   variables in a data frame into integer or numeric values
   ready for analysis by JAGS, OpenBUGS or WinBUGS.
-}
-\details{
+
   Numericising, centring and standardising represent
   increasing conversion of a variable. A variable is first
   converted into a integer value (numericising). Next the
@@ -46,14 +45,14 @@
   and POSIXt values are divided by their respective
   standard deviation.
 }
-\examples{
-data <- data.frame(numeric = 1:10 + 0.1, integer = 1:10,
-factor = factor(1:10), date = as.Date("2000-01-01") + 1:10,
-posixt = ISOdate(2000,1,1) + 1:10)
-convert_data(data)
-convert_data(data, centre = TRUE)
-convert_data(data, standardise = TRUE)
-convert_data(data, numericise = FALSE, standardise = "date")
-convert_data(data, numericise = FALSE, centre = "date", standardise = "date")
+\details{
+  data <- data.frame(numeric = 1:10 + 0.1, integer = 1:10,
+  factor = factor(1:10), date = as.Date("2000-01-01") +
+  1:10, posixt = ISOdate(2000,1,1) + 1:10)
+  convert_data(data) convert_data(data, centre = TRUE)
+  convert_data(data, standardise = TRUE) convert_data(data,
+  numericise = FALSE, standardise = "date")
+  convert_data(data, numericise = FALSE, centre = "date",
+  standardise = "date")
 }
 

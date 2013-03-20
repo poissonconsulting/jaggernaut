@@ -26,13 +26,12 @@
   the observed values. The returned data frame includes all
   combinations of the generated values.
 }
-\examples{
-data <- data.frame(numeric = 1:10 + 0.1, integer = 1:10,
-   factor = factor(1:10), date = as.Date("2000-01-01") + 1:10,
-   posixt = ISOdate(2000,1,1) + 1:10)
+\details{
+  data <- data.frame(numeric = 1:10 + 0.1, integer = 1:10,
+  factor = factor(1:10), date = as.Date("2000-01-01") +
+  1:10, posixt = ISOdate(2000,1,1) + 1:10)
 
-generate_data (data)
-generate_data (data,range='numeric')
-generate_data (data,range=c('date','factor'))
+  generate_data (data) generate_data (data,range='numeric')
+  generate_data (data,range=c('date','factor'))
 }
 

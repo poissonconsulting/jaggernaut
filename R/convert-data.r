@@ -1,6 +1,7 @@
 
-#' Convert data
+#' @title Convert data
 #'
+#' @description
 #' Convert (by numericising, centring or standardising) the variables in a 
 #' data frame into integer or numeric values ready for analysis by 
 #' JAGS, OpenBUGS or WinBUGS.
@@ -26,7 +27,7 @@
 #' @param dat the data frame to convert. If dat is NULL data is 
 #' converted
 #' @return the converted data frame
-#' @examples
+#' @details
 #' data <- data.frame(numeric = 1:10 + 0.1, integer = 1:10, 
 #' factor = factor(1:10), date = as.Date("2000-01-01") + 1:10,
 #' posixt = ISOdate(2000,1,1) + 1:10)

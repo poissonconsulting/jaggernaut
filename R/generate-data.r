@@ -1,6 +1,7 @@
 
-#' Generate dummy data
+#' @title Generate dummy data
 #'
+#' @description
 #' Generates dummy data frame based on the variables in data.
 #' If a variable is specified in range then it is represented
 #' by a sequence of evenly spaced values from the minimum to the maximum 
@@ -14,7 +15,7 @@
 #' represent by a sequence of values
 #' @param length.out the the number of values in a sequence
 #' @return the dummy data frame
-#' @examples
+#' @details
 #' data <- data.frame(numeric = 1:10 + 0.1, integer = 1:10, 
 #'    factor = factor(1:10), date = as.Date("2000-01-01") + 1:10,
 #'    posixt = ISOdate(2000,1,1) + 1:10)
