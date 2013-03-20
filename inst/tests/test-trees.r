@@ -28,12 +28,11 @@ test_that("calc_expected returns correct object", {
   
   expected <- calc_expected(analysis, data = "Height", parameter = "eVolume")
 
-  print(expected)
   expect_that(expected, is_a("data.frame"))
   expect_equal(nrow(expected), 30)
   expect_equal(colnames(expected), c("Girth","Height","Volume","estimate","lower","upper","error","significance"))
   expect_equal(round(expected$Girth[1],5), 13.24839)
-  expect_equal(round(expected$Height[1],5), 30.17097)
-  expect_equal(round(expected$Volume[1],5), 12.55453)
-  expect_equal(round(expected$Volume[30],5), 46.34349)
+  expect_equal(round(expected$Volume[1],5), 30.17097)
+  expect_equal(round(expected$Height[1],5), 63.00000)
+  expect_equal(round(expected$Height[30],5), 87.00000)
 })

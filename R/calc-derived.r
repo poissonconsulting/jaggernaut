@@ -1,5 +1,4 @@
 
-#' @export
 calc_derived<- function (object, ...) {
   UseMethod("calc_derived", object)
 }
@@ -98,9 +97,6 @@ calc_derived.jagr_analysis <- function (object, model, monitor,
   return (mcmc)
 }
 
-#' @method calc_derived janalysis
-#' @S3method calc_derived janalysis
-#' @export
 calc_derived.janalysis <- function (object, model = NULL, monitor, 
                                     data = NULL, calc_estimates = FALSE) {
   

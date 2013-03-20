@@ -30,7 +30,7 @@ summary.jagr_analysis <- function (object)
 
   summ[["Estimates"]] <- calc_estimates(object)
 
-  summ[["Deviance Information Criterion"]] <- dic(object)
+  summ[["Deviance Information Criterion"]] <- DIC(object)
   
   class (summ) <- "summary_jagr_analysis"
   
@@ -38,19 +38,7 @@ summary.jagr_analysis <- function (object)
 }
 
 
-#' Summary for JAGS analysis
-#'
-#' Creates a summary of a JAGS analysis object
-#' 
-#' @param object a janalysis object
-#' @return a janalysis_summary object
-#' @S3method summary janalysis
 #' @export
-#' @examples
-#' model <- jmodel("model { bLambda ~ dunif(0,10) for (i in 1:nrow) { x[i]~dpois(bLambda) } }")
-#' data <- data.frame(x = rpois(100,1))
-#' analysis <- janalysis (model, data)
-#' summary(analysis)
 summary.janalysis <- function (object)
 {
   summ <- list()

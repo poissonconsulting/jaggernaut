@@ -1,10 +1,5 @@
 
-#' @export
-calc_expected<- function (object, ...) {
-  UseMethod("calc_expected", object)
-}
-
-calc_expected.jagr_analysis <- function (analysis, parameter, data = "", base = FALSE, 
+calc_expected_jagr_analysis <- function (analysis, parameter, data = "", base = FALSE, 
                            values = NULL, derived = NULL, random = NULL, 
                                          length.out = 30, calc_estimates = T) {
   
@@ -88,26 +83,36 @@ calc_expected.jagr_analysis <- function (analysis, parameter, data = "", base = 
   return (data)
 }
 
-#' Calculate expected values for JAGS analysis
+#' @title Calculate expected values for a JAGS analysis (janalysis object)
 #'
+#' @description
 #' Calculates expected values with 95% credibility intervals 
 #' for a derived parameter.
 #' 
-#' @param analysis a JAGS analysis object.
+#' @details
+#' More information
+#' 
+#' @param analysis a JAGS analysis (janalysis) object.
 #' @param parameter a character element naming the derived parameter of interest.
 #' @param data a data.frame of the data values over which to calculate the
 #' expected values of the derived parameter. If data.frame is "" xx.
 #' @param base a boolean element indicating whether or not to express 
-#' the expected value as a percent change.
+#' the expected value as a percent change of a base level or a data frame 
+#' defining the base level.
+#' @param values a data frame with a single row that defines the value of particular
+#' variables. The variables in data and base are replaced by the corresponding values.
 #' @param derived a character element defining a block in the JAGS dialect of 
 #' the BUGS language that defines one or more derived parameter. 
 #' If NULL the value is taken from the JAGS model for which the JAGS analysis was performed. 
 #' @param random a named list which specifies which parameters to treat 
-#' as random variables.
+#' as random variables. If NULL the value is taken from the JAGS model for which the JAGS analysis was performed.
 #' @param length.out an integer element indicating the number of values when 
 #' creating a sequence of values across the range of a continuous variable.
-#' @method calc_expected janalysis
-#' @S3method calc_expected janalysis
+#' @param calc_estimates a logical scalar indicating whether to return the individual
+#' iterations or the median and 95% credibility intervals.
+#' @return the input data frame with the median and 95% credibility intervals 
+#' (or iterations) for
+#' the derived parameter of interest
 #' @export
 #' @examples
 #' model <- jmodel(
@@ -120,14 +125,14 @@ calc_expected.jagr_analysis <- function (analysis, parameter, data = "", base = 
 #' analysis <- janalysis (model, data)
 #' calc_expected(analysis, "eResidual", data = NULL)
 #' 
-calc_expected.janalysis <- function (analysis, parameter, data = "", base = FALSE, 
+calc_expected <- function (analysis, parameter, data = "", base = FALSE, 
                                      values = NULL, derived = NULL, random = NULL, 
                                      length.out = 30, calc_estimates = T) {
   
   if (!is.janalysis(analysis))
     stop ("analyses should be class janalysis")
 
-  return (calc_expected(top_model(analysis), parameter = parameter, data = data, 
+  return (calc_expected_jagr_analysis(top_model(analysis), parameter = parameter, data = data, 
                         base = base, values = values, derived = derived, random = random, 
                         length.out = length.out, calc_estimates = calc_estimates))
 }

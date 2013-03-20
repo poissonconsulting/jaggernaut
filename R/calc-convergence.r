@@ -1,5 +1,4 @@
 
-#' @export
 calc_convergence <- function (object, ...) {
   UseMethod("calc_convergence", object)
 }
@@ -48,24 +47,6 @@ calc_convergence.jagr_analysis <- function (object, summarise = TRUE, type = "al
   return (calc_convergence (object$mcmc, summarise = summarise, pars = pars))
 }
 
-#' Calculate convergence values for JAGS analysis
-#'
-#' Calculates convergence values for JAGS analysis
-#' 
-#' @param object a janalysis object
-#' @param summarise a boolean values indicating whether to provide
-#' a summary of the convergence or the convergence of each parameter value
-#' @param type a character value indicating whihc parameters to calculate the
-#' the convergence values for
-#' @return a data.frame of the convergence values
-#' @method calc_convergence janalysis
-#' @S3method calc_convergence janalysis
-#' @export
-#' @examples
-#' model <- jmodel("model { bLambda ~ dunif(0,10) for (i in 1:nrow) { x[i]~dpois(bLambda) } }")
-#' data <- data.frame(x = rpois(100,1))
-#' analysis <- janalysis (model, data)
-#' calc_convergence(analysis, summarise = FALSE)
 calc_convergence.janalysis <- function (object, summarise = TRUE, type = "all") {
   return (calc_convergence (top_model(object), summarise = summarise, type = type))
 }

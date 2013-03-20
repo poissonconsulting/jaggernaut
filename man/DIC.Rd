@@ -1,8 +1,8 @@
-\name{dic.janalysis}
-\alias{dic.janalysis}
+\name{DIC}
+\alias{DIC}
 \title{Calculate Deviance Information Criterion values for JAGS analysis}
 \usage{
-  \method{dic}{janalysis} (object)
+  DIC(object)
 }
 \arguments{
   \item{object}{a janalysis object}
@@ -19,6 +19,6 @@
 model <- jmodel("model { bLambda ~ dunif(0,10) for (i in 1:nrow) { x[i]~dpois(bLambda) } }")
 data <- data.frame(x = rpois(100,1))
 analysis <- janalysis (model, data)
-dic(analysis)
+DIC(analysis)
 }
 
