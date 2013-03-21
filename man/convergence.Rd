@@ -23,4 +23,8 @@ analysis <- janalysis (model, data)
 convergence(analysis)
 convergence(analysis,c("bLambda"))
 }
+\seealso{
+  \code{\link[jaggernaut]{jmodel}},
+  \code{\link[jaggernaut]{janalysis}}
+}
 

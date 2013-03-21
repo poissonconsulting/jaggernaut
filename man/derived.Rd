@@ -70,4 +70,7 @@ data <- data.frame(x = rpois(100,1))
 analysis <- janalysis (model, data)
 derived(analysis, "eResidual", data = NULL)
 }
+\seealso{
+  \link[jaggernaut]{jmodel}, \link[jaggernaut]{janalysis}
+}
 

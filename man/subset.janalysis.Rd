@@ -7,8 +7,9 @@
 \arguments{
   \item{object}{a janalysis object to subset}
 
-  \item{model}{an integer vector specifying the models to
-  select}
+  \item{model}{an integer vector specifying the model to
+  select. If model = 0 then it selects the model with the
+  lowest DIC.}
 }
 \value{
   a janalysis object

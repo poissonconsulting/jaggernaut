@@ -1,8 +1,8 @@
 
-#' @title Create a jmodel (JAGS model) object
+#' @title Create a JAGS model
 #'
 #' @description 
-#' Creates a JAGS model (jmodel) object which defines a Bayesian model
+#' Creates a JAGS model (jmodel object) which defines a Bayesian model
 #' in the JAGS dialect of the BUGS language.  In addition to defining the model
 #' a JAGS model object can also specify the parameters to monitor, 
 #' the variables to select, a function to manipulate the input data, a function
@@ -11,6 +11,22 @@
 #' definition in the JAGS dialect to extract derived values from the final model
 #' among other things.
 #' 
+#' @param model a character element defining the model in the JAGS dialect of 
+#' the BUGS language
+#' @param monitor a character vector of the parameters to monitor
+#' @param select a character vector of the variables to select from the 
+#' data set being analysed (can also specify variables to transform and/or centre)
+#' @param modify_data a function to modify the data set being analysed
+#' (after it has been converted to list form)
+#' @param gen_inits a function to generate initial values for an MCMC chain
+#' (it is passed the (modified) data in list form)
+#' @param random a named list of parameters representing random variables
+#' @param derived a character element defining a model in the JAGS dialect of 
+#' the BUGS language that defines derived parameters
+#' @param extract_data a function to convert the parameter estimates into a data set
+#'  (after they have been converted to list form)
+#' @param description a named character vector descriping each of the parameters 
+#' in the model where the name indicates the parameter to which the description applies
 #' @details 
 #' The jmodel function defines a JAGS model that can then be passed to the 
 #' janalysis function together with a data frame to perform a Bayesian analysis.
@@ -59,25 +75,7 @@
 #' and returns a list of the initial values - the function is called once for each chain.
 #' 
 #' The remaining arguments are used after the analysis. To be continued...
-#'   
-#' @param model a character element defining the model in the JAGS dialect of 
-#' the BUGS language
-#' @param monitor a character vector of the parameters to monitor
-#' @param select a character vector of the variables to select from the 
-#' data set being analysed (can also specify variables to transform and/or centre)
-#' @param modify_data a function to modify the data set being analysed
-#' (after it has been converted to list form)
-#' @param gen_inits a function to generate initial values for an MCMC chain
-#' (it is passed the (modified) data in list form)
-#' @param random a named list of parameters representing random variables
-#' @param derived a character element defining a model in the JAGS dialect of 
-#' the BUGS language that defines derived parameters
-#' @param extract_data a function to convert the parameter estimates into a data set
-#'  (after they have been converted to list form)
-#' @param description a named character vector descriping each of the parameters 
-#' in the model where the name indicates the parameter to which the description applies
-#' @return a jmodel (JAGS models) object
-#' @export
+#' @return a jmodel object
 #' @examples
 #' model <- jmodel(" 
 #'  model { 
@@ -87,7 +85,8 @@
 #'    } 
 #'  }"
 #')
-#' 
+#'@references Plummer M (2012) JAGS Version 3.3.0 User Manual \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
+#' @export 
 jmodel <- function (model, monitor = NULL, select = NULL, modify_data = NULL, 
                     gen_inits = NULL, random = NULL, derived_model = NULL, 
                     extract_data = NULL,  description = NULL

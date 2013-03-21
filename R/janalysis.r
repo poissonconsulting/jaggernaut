@@ -9,6 +9,19 @@
 #' to get parameter estimates, derived values and Deviance Information Criterion (DIC)
 #' values.
 #' 
+#' @param models a jmodel object or list of jmodel objects specifying the JAGS model
+#' @param data a data.frame specifying the data to analyse
+#' @param n.iter the number of iterations in each mcmc chain
+#' @param n.chain the number of mcmc chains
+#' @param resample the number of times to resample 
+#' until convergence is are achieved
+#' @param convergence the threshold for convergence
+#' @param parallelChains a boolean indicating whether the chains should
+#' be run on separate processes (currently only available for unix-based systems)
+#' @param parallelModels a boolean indicating whether the models should
+#' be run on separate processes (currently only available for unix-based systems)
+#' @param debug a boolean indicating whether or not to debug the model
+#' @param quiet a boolean indicating whether or not to suppress messages
 #' @details 
 #' The janalysis function performs a Bayesian analysis of a data frame using
 #' one or more jmodels (JAGS models). For ease of use only the jmodel(s) and data
@@ -28,26 +41,13 @@
 #' process and messages are not suppressed. This is to facilitate debugging of the
 #' JAGS model definition, i.e., the analysis part is as quick as possible and
 #' all messages are provided.
-#' 
-#' @param models a jmodel object or list of jmodel objects specifying the JAGS model
-#' @param data a data.frame specifying the data to analyse
-#' @param n.iter the number of iterations in each mcmc chain
-#' @param n.chain the number of mcmc chains
-#' @param resample the number of times to resample 
-#' until convergence is are achieved
-#' @param convergence the threshold for convergence
-#' @param parallelChains a boolean indicating whether the chains should
-#' be run on separate processes (currently only available for unix-based systems)
-#' @param parallelModels a boolean indicating whether the models should
-#' be run on separate processes (currently only available for unix-based systems)
-#' @param debug a boolean indicating whether or not to debug the model
-#' @param quiet a boolean indicating whether or not to suppress messages
 #' @return a janalysis (JAGS analysis) object
-#' @export
+#' @seealso \code{\link[jaggernaut]{jmodel}} 
 #' @examples
 #' model <- jmodel("model { bLambda ~ dunif(0,10) for (i in 1:nrow) { x[i]~dpois(bLambda) } }")
 #' data <- data.frame(x = rpois(100,1))
 #' analysis <- janalysis (model, data)
+#' @export
 janalysis <- function (
   models, data, n.iter = 1000, n.chain = 3, resample = 3,
   convergence = 1.1,

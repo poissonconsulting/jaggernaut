@@ -4,7 +4,6 @@
 #' @description
 #' Calculates values for a derived parameter.
 #' 
-#' 
 #' @param object a janalysis object.
 #' @param parameter a character element naming the derived parameter of interest.
 #' @param data a data.frame of the data values over which to calculate the
@@ -26,7 +25,7 @@
 #' @return the input data frame with the median and 95% credibility intervals 
 #' (or iterations) for
 #' the derived parameter of interest
-#' @export
+#' @seealso \link[jaggernaut]{jmodel}, \link[jaggernaut]{janalysis}
 #' @examples
 #' model <- jmodel(
 #'  model = "model { 
@@ -45,7 +44,7 @@
 #' data <- data.frame(x = rpois(100,1))
 #' analysis <- janalysis (model, data)
 #' derived(analysis, "eResidual", data = NULL)
-#' 
+#' @export 
 derived <- function (object, parameter, data = "", base = FALSE, 
                            values = NULL, derived_model = NULL, random = NULL, 
                            length.out = 30, estimates = TRUE,  model = "min") {

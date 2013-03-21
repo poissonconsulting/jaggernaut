@@ -79,4 +79,7 @@ model <- jmodel("model { bLambda ~ dunif(0,10) for (i in 1:nrow) { x[i]~dpois(bL
 data <- data.frame(x = rpois(100,1))
 analysis <- janalysis (model, data)
 }
+\seealso{
+  \code{\link[jaggernaut]{jmodel}}
+}
 

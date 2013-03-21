@@ -24,4 +24,7 @@ analysis <- janalysis (model, data)
 dataset(analysis)
 dataset(analysis, base = TRUE)
 }
+\seealso{
+  \link[jaggernaut]{jmodel}, \link[jaggernaut]{janalysis}
+}
 

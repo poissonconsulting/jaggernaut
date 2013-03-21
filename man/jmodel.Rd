@@ -1,6 +1,6 @@
 \name{jmodel}
 \alias{jmodel}
-\title{Create a jmodel (JAGS model) object}
+\title{Create a JAGS model}
 \usage{
   jmodel(model, monitor = NULL, select = NULL,
     modify_data = NULL, gen_inits = NULL, random = NULL,
@@ -42,10 +42,10 @@
   indicates the parameter to which the description applies}
 }
 \value{
-  a jmodel (JAGS models) object
+  a jmodel object
 }
 \description{
-  Creates a JAGS model (jmodel) object which defines a
+  Creates a JAGS model (jmodel object) which defines a
   Bayesian model in the JAGS dialect of the BUGS language.
   In addition to defining the model a JAGS model object can
   also specify the parameters to monitor, the variables to
@@ -129,5 +129,9 @@ model <- jmodel("
    }
  }"
 )
+}
+\references{
+  Plummer M (2012) JAGS Version 3.3.0 User Manual
+  \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
 }
 

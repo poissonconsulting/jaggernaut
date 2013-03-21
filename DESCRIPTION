@@ -10,7 +10,8 @@ Depends:
     abind,
     foreach,
     iterators,
-    rjags
+    rjags,
+    coda
 Suggests:
     testthat,
     multicore,
