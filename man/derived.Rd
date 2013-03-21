@@ -4,7 +4,7 @@
 \usage{
   derived(object, parameter, data = "", base = FALSE,
     values = NULL, derived = NULL, random = NULL,
-    length.out = 30, estimates = TRUE)
+    length.out = 30, estimates = TRUE, model = "min")
 }
 \arguments{
   \item{object}{a janalysis object.}

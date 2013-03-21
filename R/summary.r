@@ -46,7 +46,7 @@ summary.jagr_analysis <- function (object, parameters = NULL)
 #' @param object a JAGS analysis (janalysis) object to summarise
 #' @export
 summary.janalysis <- function (object, parameters = NULL)
-{
+{  
   summ <- list()
   
   n <- length(object$analyses)

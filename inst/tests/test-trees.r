@@ -24,9 +24,9 @@ test_that("analysis of trees completes", {
   expect_that(analysis, is_a("janalysis"))
 })
 
-test_that("calc_expected returns correct object", {
+test_that("derived returns correct object", {
   
-  expected <- calc_expected(analysis, data = "Height", parameter = "eVolume")
+  expected <- derived(analysis, data = "Height", parameter = "eVolume")
 
   expect_that(expected, is_a("data.frame"))
   expect_equal(nrow(expected), 30)

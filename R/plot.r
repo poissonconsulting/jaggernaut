@@ -22,9 +22,12 @@ plot.jagr_analysis <- function (x, parameters, ...) {
 #'   
 #' @param x a JAGS analysis (janalysis) object
 #' @export
-plot.janalysis <- function (x, parameters = "all", ...) {
+plot.janalysis <- function (x, parameters = "all", model = "min", ...) {
   if (!is.janalysis(x))
     stop ('x should be of class janalysis')
+  
+  if(!model %in% c("min"))
+    stop("model should be min")
   
   return (plot(top_model(x), parameters = parameters, ...))
 }

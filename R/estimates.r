@@ -6,6 +6,7 @@
 #' 
 #' @param object a janalysis object
 #' @param parameters a character vector of the parameters to calculate the estimates
+#' @param model a character vector of length one indicating over which models to calculate the estimates. 
 #' @return a data.frame of the parameter estimates with the median estimate and 
 #' lower and upper 95% credibility limits as well as the percent relative error and significance
 #' @export
@@ -14,9 +15,12 @@
 #' data <- data.frame(x = rpois(100,1))
 #' analysis <- janalysis (model, data)
 #' estimates(analysis)
-estimates <- function (object, parameters = "fixed") {
+estimates <- function (object, parameters = "fixed", model = "min") {
   if(!is.janalysis(object))
     stop ("object should be class janalysis")
+  
+  if(!model %in% c("min"))
+    stop("model should be min")
   
   return (calc_estimates(object,parameters = parameters))
 }

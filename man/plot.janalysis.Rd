@@ -2,7 +2,7 @@
 \alias{plot.janalysis}
 \title{Plot a JAGS analysis (janalysis) object}
 \usage{
-  plot.janalysis(x, parameters = "all", ...)
+  plot.janalysis(x, parameters = "all", model = "min", ...)
 }
 \arguments{
   \item{x}{a JAGS analysis (janalysis) object}

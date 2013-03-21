@@ -48,12 +48,15 @@
 #' 
 derived <- function (object, parameter, data = "", base = FALSE, 
                            values = NULL, derived = NULL, random = NULL, 
-                           length.out = 30, estimates = TRUE) {
+                           length.out = 30, estimates = TRUE,  model = "min") {
   
   if (!is.janalysis(object))
     stop ("object should be class janalysis")
+  
+  if(!model %in% c("min"))
+    stop("model should be min")
  
-  return (calc_expected_(object, 
+  return (calc_expected(object, 
                          parameter = parameter, data = data, 
                          base = base, values = values, 
                          derived = derived, random = random, 

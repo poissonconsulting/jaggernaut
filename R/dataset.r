@@ -18,7 +18,7 @@ dataset <- function (object, base = FALSE) {
   if(!is.janalysis(object))
     stop("object should be of class janalysis")
   
-  object <- object$analyses[[1]]$data
+  object <- object$analyses[[1]]
 
   if(!base) {
     return (object$data)
