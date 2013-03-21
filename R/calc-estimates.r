@@ -1,5 +1,4 @@
 
-#' @export
 calc_estimates<- function (object, ...) {
   UseMethod("calc_estimates", object)
 }
@@ -29,43 +28,27 @@ calc_estimates.matrix <- function(object) {
 }
 
 
-calc_estimates.gsmcmc <- function (object, pars = NULL) {
-  return (calc_estimates (get_sims (object, pars)))
+calc_estimates.gsmcmc <- function (object, parameters = NULL) {
+  return (calc_estimates (get_sims (object, parameters)))
 }
 
-calc_estimates.jagr_analysis <- function (object, pars = "fixed") {
+calc_estimates.jagr_analysis <- function (object, parameters = "fixed") {
   
   if(!is.jagr_analysis(object))
     stop ("object should be class jagr_analysis")
   
-  if (!(is.null(pars) || is.character(pars)))
-    stop ("pars must be NULL or a character vector")
+  if (!is.character(parameters))
+    stop ("parameters must be a character vector")
   
-  if (is.null(pars) || (length(pars) == 1 && pars %in% c("all","fixed","random")))
-    pars <- get_pars (object$model, type = pars)
+  if (length(parameters) == 1 && parameters %in% c("all","fixed","random"))
+    parameters <- get_pars (object$model, type = parameters)
   
-  return (calc_estimates (object$mcmc, pars = pars))
+  return (calc_estimates (object$mcmc, parameters = parameters))
 }
 
-#' Calculate parameter estimates for JAGS analysis
-#'
-#' Calculate parameter estimates for JAGS analysis
-#' 
-#' @param object a janalysis object
-#' @param pars a character vector of the parameters to calculate the estimates
-#' @return a data.frame of the parameter estimates with lower and upper 95% 
-#' credibility limits as well as the percent relative error and significance
-#' @method calc_estimates janalysis
-#' @S3method calc_estimates janalysis
-#' @export
-#' @examples
-#' model <- jmodel("model { bLambda ~ dunif(0,10) for (i in 1:nrow) { x[i]~dpois(bLambda) } }")
-#' data <- data.frame(x = rpois(100,1))
-#' analysis <- janalysis (model, data)
-#' calc_estimates(analysis)
-calc_estimates.janalysis <- function (object, pars = "fixed") {
+calc_estimates.janalysis <- function (object, parameters = "fixed") {
   
-  return (calc_estimates(top_model(object),pars = pars))
+  return (calc_estimates(top_model(object),parameters = parameters))
 }
 
 calc_estimates.gssimulation <- function (object, pars = NULL) {

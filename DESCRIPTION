@@ -69,4 +69,7 @@ Collate:
     'jagr_analysis.r'
     'top-model.r'
     'base-values.r'
-    'combine_expected.r'
+    'dataset.r'
+    'estimates.r'
+    'derived.r'
+    'combine-derived.r'

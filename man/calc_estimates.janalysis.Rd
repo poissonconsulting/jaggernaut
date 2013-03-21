@@ -2,14 +2,13 @@
 \alias{calc_estimates.janalysis}
 \title{Calculate parameter estimates for JAGS analysis}
 \usage{
-  \method{calc_estimates}{janalysis} (object,
-    pars = "fixed")
+  calc_estimates.janalysis(object, parameters = "fixed")
 }
 \arguments{
   \item{object}{a janalysis object}
 
-  \item{pars}{a character vector of the parameters to
-  calculate the estimates}
+  \item{parameterss}{a character vector of the parameters
+  to calculate the estimates}
 }
 \value{
   a data.frame of the parameter estimates with lower and
