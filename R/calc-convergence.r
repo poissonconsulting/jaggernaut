@@ -43,7 +43,13 @@ calc_convergence.gsmcmc <- function (object, summarise = FALSE, pars = NULL) {
 }
 
 calc_convergence.jagr_analysis <- function (object, summarise = TRUE, type = "all") {
-  pars <- get_pars (object$model, type = type)
+
+  if (length(type) == 1 && type %in% c("all","fixed","random")) {
+    pars <- get_pars (object$model, type = type)
+  } else {
+    pars <- type
+  }
+    
   return (calc_convergence (object$mcmc, summarise = summarise, pars = pars))
 }
 

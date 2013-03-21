@@ -73,3 +73,5 @@ Collate:
     'estimates.r'
     'derived.r'
     'combine-derived.r'
+    'convergence.r'
+    'subset.janalysis.r'
