@@ -14,7 +14,7 @@
 #' defining the base level.
 #' @param values a data frame with a single row that defines the value of particular
 #' variables. The variables in data and base are replaced by the corresponding values.
-#' @param derived a character element defining a block in the JAGS dialect of 
+#' @param derived_model a character element defining a block in the JAGS dialect of 
 #' the BUGS language that defines one or more derived parameter. 
 #' If NULL the value is taken from the JAGS model for which the JAGS analysis was performed. 
 #' @param random a named list which specifies which parameters to treat 
@@ -35,7 +35,7 @@
 #'      x[i]~dpois(bLambda) 
 #'    } 
 #'  }",
-#'  derived = "model { 
+#'  derived_model = "model { 
 #'    for (i in 1:nrow) { 
 #'      eResidual[i] <- x[i] - bLambda
 #'    } 
@@ -47,7 +47,7 @@
 #' derived(analysis, "eResidual", data = NULL)
 #' 
 derived <- function (object, parameter, data = "", base = FALSE, 
-                           values = NULL, derived = NULL, random = NULL, 
+                           values = NULL, derived_model = NULL, random = NULL, 
                            length.out = 30, estimates = TRUE,  model = "min") {
   
   if (!is.janalysis(object))
@@ -59,7 +59,7 @@ derived <- function (object, parameter, data = "", base = FALSE,
   return (calc_expected(object, 
                          parameter = parameter, data = data, 
                          base = base, values = values, 
-                         derived = derived, random = random, 
+                        derived_model = derived_model, random = random, 
                          length.out = length.out, 
                          calc_estimates = estimates))
   

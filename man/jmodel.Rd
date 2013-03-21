@@ -4,7 +4,7 @@
 \usage{
   jmodel(model, monitor = NULL, select = NULL,
     modify_data = NULL, gen_inits = NULL, random = NULL,
-    derived = NULL, extract_data = NULL,
+    derived_model = NULL, extract_data = NULL,
     description = NULL)
 }
 \arguments{

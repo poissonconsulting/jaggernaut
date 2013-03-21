@@ -89,7 +89,7 @@
 #')
 #' 
 jmodel <- function (model, monitor = NULL, select = NULL, modify_data = NULL, 
-                    gen_inits = NULL, random = NULL, derived = NULL, 
+                    gen_inits = NULL, random = NULL, derived_model = NULL, 
                     extract_data = NULL,  description = NULL
 ) {
 
@@ -105,8 +105,8 @@ jmodel <- function (model, monitor = NULL, select = NULL, modify_data = NULL,
     stop ("gen_inits must be NULL or a function")
   if (!(is.null(random) || (is.list(random) & !is.null(names(random)))))
     stop ("random must be NULL or a named list")  
-  if (!(is.null(derived) || (is.character(derived) && length(derived)==1)))
-    stop ("derived must be NULL or a character vector of length 1")
+  if (!(is.null(derived_model) || (is.character(derived_model) && length(derived_model)==1)))
+    stop ("derived_model must be NULL or a character vector of length 1")
   if(!(is.null(extract_data) || is.function(extract_data)))
     stop("extract_data must be NULL or a function")
   if (!(is.null(description) || (is.character(description) & !is.null(names(description)))))
@@ -123,7 +123,7 @@ jmodel <- function (model, monitor = NULL, select = NULL, modify_data = NULL,
     modify_data = modify_data,
     gen_inits = gen_inits,
     random = random,
-    derived = derived,
+    derived_model = derived_model,
     extract_data = extract_data,
     description = description
   )

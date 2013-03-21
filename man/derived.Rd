@@ -3,7 +3,7 @@
 \title{Calculate derived values for a JAGS analysis}
 \usage{
   derived(object, parameter, data = "", base = FALSE,
-    values = NULL, derived = NULL, random = NULL,
+    values = NULL, derived_model = NULL, random = NULL,
     length.out = 30, estimates = TRUE, model = "min")
 }
 \arguments{
@@ -24,10 +24,10 @@
   the value of particular variables. The variables in data
   and base are replaced by the corresponding values.}
 
-  \item{derived}{a character element defining a block in
-  the JAGS dialect of the BUGS language that defines one or
-  more derived parameter. If NULL the value is taken from
-  the JAGS model for which the JAGS analysis was
+  \item{derived_model}{a character element defining a block
+  in the JAGS dialect of the BUGS language that defines one
+  or more derived parameter. If NULL the value is taken
+  from the JAGS model for which the JAGS analysis was
   performed.}
 
   \item{random}{a named list which specifies which
@@ -59,7 +59,7 @@ model <- jmodel(
      x[i]~dpois(bLambda)
    }
  }",
- derived = "model {
+ derived_model = "model {
    for (i in 1:nrow) {
      eResidual[i] <- x[i] - bLambda
    }

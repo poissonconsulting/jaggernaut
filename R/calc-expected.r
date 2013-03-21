@@ -1,6 +1,6 @@
 
 calc_expected_jagr_analysis <- function (analysis, parameter, data = "", base = FALSE, 
-                           values = NULL, derived = NULL, random = NULL, 
+                           values = NULL, derived_model = NULL, random = NULL, 
                                          length.out = 30, calc_estimates = T) {
   
   if (!is.jagr_analysis(analysis))
@@ -15,8 +15,8 @@ calc_expected_jagr_analysis <- function (analysis, parameter, data = "", base = 
     stop ("if base is a data frame it should only have one row")
   if (!(is.null(random) || (is.list(random) & !is.null(names(random)))))
     stop ("random must be NULL or a named list")  
-  if (!(is.null(derived) || is.character(derived)))
-    stop ("derived must be NULL or a character")
+  if (!(is.null(derived_model) || is.character(derived_model)))
+    stop ("derived_model must be NULL or a character")
   if(!(is.null(values) || (is.data.frame (values) && nrow(values)==1)))
     stop ("values should be null or a data frame with only one row")
   if(!is.logical(calc_estimates))
@@ -56,10 +56,10 @@ calc_expected_jagr_analysis <- function (analysis, parameter, data = "", base = 
        }
      }
   
-  if (!is.null(derived)) {
-    model <- derived
+  if (!is.null(derived_model)) {
+    model <- derived_model
   } else
-    model <- analysis$model$derived
+    model <- analysis$model$derived_model
         
   emcmc <- calc_derived (analysis, model=model, 
     monitor=parameter, data = data, calc_estimates = F)  
@@ -84,13 +84,13 @@ calc_expected_jagr_analysis <- function (analysis, parameter, data = "", base = 
 }
  
 calc_expected <- function (analysis, parameter, data = "", base = FALSE, 
-                                     values = NULL, derived = NULL, random = NULL, 
+                                     values = NULL, derived_model = NULL, random = NULL, 
                                      length.out = 30, calc_estimates = T) {
   
   if (!is.janalysis(analysis))
     stop ("analyses should be class janalysis")
 
   return (calc_expected_jagr_analysis(top_model(analysis), parameter = parameter, data = data, 
-                        base = base, values = values, derived = derived, random = random, 
+                        base = base, values = values, derived_model = derived_model, random = random, 
                         length.out = length.out, calc_estimates = calc_estimates))
 }
