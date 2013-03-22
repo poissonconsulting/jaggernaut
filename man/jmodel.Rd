@@ -29,8 +29,8 @@
   \item{random}{a named list of parameters representing
   random variables}
 
-  \item{derived}{a character element defining a model in
-  the JAGS dialect of the BUGS language that defines
+  \item{derived_model}{a character element defining a model
+  in the JAGS dialect of the BUGS language that defines
   derived parameters}
 
   \item{extract_data}{a function to convert the parameter

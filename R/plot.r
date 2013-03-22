@@ -6,7 +6,7 @@ plot.gsmcmc <- function (x, parameters = parameters, ...) {
   if (parameters != "all")
     warning("parameters argument not yet implemented")
   
-  return (plot(as.mcmc.list(x),...))
+  return (coda:::plot.mcmc.list(as.mcmc.list(x),...))
 }
 
 plot.jagr_analysis <- function (x, parameters, ...) {
@@ -28,7 +28,7 @@ plot.jagr_analysis <- function (x, parameters, ...) {
 #' @param parameters a character vector of the parameters to plot or "all", "fixed" or "random".
 #' Not yet implemented.
 #' @param ... arguments to pass to coda::plot.mcmc
-#' @seealso \link[jaggernaut]{jmodel}, \link[jaggernaut]{janalysis}, \link[coda]{plot.mcmc}
+#' @seealso \code{\link{jmodel}}, \code{\link{janalysis}}, \code{\link[coda]{plot.mcmc}}
 #' @examples
 #' model <- jmodel("model { bLambda ~ dunif(0,10) for (i in 1:nrow) { x[i]~dpois(bLambda) } }")
 #' data <- data.frame(x = rpois(100,1))

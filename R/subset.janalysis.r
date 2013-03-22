@@ -44,7 +44,7 @@ subset.janalysis <- function (object, model = 0)
   newObject <- list()
   newObject$analyses <- list()
   if(model == 0) {
-    newObject$analyses[[1]] <- object$analyses[[rownames(analysis$dic)[1]]]
+    newObject$analyses[[1]] <- object$analyses[[rownames(object$dic)[1]]]
     
   } else {
     newObject$analyses[[1]] <- object$analyses[[model]]

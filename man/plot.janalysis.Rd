@@ -23,7 +23,7 @@ analysis <- janalysis (model, data)
 plot(analysis)
 }
 \seealso{
-  \link[jaggernaut]{jmodel}, \link[jaggernaut]{janalysis},
-  \link[coda]{plot.mcmc}
+  \code{\link{jmodel}}, \code{\link{janalysis}},
+  \code{\link[coda]{plot.mcmc}}
 }
 

@@ -2,7 +2,7 @@
 \alias{estimates}
 \title{Calculate parameter estimates for a JAGS analysis}
 \usage{
-  estimates(object, parameters = "fixed", model = "min")
+  estimates(object, parameters = "fixed", average = FALSE)
 }
 \arguments{
   \item{object}{a janalysis object}
@@ -10,8 +10,8 @@
   \item{parameters}{a character vector of the parameters to
   calculate the estimates}
 
-  \item{model}{a character vector of length one indicating
-  over which models to calculate the estimates.}
+  \item{average}{a logical scalar indicating whether to
+  model average - not yet implemented}
 }
 \value{
   a data.frame of the parameter estimates with the median

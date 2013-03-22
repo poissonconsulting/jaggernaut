@@ -74,7 +74,7 @@ as.data.frame.gsmcmc <- function (x) {
 }
 
 as.data.frame.gsanalysis <- function (x) {
-  if (!inherits(object,"gsanalysis"))
+  if (!inherits(x,"gsanalysis"))
     stop ("x should be class gsmcmc")
    return (x$data)
  }

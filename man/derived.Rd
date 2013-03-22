@@ -4,7 +4,7 @@
 \usage{
   derived(object, parameter, data = "", base = FALSE,
     values = NULL, derived_model = NULL, random = NULL,
-    length.out = 30, estimates = TRUE, model = "min")
+    length.out = 30, estimates = TRUE, average = FALSE)
 }
 \arguments{
   \item{object}{a janalysis object.}
@@ -39,9 +39,12 @@
   number of values when creating a sequence of values
   across the range of a continuous variable.}
 
-  \item{calc_estimates}{a logical scalar indicating whether
-  to return the individual iterations or the median and 95%
+  \item{estimates}{a logical scalar indicating whether to
+  return the individual iterations or the median and 95%
   credibility intervals.}
+
+  \item{average}{a logical scalar indicating whether to
+  model average - not yet implemented}
 }
 \value{
   the input data frame with the median and 95% credibility
@@ -71,6 +74,6 @@ analysis <- janalysis (model, data)
 derived(analysis, "eResidual", data = NULL)
 }
 \seealso{
-  \link[jaggernaut]{jmodel}, \link[jaggernaut]{janalysis}
+  \code{\link{jmodel}}, \code{\link[jaggernaut]{janalysis}}
 }
 

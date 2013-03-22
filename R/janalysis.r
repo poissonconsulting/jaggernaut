@@ -90,7 +90,7 @@ janalysis <- function (
   if(parallelModels) {
       
     doMC::registerDoMC(cores=n.model)
-    
+
     object$analyses <- foreach(i = 1:n.model) %dopar% { 
       jagr_analysis(models[[i]], data, 
                     n.iter = n.iter, n.chain = n.chain, resample = resample,

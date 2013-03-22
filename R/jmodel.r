@@ -21,7 +21,7 @@
 #' @param gen_inits a function to generate initial values for an MCMC chain
 #' (it is passed the (modified) data in list form)
 #' @param random a named list of parameters representing random variables
-#' @param derived a character element defining a model in the JAGS dialect of 
+#' @param derived_model a character element defining a model in the JAGS dialect of 
 #' the BUGS language that defines derived parameters
 #' @param extract_data a function to convert the parameter estimates into a data set
 #'  (after they have been converted to list form)

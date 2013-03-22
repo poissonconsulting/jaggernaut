@@ -20,12 +20,13 @@
 #' as random variables. If NULL the value is taken from the JAGS model for which the JAGS analysis was performed.
 #' @param length.out an integer element indicating the number of values when 
 #' creating a sequence of values across the range of a continuous variable.
-#' @param calc_estimates a logical scalar indicating whether to return the individual
+#' @param estimates a logical scalar indicating whether to return the individual
 #' iterations or the median and 95% credibility intervals.
+#' @param average a logical scalar indicating whether to model average - not yet implemented
 #' @return the input data frame with the median and 95% credibility intervals 
 #' (or iterations) for
 #' the derived parameter of interest
-#' @seealso \link[jaggernaut]{jmodel}, \link[jaggernaut]{janalysis}
+#' @seealso \code{\link{jmodel}}, \code{\link[jaggernaut]{janalysis}}
 #' @examples
 #' model <- jmodel(
 #'  model = "model { 
@@ -47,13 +48,10 @@
 #' @export 
 derived <- function (object, parameter, data = "", base = FALSE, 
                            values = NULL, derived_model = NULL, random = NULL, 
-                           length.out = 30, estimates = TRUE,  model = "min") {
+                           length.out = 30, estimates = TRUE,  average = FALSE) {
   
   if (!is.janalysis(object))
     stop ("object should be class janalysis")
-  
-  if(!model %in% c("min"))
-    stop("model should be min")
  
   return (calc_expected(object, 
                          parameter = parameter, data = data, 

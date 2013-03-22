@@ -18,7 +18,7 @@ summary.gsmcmc <- function (object) {
   return (NULL)  
 }
 
-summary.jagr_analysis <- function (object, parameters = NULL)
+summary.jagr_analysis <- function (object)
 {
   summ <- list()
   
@@ -43,16 +43,23 @@ summary.jagr_analysis <- function (object, parameters = NULL)
 #' @description 
 #' Produces a summary of a JAGS analysis (janalysis) object
 #'   
-#' @param object a JAGS analysis (janalysis) object to summarise
+#' @param object a janalysis object to summarise
+#' @return a jsummary_analysis object
+#' #' @seealso \link[jaggernaut]{jmodel}, \link[jaggernaut]{janalysis}
+#' @examples
+#' model <- jmodel("model { bLambda ~ dunif(0,10) for (i in 1:nrow) { x[i]~dpois(bLambda) } }")
+#' data <- data.frame(x = rpois(100,1))
+#' analysis <- janalysis (model, data)
+#' summary(analysis)
 #' @export
-summary.janalysis <- function (object, parameters = NULL)
+summary.janalysis <- function (object)
 {  
   summ <- list()
   
   n <- length(object$analyses)
   
   for (i in 1:n) {
-    summ[[paste0("Model",i)]] <- summary(object$analyses[[i]], parameters = parameters)
+    summ[[paste0("Model",i)]] <- summary(object$analyses[[i]])
   }
   summ[["Model Comparison"]] <- object$dic
   

@@ -2,7 +2,7 @@
 \alias{print.janalysis}
 \title{Print a JAGS analysis}
 \usage{
-  print.janalysis(x, model = "min")
+  print.janalysis(x)
 }
 \arguments{
   \item{x}{a janalysis object to print}
