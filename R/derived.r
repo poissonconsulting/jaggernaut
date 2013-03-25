@@ -18,9 +18,9 @@
 #' If NULL the value is taken from the JAGS model for which the JAGS analysis was performed. 
 #' @param random a named list which specifies which parameters to treat 
 #' as random variables. If NULL the value is taken from the JAGS model for which the JAGS analysis was performed.
-#' @param length.out an integer element indicating the number of values when 
+#' @param length_out an integer element indicating the number of values when 
 #' creating a sequence of values across the range of a continuous variable.
-#' @param ci a logical scalar indicating whether to return the individual
+#' @param conf_int a logical scalar indicating whether to return the individual
 #' iterations or the median and 95% credibility intervals.
 #' @param average a logical scalar indicating whether to model average - not yet implemented
 #' @return the input data frame with the median and 95% credibility intervals 
@@ -48,7 +48,7 @@
 #' @export 
 derived <- function (object, parameter, data = "", base = FALSE, 
                            values = NULL, derived_model = NULL, random = NULL, 
-                           length.out = 30, ci = TRUE,  average = FALSE) {
+                           length_out = 30, conf_int = TRUE,  average = FALSE) {
   
   if (!is.janalysis(object))
     stop ("object should be class janalysis")
