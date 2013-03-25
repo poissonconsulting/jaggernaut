@@ -12,7 +12,7 @@
 #' @return a data frame with the median and 95% credibility intervals
 #' for the combined iterations (or the combined iterations themselves) 
 #' @export
-combine_derived <- function (x, fun = sum, estimates = TRUE) {
+combine_derived <- function (x, fun = sum, conf_int = TRUE) {
 
   if (!is.list(x))
     stop ("x must be a list")
@@ -32,7 +32,7 @@ combine_derived <- function (x, fun = sum, estimates = TRUE) {
   }  
   mat <- apply(array, MARGIN=c(1,2), fun)
 
-  if(calc_estimates) {
+  if(conf_int) {
     mat <- calc_estimates (t(mat))
   }
   data <- x[[1]]
