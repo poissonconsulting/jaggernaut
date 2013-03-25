@@ -57,8 +57,8 @@ derived <- function (object, parameter, data = "", base = FALSE,
                          parameter = parameter, data = data, 
                          base = base, values = values, 
                         derived_model = derived_model, random = random, 
-                         length.out = length.out, 
-                         calc_estimates = ci))
+                         length.out = length_out, 
+                         calc_estimates = conf_int))
   
 }
   

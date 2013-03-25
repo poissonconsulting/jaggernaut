@@ -4,7 +4,7 @@
 \usage{
   derived(object, parameter, data = "", base = FALSE,
     values = NULL, derived_model = NULL, random = NULL,
-    length.out = 30, estimates = TRUE, average = FALSE)
+    length_out = 30, conf_int = TRUE, average = FALSE)
 }
 \arguments{
   \item{object}{a janalysis object.}
@@ -35,11 +35,11 @@
   value is taken from the JAGS model for which the JAGS
   analysis was performed.}
 
-  \item{length.out}{an integer element indicating the
+  \item{length_out}{an integer element indicating the
   number of values when creating a sequence of values
   across the range of a continuous variable.}
 
-  \item{estimates}{a logical scalar indicating whether to
+  \item{conf_int}{a logical scalar indicating whether to
   return the individual iterations or the median and 95%
   credibility intervals.}
 
