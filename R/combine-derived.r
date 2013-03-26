@@ -27,7 +27,7 @@ combine_derived <- function (x, fun = sum, conf_int = TRUE) {
       
   array <- as.matrix((x[[1]][,colnames]))
   for (i in 2:length(x)) {
-    mat <- as.matrix((x[[1]][,colnames]))
+    mat <- as.matrix((x[[i]][,colnames]))
     array <- abind(array, mat, along = 3)
   }  
   mat <- apply(array, MARGIN=c(1,2), fun)
