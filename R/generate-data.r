@@ -23,6 +23,7 @@
 #' generate_data (data)
 #' generate_data (data,range='numeric')
 #' generate_data (data,range=c('date','factor'))
+#' @export
 generate_data <- function (data, range = NULL, length.out = 30)
 {
   if (!is.data.frame(data))
