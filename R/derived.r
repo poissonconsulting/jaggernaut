@@ -22,7 +22,8 @@
 #' creating a sequence of values across the range of a continuous variable.
 #' @param conf_int a logical scalar indicating whether to return the individual
 #' iterations or the median and 95% credibility intervals.
-#' @param average a logical scalar indicating whether to model average - not yet implemented
+#' @param model an integer scalar indicating which model to select unless model = 0
+#' in which case DIC-based model selection is used.
 #' @return the input data frame with the median and 95% credibility intervals 
 #' (or iterations) for
 #' the derived parameter of interest
@@ -48,17 +49,28 @@
 #' @export 
 derived <- function (object, parameter, data = "", base = FALSE, 
                            values = NULL, derived_model = NULL, random = NULL, 
-                           length_out = 30, conf_int = TRUE,  average = FALSE) {
+                           length_out = 30, conf_int = TRUE,  model = 1) {
   
   if (!is.janalysis(object))
     stop ("object should be class janalysis")
+  
+  model <- as.integer(model)
+  
+  if(!is.integer (model))
+    stop("model should be an integer")
+  if(!is_scalar (model))
+    stop("model should be a scalar")  
+  if(model < 0)
+    stop("model should not be less than 0")
+
  
   return (calc_expected(object, 
                          parameter = parameter, data = data, 
                          base = base, values = values, 
                         derived_model = derived_model, random = random, 
                          length.out = length_out, 
-                         calc_estimates = conf_int))
+                         calc_estimates = conf_int,
+                        model = model))
   
 }
   
