@@ -18,6 +18,9 @@ select_model <- function (analysis, model)
   if(model > 0) {
     return (analysis$analyses[[model]])
   }
+  if (analysis$n.model == 1) {
+    return (analysis$analyses[[1]])
+  }
   
   return (analysis$analyses[[rownames(analysis$dic)[1]]])
 }
