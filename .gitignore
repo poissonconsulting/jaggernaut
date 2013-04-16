@@ -5,3 +5,4 @@
 jaggernaut.Rproj
 build.r
 .Rbuildignore
+data.r
