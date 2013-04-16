@@ -1,55 +1,66 @@
 
-#' @title Perform a janalysis (JAGS analysis)
+#' @title Create a JAGS analysis
 #'
 #' @description 
-#' Performs a janalysis (JAGS analysis) by applying one or more jmodels (JAGS models)
-#' to a data frame. The remaining parameters control the number of iterations, 
+#' Creates a JAGS analysis (\code{janalysis} object) by fitting a 
+#' \code{\link{jmodel}} or list of \code{jmodel}
+#' objects to a data frame using JAGS (Plummer 2012). The remaining parameters control 
+#' the number of iterations, 
 #' the number of chains, the required convergence, whether the models and/or chains are run in parallel
-#' and the output messages. The janalysis object can then be queried using other functions
-#' to get parameter estimates, derived values and Deviance Information Criterion (DIC)
-#' values.
+#' and the output messages. The \code{janalysis} object can then be queried using other functions
+#' to get parameter \code{\link{estimates}} and \code{\link{derived}} values.
 #' 
-#' @param models a jmodel object or list of jmodel objects specifying the JAGS model
+#' @param models a \code{\link{jmodel}} object or list of \code{\link{jmodel}} objects specifying the JAGS model
 #' @param data a data.frame specifying the data to analyse
-#' @param n.iter the number of iterations in each mcmc chain
-#' @param n.chain the number of mcmc chains
-#' @param resample the number of times to resample 
-#' until convergence is are achieved
-#' @param convergence the threshold for convergence
-#' @param parallelChains a boolean indicating whether the chains should
+#' @param n.iter an integer element of the number of iterations per MCMC chain
+#' @param n.chain an integer element of the number of MCMC chains
+#' @param resample an integer element of the number of times to resample 
+#' until convergence is achieved
+#' @param convergence a numeric element of the R-hat threshold for convergence
+#' @param parallelChains a boolean element indicating whether the chains should
 #' be run on separate processes (currently only available for unix-based systems)
-#' @param parallelModels a boolean indicating whether the models should
+#' @param parallelModels a boolean element indicating whether the models should
 #' be run on separate processes (currently only available for unix-based systems)
-#' @param debug a boolean indicating whether or not to debug the model
-#' @param quiet a boolean indicating whether or not to suppress messages
+#' @param debug a boolean element indicating whether or not to debug the model
+#' @param quiet a boolean element indicating whether or not to suppress messages
 #' @details 
-#' The janalysis function performs a Bayesian analysis of a data frame using
-#' one or more jmodels (JAGS models). For ease of use only the jmodel(s) and data
+#' The \code{janalysis} function performs a Bayesian analysis of a data frame with
+#' one or more \code{jmodels} using JAGS. For ease of use only the \code{\link{jmodel}}(s) and data
 #' frame need to be defined. However, the number of iterations and the number of
 #' chains can be specified as can the number of times the model should be resampled
-#' until convergence is achieved. 
+#' until convergence is considered to have been achieved. 
 #' 
-#' 1000 chains drawn from the second halfs of the chains
-#' 
-#' Convergence is achieved when all the monitored
-#' parmeters have an R-hat less than the value of the convergence argument which
-#' by default is 1.1. If the initial number of iterations are performed without
+#' The janalysis object saves 1,000 MCMC samples from the second halves of the chains.
+#' For example if three chains (\code{n.chains = 3}) of 1,000 iterations (\code{n.iter = 10^3}) 
+#' are run then 333 samples will be thinned
+#' from the last 500 iterations of each chain.  
+#'  
+#' Convergence is considered to have been achieved when all the monitored
+#' parameters have an R-hat less than the value of the \code{convergence} argument which
+#' by default is 1.1 (Kery & Schaub 2011). If the initial number of iterations (\code{n.iter})
+#' are performed and the convergence target is not achieved then the current MCMC samples
+#' are discarded 
 #' achieving convergence and resample > 0 then just convergence doubled and a 
 #' 1000 iterations.
 #' 
-#' If debug = TRUE then only two chains of 200 iterations are run on a single
+#' If \code{debug = TRUE} then only two chains of 200 iterations are run on a single
 #' process and messages are not suppressed. This is to facilitate debugging of the
 #' JAGS model definition, i.e., the analysis part is as quick as possible and
 #' all messages are provided.
-#' @return a janalysis (JAGS analysis) object
-#' @seealso \code{\link[jaggernaut]{jmodel}} 
+#' @return a \code{janalysis} (JAGS analysis) object
+#' @seealso \code{\link{jmodel}}, \code{\link{estimates}}, \code{\link{derived}} 
 #' @examples
 #' model <- jmodel("model { bLambda ~ dunif(0,10) for (i in 1:nrow) { x[i]~dpois(bLambda) } }")
 #' data <- data.frame(x = rpois(100,1))
 #' analysis <- janalysis (model, data)
+#'@references 
+#'Kery & Schaub (2011) Bayesian Population Analysis
+#' using WinBUGS. Academic Press, Oxford. \url{http://store.elsevier.com/Bayesian-Population-Analysis-using-WinBUGS/Marc-Kery/isbn-9780123870209/}
+#' 
+#'Plummer M (2012) JAGS Version 3.3.0 User Manual \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
 #' @export
 janalysis <- function (
-  models, data, n.iter = 1000, n.chain = 3, resample = 3,
+  models, data, n.iter = 10^3, n.chain = 3, resample = 3,
   convergence = 1.1,
   parallelChains = .Platform$OS.type != "windows",
   parallelModels = .Platform$OS.type != "windows",

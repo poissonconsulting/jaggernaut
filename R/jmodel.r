@@ -10,22 +10,22 @@
 #' to extract derived values from the final model among other things.
 #' 
 #' @param model a character element defining the model in the JAGS dialect of 
-#' the BUGS language.
-#' @param monitor a character vector of the parameters to monitor.
+#' the BUGS language
+#' @param monitor a character vector of the parameters to monitor
 #' @param select a character vector of the variables to select from the 
-#' data set being analysed (can also specify variables to transform and/or centre).
+#' data set being analysed (can also specify variables to transform and/or centre)
 #' @param modify_data a function to modify the data set being analysed
-#' (after it has been converted to list form).
+#' (after it has been converted to list form)
 #' @param gen_inits a function to generate initial values for an MCMC chain
-#' (it is passed the (modified) data in list form).
+#' (it is passed the (modified) data in list form)
 #' @param derived_model a character element defining a model in the JAGS dialect of 
-#' the BUGS language that specifies derived parameters.
+#' the BUGS language that specifies derived parameters
 #' @param random a named list of parameters to be treated as random effects with the
-#' related data as values.
+#' related data as values
 #' @param extract_data a function to convert the parameter estimates into a data set
-#'  (after they have been converted to list form).
+#'  (after they have been converted to list form)
 #' @param description a named character vector descriping each of the parameters 
-#' in the model where the name indicates the parameter to which the description applies.
+#' in the model where the name indicates the parameter to which the description applies
 #' @details 
 #' The \code{jmodel} function defines a JAGS model that can then be passed to the 
 #' \code{\link{janalysis}} function together with a data frame to perform a Bayesian analysis.
@@ -78,14 +78,14 @@
 #' 
 #' The \code{derived_model} argument is used to define a model in the JAGS dialect of 
 #' the BUGS language that specifies derived parameters. For further information on the
-#' use of the \code{derived_model} argument see \link{derived}.
+#' use of the \code{derived_model} argument see \code{\link{derived}}.
 #' 
 #' The \code{random} argument is used specify which parameters represent random effects.
 #' It takes 
 #' the form of a named list where the parameters are the names of the list elements 
 #' and the values are character vectors of the variables in the input data frame that
 #' the parameters are random with respect to. For further information on the
-#' use of the \code{random} argument see \link{derived}.
+#' use of the \code{random} argument see \code{\link{derived}}.
 #' 
 #' The \code{extract_data} argument converts the parameter estimates into a 
 #' data set (after they have been converted to list form)
@@ -95,6 +95,7 @@
 #' the \code{description} argument has no functionality.
 #' 
 #' @return a \code{jmodel} object
+#' @seealso \code{\link{convert_data}}, \code{\link{derived}} 
 #' @examples
 #' # Poisson GLM from Kery & Schaub (2011) p.55-66
 #' model <- jmodel(" 

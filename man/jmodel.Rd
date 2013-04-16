@@ -9,38 +9,37 @@
 }
 \arguments{
   \item{model}{a character element defining the model in
-  the JAGS dialect of the BUGS language.}
+  the JAGS dialect of the BUGS language}
 
   \item{monitor}{a character vector of the parameters to
-  monitor.}
+  monitor}
 
   \item{select}{a character vector of the variables to
   select from the data set being analysed (can also specify
-  variables to transform and/or centre).}
+  variables to transform and/or centre)}
 
   \item{modify_data}{a function to modify the data set
   being analysed (after it has been converted to list
-  form).}
+  form)}
 
   \item{gen_inits}{a function to generate initial values
   for an MCMC chain (it is passed the (modified) data in
-  list form).}
+  list form)}
 
   \item{derived_model}{a character element defining a model
   in the JAGS dialect of the BUGS language that specifies
-  derived parameters.}
+  derived parameters}
 
   \item{random}{a named list of parameters to be treated as
-  random effects with the related data as values.}
+  random effects with the related data as values}
 
   \item{extract_data}{a function to convert the parameter
   estimates into a data set (after they have been converted
-  to list form).}
+  to list form)}
 
   \item{description}{a named character vector descriping
   each of the parameters in the model where the name
-  indicates the parameter to which the description
-  applies.}
+  indicates the parameter to which the description applies}
 }
 \value{
   a \code{jmodel} object
@@ -128,7 +127,7 @@
   model in the JAGS dialect of the BUGS language that
   specifies derived parameters. For further information on
   the use of the \code{derived_model} argument see
-  \link{derived}.
+  \code{\link{derived}}.
 
   The \code{random} argument is used specify which
   parameters represent random effects. It takes the form of
@@ -136,7 +135,8 @@
   list elements and the values are character vectors of the
   variables in the input data frame that the parameters are
   random with respect to. For further information on the
-  use of the \code{random} argument see \link{derived}.
+  use of the \code{random} argument see
+  \code{\link{derived}}.
 
   The \code{extract_data} argument converts the parameter
   estimates into a data set (after they have been converted
@@ -178,5 +178,8 @@ model <- jmodel("
 
   Plummer M (2012) JAGS Version 3.3.0 User Manual
   \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
+}
+\seealso{
+  \code{\link{convert_data}}, \code{\link{derived}}
 }
 

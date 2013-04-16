@@ -1,6 +1,6 @@
 \name{janalysis}
 \alias{janalysis}
-\title{Perform a janalysis (JAGS analysis)}
+\title{Create a JAGS analysis}
 \usage{
   janalysis(models, data, n.iter = 1000, n.chain = 3,
     resample = 3, convergence = 1.1,
@@ -9,52 +9,56 @@
     debug = FALSE, quiet = FALSE)
 }
 \arguments{
-  \item{models}{a jmodel object or list of jmodel objects
-  specifying the JAGS model}
+  \item{models}{a \code{\link{jmodel}} object or list of
+  \code{\link{jmodel}} objects specifying the JAGS model}
 
   \item{data}{a data.frame specifying the data to analyse}
 
-  \item{n.iter}{the number of iterations in each mcmc
-  chain}
+  \item{n.iter}{an integer element of the number of
+  iterations in each MCMC chain}
 
-  \item{n.chain}{the number of mcmc chains}
+  \item{n.chain}{an integer element of the number of MCMC
+  chains}
 
-  \item{resample}{the number of times to resample until
-  convergence is are achieved}
+  \item{resample}{an integer element of the number of times
+  to resample until convergence is achieved}
 
-  \item{convergence}{the threshold for convergence}
+  \item{convergence}{a numeric element of the R-hat
+  threshold for convergence}
 
-  \item{parallelChains}{a boolean indicating whether the
-  chains should be run on separate processes (currently
-  only available for unix-based systems)}
+  \item{parallelChains}{a boolean element indicating
+  whether the chains should be run on separate processes
+  (currently only available for unix-based systems)}
 
-  \item{parallelModels}{a boolean indicating whether the
-  models should be run on separate processes (currently
-  only available for unix-based systems)}
+  \item{parallelModels}{a boolean element indicating
+  whether the models should be run on separate processes
+  (currently only available for unix-based systems)}
 
-  \item{debug}{a boolean indicating whether or not to debug
-  the model}
+  \item{debug}{a boolean element indicating whether or not
+  to debug the model}
 
-  \item{quiet}{a boolean indicating whether or not to
-  suppress messages}
+  \item{quiet}{a boolean element indicating whether or not
+  to suppress messages}
 }
 \value{
-  a janalysis (JAGS analysis) object
+  a \code{janalysis} (JAGS analysis) object
 }
 \description{
-  Performs a janalysis (JAGS analysis) by applying one or
-  more jmodels (JAGS models) to a data frame. The remaining
-  parameters control the number of iterations, the number
-  of chains, the required convergence, whether the models
-  and/or chains are run in parallel and the output
-  messages. The janalysis object can then be queried using
-  other functions to get parameter estimates, derived
-  values and Deviance Information Criterion (DIC) values.
+  Creates a JAGS analysis (\code{janalysis} object) by
+  fitting a \code{\link{jmodel}} or list of \code{jmodel}
+  objects to a data frame using JAGS (Plummer 2012). The
+  remaining parameters control the number of iterations,
+  the number of chains, the required convergence, whether
+  the models and/or chains are run in parallel and the
+  output messages. The \code{janalysis} object can then be
+  queried using other functions to get parameter
+  \code{\link{estimates}} and \code{\link{derived}} values.
 }
 \details{
-  The janalysis function performs a Bayesian analysis of a
-  data frame using one or more jmodels (JAGS models). For
-  ease of use only the jmodel(s) and data frame need to be
+  The \code{janalysis} function performs a Bayesian
+  analysis of a data frame with one or more \code{jmodels}
+  using JAGS. For ease of use only the
+  \code{\link{jmodel}}(s) and data frame need to be
   defined. However, the number of iterations and the number
   of chains can be specified as can the number of times the
   model should be resampled until convergence is achieved.
@@ -68,18 +72,27 @@
   and resample > 0 then just convergence doubled and a 1000
   iterations.
 
-  If debug = TRUE then only two chains of 200 iterations
-  are run on a single process and messages are not
-  suppressed. This is to facilitate debugging of the JAGS
-  model definition, i.e., the analysis part is as quick as
-  possible and all messages are provided.
+  If \code{debug = TRUE} then only two chains of 200
+  iterations are run on a single process and messages are
+  not suppressed. This is to facilitate debugging of the
+  JAGS model definition, i.e., the analysis part is as
+  quick as possible and all messages are provided.
 }
 \examples{
 model <- jmodel("model { bLambda ~ dunif(0,10) for (i in 1:nrow) { x[i]~dpois(bLambda) } }")
 data <- data.frame(x = rpois(100,1))
 analysis <- janalysis (model, data)
 }
+\references{
+  Kery & Schaub (2011) Bayesian Population Analysis using
+  WinBUGS. Academic Press, Oxford.
+  \url{http://store.elsevier.com/Bayesian-Population-Analysis-using-WinBUGS/Marc-Kery/isbn-9780123870209/}
+
+  Plummer M (2012) JAGS Version 3.3.0 User Manual
+  \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
+}
 \seealso{
-  \code{\link[jaggernaut]{jmodel}}
+  \code{\link{jmodel}}, \code{\link{estimates}},
+  \code{\link{derived}}
 }
 
