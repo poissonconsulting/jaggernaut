@@ -1,0 +1,8 @@
+bibentry("Manual",
+   title = "juggernaut: An R package to facilitate Bayesian analyses using JAGS (Just Another Gibbs Sampler)",
+   author = person("Thorley JL"),
+   organization = "Poisson Consulting Ltd.",
+   address      = "Nelson, British Columbia",
+   year   = 2013,
+   mheader = "To cite juggernaut in publications use:"
+)
