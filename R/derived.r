@@ -29,23 +29,45 @@
 #' the derived parameter of interest
 #' @seealso \code{\link{jmodel}}, \code{\link[jaggernaut]{janalysis}}
 #' @examples
-#' model <- jmodel(
-#'  model = "model { 
-#'    bLambda ~ dunif(0,10) 
+#' # Poisson GLM analysis of peregrine breeding pairs (Kery & Schaub 2011 p.55-66)
+#' model <- jmodel(" 
+#'  model { 
+#'    alpha ~ dunif(-20, 20)
+#'    beta1 ~ dunif(-10, 10)
+#'    beta2 ~ dunif(-10, 10)
+#'    beta3 ~ dunif(-10, 10)
+#'    
 #'    for (i in 1:nrow) { 
-#'      x[i]~dpois(bLambda) 
+#'      log(eCount[i]) <- alpha + beta1 * Year[i] 
+#'        + beta2 * Year[i]^2 + beta3 * Year[i]^3
+#'      Count[i] ~ dpois(eCount[i])
 #'    } 
 #'  }",
-#'  derived_model = "model { 
-#'    for (i in 1:nrow) { 
-#'      eResidual[i] <- x[i] - bLambda
-#'    } 
+#'  derived_model = "model{
+#'    for (i in 1:nrow) {
+#'      log(eCount[i]) <- alpha + beta1 * Year[i] 
+#'        + beta2 * Year[i]^2 + beta3 * Year[i]^3    
+#'    }
 #'  }",
-#'  select = c("x")
-#' )
-#' data <- data.frame(x = rpois(100,1))
+#' select = c("Count","Year*")
+#')
+#'
+#' data <- peregrine
+#' data$Count <- data$Pairs
+#'
 #' analysis <- janalysis (model, data)
-#' derived(analysis, "eResidual", data = NULL)
+#'
+#' der <- derived(analysis, "eCount", data = "Year")
+#'
+#' gp <- ggplot(data = der, aes(x = Year, y = estimate))
+#' gp <- gp + geom_line()
+#' gp <- gp + geom_line(aes(y = lower), linetype = "dotted")
+#' gp <- gp + geom_line(aes(y = upper), linetype = "dotted")
+#' gp <- gp + geom_point(data = peregrine, aes(y = Pairs))
+#' gp <- gp + scale_y_continuous(name = "Pair count")
+#' gp <- gp + expand_limits(y = 0)
+#' 
+#' print(gp)
 #' @export 
 derived <- function (object, parameter, data = "", base = FALSE, 
                            values = NULL, derived_model = NULL, random = NULL, 

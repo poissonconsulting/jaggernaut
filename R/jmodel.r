@@ -97,7 +97,7 @@
 #' @return a \code{jmodel} object
 #' @seealso \code{\link{convert_data}}, \code{\link{derived}} 
 #' @examples
-#' # Poisson GLM from Kery & Schaub (2011) p.55-66
+#' # Poisson GLM (Kery & Schaub 2011 p.55-59)
 #' model <- jmodel(" 
 #'  model { 
 #'    alpha ~ dunif(-20, 20)
@@ -106,25 +106,18 @@
 #'    beta3 ~ dunif(-10, 10)
 #'    
 #'    for (i in 1:nrow) { 
-#'      log(lambda[i]) <- alpha + beta1 * Year[i] 
+#'      log(eCount[i]) <- alpha + beta1 * Year[i] 
 #'        + beta2 * Year[i]^2 + beta3 * Year[i]^3
-#'      Count[i]~dpois(lambda[i])
-
+#'      Count[i] ~ dpois(eCount[i])
 #'    } 
 #'  }",
-#'  gen_inits = function (data) {
-#'    inits <- list()
-#'    inits$alpha <- runif(1,-2,-2)
-#'    inits$beta1 <- runif(1,-3,-3)
-#'    
-#'    return (inits)
-#'  }
+#' select = c("Count","Year*")
 #')
 #'@references 
-#'Kery & Schaub (2011) Bayesian Population Analysis
-#' using WinBUGS. Academic Press, Oxford. \url{http://store.elsevier.com/Bayesian-Population-Analysis-using-WinBUGS/Marc-Kery/isbn-9780123870209/}
+#' Kery M & Schaub M (2011) Bayesian Population Analysis
+#' using WinBUGS. Academic Press. (\url{http://www.vogelwarte.ch/bpa})
 #' 
-#'Plummer M (2012) JAGS Version 3.3.0 User Manual \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
+# 'Plummer M (2012) JAGS Version 3.3.0 User Manual (\href{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}{on source forge})
 #' @export 
 jmodel <- function (model, monitor = NULL, select = NULL, modify_data = NULL, 
                     gen_inits = NULL, derived_model = NULL, random = NULL, 

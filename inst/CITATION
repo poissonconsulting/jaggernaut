@@ -1,8 +1,12 @@
-bibentry("Manual",
-   title = "juggernaut: An R package to facilitate Bayesian analyses using JAGS (Just Another Gibbs Sampler)",
-   author = person("Thorley JL"),
-   organization = "Poisson Consulting Ltd.",
-   address      = "Nelson, British Columbia",
-   year   = 2013,
-   mheader = "To cite juggernaut in publications use:"
+citHeader("To cite jaggernaut in publications use:")
+
+citEntry(entry = "Manual",
+  title        = "jaggernaut: An R package to facilitate Bayesian analyses using JAGS (Just Another Gibbs Sampler",
+  author       = personList(as.person("Joseph L. Thorley")),
+  year         = "2013",
+  url          = "https://github.com/joethorley/jaggernaut",
+  textVersion  =
+  paste("Thorley JL (2013)",
+        "jaggernaut: An R package to facilitate Bayesian analyses using JAGS (Just Another Gibbs Sampler)."
+        )
 )

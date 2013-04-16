@@ -148,7 +148,7 @@
   the \code{description} argument has no functionality.
 }
 \examples{
-# Poisson GLM from Kery & Schaub (2011) p.55-66
+# Poisson GLM (Kery & Schaub 2011 p.55-59)
 model <- jmodel("
  model {
    alpha ~ dunif(-20, 20)
@@ -157,27 +157,18 @@ model <- jmodel("
    beta3 ~ dunif(-10, 10)
 
    for (i in 1:nrow) {
-     log(lambda[i]) <- alpha + beta1 * Year[i]
+     log(eCount[i]) <- alpha + beta1 * Year[i]
        + beta2 * Year[i]^2 + beta3 * Year[i]^3
-     Count[i]~dpois(lambda[i])
+     Count[i] ~ dpois(eCount[i])
    }
  }",
- gen_inits = function (data) {
-   inits <- list()
-   inits$alpha <- runif(1,-2,-2)
-   inits$beta1 <- runif(1,-3,-3)
-
-   return (inits)
- }
+select = c("Count","Year*")
 )
 }
 \references{
-  Kery & Schaub (2011) Bayesian Population Analysis using
-  WinBUGS. Academic Press, Oxford.
-  \url{http://store.elsevier.com/Bayesian-Population-Analysis-using-WinBUGS/Marc-Kery/isbn-9780123870209/}
-
-  Plummer M (2012) JAGS Version 3.3.0 User Manual
-  \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
+  Kery M & Schaub M (2011) Bayesian Population Analysis
+  using WinBUGS. Academic Press.
+  (\url{http://www.vogelwarte.ch/bpa})
 }
 \seealso{
   \code{\link{convert_data}}, \code{\link{derived}}

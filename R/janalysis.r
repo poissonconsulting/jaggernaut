@@ -50,14 +50,30 @@
 #' @return a \code{janalysis} (JAGS analysis) object
 #' @seealso \code{\link{jmodel}}, \code{\link{estimates}}, \code{\link{derived}} 
 #' @examples
-#' model <- jmodel("model { bLambda ~ dunif(0,10) for (i in 1:nrow) { x[i]~dpois(bLambda) } }")
-#' data <- data.frame(x = rpois(100,1))
+#' # Poisson GLM analysis of peregrine breeding pairs (Kery & Schaub 2011 p.55-66)
+#' model <- jmodel(" 
+#'  model { 
+#'    alpha ~ dunif(-20, 20)
+#'    beta1 ~ dunif(-10, 10)
+#'    beta2 ~ dunif(-10, 10)
+#'    beta3 ~ dunif(-10, 10)
+#'    
+#'    for (i in 1:nrow) { 
+#'      log(eCount[i]) <- alpha + beta1 * Year[i] 
+#'        + beta2 * Year[i]^2 + beta3 * Year[i]^3
+#'      Count[i] ~ dpois(eCount[i])
+#'    } 
+#'  }",
+#' select = c("Count","Year*")
+#')
+#' data <- peregrine
+#' data$Count <- data$Pairs
 #' analysis <- janalysis (model, data)
 #'@references 
-#'Kery & Schaub (2011) Bayesian Population Analysis
-#' using WinBUGS. Academic Press, Oxford. \url{http://store.elsevier.com/Bayesian-Population-Analysis-using-WinBUGS/Marc-Kery/isbn-9780123870209/}
+#' Kery M & Schaub M (2011) Bayesian Population Analysis
+#' using WinBUGS. Academic Press. (\url{http://www.vogelwarte.ch/bpa})
 #' 
-#'Plummer M (2012) JAGS Version 3.3.0 User Manual \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
+#' Plummer M (2012) JAGS Version 3.3.0 User Manual \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
 #' @export
 janalysis <- function (
   models, data, n.iter = 10^3, n.chain = 3, resample = 3,
