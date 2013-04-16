@@ -2,7 +2,7 @@
 \alias{combine_derived}
 \title{Combine derived iterations}
 \usage{
-  combine_derived(x, fun = sum, estimates = TRUE)
+  combine_derived(x, fun = sum, conf_int = TRUE)
 }
 \arguments{
   \item{x}{a list of data frames with ...}

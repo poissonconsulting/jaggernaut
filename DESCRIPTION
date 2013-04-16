@@ -76,3 +76,6 @@ Collate:
     'gspower.r'
     'gssimulation.r'
     'is-same.r'
+    'is-scalar.r'
+    'select-model.r'
+    'data.r'

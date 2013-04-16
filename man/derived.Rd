@@ -4,7 +4,7 @@
 \usage{
   derived(object, parameter, data = "", base = FALSE,
     values = NULL, derived_model = NULL, random = NULL,
-    length_out = 30, conf_int = TRUE, average = FALSE)
+    length_out = 30, conf_int = TRUE, model = 1)
 }
 \arguments{
   \item{object}{a janalysis object.}
@@ -43,8 +43,9 @@
   return the individual iterations or the median and 95%
   credibility intervals.}
 
-  \item{average}{a logical scalar indicating whether to
-  model average - not yet implemented}
+  \item{model}{an integer scalar indicating which model to
+  select unless model = 0 in which case DIC-based model
+  selection is used.}
 }
 \value{
   the input data frame with the median and 95% credibility
