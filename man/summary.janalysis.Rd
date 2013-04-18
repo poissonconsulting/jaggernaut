@@ -1,25 +1,28 @@
 \name{summary.janalysis}
 \alias{summary.janalysis}
-\title{Summary of JAGS analysis (janalysis) object}
+\title{Summary of JAGS analysis}
 \usage{
-  summary.janalysis(object)
+  \method{summary}{janalysis} (object, ...)
 }
 \arguments{
   \item{object}{a janalysis object to summarise}
+
+  \item{...}{further arguments to pass to or from other
+  methods.}
 }
 \value{
-  a jsummary_analysis object #'
+  a jsummary_analysis object
 }
 \description{
-  Produces a summary of a JAGS analysis (janalysis) object
+  Produces a summary of a JAGS analysis
 }
 \examples{
-model <- jmodel("model { bLambda ~ dunif(0,10) for (i in 1:nrow) { x[i]~dpois(bLambda) } }")
-data <- data.frame(x = rpois(100,1))
-analysis <- janalysis (model, data)
-summary(analysis)
+mod <- model("model { bLambda ~ dunif(0,10) for (i in 1:nrow) { x[i]~dpois(bLambda) } }")
+dat <- data.frame(x = rpois(100,1))
+ana <- analysis (mod, dat)
+summary(ana)
 }
 \seealso{
-  \link[jaggernaut]{jmodel}, \link[jaggernaut]{janalysis}
+  \code{\link{analysis}}
 }
 

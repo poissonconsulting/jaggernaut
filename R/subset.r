@@ -4,33 +4,35 @@
 #' @description 
 #' Subsets a JAGS analysis.
 #' 
-#' 
-#' @param object a janalysis object to subset
+#' @param x a janalysis object to subset
 #' @param model an integer vector specifying the model to select. 
 #' If model = 0 then it selects the model with the lowest DIC.
+#' @param ... further arguments to pass to or from other methods.
 #' @return a janalysis object
 #' @export
+#' @method subset janalysis
 #' @examples
-#' model1 <- jmodel("model { 
+#' mod1 <- model("model { 
 #'  bLambda ~ dunif(0,10) 
 #'  for (i in 1:nrow) { 
 #'    x[i] ~ dpois(bLambda) 
 #'  } 
 #'}")
-#' model2 <- jmodel("model { 
+#' mod2 <- model("model { 
 #'  bLambda ~ dunif(0,10)
 #'  r ~ dgamma(0.1, 0.1) 
 #'  for (i in 1:nrow) { 
 #'    u[i] ~ dgamma(r,r)
 #'    x[i] ~ dpois(bLambda * u[i]) 
 #'  } 
-#'}")#' models <- list(model1, model2)
-#' data <- data.frame(x = rpois(100,1))
-#' analysis <- janalysis (models, data)
-#' summary(analysis)
-#' summary(subset(analysis,model = 0))
-#' summary(subset(analysis,model = 2))
-subset.janalysis <- function (object, model = 0)
+#'}")
+#' mods <- list(mod1, mod2)
+#' dat <- data.frame(x = rpois(100,1))
+#' ana <- analysis (mods, dat)
+#' summary(ana)
+#' summary(subset(ana,model = 0))
+#' summary(subset(ana,model = 2))
+subset.janalysis <- function (x, model = 0, ...)
 { 
   model <- as.integer(model)
   
@@ -38,18 +40,21 @@ subset.janalysis <- function (object, model = 0)
     stop("model should be an integer vector of length 1")
   }
     
-  if(!model %in% 0:object$n.model)
+  if(!model %in% 0:x$n.model)
     stop("model values cannot be less than 0 or greater than n.model")
+  
+  if (x$n.model == 1)
+    return (x)
   
   newObject <- list()
   newObject$analyses <- list()
   if(model == 0) {
-    newObject$analyses[[1]] <- object$analyses[[rownames(object$dic)[1]]]
+    newObject$analyses[[1]] <- x$analyses[[rownames(x$dic)[1]]]
     
   } else {
-    newObject$analyses[[1]] <- object$analyses[[model]]
+    newObject$analyses[[1]] <- x$analyses[[model]]
   }
-  newObject$dic <- object$dic[rownames(object$dic) == paste0("Model",model),]
+  newObject$dic <- x$dic[rownames(x$dic) == paste0("Model",model),,drop=T]
   newObject$n.model <- 1
   
   class(newObject) <- "janalysis"

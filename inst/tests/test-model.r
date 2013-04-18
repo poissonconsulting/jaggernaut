@@ -1,8 +1,8 @@
-context("jmodel")
+context("model")
 
-test_that("jmodel returns object of correct class", {
+test_that("model returns object of correct class", {
   
-  model <- jmodel(" model { 
+  model <- model(" model { 
       bLambda ~ dlnorm(0,10^-2) 
       for (i in 1:nrow) { 
         x[i]~dpois(bLambda) 

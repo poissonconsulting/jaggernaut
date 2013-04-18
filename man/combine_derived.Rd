@@ -7,11 +7,11 @@
 \arguments{
   \item{x}{a list of data frames with ...}
 
-  \item{fun}{the function to use when combining the
-  iterations - by default it sums the values for each
-  iteration.}
+  \item{fun}{the function to use when combining samples of
+  a derived parameter - by default it sums the values for
+  each sample.}
 
-  \item{estimates}{a logical scalar indicating whether to
+  \item{conf_int}{a logical scalar indicating whether to
   calculate the median and 95% credibility intervals or
   simply return the combined iterations.}
 }

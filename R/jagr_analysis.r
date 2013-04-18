@@ -25,10 +25,10 @@ jagr_analysis <- function (
     
   cat_convergence <- function (object) {
     convergence <- calc_convergence (object, summarise = T, type = 'all') 
-    cat (' (con:')
+    cat (' (Rhat:')
     cat (convergence['convergence'])
-    cat (', ind:')
-    cat (convergence['independence'])
+#    cat (', ind:')
+#    cat (convergence['independence'])
     cat (')\n')
   }
     

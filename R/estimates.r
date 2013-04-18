@@ -1,18 +1,20 @@
 
-#' @title Calculate parameter estimates for a JAGS analysis
+#' @title Calculate parameter estimates
 #'
 #' @description
-#' Calculate parameter estimates for a JAGS analysis
+#' Calculates parameter estimates for a JAGS analysis
 #' 
-#' @param object a \code{\link{janalysis}} object
+#' @param object a \code{janalysis} object
+#' @param model an integer element specifying the model to select. 
+#' If model = 0 then it selects the model with the lowest DIC.
 #' @param parameters a character vector of the parameters to calculate the estimates
-#' @param average a logical scalar indicating whether to model average - not yet implemented
 #' @return a data.frame of the parameter estimates with the median estimate and 
-#' lower and upper 95% credibility limits as well as the percent relative error and significance
-#' @seealso \link[jaggernaut]{jmodel}, \link[jaggernaut]{janalysis}
+#' lower and upper 95% credibility limits as well as the percent relative error 
+#' and significance
+#' @seealso \link{analysis}
 #' @examples
 #' # Poisson GLM analysis of peregrine breeding pairs (Kery & Schaub 2011 p.55-66)
-#' model <- jmodel(" 
+#' mod <- model(" 
 #'  model { 
 #'    alpha ~ dunif(-20, 20)
 #'    beta1 ~ dunif(-10, 10)
@@ -27,14 +29,20 @@
 #'  }",
 #' select = c("Count","Year*")
 #')
-#' data <- peregrine
-#' data$Count <- data$Pairs
-#' analysis <- janalysis (model, data)
-#' estimates(analysis)
+#' dat <- peregrine
+#' dat$Count <- dat$Pairs
+#' ana <- analysis (mod, dat)
+#' estimates(ana)
 #' @export
-estimates <- function (object, parameters = "fixed", average = FALSE) {
+estimates <- function (object, model = 1, parameters = "fixed") {
   if(!is.janalysis(object))
     stop ("object should be class janalysis")
   
-  return (calc_estimates(object,parameters = parameters))
+  object <- subset(object, model = model)
+  
+  est <- calc_estimates(object,parameters = parameters)
+  
+  est <- est[rownames(est) != "deviance",]
+
+  return (est)
 }

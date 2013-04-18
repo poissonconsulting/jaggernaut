@@ -107,6 +107,8 @@ calc_derived.janalysis <- function (object, model = NULL, monitor,
   if(is.null(model))
     model <- analysis$model$derived
   
+  print("herey")
+  
   return (calc_derived(top_model(object), model = model, monitor = monitor, 
                         data = data, calc_estimates = calc_estimates))
 }

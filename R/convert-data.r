@@ -36,7 +36,6 @@
 #' convert_data(data, standardise = TRUE)
 #' convert_data(data, numericise = FALSE, standardise = "date")
 #' convert_data(data, numericise = FALSE, centre = "date", standardise = "date")
-#' @export
 convert_data <- function (data, numericise = TRUE, centre = FALSE, standardise = FALSE, dat = NULL)
 {
   if (!is.data.frame(data)) 

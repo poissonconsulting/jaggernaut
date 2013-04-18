@@ -1,8 +1,8 @@
-context("janalysis")
+context("analysis")
 
-test_that("janalysis returns object of correct class", {
+test_that("analysis returns object of correct class", {
   
-  model <- jmodel(" model { 
+  model <- model(" model { 
       bLambda ~ dlnorm(0,10^-2) 
       for (i in 1:nrow) { 
         x[i]~dpois(bLambda) 
@@ -10,7 +10,7 @@ test_that("janalysis returns object of correct class", {
     }")
   
   data <- data.frame(x = rpois(100,1))
-  analysis <- janalysis (model, data, quiet = T)
+  analysis <- analysis (model, data, quiet = T)
   
   expect_that(analysis, is_a("janalysis"))
 })

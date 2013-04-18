@@ -1,12 +1,12 @@
 
-summary.mcarray <- function (object) {
+summary.mcarray <- function (object, ...) {
   dim <- dim (object)
   print(dim)
   
   return (NULL)
 }
 
-summary.gsmcmc <- function (object) {
+summary.gsmcmc <- function (object, ...) {
   cat("\nDimensions:\n")
   dim <- c(chains = nchain(object), simulations = nsim(object))
   print(dim)
@@ -18,7 +18,7 @@ summary.gsmcmc <- function (object) {
   return (NULL)  
 }
 
-summary.jagr_analysis <- function (object)
+summary.jagr_analysis <- function (object, ...)
 {
   summ <- list()
   
@@ -38,21 +38,23 @@ summary.jagr_analysis <- function (object)
 }
 
 
-#' @title Summary of JAGS analysis (janalysis) object
+#' @title Summary of JAGS analysis
 #'
 #' @description 
-#' Produces a summary of a JAGS analysis (janalysis) object
+#' Produces a summary of a JAGS analysis
 #'   
 #' @param object a janalysis object to summarise
+#' @param ... further arguments to pass to or from other methods.
 #' @return a jsummary_analysis object
-#' #' @seealso \link[jaggernaut]{jmodel}, \link[jaggernaut]{janalysis}
+#' @seealso \code{\link{analysis}}
 #' @examples
-#' model <- jmodel("model { bLambda ~ dunif(0,10) for (i in 1:nrow) { x[i]~dpois(bLambda) } }")
-#' data <- data.frame(x = rpois(100,1))
-#' analysis <- janalysis (model, data)
-#' summary(analysis)
+#' mod <- model("model { bLambda ~ dunif(0,10) for (i in 1:nrow) { x[i]~dpois(bLambda) } }")
+#' dat <- data.frame(x = rpois(100,1))
+#' ana <- analysis (mod, dat)
+#' summary(ana)
 #' @export
-summary.janalysis <- function (object)
+#' @method summary janalysis
+summary.janalysis <- function (object, ...)
 {  
   summ <- list()
   
@@ -69,7 +71,7 @@ summary.janalysis <- function (object)
 }
 
 
-summary.gspower <- function (object)
+summary.gspower <- function (object, ...)
 {  
   cat("\nDimensions:\n")
   print(c(values = object$nvalues,nreps = object$nreps))

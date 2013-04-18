@@ -1,17 +1,18 @@
 \name{estimates}
 \alias{estimates}
-\title{Calculate parameter estimates for a JAGS analysis}
+\title{Calculate parameter estimates}
 \usage{
-  estimates(object, parameters = "fixed", average = FALSE)
+  estimates(object, model = 1, parameters = "fixed")
 }
 \arguments{
-  \item{object}{a \code{\link{janalysis}} object}
+  \item{object}{a \code{janalysis} object}
+
+  \item{model}{an integer element specifying the model to
+  select. If model = 0 then it selects the model with the
+  lowest DIC.}
 
   \item{parameters}{a character vector of the parameters to
   calculate the estimates}
-
-  \item{average}{a logical scalar indicating whether to
-  model average - not yet implemented}
 }
 \value{
   a data.frame of the parameter estimates with the median
@@ -19,11 +20,11 @@
   well as the percent relative error and significance
 }
 \description{
-  Calculate parameter estimates for a JAGS analysis
+  Calculates parameter estimates for a JAGS analysis
 }
 \examples{
 # Poisson GLM analysis of peregrine breeding pairs (Kery & Schaub 2011 p.55-66)
-model <- jmodel("
+mod <- model("
  model {
    alpha ~ dunif(-20, 20)
    beta1 ~ dunif(-10, 10)
@@ -38,12 +39,12 @@ model <- jmodel("
  }",
 select = c("Count","Year*")
 )
-data <- peregrine
-data$Count <- data$Pairs
-analysis <- janalysis (model, data)
-estimates(analysis)
+dat <- peregrine
+dat$Count <- dat$Pairs
+ana <- analysis (mod, dat)
+estimates(ana)
 }
 \seealso{
-  \link[jaggernaut]{jmodel}, \link[jaggernaut]{janalysis}
+  \link{analysis}
 }
 

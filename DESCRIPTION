@@ -2,22 +2,30 @@ Package: jaggernaut
 Type: Package
 Title: A package to facilitate Bayesian analyses using JAGS.
 Version: 0.1.4
-Date: 2013-03-20
+Date: 2013-04-18
 Author: Joe Thorley <joe@poissonconsulting.ca>
 Maintainer: Joe Thorley <joe@poissonconsulting.ca>
-Description: An R package to facilitate Bayesian analyses using JAGS.
+Description: jaggernaut is an R package to facilitate Bayesian analyses using
+    JAGS (Just Another Gibbs Sampler). Key features include reasonable default
+    values; specification of the analysis data set in the form of a data frame;
+    ability to automatically increase the length of the MCMC chains; parallel
+    processing and the ability to extract derived values from previously
+    converged analyses.
 Depends:
+    R (>= 3.0.0),
     abind,
+    coda,
+    rjags,
     foreach,
     iterators,
-    rjags,
-    coda
+    parallel,
+    ggplot2
 Suggests:
-    testthat,
-    ggplot2,
     multicore,
-    doMC
+    doMC,
+    testthat
 License: GPL-2
+LazyData: true
 Collate:
     'plot.r'
     'nchain.r'
@@ -73,10 +81,16 @@ Collate:
     'derived.r'
     'combine-derived.r'
     'convergence.r'
-    'subset.janalysis.r'
     'gspower.r'
     'gssimulation.r'
     'is-same.r'
     'is-scalar.r'
     'select-model.r'
+    'data-p610.r'
+    'data-peregrine.r'
+    'data-pinna.r'
+    'data-tits.r'
     'data.r'
+    'analysis.r'
+    'model.r'
+    'subset.r'
