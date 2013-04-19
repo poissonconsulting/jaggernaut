@@ -8,12 +8,14 @@
   breeding in the French Jura from 1964 to 2003 from Kery &
   Schaub (2011 p.64-65 - data courtesy of R.-J. Monneret).
   The variables are as follows: \itemize{ \item \code{Year}
-  the year.  \item \code{Pairs} the number of adult pairs.
-  \item \code{R.pairs} the number of reproductive pairs.
-  \item \code{Eyasses} the number of fledged young. }
+  the year (integer).  \item \code{Pairs} the number of
+  adult pairs (integer).  \item \code{R.pairs} the number
+  of reproductive pairs (integer).  \item \code{Eyasses}
+  the number of fledged young (integer). }
 }
 \examples{
 # Poisson GLM analysis of peregrine breeding pairs (Kery & Schaub 2011 p.55-66)
+
 mod <- model("
  model {
    alpha ~ dunif(-20, 20)
@@ -22,34 +24,87 @@ mod <- model("
    beta3 ~ dunif(-10, 10)
 
    for (i in 1:nrow) {
-     log(eCount[i]) <- alpha + beta1 * Year[i]
+     log(eC[i]) <- alpha + beta1 * Year[i]
        + beta2 * Year[i]^2 + beta3 * Year[i]^3
-     Count[i] ~ dpois(eCount[i])
+     C[i] ~ dpois(eC[i])
    }
  }",
  derived_code = "model{
    for (i in 1:nrow) {
-     log(eCount[i]) <- alpha + beta1 * Year[i]
+     log(eC[i]) <- alpha + beta1 * Year[i]
        + beta2 * Year[i]^2 + beta3 * Year[i]^3
    }
  }",
-select = c("Count","Year*")
+select = c("C","Year*")
 )
 
 dat <- peregrine
-dat$Count <- dat$Pairs
 
-ana <- analysis (mod, dat)
+dat$C <- dat$Pairs
+an <- analysis (mod, dat)
+exp <- derived(an, "eC", data = "Year")
 
-der <- derived(ana, "eCount", data = "Year")
-
-gp <- ggplot(data = der, aes(x = Year, y = estimate))
+gp <- ggplot(data = exp, aes(x = Year, y = estimate))
+gp <- gp + geom_line(data = dat, aes(y = C), alpha = 1/3)
+gp <- gp + geom_point(data = dat, aes(y = C), shape = 1)
 gp <- gp + geom_line()
-gp <- gp + geom_line(aes(y = lower), linetype = "dotted")
-gp <- gp + geom_line(aes(y = upper), linetype = "dotted")
-gp <- gp + geom_point(data = peregrine, aes(y = Pairs))
 gp <- gp + scale_y_continuous(name = "Pair count")
 gp <- gp + expand_limits(y = 0)
+
+print(gp)
+
+# Poisson GLM analysis of peregrine nestlings (Kery & Schaub 2011 p.66-67)
+
+# uses model from previous example
+
+dat <- peregrine
+
+dat$C <- dat$Eyasses
+an <- analysis (mod, dat)
+exp <- derived(an, "eC", data = "Year")
+gp <- ggplot(data = exp, aes(x = Year, y = estimate))
+gp <- gp + geom_line(data = dat, aes(y = C), alpha = 1/3)
+gp <- gp + geom_point(data = dat, aes(y = C), shape = 1)
+gp <- gp + geom_line()
+gp <- gp + scale_y_continuous(name = "Nestling count")
+gp <- gp + expand_limits(y = 0)
+
+print(gp)
+
+# Binomial GLM analysis of peregrine reproductive success (Kery & Schaub 2011 p.67-71)
+
+mod <- model("
+ model {
+   alpha ~ dnorm(0, 10^-2)
+   beta1 ~ dnorm(0, 10^-2)
+   beta2 ~ dnorm(0, 10^-2)
+
+   for (i in 1:nrow) {
+     logit(eP[i]) <- alpha + beta1 * Year[i] + beta2 * Year[i]^2
+     C[i] ~ dbin(eP[i], N[i])
+   }
+ }",
+ derived_code = "model{
+   for (i in 1:nrow) {
+     logit(eP[i]) <- alpha + beta1 * Year[i] + beta2 * Year[i]^2
+   }
+ }",
+select = c("C","N","Year*")
+)
+
+dat <- peregrine
+
+dat$C <- dat$R.Pairs
+dat$N <- dat$Pairs
+
+an <- analysis (mod, dat)
+exp <- derived(an, "eP", data = "Year")
+gp <- ggplot(data = exp, aes(x = Year, y = estimate))
+gp <- gp + geom_line(data = dat, aes(y = C/N), alpha = 1/3)
+gp <- gp + geom_point(data = dat, aes(y = C/N), shape = 1)
+gp <- gp + geom_line()
+gp <- gp + scale_y_continuous(name = "Proportion successful pairs", expand=c(0,0))
+gp <- gp + expand_limits(y = c(0,1))
 
 print(gp)
 }
