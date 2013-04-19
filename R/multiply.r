@@ -3,7 +3,7 @@ multiply<- function (object, ...) {
   UseMethod("multiply", object)
 }
 
-multiply.mcarray <- function (object, times = 1) {
+multiply_mcarray <- function (object, times = 1) {
   if (!(is.integer(times) && length (times) == 1))
     stop ("times should be an integer")
   
@@ -28,9 +28,9 @@ multiply.mcarray <- function (object, times = 1) {
   
 }
 
-multiply.gsmcmc <- function (object, times = 1) {
+multiply.gsmcmc <- function (object, times = 1, ...) {
 
-  object$mcmc <- lapply (object$mcmc,multiply,times)
+  object$mcmc <- lapply (object$mcmc,multiply_mcarray,times)
   
   return (object)
 }
