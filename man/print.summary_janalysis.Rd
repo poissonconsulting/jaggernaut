@@ -14,4 +14,7 @@
 \description{
   Prints a summary of a JAGS analysis (janalysis) object
 }
+\seealso{
+  \code{\link{jaggernaut}}
+}
 

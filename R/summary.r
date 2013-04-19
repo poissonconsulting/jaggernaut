@@ -46,12 +46,7 @@ summary.jagr_analysis <- function (object, ...)
 #' @param object a janalysis object to summarise
 #' @param ... further arguments to pass to or from other methods.
 #' @return a jsummary_analysis object
-#' @seealso \code{\link{analysis}}
-#' @examples
-#' mod <- model("model { bLambda ~ dunif(0,10) for (i in 1:nrow) { x[i]~dpois(bLambda) } }")
-#' dat <- data.frame(x = rpois(100,1))
-#' ana <- analysis (mod, dat)
-#' summary(ana)
+#' @seealso \code{\link{analysis}}, \code{\link{tits}}
 #' @export
 #' @method summary janalysis
 summary.janalysis <- function (object, ...)

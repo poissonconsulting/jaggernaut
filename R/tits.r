@@ -20,6 +20,7 @@
 #' @name tits
 #' @usage tits
 #' @format A data frame with 235 rows and 31 columns
+#' @seealso \code{\link{jaggernaut}} 
 #' @references 
 #' Kery M & Schaub M (2011) Bayesian Population Analysis
 #' using WinBUGS. Academic Press. (\url{http://www.vogelwarte.ch/bpa})

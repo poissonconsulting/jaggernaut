@@ -16,13 +16,7 @@
 \description{
   Produces a summary of a JAGS analysis
 }
-\examples{
-mod <- model("model { bLambda ~ dunif(0,10) for (i in 1:nrow) { x[i]~dpois(bLambda) } }")
-dat <- data.frame(x = rpois(100,1))
-ana <- analysis (mod, dat)
-summary(ana)
-}
 \seealso{
-  \code{\link{analysis}}
+  \code{\link{analysis}}, \code{\link{tits}}
 }
 

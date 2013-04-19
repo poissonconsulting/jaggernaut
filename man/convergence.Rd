@@ -22,29 +22,8 @@
   Calculates convergence (R-hat) values for the parameters
   in a JAGS analysis
 }
-\examples{
-# Poisson GLM analysis of peregrine breeding pairs (Kery & Schaub 2011 p.55-66)
-mod <- model("
- model {
-   alpha ~ dunif(-20, 20)
-   beta1 ~ dunif(-10, 10)
-   beta2 ~ dunif(-10, 10)
-   beta3 ~ dunif(-10, 10)
-
-   for (i in 1:nrow) {
-     log(eCount[i]) <- alpha + beta1 * Year[i]
-       + beta2 * Year[i]^2 + beta3 * Year[i]^3
-     Count[i] ~ dpois(eCount[i])
-   }
- }",
-select = c("Count","Year*")
-)
-dat <- peregrine
-dat$Count <- dat$Pairs
-ana <- analysis (mod, dat)
-convergence(ana)
-}
 \seealso{
-  \code{\link{analysis}}
+  \code{\link{jaggernaut}}, \code{\link{analysis}},
+  \code{\link{peregrine}}
 }
 

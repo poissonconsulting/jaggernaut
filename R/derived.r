@@ -29,47 +29,7 @@
 #' @return the input data frame with the median and 95% credibility intervals 
 #' (or iterations) for
 #' the derived parameter of interest
-#' @seealso \code{model}, \code{analysis}
-#' @examples
-#' # Poisson GLM analysis of peregrine breeding pairs (Kery & Schaub 2011 p.55-66)
-#' mod <- model(" 
-#'  model { 
-#'    alpha ~ dunif(-20, 20)
-#'    beta1 ~ dunif(-10, 10)
-#'    beta2 ~ dunif(-10, 10)
-#'    beta3 ~ dunif(-10, 10)
-#'    
-#'    for (i in 1:nrow) { 
-#'      log(eCount[i]) <- alpha + beta1 * Year[i] 
-#'        + beta2 * Year[i]^2 + beta3 * Year[i]^3
-#'      Count[i] ~ dpois(eCount[i])
-#'    } 
-#'  }",
-#'  derived_code = "model{
-#'    for (i in 1:nrow) {
-#'      log(eCount[i]) <- alpha + beta1 * Year[i] 
-#'        + beta2 * Year[i]^2 + beta3 * Year[i]^3    
-#'    }
-#'  }",
-#' select = c("Count","Year*")
-#')
-#'
-#' dat <- peregrine
-#' dat$Count <- dat$Pairs
-#'
-#' ana <- analysis (mod, dat)
-#'
-#' der <- derived(ana, "eCount", data = "Year")
-#'
-#' gp <- ggplot(data = der, aes(x = Year, y = estimate))
-#' gp <- gp + geom_line()
-#' gp <- gp + geom_line(aes(y = lower), linetype = "dotted")
-#' gp <- gp + geom_line(aes(y = upper), linetype = "dotted")
-#' gp <- gp + geom_point(data = peregrine, aes(y = Pairs))
-#' gp <- gp + scale_y_continuous(name = "Pair count")
-#' gp <- gp + expand_limits(y = 0)
-#' 
-#' print(gp)
+#' @seealso \code{\link{jaggernaut}}, \code{\link{model}}, \code{\link{analysis}}, \code{\link{hm}}
 #' @export 
 derived <- function (object, parameter, data = NULL, base = FALSE, 
                      values = NULL, model = 1, derived_code = NULL, random = NULL, 

@@ -22,18 +22,14 @@ plot.jagr_analysis <- function (x, parameters, ...) {
 #' @title Plot a JAGS analysis
 #'
 #' @description 
-#' Plots a JAGS analysis model using the coda::plot.mcmc function.
+#' Plots the MCMC samples from a JAGS analysis model 
+#' using the coda::plot.mcmc function.
 #'   
 #' @param x a janalysis object
-#' #' @param model an integer vector specifying the model to select. 
+#' @param model an integer element specifying the model to select. 
 #' If model = 0 then it selects the model with the lowest DIC.
 #' @param ... arguments to pass to coda::plot.mcmc
-#' @seealso \code{\link{analysis}}, \code{\link[coda]{plot.mcmc}}
-#' @examples
-#' mod <- model("model { bLambda ~ dunif(0,10) for (i in 1:nrow) { x[i]~dpois(bLambda) } }")
-#' dat <- data.frame(x = rpois(100,1))
-#' ana <- analysis (mod, dat)
-#' plot(ana)
+#' @seealso \code{\link{jaggernaut}}, \code{\link{analysis}}, \code{\link[coda]{plot.mcmc}}
 #' @method plot janalysis
 #' @export
 plot.janalysis <- function (x, model = 1, ...) {

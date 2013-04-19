@@ -17,6 +17,7 @@
 #' @name leisleri
 #' @usage leisleri
 #' @format A data frame with 181 rows and 19 columns
+#' @seealso \code{\link{jaggernaut}} 
 #' @references 
 #' Kery M & Schaub M (2011) Bayesian Population Analysis
 #' using WinBUGS. Academic Press. (\url{http://www.vogelwarte.ch/bpa})

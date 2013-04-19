@@ -19,6 +19,7 @@
 #' @name p610
 #' @usage p610
 #' @format A data frame with 146 rows and 9 columns
+#' @seealso \code{\link{jaggernaut}} 
 #' @references 
 #' Kery M & Schaub M (2011) Bayesian Population Analysis
 #' using WinBUGS. Academic Press. (\url{http://www.vogelwarte.ch/bpa})

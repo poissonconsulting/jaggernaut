@@ -22,5 +22,8 @@
   using WinBUGS. Academic Press.
   (\url{http://www.vogelwarte.ch/bpa})
 }
+\seealso{
+  \code{\link{jaggernaut}}
+}
 \keyword{datasets}
 

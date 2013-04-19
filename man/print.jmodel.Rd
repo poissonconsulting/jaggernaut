@@ -13,8 +13,7 @@
 \description{
   Prints a JAGS model
 }
-\examples{
-mod <- model("model { bLambda ~ dunif(0,10) for (i in 1:nrow) { x[i]~dpois(bLambda) } }")
-print(mod)
+\seealso{
+  \code{\link{jaggernaut}}
 }
 

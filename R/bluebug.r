@@ -21,6 +21,7 @@
 #' @name bluebug
 #' @usage bluebug
 #' @format A data frame with 27 rows and 21 columns
+#' @seealso \code{\link{jaggernaut}} 
 #' @references 
 #' Kery M & Schaub M (2011) Bayesian Population Analysis
 #' using WinBUGS. Academic Press. (\url{http://www.vogelwarte.ch/bpa})

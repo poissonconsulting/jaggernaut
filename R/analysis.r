@@ -53,27 +53,27 @@
 #' JAGS model definition, i.e., the analysis part is as quick as possible and
 #' all messages are provided.
 #' @return a \code{janalysis} (JAGS analysis) object
-#' @seealso \code{\link{model}}, \code{\link{convergence}}, \code{\link{estimates}}, \code{\link{derived}} 
+#' @aliases janalysis
+#' @seealso \code{\link{jaggernaut}}, \code{\link{model}}, \code{\link{convergence}}, \code{\link{estimates}}, \code{\link{derived}} 
 #' @examples
-#' # Poisson GLM analysis of peregrine breeding pairs (Kery & Schaub 2011 p.55-66)
-#' mod <- model(" 
-#'  model { 
-#'    alpha ~ dunif(-20, 20)
-#'    beta1 ~ dunif(-10, 10)
-#'    beta2 ~ dunif(-10, 10)
-#'    beta3 ~ dunif(-10, 10)
-#'    
-#'    for (i in 1:nrow) { 
-#'      log(eCount[i]) <- alpha + beta1 * Year[i] 
-#'        + beta2 * Year[i]^2 + beta3 * Year[i]^3
-#'      Count[i] ~ dpois(eCount[i])
-#'    } 
-#'  }",
-#' select = c("Count","Year*")
-#')
-#' dat <- peregrine
-#' dat$Count <- dat$Pairs
-#' ana <- analysis (mod, dat)
+#' 
+#' mod <- model("
+#' model { 
+#'  bLambda ~ dlnorm(0,10^-2) 
+#'  for (i in 1:nrow) { 
+#'    x[i]~dpois(bLambda) 
+#'  } 
+#'}")
+#'
+#' dat <- data.frame(x = rpois(100,1))
+#' 
+#' an <- analysis (mod, dat)
+#' 
+#' plot(an)
+#' convergence(an)
+#' estimates(an)
+#' summary(an)
+#' 
 #'@references 
 #' Kery M & Schaub M (2011) Bayesian Population Analysis
 #' using WinBUGS. Academic Press. (\url{http://www.vogelwarte.ch/bpa})
