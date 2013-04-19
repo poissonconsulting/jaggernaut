@@ -31,15 +31,15 @@ calc_expected_jagr_analysis <- function (analysis, parameter, data = "", base = 
   } else if (is.character(data)) {
     data <- generate_data (analysis$data, range = data, length.out=length.out)
   }
-     
+       
   if(is.data.frame(base)) {
     bas <- generate_data(analysis$data)
-    bas <- bas[,!colnames(bas) %in% colnames(base)]
+    bas <- bas[,!colnames(bas) %in% colnames(base),drop=F]
     base <- cbind(base, bas)
   } else if (base) {
     base <- generate_data(analysis$data)
   }
-     
+  
      if(is.data.frame(values)) {
        for (col in colnames(values)) {
          if (col %in% colnames(data)) {
