@@ -19,7 +19,9 @@ Depends:
     foreach,
     iterators,
     parallel,
-    ggplot2
+    ggplot2,
+    scales,
+    reshape2,
 Suggests:
     multicore,
     doMC,
@@ -99,3 +101,4 @@ Collate:
     'bluebug.r'
     'burnet.r'
     'owls.r'
+    'hm.r'
