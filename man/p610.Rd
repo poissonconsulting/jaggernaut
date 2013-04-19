@@ -10,11 +10,12 @@
 }
 \details{
   The variables are as follows: \itemize{ \item
-  \code{species} the species.  \item \code{point} the point
-  count number (610).  \item \code{bm} unknown.  \item
-  \code{specnr} the species number .  \item \code{count1,
-  count2, ..., count5} the number of individuals counted by
-  occasion (1-5). }
+  \code{species} the species (factor with xx levels).
+  \item \code{point} the point count number (integer with
+  one value 610).  \item \code{bm} unknown.  \item
+  \code{specnr} the species number (integer with xx
+  values).  \item \code{count1, count2, ..., count5} the
+  number of individuals counted by occasion (1-5). }
 }
 \references{
   Kery M & Schaub M (2011) Bayesian Population Analysis
