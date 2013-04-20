@@ -18,9 +18,9 @@ jagr_analysis <- function (
   }
   
   stopifnot(n.iter >= 100)
-  stopifnot(n.chain %in% 2:4)
+  stopifnot(n.chain %in% 2:6)
   stopifnot(resample %in% 0:3)
-  stopifnot(convergence >= 1.0 && convergence <= 1.5)
+  stopifnot(convergence >= 1.0 && convergence <= 2.0)
   stopifnot(independence %in% 0:100)
     
   cat_convergence <- function (object) {

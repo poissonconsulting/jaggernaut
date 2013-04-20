@@ -23,7 +23,6 @@
   Calculates parameter estimates for a JAGS analysis
 }
 \seealso{
-  \code{\link{jaggernaut}}, \code{\link{analysis}},
-  \code{\link{hm}}
+  \code{\link{jaggernaut}} and \code{\link{analysis}}
 }
 

@@ -2,7 +2,7 @@
 #' @title Create a JAGS model
 #'
 #' @description 
-#' Creates a JAGS model (\code{jmodel} object) which defines a Bayesian model
+#' Creates a JAGS model object which defines a Bayesian model
 #' in the JAGS dialect of the BUGS language.  In addition to defining the model
 #' a JAGS model object can also specify the parameters to monitor, 
 #' the variables to select, a function to manipulate the input data, a function
@@ -26,10 +26,10 @@
 #' in the model where the name indicates the parameter to which the description applies
 #' @details 
 #' The \code{model} function defines a JAGS model that can then be passed to the 
-#' \code{\link{analysis}} function together with a data frame to perform a Bayesian analysis.
+#' \code{analysis} function together with a data frame to perform a Bayesian analysis.
 #' The idea is that a JAGS model can be defined once and then used to perform 
-#' analyses on different data frames. To facilitate use the only argument that 
-#' needs to be provided is a character element defining the model in the JAGS dialect of the 
+#' analyses on different data frames. The only argument that 
+#' needs to be set is a character element defining the model block in the JAGS dialect of the 
 #' the BUGS language. However various other arguments can also be set 
 #' to provide additional control. 
 #' 
@@ -86,21 +86,16 @@
 #' the form of a named list where the parameters are the names of the list elements 
 #' and the values are character vectors of the variables in the input data frame that
 #' the parameters are random with respect to. For further information on the
-#' use of the \code{random} argument see \code{\link{derived}}.
+#' use of the \code{random} argument see the \code{derived} function.
 #' 
 #' The \code{description} argument is a named character vector that can be used
 #' to provide a description of parameters or variables in the JAGS model code. Currently
 #' the \code{description} argument has no functionality.
 #' 
 #' @return a \code{jmodel} object
-#' @aliases jmodel
-#' @seealso \code{\link{jaggernaut}}, \code{\link{analysis}}, \code{\link{derived}},  
-#' \code{\link{peregrine}}, \code{\link{tits}}, \code{\link{hm}} 
-#' @references 
-#' Kery M & Schaub M (2011) Bayesian Population Analysis
-#' using WinBUGS. Academic Press. (\url{http://www.vogelwarte.ch/bpa})
-#' 
-# 'Plummer M (2012) JAGS Version 3.3.0 User Manual (\href{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}{on source forge})
+#' @references  
+#' Plummer M (2012) JAGS Version 3.3.0 User Manual \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
+#' @seealso \code{\link{jaggernaut}}, \code{\link{analysis}} and \code{\link{derived}}  
 #' @examples
 #' 
 #' mod <- model("
@@ -114,6 +109,7 @@
 #' print(mod)
 #'
 #' @export 
+#' @aliases jags_model
 model <- function (code, monitor = NULL, select = NULL, modify_data = NULL, 
                     gen_inits = NULL, derived_code = NULL, random = NULL, 
                     description = NULL

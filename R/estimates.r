@@ -11,7 +11,7 @@
 #' @return a data.frame of the parameter estimates with the median estimate and 
 #' lower and upper 95\% credible limits as well as the percent relative error 
 #' and significance
-#' @seealso \code{\link{jaggernaut}}, \code{\link{analysis}}, \code{\link{hm}}
+#' @seealso \code{\link{jaggernaut}} and \code{\link{analysis}}
 #' @export
 estimates <- function (object, model = 1, parameters = "fixed") {
   if(!is.janalysis(object))

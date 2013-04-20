@@ -23,7 +23,6 @@
   in a JAGS analysis
 }
 \seealso{
-  \code{\link{jaggernaut}}, \code{\link{analysis}},
-  \code{\link{peregrine}}
+  \code{\link{jaggernaut}} and \code{\link{analysis}}
 }
 
