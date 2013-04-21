@@ -3,7 +3,7 @@ jagr_analysis <- function (
   model, data, n.iter = 1000, n.chain = 3, resample = 3,
   convergence = 1.1, independence = 0,
   parallelChains = .Platform$OS.type != "windows", 
-  debug = FALSE, quiet = FALSE
+  debug = FALSE, quiet = FALSE, n.sim = 1000
 )
 {  
   if(!is.jmodel(model))
@@ -19,10 +19,11 @@ jagr_analysis <- function (
   
   stopifnot(n.iter >= 100)
   stopifnot(n.chain %in% 2:6)
-  stopifnot(resample %in% 0:3)
+  stopifnot(resample %in% 0:4)
   stopifnot(convergence >= 1.0 && convergence <= 2.0)
   stopifnot(independence %in% 0:100)
-    
+  stopifnot(n.sim >= 100 && n.sim <= 2000)
+  
   cat_convergence <- function (object) {
     convergence <- calc_convergence (object, summarise = T, type = 'all') 
     cat (' (Rhat:')
@@ -31,10 +32,13 @@ jagr_analysis <- function (
 #    cat (convergence['independence'])
     cat (')\n')
   }
+  
+  n.iter <- ceiling(max(n.iter, n.sim * 2 / n.chain))
     
   if (debug) {
     n.iter <- 200
     n.chain <- 2
+    n.sim <- 100
     quiet <- FALSE
     resample <- 0
     parallelChains <- F
@@ -61,9 +65,9 @@ jagr_analysis <- function (
               
   n.adapt <- 100
   n.burnin <- as.integer(n.iter /2)
+  n.thin <- max(1, floor(n.chain * n.burnin / n.sim))
   n.sim <- as.integer(n.iter /2)
-  n.thin <- max(1, floor(n.chain * n.sim / 1000))
-
+  
   ptm <- proc.time()
     
   if (parallelChains) {

@@ -1,3 +1,8 @@
+
+library(reshape2) 
+library(ggplot2)
+library(scales) 
+
 # Poisson GLM analyses of coal tit counts (Kery & Schaub 2011 p.95-110)
 
 # Whereas Kery & Schaub (2011) pass the counts, observer codes and
@@ -215,7 +220,7 @@ gp <- gp + theme(legend.position = "none")
 
 print(gp)
 
-an <- analysis (mods, dat, n_iters = 10^4)
+an <- analysis (mods, dat, niter = 10^4, mode = "default")
 
 summary(an)
 

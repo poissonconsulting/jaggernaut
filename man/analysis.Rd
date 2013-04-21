@@ -3,42 +3,48 @@
 \alias{jags_analysis}
 \title{Perform a JAGS analysis}
 \usage{
-  analysis(models, data, n_iters = 10^3, debug = FALSE)
+  analysis(models, data, niter = 10^3, mode = "current")
 }
 \arguments{
-  \item{models}{a \code{jags_model} or \code{jags_model}
-  object specifying the JAGS model(s).}
+  \item{models}{a \code{jags_model} or list of
+  \code{jags_model}s specifying the JAGS model(s).}
 
   \item{data}{the data.frame to analyse.}
 
-  \item{n_iters}{an integer element of the number of
+  \item{niter}{an integer element of the number of
   iterations to run per MCMC chain.}
 
-  \item{debug}{a boolean element indicating whether or not
-  to debug the model.}
+  \item{mode}{a character element indicating the mode for
+  the analysis.}
 }
 \value{
   a \code{jags_analysis} object
 }
 \description{
   Performs a JAGS analysis by fitting a \code{jags_model}
-  or \code{jags_models} object to a data frame using JAGS
+  or list of \code{jags_model}s to a data frame using JAGS
   (Plummer 2012). The resultant \code{jags_analysis} object
-  can then be passed to other function to to get the
+  can then be passed to other functions to to get the
   \code{convergence} of particular parameters, parameter
   \code{estimates} and \code{derived} parameter estimates.
 }
 \details{
   The \code{analysis} function performs a Bayesian analysis
-  of a data frame for a \code{jags_model} or
-  \code{jags_models} object. If \code{debug = FALSE} (the
+  of a data frame for a \code{jags_model} or list of
+  \code{jags_model}s. If \code{mode = "current"} (the
   default) then the analysis options are as currently
-  defined by \code{options_jaggernaut()} and each MCMC
-  chain is run for \code{n.iter} iterations.  However if
-  \code{debug = TRUE} then only two chains of 200
-  iterations are run on a single process and messages are
-  not suppressed. This is to facilitate debugging of the
-  analysis.
+  globally defined by \code{opts_jagr0()} otherwise the
+  \code{mode} argument specifies the analysis mode for that
+  particular analysis.
+
+  The \code{niter} argument specifies the total number of
+  iterations including adaptive and burn in periods for
+  each chain. The only exceptions are when the analysis is
+  in debug mode in which case \code{niter} is set to be 100
+  or if \code{niter} is less than \code{nsims * 2 / nchain}
+  in which case \code{niter} is set to be \code{nsims * 2 /
+  nchain} so that \code{nsims} can be drawn from the second
+  halves of the chains.
 }
 \examples{
 mod <- model("

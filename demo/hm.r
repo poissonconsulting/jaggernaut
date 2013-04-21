@@ -1,3 +1,7 @@
+
+library(ggplot2)
+library(scales)
+
 # State-space model for annual population counts
 
 # ssm (Kery and Schaub 2011 p.127)
@@ -34,7 +38,7 @@ dat <- data.frame(C = c(dat$hm,rep(NA,pyears)),
                   year = c(dat$year,max(dat$year+1):max(dat$year+pyears)))
 dat$year <- factor(dat$year)
 
-an <- analysis (mod, dat, n_iters = 10^5)
+an <- analysis (mod, dat, niter = 10^5, mode = "default")
 
 estimates(an,parameters = c("mean.r","sigma.obs","sigma.proc"))
 

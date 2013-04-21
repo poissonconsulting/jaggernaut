@@ -1,12 +1,65 @@
 
-.opts_jagr0_def <- list(
-  convergence = 1.1, 
-  n_chains = 3,
-  n_resamples = 3,
+.opts_jagr0_debug <- list(
+  level = 0.80,
+  mode = "debug",
+  nchains = 2,
+  nresample = 0,
+  nsims = 100,
+  parallel_chains = FALSE, 
+  parallel_models = FALSE,
+  quiet = FALSE,
+  rhat = 2
+)
+
+.opts_jagr0_test<- list(
+  level = 0.90,
+  mode = "explore",
+  nchains = 2,
+  nresample = 2,
+  nsims = 500,
   parallel_chains = .Platform$OS.type!="windows", 
   parallel_models = FALSE,
-  quiet = FALSE
+  quiet = TRUE,
+  rhat = 1.5
 )
+
+.opts_jagr0_explore<- list(
+  level = 0.90,
+  mode = "explore",
+  nchains = 2,
+  nresample = 2,
+  nsims = 500,
+  parallel_chains = .Platform$OS.type!="windows", 
+  parallel_models = FALSE,
+  quiet = FALSE,
+  rhat = 1.5
+)
+
+.opts_jagr0_report <- list(
+  level = 0.95,
+  mode = "report",
+  nchains = 3,
+  nresample = 3,
+  nsims = 1000,
+  parallel_chains = .Platform$OS.type!="windows", 
+  parallel_models = FALSE,
+  quiet = FALSE,
+  rhat = 1.1
+)
+
+.opts_jagr0_paper <- list(
+  level = 0.95,
+  mode = "paper",
+  nchains = 4,
+  nresample = 4,
+  nsims = 2000,
+  parallel_chains = .Platform$OS.type!="windows", 
+  parallel_models = FALSE,
+  quiet = FALSE,
+  rhat = 1.05
+)
+
+.opts_jagr0_def <- .opts_jagr0_report
 
 #' @title Get and set jaggernaut options
 #'
@@ -15,43 +68,52 @@
 #' @param ... options can be defined using \code{name = value} or by passing a list
 #' of such tagged values.
 #' @details
-#' The function \code{options_jaggernaut()}, which can aso be invoked using the alias
-#' \code{opts_jagr0()}, behaves just like the \code{options()}
+#' The function \code{opts_jagr0()}, which can aso be invoked using its alias
+#' \code{options_jaggernaut()}, behaves just like the \code{options()}
 #'  function in the 
 #' base library, with the additional feature that 
-#' \code{opts_jagr0(default=TRUE)}
+#' \code{opts_jagr0(mode="default")}
 #'  will 
-#' reset all options to the default values.
+#' reset all options to the values for the default mode. 
+#' There are four available modes: debug, explore,
+#' report and paper which are characterized by increasing accuracy. 
+#' In summary the debug model should be used when first trying to code models in the
+#' JAGS dialect of the BUGS language. Once the JAGS code is running without errors
+#' is now time to switch to the explore model to look at model adequacy. Once you are content
+#' that the model is adequate you can now switch to report model to extract the results
+#' for presentation in a report or paper model if you are going to be sending the results to 
+#' a peer-reviewed journal. The default mode is report mode.
 #' 
 #' Available options are
-#' 
 #' \describe{
-#' \item{convergence}{a numeric element of the R-hat threshold for convergence (default = 1.1)}
-#' \item{n_chains}{a integer element indciating the number of MCMC chains (default = 3)}
-#' \item{n_resamples}{an integer element of the number of times to resample 
+#' \item{level}{the credible interval level (default = 0.95)}
+#' \item{nchains}{the number of MCMC chains (default = 3)}
+#' \item{nresample}{the number of times to resample 
 #' until convergence is achieved (default = 3)}
-#' #' \item{parallel_chains}{a boolean element indicating whether the chains should
+#' \item{nsims}{the total number of MCMC samples to thin from the second halves of the MCMC chains (default = 1000)}
+#' \item{parallel_chains}{whether the chains should
 #' be run on separate processes (default is platform dependennt)}
-#' \item{parallel_models}{a boolean element indicating whether the models should
+#' \item{parallel_models}{whether the models should
 #' be run on separate processes (default = FALSE)}
-#' \item{quiet}{a boolean element indicating whether or not to suppress messages (default = FALSE)}
+#' \item{quiet}{whether to suppress messages (default = FALSE)}
+#' \item{rhat}{the R-hat threshold for convergence (default = 1.1)}
 #' }
 #' 
 #' By default a JAGS analysis will retain a minumum of 1,000 MCMC samples 
 #' thinned from the second halves of three chains. For example 
-#' if \code{n_iters = 1000} in the analysis then by default 334 samples will be 
+#' if \code{niter = 1000} in the analysis then by default 334 samples will be 
 #' thinned from the last 500 iterations of each chain.  
 #'  
 #' Convergence is considered to have been achieved when all the monitored
-#' parameters have an R-hat less than the value of the \code{convergence} option
+#' parameters have an R-hat less than the value of the \code{rhat} option
 #' which
-#' by default is 1.1 (Kery & Schaub 2011). If the initial number of iterations (\code{n_iters})
+#' by default is 1.1 (Kery & Schaub 2011). If the initial number of iterations
 #' are performed and the convergence target has not been achieved and
-#' the \code{n_resamples} option is greater than 0
-#' then the value of \code{n_iters} is doubled, the MCMC sampling to date is 
+#' \code{nresample > 0}
+#' then the value of \code{niter} is doubled, the MCMC sampling to date is 
 #' considered the burn in period, the saved MCMC samples are discarded and 
-#' MCMC sampling continues.  This process is continued until the convergence target is 
-#' achieved or resampling exceeds the value of the \code{n_resamples} option.
+#' MCMC sampling continues.  This process is repeated until the convergence target is 
+#' achieved or resampling would exceed the value of the \code{nresample} argument.
 #' 
 #' Currently parallel processing is only available for unix-based systems. For such systems
 #' the \code{parallel_chains} option is by default \code{TRUE} otherwise its \code{FALSE}.
@@ -61,18 +123,23 @@
 #' option value. When setting one or more options a list with the previous values of
 #' the options unchanged (returned invisibly).
 #' @seealso \code{\link{analysis}} and \code{\link{options}}
-#' @usage options_jaggernaut(...) 
+#' @usage opts_jagr0(...)
 #' 
-#' opts_jagr0(...)
+#' options_jaggernaut(...) 
 #' @examples
 #' opts_jagr0()
-#' opts_jagr0(n_chains = 4)
-#' opts_jagr0("n_chains")
-#' opts_jagr0(default = TRUE)
-#' options_jaggernaut("n_chains")
+#' opts_jagr0(mode = "debug")
+#' options_jaggernaut()
+#' opts_jagr0("nchains","mode")
+#' opts_jagr0(nchains = 4)
+#' opts_jagr0("nchains","mode")
+#' old <- opts_jagr0(mode = "default") 
+#' opts_jagr0()
+#' opts_jagr0(old)
+#' opts_jagr0("nchains","mode") 
 #' @export 
-#' @aliases opts_jagr0
-options_jaggernaut <- function (...) {
+#' @aliases options_jaggernaut
+opts_jagr0 <- function (...) {
   single <- FALSE
   opts <- if (exists(".opts_jagr0", frame = 1)) {
       get(".opts_jagr0", pos = 1)
@@ -104,14 +171,29 @@ options_jaggernaut <- function (...) {
     }
     return (value)
   }
-  old <- vector("list", length(args))
-  names(old) <- names(args)
-  if ("default" %in% names(args) && args$default == TRUE) {
-    opts <- .opts_jagr0_def
+  old <- opts
+  if ("mode" %in% names(args)) {
+    if (args$mode == "debug") {
+      opts <- .opts_jagr0_debug
+    } else if (args$mode == "test") {
+      opts <- .opts_jagr0_test
+    }else if (args$mode == "explore") {
+      opts <- .opts_jagr0_explore
+    } else if (args$mode == "report") {
+      opts <- .opts_jagr0_report
+    } else if (args$mode == "paper") {
+      opts <- .opts_jagr0_paper
+    } else if (args$mode == "default") {
+      opts <- .opts_jagr0_def
+    } else if (args$mode == "custom") {
+      opts$mode <- "custom"
+    } else if (args$mode != "current") {
+      stop(paste("mode",args$mode,"not recognized"))
+    }
   }
   for (v in names(args)) {
-    if (v %in% names(opts)) {
-      old[v] <- opts[v]
+    if (v %in% names(opts) && v != "mode") {
+      opts["mode"] <- "custom"
       if (is.null(args[[v]])) {
         opts[v] <- list(NULL)
       } else if (mode(opts[[v]]) == mode(args[[v]])) {
@@ -124,8 +206,8 @@ options_jaggernaut <- function (...) {
 }
 
 #' @export 
-opts_jagr0 <- function (...) {
-  return (options_jaggernaut(...))
+options_jaggernaut <- function (...) {
+  return (opts_jagr0(...))
 }
 
 assign_opts_jagr0 <- function (opts) {
@@ -139,11 +221,17 @@ assign_opts_jagr0 <- function (opts) {
       stop(paste("option",v,"is unknown"))
   }  
 
-  if (length(opts$convergence) != 1) {
-    stop("option convergence must be length 1")
+  if (length(opts$level) != 1) {
+    stop("option level must be length 1")
   }
-  if (length(opts$n_chains) != 1) {
-    stop("option n_chains must be length 1")
+  if (length(opts$nchains) != 1) {
+    stop("option nchains must be length 1")
+  }
+  if (length(opts$nresample) != 1) {
+    stop("option nresample must be length 1")
+  }  
+  if (length(opts$nsims) != 1) {
+    stop("option nsims must be length 1")
   }
   if (length(opts$parallel_chains) != 1) {
     stop("option n_chains must be length 1")
@@ -154,27 +242,34 @@ assign_opts_jagr0 <- function (opts) {
   if (length(opts$quiet) != 1) {
     stop("option quiet must be length 1")
   }  
-  if (length(opts$n_resamples) != 1) {
-    stop("option n_resamples must be length 1")
-  }  
+  if (length(opts$rhat) != 1) {
+    stop("option convergence must be length 1")
+  }
   
-  opts$n_chains <- as.integer(opts$n_chains)
-  opts$n_resamples <- as.integer(opts$n_resamples)
-  
-  if (!(opts$convergence >= 1 &&  opts$convergence <= 2)) {
-    stop("option convergence must lie between 1 and 2")
+  opts$nchains <- as.integer(opts$nchains)
+  opts$nresample <- as.integer(opts$nresample)
+  opts$nsims <- as.integer(opts$nsims)
+   
+  if (!(opts$level >= 0.8 && opts$level <= 0.99)) {
+    stop("option level must lie between 0.8 and 0.99")
   }  
-  if (!opts$n_chains %in% 2:6) {
-    stop("option n_chains must be greater than 1 and less than 7")
+  if (!opts$nchains %in% 2:4) {
+    stop("option nchains must lie between 2 and 4")
   }  
-  if (!opts$n_resamples %in% 0:3) {
-    stop("option n_resamples must lie between 0 and 3")
+  if (!opts$nresample %in% 0:4) {
+    stop("option nresample must lie between 0 and 4")
+  } 
+  if (!(opts$nsims >= 100 &&  opts$nsims <= 2000)) {
+    stop("option nsims must lie between 100 and 2000")
   } 
   if (opts$parallel_chains && .Platform$OS.type=="windows") {
     stop("option parallel_chains == TRUE not yet implemented for windows")
   } 
   if (opts$parallel_models && .Platform$OS.type=="windows") {
     stop("option parallel_models == TRUE not yet implemented for windows")
+  } 
+  if (!(opts$rhat >= 1 &&  opts$rhat <= 2)) {
+    stop("option convergence must lie between 1 and 2")
   } 
   
   assign(".opts_jagr0", opts, pos = 1)

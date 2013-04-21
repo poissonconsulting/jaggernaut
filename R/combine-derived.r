@@ -1,16 +1,4 @@
-
-#' @title Combine derived iterations
-#'
-#' @description 
-#' Combines derived iterations
-#' 
-#'   
-#' @param x a list of data frames with ...
-#' @param fun the function to use when combining samples of a derived parameter - by default it sums the values for each sample.
-#' @param conf_int a logical scalar indicating whether to calculate
-#' the median and 95% credibility intervals or simply return the combined iterations.
-#' @return a data frame with the median and 95% credibility intervals
-#' for the combined iterations (or the combined iterations themselves) 
+ 
 combine_derived <- function (x, fun = sum, conf_int = TRUE) {
 
   if (!is.list(x))

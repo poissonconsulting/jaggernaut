@@ -1,3 +1,7 @@
+
+library(ggplot2)
+library(scales) 
+
 # Poisson GLM analysis of peregrine breeding pairs (Kery & Schaub 2011 p.55-66)
 
 # GLM_Poisson (Kery & Schaub 2011 p.58-59)
@@ -27,7 +31,7 @@ data(peregrine)
 dat <- peregrine
 
 dat$C <- dat$Pairs
-an <- analysis (mod, dat)
+an <- analysis (mod, dat, mode = "default")
 
 estimates(an)
 exp <- derived(an, "eC", data = "Year")
@@ -89,7 +93,7 @@ dat <- peregrine
 dat$C <- dat$R.Pairs
 dat$N <- dat$Pairs
 
-an <- analysis (mod, dat)
+an <- analysis (mod, dat, mode = "default")
 estimates(an)
 exp <- derived(an, "eP", data = "Year")
 gp <- ggplot(data = exp, aes(x = Year, y = estimate))
@@ -134,7 +138,7 @@ data(peregrine)
 dat <- peregrine
 
 dat$C <- dat$Pairs
-an <- analysis (mod, dat, n_iters = 10^4)
+an <- analysis (mod, dat, niter = 10^4, mode = "default")
 estimates(an)
 estimates(an, parameters = "fixed")
 estimates(an, parameters = "random")

@@ -37,18 +37,8 @@ summary.jagr_analysis <- function (object, ...)
   return (summ)  
 }
 
-
-#' @title Summary of JAGS analysis
-#'
-#' @description 
-#' Produces a summary of a JAGS analysis
-#'   
-#' @param object a janalysis object to summarise
-#' @param ... further arguments to pass to or from other methods.
-#' @return a jsummary_analysis object
-#' @seealso \code{\link{analysis}}, \code{\link{tits}}
-#' @export
 #' @method summary janalysis
+#' @export
 summary.janalysis <- function (object, ...)
 {  
   summ <- list()

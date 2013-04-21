@@ -17,18 +17,18 @@ Depends:
     stats,
     methods,
     iterators,
-    parallel,
-    reshape2,
-    ggplot2,
-    scales
+    parallel
 Imports:
     abind,
     coda,
     rjags,
-    foreach,
+    foreach
 Suggests:
     multicore,
     doMC,
+    reshape2,
+    ggplot2,
+    scales,
     testthat
 License: GPL-2
 Collate:
@@ -56,7 +56,6 @@ Collate:
     'get-data.r'
     'zero-random.r'
     'set-derived.r'
-    'jags_analysis.r'
     'update.r'
     'print.r'
     'process-select.r'
@@ -77,7 +76,6 @@ Collate:
     'janalysis.r'
     'get-subset.r'
     'dic.r'
-    'jagr_analysis.r'
     'top-model.r'
     'base-values.r'
     'dataset.r'
@@ -106,3 +104,5 @@ Collate:
     'hm.r'
     'jaggernaut.r'
     'opts-jagr0.r'
+    'jagr-analysis.r'
+    'jags-analysis.r'
