@@ -105,4 +105,4 @@ Collate:
     'jaggernaut.r'
     'opts-jagr0.r'
     'jagr-analysis.r'
-    'jags-analysis.r'
+    'jags-analysis-internal.r'

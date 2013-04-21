@@ -1,5 +1,5 @@
 
-jags_analysis <- function (data, file, monitor, inits, n.chain, n.adapt, n.burnin, n.sim, n.thin, quiet = F)
+jags_analysis_internal <- function (data, file, monitor, inits, n.chain, n.adapt, n.burnin, n.sim, n.thin, quiet = F)
 {
   n.adapt <- as.integer(n.adapt)
   n.burnin <- as.integer(n.burnin)
@@ -13,13 +13,13 @@ jags_analysis <- function (data, file, monitor, inits, n.chain, n.adapt, n.burni
   if(!(is.null(inits) || is.list(inits)))
     stop ("inits should be a list")
   
-  jags_model <- function (..., inits) {
+  jags_model_internal <- function (..., inits) {
     if (!length(inits))
       return (jags.model (...))
     return (jags.model (..., inits = inits))
   }
   
-  jags <- jags_model (file = file, data = data, inits = inits, 
+  jags <- jags_model_internal (file = file, data = data, inits = inits, 
                       n.chains = n.chain, n.adapt = n.adapt, quiet = quiet)
   if (n.burnin) 
     update(jags, n.iter = n.burnin)

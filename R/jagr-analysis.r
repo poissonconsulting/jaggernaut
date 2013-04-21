@@ -85,7 +85,7 @@ jagr_analysis <- function (
         file <- tempfile(fileext=".bug")
         cat(model$model, file=file)
         
-        jags_analysis (
+        jags_analysis_internal (
           data = data_analysis, file=file, monitor = model$monitor, 
           inits = inits[i], n.chain = 1, 
           n.adapt = n.adapt, n.burnin = n.burnin, n.sim = n.sim, n.thin = n.thin, 
@@ -96,7 +96,7 @@ jagr_analysis <- function (
     file <- tempfile(fileext=".bug")
     cat(model$model, file=file)
     
-    mcmc <- jags_analysis (
+    mcmc <- jags_analysis_internal (
       data = data_analysis, file=file, monitor = model$monitor, 
       inits = inits, n.chain = n.chain, 
       n.adapt = n.adapt, n.burnin = n.burnin, n.sim = n.sim, n.thin = n.thin, 
