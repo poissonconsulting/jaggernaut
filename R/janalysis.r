@@ -68,7 +68,7 @@ janalysis <- function (
   object$dic <- object$dic[order(object$dic[,"DIC",drop=T]),]
   object$n.model <- n.model
   
-  class(object) <- "janalysis"
+  class(object) <- "jags_analysis"
   
   return (object)
 }

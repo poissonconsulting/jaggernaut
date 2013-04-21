@@ -97,11 +97,11 @@ calc_derived.jagr_analysis <- function (object, model, monitor,
   return (mcmc)
 }
 
-calc_derived.janalysis <- function (object, model = NULL, monitor, 
+calc_derived.jags_analysis <- function (object, model = NULL, monitor, 
                                     data = NULL, calc_estimates = FALSE) {
   
-  if (!is.janalysis(object))
-    stop ("analyses should be class janalysis")
+  if (!is.jags_analysis(object))
+    stop ("analyses should be class jags_analysis")
   
   analysis <- top_model(object)
   if(is.null(model))

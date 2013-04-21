@@ -5,7 +5,7 @@
   estimates(object, model = 1, parameters = "fixed")
 }
 \arguments{
-  \item{object}{a \code{janalysis} object}
+  \item{object}{a \code{jags_analysis} object}
 
   \item{model}{an integer element specifying the model to
   select. If model = 0 then it selects the model with the

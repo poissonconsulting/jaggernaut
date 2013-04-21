@@ -37,9 +37,9 @@ summary.jagr_analysis <- function (object, ...)
   return (summ)  
 }
 
-#' @method summary janalysis
+#' @method summary jags_analysis
 #' @export
-summary.janalysis <- function (object, ...)
+summary.jags_analysis <- function (object, ...)
 {  
   summ <- list()
   
@@ -50,7 +50,7 @@ summary.janalysis <- function (object, ...)
   }
   summ[["Model Comparison"]] <- object$dic
   
-  class (summ) <- "summary_janalysis"
+  class (summ) <- "summary_jags_analysis"
   
   return (summ)  
 }

@@ -52,7 +52,7 @@ calc_estimates.jagr_analysis <- function (object, parameters = "fixed") {
   return (calc_estimates (object$mcmc, parameters = parameters))
 }
 
-calc_estimates.janalysis <- function (object, parameters = "fixed") {
+calc_estimates.jags_analysis <- function (object, parameters = "fixed") {
   
   return (calc_estimates(top_model(object),parameters = parameters))
 }

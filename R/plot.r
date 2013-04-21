@@ -25,16 +25,16 @@ plot.jagr_analysis <- function (x, parameters, ...) {
 #' Plots the MCMC samples from a JAGS analysis model 
 #' using the coda::plot.mcmc function.
 #'   
-#' @param x a janalysis object
+#' @param x a jags_analysis object
 #' @param model an integer element specifying the model to select. 
 #' If model = 0 then it selects the model with the lowest DIC.
 #' @param ... arguments to pass to coda::plot.mcmc
 #' @seealso \code{\link{jaggernaut}}, \code{\link{analysis}} and \code{\link[coda]{plot.mcmc}}
-#' @method plot janalysis
+#' @method plot jags_analysis
 #' @export
-plot.janalysis <- function (x, model = 1, ...) {
-  if (!is.janalysis(x))
-    stop ('x should be of class janalysis')
+plot.jags_analysis <- function (x, model = 1, ...) {
+  if (!is.jags_analysis(x))
+    stop ('x should be of class jags_analysis')
   
   parameters <- "all"
   

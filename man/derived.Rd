@@ -7,7 +7,7 @@
     random = NULL, length_out = 50)
 }
 \arguments{
-  \item{object}{a janalysis object.}
+  \item{object}{a jags_analysis object.}
 
   \item{parameter}{a character element naming the derived
   parameter for which the estimates should be calculated.}

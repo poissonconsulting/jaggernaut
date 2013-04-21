@@ -10,7 +10,7 @@ test_that("analysis returns object of correct class", {
     }")
   
   data <- data.frame(x = rpois(100,1))
-  analysis <- analysis (model, data, mode = "test")
+  an <- jags_analysis (model, data, mode = "test")
   
-  expect_that(analysis, is_a("janalysis"))
+  expect_that(an, is_a("jags_analysis"))
 })

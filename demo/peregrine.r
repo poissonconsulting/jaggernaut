@@ -31,7 +31,7 @@ data(peregrine)
 dat <- peregrine
 
 dat$C <- dat$Pairs
-an <- analysis (mod, dat, mode = "default")
+an <- jags_analysis (mod, dat, mode = "default")
 
 estimates(an)
 exp <- derived(an, "eC", data = "Year")
@@ -53,7 +53,7 @@ data(peregrine)
 dat <- peregrine
 
 dat$C <- dat$Eyasses
-an <- analysis (mod, dat)
+an <- jags_analysis (mod, dat)
 estimates(an)
 exp <- derived(an, "eC", data = "Year")
 gp <- ggplot(data = exp, aes(x = Year, y = estimate))
@@ -93,7 +93,7 @@ dat <- peregrine
 dat$C <- dat$R.Pairs
 dat$N <- dat$Pairs
 
-an <- analysis (mod, dat, mode = "default")
+an <- jags_analysis (mod, dat, mode = "default")
 estimates(an)
 exp <- derived(an, "eP", data = "Year")
 gp <- ggplot(data = exp, aes(x = Year, y = estimate))
@@ -138,7 +138,7 @@ data(peregrine)
 dat <- peregrine
 
 dat$C <- dat$Pairs
-an <- analysis (mod, dat, niter = 10^4, mode = "default")
+an <- jags_analysis (mod, dat, niter = 10^4, mode = "default")
 estimates(an)
 estimates(an, parameters = "fixed")
 estimates(an, parameters = "random")

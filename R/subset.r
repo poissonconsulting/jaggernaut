@@ -1,5 +1,5 @@
 
-subset.janalysis <- function (x, model = 0, ...)
+subset.jags_analysis <- function (x, model = 0, ...)
 { 
   model <- as.integer(model)
   
@@ -24,7 +24,7 @@ subset.janalysis <- function (x, model = 0, ...)
   newObject$dic <- x$dic[rownames(x$dic) == paste0("Model",model),,drop=T]
   newObject$n.model <- 1
   
-  class(newObject) <- "janalysis"
+  class(newObject) <- "jags_analysis"
   
   return (newObject)
 }

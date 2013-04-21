@@ -13,7 +13,7 @@
 #' the \code{\link{analysis}} function which calls the JAGS software to 
 #' perform the actual MCMC
 #' sampling.  The resultant \code{\link{jags_analysis}} object can then be passed
-#' to the \code{\link{plot.janalysis}} function to view the MCMC traces, the 
+#' to the \code{\link{plot.jags_analysis}} function to view the MCMC traces, the 
 #' \code{\link{convergence}} function to check the Rhat values of individual parameters
 #' and the \code{\link{estimates}} function to get the parameter estimates with 95\%
 #' credible limits.  The \code{\link{derived}} function can then be used to extract
@@ -43,7 +43,7 @@
 #' @import abind coda rjags foreach
 #' @name jaggernaut
 #' @aliases package-jaggernaut jagr0
-#' @seealso \code{\link{model}}, \code{\link{analysis}}, \code{\link{plot.janalysis}},
+#' @seealso \code{\link{model}}, \code{\link{analysis}}, \code{\link{plot.jags_analysis}},
 #' \code{\link{convergence}},
 #' \code{\link{estimates}} and \code{\link{derived}}.
 #' @examples

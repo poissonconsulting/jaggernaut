@@ -87,8 +87,8 @@ calc_expected <- function (analysis, parameter, data = "", base = FALSE,
                                      values = NULL, derived_model = NULL, random = NULL, 
                                      length.out = 30, calc_estimates = T, model = 1) {
   
-  if (!is.janalysis(analysis))
-    stop ("analyses should be class janalysis")
+  if (!is.jags_analysis(analysis))
+    stop ("analyses should be class jags_analysis")
   
 
   return (calc_expected_jagr_analysis(select_model(analysis, model = model), parameter = parameter, data = data, 

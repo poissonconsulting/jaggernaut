@@ -53,7 +53,7 @@ calc_convergence.jagr_analysis <- function (object, summarise = TRUE, type = "al
   return (calc_convergence (object$mcmc, summarise = summarise, pars = pars))
 }
 
-calc_convergence.janalysis <- function (object, summarise = TRUE, type = "all") {
+calc_convergence.jags_analysis <- function (object, summarise = TRUE, type = "all") {
   return (calc_convergence (top_model(object), summarise = summarise, type = type))
 }
 

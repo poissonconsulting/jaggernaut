@@ -1,8 +1,8 @@
 
 top_model <- function (analysis)
 {  
-  if(!is.janalysis(analysis))
-    stop ("analysis should be class janalysis")
+  if(!is.jags_analysis(analysis))
+    stop ("analysis should be class jags_analysis")
   
   if (analysis$n.model == 1) {
     analysis <- analysis$analyses[[1]]

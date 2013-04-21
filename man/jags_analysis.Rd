@@ -1,9 +1,9 @@
-\name{analysis}
-\alias{analysis}
+\name{jags_analysis}
 \alias{jags_analysis}
 \title{Perform a JAGS analysis}
 \usage{
-  analysis(models, data, niter = 10^3, mode = "current")
+  jags_analysis(models, data, niter = 10^3,
+    mode = "current")
 }
 \arguments{
   \item{models}{a \code{jags_model} or list of

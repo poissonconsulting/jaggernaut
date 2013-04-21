@@ -4,7 +4,7 @@
 #' @description
 #' Calculate estimates for a derived parameter in a JAGS analysis
 #' 
-#' @param object a janalysis object.
+#' @param object a jags_analysis object.
 #' @param parameter a character element naming the derived parameter for which 
 #' the estimates should be calculated.
 #' @param data a data.frame of the data values over which to calculate the
@@ -37,8 +37,8 @@ derived <- function (object, parameter, data = NULL, base = FALSE,
   
   conf_int <- TRUE
   
-  if (!is.janalysis(object))
-    stop ("object should be class janalysis")  
+  if (!is.jags_analysis(object))
+    stop ("object should be class jags_analysis")  
 
   
   object <- subset(object, model = model)

@@ -4,7 +4,7 @@
 #' @description
 #' Calculates parameter estimates for a JAGS analysis
 #' 
-#' @param object a \code{janalysis} object
+#' @param object a \code{jags_analysis} object
 #' @param model an integer element specifying the model to select. 
 #' If model = 0 then it selects the model with the lowest DIC.
 #' @param parameters a character vector of the parameters to calculate the estimates
@@ -14,8 +14,8 @@
 #' @seealso \code{\link{jaggernaut}} and \code{\link{analysis}}
 #' @export
 estimates <- function (object, model = 1, parameters = "fixed") {
-  if(!is.janalysis(object))
-    stop ("object should be class janalysis")
+  if(!is.jags_analysis(object))
+    stop ("object should be class jags_analysis")
   
   object <- subset(object, model = model)
   

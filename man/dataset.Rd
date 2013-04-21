@@ -5,7 +5,7 @@
   dataset(object, base = FALSE)
 }
 \arguments{
-  \item{object}{a janalysis object}
+  \item{object}{a jags_analysis object}
 
   \item{base}{a logical scalar indicating whether to return
   the base values}

@@ -50,7 +50,7 @@
 #' 
 #' @export
 #' @aliases jags_analysis
-analysis <- function (
+jags_analysis <- function (
   models, data, niter = 10^3, mode = "current"
 )
 { 
@@ -133,7 +133,7 @@ analysis <- function (
   object$dic <- object$dic[order(object$dic[,"DIC",drop=T]),]
   object$n.model <- n.model
   
-  class(object) <- "janalysis"
+  class(object) <- "jags_analysis"
   
   return (object)
 }

@@ -1,8 +1,8 @@
 
 select_model <- function (analysis, model)
 {  
-  if(!is.janalysis(analysis))
-    stop ("analysis should be class janalysis")
+  if(!is.jags_analysis(analysis))
+    stop ("analysis should be class jags_analysis")
   
   model <- as.integer(model)
   

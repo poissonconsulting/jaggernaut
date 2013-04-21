@@ -1,11 +1,11 @@
-\name{plot.janalysis}
-\alias{plot.janalysis}
+\name{plot.jags_analysis}
+\alias{plot.jags_analysis}
 \title{Plot a JAGS analysis}
 \usage{
-  \method{plot}{janalysis} (x, model = 1, ...)
+  \method{plot}{jags_analysis} (x, model = 1, ...)
 }
 \arguments{
-  \item{x}{a janalysis object}
+  \item{x}{a jags_analysis object}
 
   \item{model}{an integer element specifying the model to
   select. If model = 0 then it selects the model with the

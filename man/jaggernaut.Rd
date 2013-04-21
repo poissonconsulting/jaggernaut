@@ -18,7 +18,7 @@
   function which calls the JAGS software to perform the
   actual MCMC sampling.  The resultant
   \code{\link{jags_analysis}} object can then be passed to
-  the \code{\link{plot.janalysis}} function to view the
+  the \code{\link{plot.jags_analysis}} function to view the
   MCMC traces, the \code{\link{convergence}} function to
   check the Rhat values of individual parameters and the
   \code{\link{estimates}} function to get the parameter
@@ -79,7 +79,8 @@ summary(an)
 }
 \seealso{
   \code{\link{model}}, \code{\link{analysis}},
-  \code{\link{plot.janalysis}}, \code{\link{convergence}},
-  \code{\link{estimates}} and \code{\link{derived}}.
+  \code{\link{plot.jags_analysis}},
+  \code{\link{convergence}}, \code{\link{estimates}} and
+  \code{\link{derived}}.
 }
 

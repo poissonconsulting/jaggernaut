@@ -6,14 +6,14 @@
 #' one row specify the base values for each of the variables. For further information
 #' on the use of base values see the \code{derived} function. 
 #' 
-#' @param object a janalysis object
+#' @param object a jags_analysis object
 #' @param base a logical scalar indicating whether to return the base values
 #' @return a data frame of the data used in the analysis or the corresponding base values
 #' @seealso \code{\link{jaggernaut}}, \link{analysis}, \link{derived}
 #' @export
 dataset <- function (object, base = FALSE) {
-  if(!is.janalysis(object))
-    stop("object should be of class janalysis")
+  if(!is.jags_analysis(object))
+    stop("object should be of class jags_analysis")
   
   object <- object$analyses[[1]]
 
