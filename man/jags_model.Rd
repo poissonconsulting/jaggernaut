@@ -46,7 +46,7 @@
   also specify the parameters to monitor, the variables to
   select, a function to manipulate the input data, a
   function to generate all (or some) of the initial values
-  and JAGS code to extract derived values from the final
+  and JAGS code to predict derived values from the final
   model among other things.
 }
 \details{
@@ -123,7 +123,7 @@
   model in the JAGS dialect of the BUGS language that
   specifies derived parameters. For further information on
   the use of the \code{derived_code} argument see
-  \code{\link{derived}}.
+  \code{\link{predict.jags_analysis}}.
 
   The \code{random} argument is used specify which
   parameters represent random effects. It takes the form of
@@ -131,7 +131,7 @@
   list elements and the values are character vectors of the
   variables in the input data frame that the parameters are
   random with respect to. For further information on the
-  use of the \code{random} argument see the \code{derived}
+  use of the \code{random} argument see the \code{predict}
   function.
 
   The \code{description} argument is a named character
@@ -155,6 +155,7 @@ print(mod)
   \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
 }
 \seealso{
-  \code{\link{jags_analysis}} and \code{\link{derived}}
+  \code{\link{jags_analysis}} and
+  \code{\link{predict.jags_analysis}}
 }
 

@@ -7,8 +7,8 @@
 #' to a data frame using JAGS (Plummer 2012). 
 #' The resultant \code{jags_analysis} object can then be 
 #' passed to other functions to
-#' to get the \code{convergence} of particular parameters, parameter \code{estimates} 
-#' and \code{derived} parameter
+#' to get the \code{convergence} of particular parameters, parameter \code{coefficients}
+#' with credible intervals and \code{predict} derived parameter
 #' estimates.
 #' 
 #' @param models a \code{jags_model} or list of \code{jags_model}s  specifying the JAGS model(s).
@@ -32,7 +32,8 @@
 #' @references 
 #' Plummer M (2012) JAGS Version 3.3.0 User Manual \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
 #' @seealso \code{\link{jags_model}}, \code{\link{opts_jagr0}},
-#' \code{\link{convergence}}, \code{\link{estimates}}, \code{\link{derived}} 
+#' \code{\link{convergence}}, \code{\link{coef.jags_analysis}}, 
+#' \code{\link{predict.jags_analysis}} 
 #' and \code{\link{jaggernaut}}
 #' @examples
 #' 

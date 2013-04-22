@@ -15,13 +15,14 @@
   corresponding base values
 }
 \description{
-  Returns the input data set from a JAGS analysis or
-  generates a data set with one row specify the base values
-  for each of the variables. For further information on the
-  use of base values see the \code{derived} function.
+  By default returns the input data set from a JAGS
+  analysis or if \code{base = TRUE} generates a data set
+  with one row specify the #' \emph{base} values for each
+  of the variables. For further information on the use of
+  base values see the \code{predict.jags_analysis}
+  function.
 }
 \seealso{
-  \code{\link{jaggernaut}}, \link{jags_analysis},
-  \link{derived}
+  \link{jags_analysis} and \link{predict.jags_analysis}
 }
 

@@ -7,7 +7,7 @@
 #' a JAGS model object can also specify the parameters to monitor, 
 #' the variables to select, a function to manipulate the input data, a function
 #' to generate all (or some) of the initial values and JAGS code
-#' to extract derived values from the final model among other things.
+#' to predict derived values from the final model among other things.
 #' 
 #' @param code a character element defining the model in the JAGS dialect of 
 #' the BUGS language
@@ -18,8 +18,8 @@
 #' (after it has been converted to list form)
 #' @param gen_inits a function to generate initial values for an MCMC chain
 #' (it is passed the (modified) data in list form)
-#' @param derived_code a character element defining a model in the JAGS dialect of 
-#' the BUGS language that specifies derived parameters
+#' @param derived_code a character element defining a model in the JAGS dialect
+#'  of the BUGS language that specifies derived parameters
 #' @param random a named list of parameters to be treated as random effects with the
 #' related data as values
 #' @param description a named character vector descriping each of the parameters 
@@ -78,15 +78,16 @@
 #' values are desired. The remaining arguments are used after the analysis has completed. 
 #' 
 #' The \code{derived_code} argument is used to define a model in the JAGS dialect of 
-#' the BUGS language that specifies derived parameters. For further information on the
-#' use of the \code{derived_code} argument see \code{\link{derived}}.
+#' the BUGS language that specifies derived parameters. 
+#' For further information on the use of the \code{derived_code} argument see
+#'  \code{\link{predict.jags_analysis}}.
 #' 
 #' The \code{random} argument is used specify which parameters represent random effects.
 #' It takes 
 #' the form of a named list where the parameters are the names of the list elements 
 #' and the values are character vectors of the variables in the input data frame that
 #' the parameters are random with respect to. For further information on the
-#' use of the \code{random} argument see the \code{derived} function.
+#' use of the \code{random} argument see the \code{predict} function.
 #' 
 #' The \code{description} argument is a named character vector that can be used
 #' to provide a description of parameters or variables in the JAGS model code. Currently
@@ -95,7 +96,7 @@
 #' @return a \code{jags_model} object
 #' @references  
 #' Plummer M (2012) JAGS Version 3.3.0 User Manual \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
-#' @seealso \code{\link{jags_analysis}} and \code{\link{derived}}  
+#' @seealso \code{\link{jags_analysis}} and \code{\link{predict.jags_analysis}}  
 #' @examples
 #' 
 #' mod <- jags_model("

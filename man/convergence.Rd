@@ -2,7 +2,7 @@
 \alias{convergence}
 \title{Calculate convergence values}
 \usage{
-  convergence(object, model = 1, parameters = "fixed")
+  convergence(object, model = 1, param = "fixed")
 }
 \arguments{
   \item{object}{a jags_analysis object}
@@ -11,8 +11,8 @@
   select. If model = 0 then it selects the model with the
   lowest DIC.}
 
-  \item{parameters}{a character vector specifying the
-  parameters for which to calculate the convergence}
+  \item{param}{a character vector specifying the parameters
+  for which to calculate the convergence}
 }
 \value{
   a data.frame of the parameters with their convergence

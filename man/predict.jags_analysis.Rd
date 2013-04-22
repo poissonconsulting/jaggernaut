@@ -1,19 +1,20 @@
-\name{derived}
-\alias{derived}
-\title{Calculate estimates for a derived parameter}
+\name{predict.jags_analysis}
+\alias{predict.jags_analysis}
+\title{JAGS analysis predictions}
 \usage{
-  derived(object, parameter, data = NULL, base = FALSE,
-    values = NULL, model = 1, derived_code = NULL,
-    random = NULL, length_out = 50)
+  \method{predict}{jags_analysis} (object, newdata = NULL,
+    parm = "prediction", base = FALSE, values = NULL,
+    model = 1, derived_code = NULL, random = NULL,
+    level = "current", length_out = 50, ...)
 }
 \arguments{
   \item{object}{a jags_analysis object.}
 
-  \item{parameter}{a character element naming the derived
+  \item{parm}{a character element naming the derived
   parameter for which the estimates should be calculated.}
 
-  \item{data}{a data.frame of the data values over which to
-  calculate the estimates of the derived parameter or a
+  \item{newdata}{a data.frame of the data values over which
+  to calculate the estimates of the derived parameter or a
   character vector specify the variable or variable
   combination for which to calculate the estimates of the
   derived parameter. If NULL (the default) the derived
@@ -44,18 +45,27 @@
   is as defined by the JAGS model for which the JAGS
   analysis was performed.}
 
+  \item{level}{a numeric scalar specifying the significance
+  level or a character scalar specifying which mode the
+  level should be taken from. By default the level is as
+  currently specified by \code{opts_jagr0} in the global
+  options.}
+
   \item{length_out}{an integer element indicating the
   number of values when creating a sequence of values
   across the range of a continuous variable.}
+
+  \item{...}{further arguments passed to or from other
+  methods.}
 }
 \value{
-  the input data frame with the median and 95% credibility
-  intervals (or iterations) for the derived parameter of
+  the input data frame with the median estimate and
+  credibility intervals for the derived parameter of
   interest
 }
 \description{
-  Calculate estimates for a derived parameter in a JAGS
-  analysis
+  Calculate predictions with estimates for derived
+  parameters in a JAGS analysis
 }
 \seealso{
   \code{\link{jags_model}}, \code{\link{jags_analysis}} and

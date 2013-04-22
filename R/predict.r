@@ -1,13 +1,14 @@
 
-#' @title Calculate estimates for a derived parameter
+#' @title JAGS analysis predictions
 #'
 #' @description
-#' Calculate estimates for a derived parameter in a JAGS analysis
+#' Calculate predictions with estimates for derived parameters 
+#' in a JAGS analysis
 #' 
 #' @param object a jags_analysis object.
-#' @param parameter a character element naming the derived parameter for which 
+#' @param parm a character element naming the derived parameter for which 
 #' the estimates should be calculated.
-#' @param data a data.frame of the data values over which to calculate the
+#' @param newdata a data.frame of the data values over which to calculate the
 #' estimates of the derived parameter or a character vector specify the variable
 #' or variable combination
 #' for which to calculate the estimates of the derived parameter.
@@ -24,32 +25,47 @@
 #' If NULL derived_code is as defined by the JAGS model for which the JAGS analysis was performed. 
 #' @param random a named list which specifies which parameters to treat 
 #' as random variables. If NULL random is as defined by the JAGS model for which the JAGS analysis was performed. 
+#' @param level a numeric scalar specifying the significance level or a character
+#' scalar specifying which mode the level should be taken from. By default the
+#' level is as currently specified by \code{opts_jagr0} in the global options.
 #' @param length_out an integer element indicating the number of values when 
 #' creating a sequence of values across the range of a continuous variable.
-#' @return the input data frame with the median and 95% credibility intervals 
-#' (or iterations) for
+#' @param ... further arguments passed to or from other methods.
+#' @return the input data frame with the median estimate and credibility intervals for
 #' the derived parameter of interest
 #' @seealso \code{\link{jags_model}}, \code{\link{jags_analysis}}
 #' and \code{\link{jaggernaut}}
+#' @method predict jags_analysis
 #' @export 
-derived <- function (object, parameter, data = NULL, base = FALSE, 
-                     values = NULL, model = 1, derived_code = NULL, random = NULL, 
-                     length_out = 50) {
+predict.jags_analysis <- function (object, newdata = NULL, 
+                                   parm = "prediction", base = FALSE, 
+                                   values = NULL, model = 1, 
+                                   derived_code = NULL, random = NULL, 
+                                   level = "current", length_out = 50, ...) {
+
+  old_opts <- opts_jagr0()
+  on.exit(opts_jagr0(old_opts))
   
-  conf_int <- TRUE
+   if (!is.numeric(level)) {
+     opts_jagr0(mode = level)
+     level <- opts_jagr0("level")
+     opts_jagr0(old_opts)
+   }
+   opts_jagr0(level = level)
   
   if (!is.jags_analysis(object))
     stop ("object should be class jags_analysis")  
 
-  
   object <- subset(object, model = model)
-
  
-  return (calc_expected(object, 
-                         parameter = parameter, data = data, 
+  pred <- calc_expected(object, 
+                         parameter = parm, data = newdata, 
                          base = base, values = values, 
                         derived_model = derived_code, random = random, 
                          length.out = length_out, 
-                         calc_estimates = conf_int))
+                         calc_estimates = T)
+  rownames(pred) <- NULL
+  
+  return (pred)
   
 }

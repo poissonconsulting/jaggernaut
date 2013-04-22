@@ -26,7 +26,8 @@
   (Plummer 2012). The resultant \code{jags_analysis} object
   can then be passed to other functions to to get the
   \code{convergence} of particular parameters, parameter
-  \code{estimates} and \code{derived} parameter estimates.
+  \code{coefficients} with credible intervals and
+  \code{predict} derived parameter estimates.
 }
 \details{
   The \code{jags_analysis} function performs a Bayesian
@@ -65,7 +66,9 @@ an <- jags_analysis (mod, dat)
 }
 \seealso{
   \code{\link{jags_model}}, \code{\link{opts_jagr0}},
-  \code{\link{convergence}}, \code{\link{estimates}},
-  \code{\link{derived}} and \code{\link{jaggernaut}}
+  \code{\link{convergence}},
+  \code{\link{coef.jags_analysis}},
+  \code{\link{predict.jags_analysis}} and
+  \code{\link{jaggernaut}}
 }
 

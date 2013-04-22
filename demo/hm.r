@@ -23,7 +23,7 @@ mod <- jags_model("
              }",
  derived_code = "model{
              for (i in 1:nrow) {
-             log(eC[i]) <- logN.est[year[i]]
+             log(prediction[i]) <- logN.est[year[i]]
              }
  }",
 random = list(r = "year"),
@@ -42,12 +42,12 @@ an <- jags_analysis (mod, dat, niter = 10^5, mode = "default")
 
 estimates(an,parameters = c("mean.r","sigma.obs","sigma.proc"))
 
-exp <- derived(an, "eC", data = "year")
+pred <- predict(an, newdata = "year")
 
-exp$Year <- as.integer(as.character(exp$year))
+pred$Year <- as.integer(as.character(pred$year))
 dat$Year <- as.integer(as.character(dat$year))
 
-gp <- ggplot(data = exp, aes(x = Year, y = estimate))
+gp <- ggplot(data = pred, aes(x = Year, y = estimate))
 gp <- gp + geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 1/4)
 gp <- gp + geom_line(data = dat, aes(y = C), alpha = 1/3)
 gp <- gp + geom_line()
@@ -58,12 +58,12 @@ gp <- gp + expand_limits(y = 0)
 print(gp)
 
 base <- data.frame(year = "2009")
-dif <- derived(an, "eC", data = "year", base = base)
-print(dif)
+pred <- predict(an, newdata = "year", base = base)
+print(pred)
 
-dif$Year <- as.integer(as.character(dif$year))
+pred$Year <- as.integer(as.character(pred$year))
 
-gp <- ggplot(data = dif, aes(x = Year, y = estimate))
+gp <- ggplot(data = pred, aes(x = Year, y = estimate))
 gp <- gp + geom_hline(yintercept = 0, alpha = 1/3)
 gp <- gp + geom_pointrange(aes(ymin = lower, ymax = upper))
 gp <- gp + scale_y_continuous(name = "Population Change", labels = percent)

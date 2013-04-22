@@ -3,8 +3,8 @@
 #'
 #'
 #' The Swiss coal tit (\emph{Parus ater}) annual territory counts from 
-#' the Swiss breeding bird survey from 1999 to 2007 from 
-#' Kery & Schaub (2011 p.95-96).
+#' the Swiss breeding bird survey from 1999 to 2007.
+#' 
 #' The variables are as follows:
 #' \itemize{
 #'   \item \code{site} the site code (factor with 235 levels).
@@ -20,9 +20,8 @@
 #' @name tits
 #' @usage tits
 #' @format A data frame with 235 rows and 31 columns
-#' @seealso \code{\link{jaggernaut}} 
-#' @references 
-#' Kery M & Schaub M (2011) Bayesian Population Analysis
+#' @source
+#' Kery M & Schaub M (2011, p.95-96) Bayesian Population Analysis
 #' using WinBUGS. Academic Press. (\url{http://www.vogelwarte.ch/bpa})
 #' @keywords datasets
 #' @examples

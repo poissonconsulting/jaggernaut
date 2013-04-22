@@ -19,10 +19,10 @@ mod <- jags_model("
              }
              }",
  derived_code = "model{
-             for (i in 1:nrow) {
-             log(eC[i]) <- alpha + beta1 * Year[i]
-             + beta2 * Year[i]^2 + beta3 * Year[i]^3
-             }
+  for (i in 1:nrow) {
+    log(prediction[i]) <- alpha + beta1 * Year[i]
+      + beta2 * Year[i]^2 + beta3 * Year[i]^3
+    }
  }",
 select = c("C","Year*")
 )
@@ -33,10 +33,10 @@ dat <- peregrine
 dat$C <- dat$Pairs
 an <- jags_analysis (mod, dat, mode = "default")
 
-estimates(an)
-exp <- derived(an, "eC", data = "Year")
+coef(an)
+pred <- predict(an, newdata = "Year")
 
-gp <- ggplot(data = exp, aes(x = Year, y = estimate))
+gp <- ggplot(data = pred, aes(x = Year, y = estimate))
 gp <- gp + geom_line(data = dat, aes(y = C), alpha = 1/3)
 gp <- gp + geom_point(data = dat, aes(y = C), shape = 1)
 gp <- gp + geom_line()
@@ -54,9 +54,10 @@ dat <- peregrine
 
 dat$C <- dat$Eyasses
 an <- jags_analysis (mod, dat)
-estimates(an)
-exp <- derived(an, "eC", data = "Year")
-gp <- ggplot(data = exp, aes(x = Year, y = estimate))
+coef(an)
+pred <- predict(an, newdata = "Year")
+
+gp <- ggplot(data = pred, aes(x = Year, y = estimate))
 gp <- gp + geom_line(data = dat, aes(y = C), alpha = 1/3)
 gp <- gp + geom_point(data = dat, aes(y = C), shape = 1)
 gp <- gp + geom_line()
@@ -81,7 +82,7 @@ mod <- jags_model("
              }",
  derived_code = "model{
              for (i in 1:nrow) {
-             logit(eP[i]) <- alpha + beta1 * Year[i] + beta2 * Year[i]^2
+             logit(prediction[i]) <- alpha + beta1 * Year[i] + beta2 * Year[i]^2
              }
  }",
 select = c("C","N","Year*")
@@ -94,9 +95,11 @@ dat$C <- dat$R.Pairs
 dat$N <- dat$Pairs
 
 an <- jags_analysis (mod, dat, mode = "default")
-estimates(an)
-exp <- derived(an, "eP", data = "Year")
-gp <- ggplot(data = exp, aes(x = Year, y = estimate))
+coef(an)
+
+pred <- predict(an, newdata = "Year")
+
+gp <- ggplot(data = pred, aes(x = Year, y = estimate))
 gp <- gp + geom_line(data = dat, aes(y = C/N), alpha = 1/3)
 gp <- gp + geom_point(data = dat, aes(y = C/N), shape = 1)
 gp <- gp + geom_line()
@@ -126,7 +129,7 @@ mod <- jags_model("
              }",
  derived_code = "model{
              for (i in 1:nrow) {
-             log(eC[i]) <- alpha + beta1 * Year[i]
+             log(prediction[i]) <- alpha + beta1 * Year[i]
              + beta2 * Year[i]^2 + beta3 * Year[i]^3
              }
  }",
@@ -139,7 +142,7 @@ dat <- peregrine
 
 dat$C <- dat$Pairs
 an <- jags_analysis (mod, dat, niter = 10^4, mode = "default")
-estimates(an)
-estimates(an, parameters = "fixed")
-estimates(an, parameters = "random")
-estimates(an, parameters = "all")
+coef(an)
+coef(an, param = "fixed")
+coef(an, param = "random")
+coef(an, param = "all")

@@ -1,0 +1,50 @@
+\name{residuals.jags_analysis}
+\alias{residuals.jags_analysis}
+\title{JAGS analysis residuals}
+\usage{
+  \method{residuals}{jags_analysis} (object,
+    parm = "residual", model = 1, derived_code = NULL,
+    random = NULL, level = "current", ...)
+}
+\arguments{
+  \item{object}{a jags_analysis object.}
+
+  \item{parm}{a character element naming the derived
+  parameter for which the estimates should be calculated.}
+
+  \item{model}{an integer vector specifying the model to
+  select. If model = 0 then it selects the model with the
+  lowest DIC.}
+
+  \item{derived_code}{a character element defining a block
+  in the JAGS dialect of the BUGS language that defines one
+  or more derived parameters for each row of data. If NULL
+  derived_code is as defined by the JAGS model for which
+  the JAGS analysis was performed.}
+
+  \item{random}{a named list which specifies which
+  parameters to treat as random variables. If NULL random
+  is as defined by the JAGS model for which the JAGS
+  analysis was performed.}
+
+  \item{level}{a numeric scalar specifying the significance
+  level or a character scalar specifying which mode the
+  level should be taken from. By default the level is as
+  currently specified by \code{opts_jagr0} in the global
+  options.}
+
+  \item{...}{further arguments passed to or from other
+  methods.}
+}
+\value{
+  the input data frame with the median estimate and
+  credibility intervals for the residuals
+}
+\description{
+  Calculate residuals with estimates using derived code in
+  a JAGS analysis
+}
+\seealso{
+  \code{\link{jags_model}} and \code{\link{jags_analysis}}
+}
+
