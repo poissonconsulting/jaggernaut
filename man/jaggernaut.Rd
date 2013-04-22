@@ -2,7 +2,6 @@
 \name{jaggernaut}
 \alias{jaggernaut}
 \alias{jaggernaut-package}
-\alias{jagr}
 \alias{package-jaggernaut}
 \title{Bayesian Analysis with JAGS}
 \description{

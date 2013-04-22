@@ -7,8 +7,8 @@
 #' @param object a jags_analysis object.
 #' @param parm a character element naming the derived parameter for which 
 #' the estimates should be calculated (default = "prediction").
-#' @param model an integer vector specifying the model to select. 
-#' If model = 0 then it selects the model with the lowest DIC.
+#' @param model_number an integer vector specifying the model to select. 
+#' If model_number = 0 then it selects the model with the lowest DIC.
 #' @param derived_code a character element defining a block in the 
 #' JAGS dialect of  the BUGS language that defines one or more derived '
 #' parameters for each row of data. 
@@ -27,11 +27,11 @@
 #' @export 
 fitted.jags_analysis <- function (object, 
                                   parm = "prediction", 
-                                   model = 1, 
+                                   model_number = 1, 
                                    derived_code = NULL, random_effects = NULL, 
                                    level = "current", ...) {
   
-  return (predict(object, parm = parm, model = model, 
+  return (predict(object, parm = parm, model = model_number, 
                   derived_code = derived_code, random_effects = random_effects, 
                   level = level, ...))
 }

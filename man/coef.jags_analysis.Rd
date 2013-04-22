@@ -2,15 +2,15 @@
 \alias{coef.jags_analysis}
 \title{Calculate parameter estimates}
 \usage{
-  \method{coef}{jags_analysis} (object, model = 1,
+  \method{coef}{jags_analysis} (object, model_number = 1,
     parm = "fixed", level = "current", ...)
 }
 \arguments{
   \item{object}{a \code{jags_analysis} object}
 
-  \item{model}{an integer element specifying the model to
-  select. If model = 0 then it selects the model with the
-  lowest DIC.}
+  \item{model_number}{an integer element specifying the
+  model to select. If model_number = 0 then it selects the
+  model with the lowest DIC.}
 
   \item{parm}{a character vector of the parameters to
   calculate the estimates}

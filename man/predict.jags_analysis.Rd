@@ -4,14 +4,12 @@
 \usage{
   \method{predict}{jags_analysis} (object, newdata = NULL,
     parm = "prediction", base = FALSE, values = NULL,
-    model = 1, derived_code = NULL, random_effects = NULL,
-    level = "current", length_out = 50, ...)
+    model_number = 1, derived_code = NULL,
+    random_effects = NULL, level = "current",
+    length_out = 50, ...)
 }
 \arguments{
   \item{object}{a jags_analysis object.}
-
-  \item{parm}{a character element naming the derived
-  parameter for which the estimates should be calculated.}
 
   \item{newdata}{a data.frame of the data values over which
   to calculate the estimates of the derived parameter or a
@@ -20,6 +18,9 @@
   derived parameter. If NULL (the default) the derived
   parameter is calculated for each row in the original data
   set.}
+
+  \item{parm}{a character element naming the derived
+  parameter for which the estimates should be calculated.}
 
   \item{base}{a boolean element indicating whether or not
   to express the expected value as a percent change of a
@@ -30,9 +31,9 @@
   arguments data and base are replaced by the corresponding
   values.}
 
-  \item{model}{an integer vector specifying the model to
-  select. If model = 0 then it selects the model with the
-  lowest DIC.}
+  \item{model_number}{an integer vector specifying the
+  model to select. If model_number = 0 then it selects the
+  model with the lowest DIC.}
 
   \item{derived_code}{a character element defining a block
   in the JAGS dialect of the BUGS language that defines one

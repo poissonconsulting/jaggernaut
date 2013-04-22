@@ -2,14 +2,14 @@
 \alias{plot.jags_analysis}
 \title{Plot a JAGS analysis}
 \usage{
-  \method{plot}{jags_analysis} (x, model = 1, ...)
+  \method{plot}{jags_analysis} (x, model_number = 1, ...)
 }
 \arguments{
   \item{x}{a jags_analysis object}
 
-  \item{model}{an integer element specifying the model to
-  select. If model = 0 then it selects the model with the
-  lowest DIC.}
+  \item{model_number}{an integer element specifying the
+  model to select. If model_number = 0 then it selects the
+  model with the lowest DIC.}
 
   \item{...}{arguments to pass to coda::plot.mcmc}
 }

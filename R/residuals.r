@@ -8,8 +8,8 @@
 #' @param object a jags_analysis object.
 #' @param parm a character element naming the derived parameter for which 
 #' the estimates should be calculated.
-#' @param model an integer vector specifying the model to select. 
-#' If model = 0 then it selects the model with the lowest DIC.
+#' @param model_number an integer vector specifying the model to select. 
+#' If model_number = 0 then it selects the model with the lowest DIC.
 #' @param derived_code a character element defining a block in the JAGS dialect of 
 #' the BUGS language that defines one or more derived parameters for each row of data. 
 #' If NULL derived_code is as defined by the JAGS model for which the JAGS analysis was performed. 
@@ -24,7 +24,7 @@
 #' @method residuals jags_analysis
 #' @export 
 residuals.jags_analysis <- function (object, 
-                                   parm = "residual", model = 1, 
+                                   parm = "residual", model_number = 1, 
                                    derived_code = NULL, random_effects = NULL, 
                                    level = "current", ...) {
   old_opts <- opts_jagr()
@@ -40,7 +40,7 @@ residuals.jags_analysis <- function (object,
   if (!is.jags_analysis(object))
     stop ("object should be class jags_analysis")  
   
-  object <- subset(object, model = model)
+  object <- subset(object, model = model_number)
   
   res <- calc_expected(object, 
                         parameter = parm, data = dataset(object), 

@@ -42,7 +42,7 @@
 #' @docType package
 #' @import abind coda rjags foreach
 #' @name jaggernaut
-#' @aliases package-jaggernaut jagr
+#' @aliases package-jaggernaut
 #' @seealso \code{\link{jags_model}}, \code{\link{jags_analysis}}, \code{\link{plot.jags_analysis}},
 #' \code{\link{convergence}},
 #' \code{\link{coef.jags_analysis}} and \code{\link{predict.jags_analysis}}.

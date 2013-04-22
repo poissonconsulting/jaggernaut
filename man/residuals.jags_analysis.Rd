@@ -3,8 +3,9 @@
 \title{JAGS analysis residuals}
 \usage{
   \method{residuals}{jags_analysis} (object,
-    parm = "residual", model = 1, derived_code = NULL,
-    random_effects = NULL, level = "current", ...)
+    parm = "residual", model_number = 1,
+    derived_code = NULL, random_effects = NULL,
+    level = "current", ...)
 }
 \arguments{
   \item{object}{a jags_analysis object.}
@@ -12,9 +13,9 @@
   \item{parm}{a character element naming the derived
   parameter for which the estimates should be calculated.}
 
-  \item{model}{an integer vector specifying the model to
-  select. If model = 0 then it selects the model with the
-  lowest DIC.}
+  \item{model_number}{an integer vector specifying the
+  model to select. If model_number = 0 then it selects the
+  model with the lowest DIC.}
 
   \item{derived_code}{a character element defining a block
   in the JAGS dialect of the BUGS language that defines one

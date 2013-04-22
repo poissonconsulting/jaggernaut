@@ -5,8 +5,8 @@
 #' Calculates parameter estimates for a JAGS analysis
 #' 
 #' @param object a \code{jags_analysis} object
-#' @param model an integer element specifying the model to select. 
-#' If model = 0 then it selects the model with the lowest DIC.
+#' @param model_number an integer element specifying the model to select. 
+#' If model_number = 0 then it selects the model with the lowest DIC.
 #' @param parm a character vector of the parameters to calculate the estimates
 #' @param level a numeric scalar specifying the significance level or a character
 #' scalar specifying which mode the level should be taken from. By default the
@@ -18,7 +18,7 @@
 #' @seealso \code{\link{jags_analysis}} and \code{\link{jaggernaut}}
 #' @method coef jags_analysis
 #' @export
-coef.jags_analysis <- function (object, model = 1, parm = "fixed", level = "current", ...) {
+coef.jags_analysis <- function (object, model_number = 1, parm = "fixed", level = "current", ...) {
  
   if(!is.jags_analysis(object))
     stop ("object should be class jags_analysis")
@@ -33,7 +33,7 @@ coef.jags_analysis <- function (object, model = 1, parm = "fixed", level = "curr
   }
   opts_jagr(level = level)
   
-  object <- subset(object, model = model)
+  object <- subset(object, model = model_number)
   
   est <- calc_estimates(object,parameters = parm)
   
