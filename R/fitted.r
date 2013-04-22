@@ -31,26 +31,7 @@ fitted.jags_analysis <- function (object,
                                    derived_code = NULL, hyper_parm = NULL, 
                                    level = "current", ...) {
   
-  old_opts <- opts_jagr()
-  on.exit(opts_jagr(old_opts))
-  
-  if (!is.numeric(level)) {
-    opts_jagr(mode = level)
-    level <- opts_jagr("level")
-    opts_jagr(old_opts)
-  }
-  opts_jagr(level = level)
-  
-  if (!is.jags_analysis(object))
-    stop ("object should be class jags_analysis")  
-  
-  object <- subset(object, model = model)
-    
-  fit <- calc_expected(object, 
-                        parameter = parm, data = dataset(object), 
-                        derived_model = derived_code, random = hyper_parm, 
-                        calc_estimates = T)
-  rownames(fit) <- NULL
-  
-  return (fit)
+  return (predict(object, parm = parm, model = model, 
+                  derived_code = derived_code, hyper_parm = hyper_parm, 
+                  level = level, ...))
 }
