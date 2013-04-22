@@ -12,7 +12,7 @@ calc_estimates.matrix <- function(object) {
     return (min(x,1-x)*2)
   }
   pre<-function (x) {
-    level <- opts_jagr0("level")
+    level <- opts_jagr("level")
     lower <- (1 - level) / 2
     upper <- level + lower
     q<-quantile(x,c(lower,0.5,upper),na.rm=T)
@@ -21,7 +21,7 @@ calc_estimates.matrix <- function(object) {
     return (x)
   }
   fun<-function (x) {
-    level <- opts_jagr0("level")
+    level <- opts_jagr("level")
     lower <- (1 - level) / 2
     upper <- level + lower
     return (c(quantile(x,c(0.5,lower,upper),na.rm=T),pre(x),p(x)))

@@ -17,7 +17,7 @@
 #' as random variables. If NULL random is as defined by the JAGS model for which the JAGS analysis was performed. 
 #' @param level a numeric scalar specifying the significance level or a character
 #' scalar specifying which mode the level should be taken from. By default the
-#' level is as currently specified by \code{opts_jagr0} in the global options.
+#' level is as currently specified by \code{opts_jagr} in the global options.
 #' @param ... further arguments passed to or from other methods.
 #' @return the input data frame with the median estimate and credibility intervals for the residuals
 #' @seealso \code{\link{jags_model}} and \code{\link{jags_analysis}}
@@ -27,15 +27,15 @@ residuals.jags_analysis <- function (object,
                                    parm = "residual", model = 1, 
                                    derived_code = NULL, random = NULL, 
                                    level = "current", ...) {
-  old_opts <- opts_jagr0()
-  on.exit(opts_jagr0(old_opts))
+  old_opts <- opts_jagr()
+  on.exit(opts_jagr(old_opts))
   
   if (!is.numeric(level)) {
-    opts_jagr0(mode = level)
-    level <- opts_jagr0("level")
-    opts_jagr0(old_opts)
+    opts_jagr(mode = level)
+    level <- opts_jagr("level")
+    opts_jagr(old_opts)
   }
-  opts_jagr0(level = level)
+  opts_jagr(level = level)
   
   if (!is.jags_analysis(object))
     stop ("object should be class jags_analysis")  

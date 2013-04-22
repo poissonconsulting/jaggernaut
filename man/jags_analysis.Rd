@@ -34,7 +34,7 @@
   analysis of a data frame for a \code{jags_model} or list
   of \code{jags_model}s. If \code{mode = "current"} (the
   default) then the analysis options are as currently
-  globally defined by \code{opts_jagr0()} otherwise the
+  globally defined by \code{opts_jagr()} otherwise the
   \code{mode} argument specifies the analysis mode for that
   particular analysis.
 
@@ -65,7 +65,7 @@ an <- jags_analysis (mod, dat)
   \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
 }
 \seealso{
-  \code{\link{jags_model}}, \code{\link{opts_jagr0}},
+  \code{\link{jags_model}}, \code{\link{opts_jagr}},
   \code{\link{convergence}},
   \code{\link{coef.jags_analysis}},
   \code{\link{predict.jags_analysis}} and

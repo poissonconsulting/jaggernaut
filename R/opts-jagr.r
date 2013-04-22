@@ -1,5 +1,5 @@
 
-.opts_jagr0_debug <- list(
+.opts_jagr_debug <- list(
   level = 0.80,
   mode = "debug",
   nchains = 2,
@@ -11,7 +11,7 @@
   rhat = 2
 )
 
-.opts_jagr0_test<- list(
+.opts_jagr_test<- list(
   level = 0.90,
   mode = "explore",
   nchains = 2,
@@ -23,7 +23,7 @@
   rhat = 1.5
 )
 
-.opts_jagr0_explore<- list(
+.opts_jagr_explore<- list(
   level = 0.90,
   mode = "explore",
   nchains = 2,
@@ -35,7 +35,7 @@
   rhat = 1.5
 )
 
-.opts_jagr0_report <- list(
+.opts_jagr_report <- list(
   level = 0.95,
   mode = "report",
   nchains = 3,
@@ -47,7 +47,7 @@
   rhat = 1.1
 )
 
-.opts_jagr0_paper <- list(
+.opts_jagr_paper <- list(
   level = 0.95,
   mode = "paper",
   nchains = 4,
@@ -59,7 +59,7 @@
   rhat = 1.05
 )
 
-.opts_jagr0_def <- .opts_jagr0_report
+.opts_jagr_def <- .opts_jagr_report
 
 #' @title Get and set jaggernaut options
 #'
@@ -68,11 +68,11 @@
 #' @param ... options can be defined using \code{name = value} or by passing a list
 #' of such tagged values.
 #' @details
-#' The function \code{opts_jagr0()}, which can aso be invoked using its alias
+#' The function \code{opts_jagr()}, which can aso be invoked using its alias
 #' \code{options_jaggernaut()}, behaves just like the \code{options()}
 #'  function in the 
 #' base library, with the additional feature that 
-#' \code{opts_jagr0(mode="default")}
+#' \code{opts_jagr(mode="default")}
 #'  will 
 #' reset all options to the values for the default mode. 
 #' There are four available modes: debug, explore,
@@ -118,33 +118,33 @@
 #' Currently parallel processing is only available for unix-based systems. For such systems
 #' the \code{parallel_chains} option is by default \code{TRUE} otherwise its \code{FALSE}.
 #' 
-#' @return For \code{opts_jagr0()} a list of all jaggernaut options values
-#' sorted by name. For \code{opts_jagr0(name)} a list of length one of the 
+#' @return For \code{opts_jagr()} a list of all jaggernaut options values
+#' sorted by name. For \code{opts_jagr(name)} a list of length one of the 
 #' option value. When setting one or more options a list with the previous values of
 #' the options unchanged (returned invisibly).
 #' @seealso \code{\link{jags_analysis}} and \code{\link{options}}
-#' @usage opts_jagr0(...)
+#' @usage opts_jagr(...)
 #' 
 #' options_jaggernaut(...) 
 #' @examples
-#' opts_jagr0()
-#' opts_jagr0(mode = "debug")
+#' opts_jagr()
+#' opts_jagr(mode = "debug")
 #' options_jaggernaut()
-#' opts_jagr0("nchains","mode")
-#' opts_jagr0(nchains = 4)
-#' opts_jagr0("nchains","mode")
-#' old <- opts_jagr0(mode = "default") 
-#' opts_jagr0()
-#' opts_jagr0(old)
-#' opts_jagr0("nchains","mode") 
+#' opts_jagr("nchains","mode")
+#' opts_jagr(nchains = 4)
+#' opts_jagr("nchains","mode")
+#' old <- opts_jagr(mode = "default") 
+#' opts_jagr()
+#' opts_jagr(old)
+#' opts_jagr("nchains","mode") 
 #' @export 
 #' @aliases options_jaggernaut
-opts_jagr0 <- function (...) {
+opts_jagr <- function (...) {
   single <- FALSE
-  opts <- if (exists(".opts_jagr0", frame = 1)) {
-      get(".opts_jagr0", pos = 1)
+  opts <- if (exists(".opts_jagr", frame = 1)) {
+      get(".opts_jagr", pos = 1)
   } else {
-    .opts_jagr0_def
+    .opts_jagr_def
   }
   if (nargs() == 0) {
     return(opts)
@@ -174,17 +174,17 @@ opts_jagr0 <- function (...) {
   old <- opts
   if ("mode" %in% names(args)) {
     if (args$mode == "debug") {
-      opts <- .opts_jagr0_debug
+      opts <- .opts_jagr_debug
     } else if (args$mode == "test") {
-      opts <- .opts_jagr0_test
+      opts <- .opts_jagr_test
     }else if (args$mode == "explore") {
-      opts <- .opts_jagr0_explore
+      opts <- .opts_jagr_explore
     } else if (args$mode == "report") {
-      opts <- .opts_jagr0_report
+      opts <- .opts_jagr_report
     } else if (args$mode == "paper") {
-      opts <- .opts_jagr0_paper
+      opts <- .opts_jagr_paper
     } else if (args$mode == "default") {
-      opts <- .opts_jagr0_def
+      opts <- .opts_jagr_def
     } else if (args$mode == "custom") {
       opts$mode <- "custom"
     } else if (args$mode != "current") {
@@ -201,23 +201,23 @@ opts_jagr0 <- function (...) {
       }
     }
   }
-  assign_opts_jagr0(opts)
+  assign_opts_jagr(opts)
   invisible(old)
 }
 
 #' @export 
 options_jaggernaut <- function (...) {
-  return (opts_jagr0(...))
+  return (opts_jagr(...))
 }
 
-assign_opts_jagr0 <- function (opts) {
+assign_opts_jagr <- function (opts) {
   
-  for (v in names(.opts_jagr0_def)) {
+  for (v in names(.opts_jagr_def)) {
     if (!v %in% names(opts))
       stop(paste("option",v,"is unspecified"))
   }
   for (v in names(opts)) {
-    if (!v %in% names(.opts_jagr0_def))
+    if (!v %in% names(.opts_jagr_def))
       stop(paste("option",v,"is unknown"))
   }  
 
@@ -272,7 +272,7 @@ assign_opts_jagr0 <- function (opts) {
     stop("option convergence must lie between 1 and 2")
   } 
   
-  assign(".opts_jagr0", opts, pos = 1)
+  assign(".opts_jagr", opts, pos = 1)
   invisible(opts)
 }
 

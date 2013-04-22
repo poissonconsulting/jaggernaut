@@ -27,7 +27,7 @@
 #' as random variables. If NULL random is as defined by the JAGS model for which the JAGS analysis was performed. 
 #' @param level a numeric scalar specifying the significance level or a character
 #' scalar specifying which mode the level should be taken from. By default the
-#' level is as currently specified by \code{opts_jagr0} in the global options.
+#' level is as currently specified by \code{opts_jagr} in the global options.
 #' @param length_out an integer element indicating the number of values when 
 #' creating a sequence of values across the range of a continuous variable.
 #' @param ... further arguments passed to or from other methods.
@@ -43,15 +43,15 @@ predict.jags_analysis <- function (object, newdata = NULL,
                                    derived_code = NULL, random = NULL, 
                                    level = "current", length_out = 50, ...) {
 
-  old_opts <- opts_jagr0()
-  on.exit(opts_jagr0(old_opts))
+  old_opts <- opts_jagr()
+  on.exit(opts_jagr(old_opts))
   
    if (!is.numeric(level)) {
-     opts_jagr0(mode = level)
-     level <- opts_jagr0("level")
-     opts_jagr0(old_opts)
+     opts_jagr(mode = level)
+     level <- opts_jagr("level")
+     opts_jagr(old_opts)
    }
-   opts_jagr0(level = level)
+   opts_jagr(level = level)
   
   if (!is.jags_analysis(object))
     stop ("object should be class jags_analysis")  

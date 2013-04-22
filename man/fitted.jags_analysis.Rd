@@ -31,7 +31,7 @@
   \item{level}{a numeric scalar specifying the significance
   level or a character scalar specifying which mode the
   level should be taken from. By default the level is as
-  currently specified by \code{opts_jagr0} in the global
+  currently specified by \code{opts_jagr} in the global
   options.}
 
   \item{...}{further arguments passed to or from other

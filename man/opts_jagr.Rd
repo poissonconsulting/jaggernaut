@@ -1,9 +1,9 @@
-\name{opts_jagr0}
+\name{opts_jagr}
 \alias{options_jaggernaut}
-\alias{opts_jagr0}
+\alias{opts_jagr}
 \title{Get and set jaggernaut options}
 \usage{
-  opts_jagr0(...)
+  opts_jagr(...)
 
   options_jaggernaut(...)
 }
@@ -12,8 +12,8 @@
   value} or by passing a list of such tagged values.}
 }
 \value{
-  For \code{opts_jagr0()} a list of all jaggernaut options
-  values sorted by name. For \code{opts_jagr0(name)} a list
+  For \code{opts_jagr()} a list of all jaggernaut options
+  values sorted by name. For \code{opts_jagr(name)} a list
   of length one of the option value. When setting one or
   more options a list with the previous values of the
   options unchanged (returned invisibly).
@@ -22,11 +22,11 @@
   Queries and sets options for JAGS analyses.
 }
 \details{
-  The function \code{opts_jagr0()}, which can aso be
-  invoked using its alias \code{options_jaggernaut()},
-  behaves just like the \code{options()} function in the
-  base library, with the additional feature that
-  \code{opts_jagr0(mode="default")} will reset all options
+  The function \code{opts_jagr()}, which can aso be invoked
+  using its alias \code{options_jaggernaut()}, behaves just
+  like the \code{options()} function in the base library,
+  with the additional feature that
+  \code{opts_jagr(mode="default")} will reset all options
   to the values for the default mode. There are four
   available modes: debug, explore, report and paper which
   are characterized by increasing accuracy. In summary the
@@ -80,16 +80,16 @@
   otherwise its \code{FALSE}.
 }
 \examples{
-opts_jagr0()
-opts_jagr0(mode = "debug")
+opts_jagr()
+opts_jagr(mode = "debug")
 options_jaggernaut()
-opts_jagr0("nchains","mode")
-opts_jagr0(nchains = 4)
-opts_jagr0("nchains","mode")
-old <- opts_jagr0(mode = "default")
-opts_jagr0()
-opts_jagr0(old)
-opts_jagr0("nchains","mode")
+opts_jagr("nchains","mode")
+opts_jagr(nchains = 4)
+opts_jagr("nchains","mode")
+old <- opts_jagr(mode = "default")
+opts_jagr()
+opts_jagr(old)
+opts_jagr("nchains","mode")
 }
 \seealso{
   \code{\link{jags_analysis}} and \code{\link{options}}

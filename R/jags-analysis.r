@@ -19,7 +19,7 @@
 #' The \code{jags_analysis} function performs a Bayesian analysis of a data frame
 #' for a \code{jags_model} or list of \code{jags_model}s. 
 #' If \code{mode = "current"} (the default) then the analysis options are as currently
-#' globally defined by \code{opts_jagr0()} otherwise the \code{mode} argument specifies 
+#' globally defined by \code{opts_jagr()} otherwise the \code{mode} argument specifies 
 #' the analysis mode for that particular analysis. 
 #' 
 #' The \code{niter} argument specifies the total number of iterations including adaptive 
@@ -31,7 +31,7 @@
 #' @return a \code{jags_analysis} object
 #' @references 
 #' Plummer M (2012) JAGS Version 3.3.0 User Manual \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
-#' @seealso \code{\link{jags_model}}, \code{\link{opts_jagr0}},
+#' @seealso \code{\link{jags_model}}, \code{\link{opts_jagr}},
 #' \code{\link{convergence}}, \code{\link{coef.jags_analysis}}, 
 #' \code{\link{predict.jags_analysis}} 
 #' and \code{\link{jaggernaut}}
@@ -54,17 +54,17 @@ jags_analysis <- function (
   models, data, niter = 10^3, mode = "current"
 )
 { 
-  old_opts <- opts_jagr0(mode = mode)
-  on.exit(opts_jagr0(old_opts))
+  old_opts <- opts_jagr(mode = mode)
+  on.exit(opts_jagr(old_opts))
     
-  nchains <- opts_jagr0("nchains")
-  nsims <- opts_jagr0("nsims")
-  convergence <- opts_jagr0("rhat")
-  resample <- opts_jagr0("nresample")
-  quiet <- opts_jagr0("quiet")
-  parallelChains <- opts_jagr0("parallel_chains")
-  parallelModels <- opts_jagr0("parallel_models")
-  mode <- opts_jagr0("mode")
+  nchains <- opts_jagr("nchains")
+  nsims <- opts_jagr("nsims")
+  convergence <- opts_jagr("rhat")
+  resample <- opts_jagr("nresample")
+  quiet <- opts_jagr("quiet")
+  parallelChains <- opts_jagr("parallel_chains")
+  parallelModels <- opts_jagr("parallel_models")
+  mode <- opts_jagr("mode")
   
   niter <- max(niter, nsims * 2 / nchains)
   
