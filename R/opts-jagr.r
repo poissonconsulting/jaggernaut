@@ -13,7 +13,7 @@
 
 .opts_jagr_test<- list(
   level = 0.90,
-  mode = "explore",
+  mode = "test",
   nchains = 2,
   nresample = 2,
   nsims = 500,
@@ -175,9 +175,7 @@ opts_jagr <- function (...) {
   if ("mode" %in% names(args)) {
     if (args$mode == "debug") {
       opts <- .opts_jagr_debug
-    } else if (args$mode == "test") {
-      opts <- .opts_jagr_test
-    }else if (args$mode == "explore") {
+    } else if (args$mode == "explore") {
       opts <- .opts_jagr_explore
     } else if (args$mode == "report") {
       opts <- .opts_jagr_report
@@ -185,22 +183,27 @@ opts_jagr <- function (...) {
       opts <- .opts_jagr_paper
     } else if (args$mode == "default") {
       opts <- .opts_jagr_def
-    } else if (args$mode == "custom") {
-      opts$mode <- "custom"
-    } else if (args$mode != "current") {
+    } else if (args$mode == "test") {
+      opts <- .opts_jagr_test
+    }else if (!args$mode %in% c("current","custom")) {
       stop(paste("mode",args$mode,"not recognized"))
     }
   }
-  for (v in names(args)) {
-    if (v %in% names(opts) && v != "mode") {
-      opts["mode"] <- "custom"
-      if (is.null(args[[v]])) {
-        opts[v] <- list(NULL)
-      } else if (mode(opts[[v]]) == mode(args[[v]])) {
-        opts[v] <- args[v]
-      }
+  names_args <- names(args)
+  names_args <- names_args[names_args != "mode"]
+  
+  if (length(names_args)) {
+    opts["mode"] <- "custom"
+  }
+  
+  for (v in names_args) {
+    if (is.null(args[[v]])) {
+      opts[v] <- list(NULL)
+    } else if (mode(opts[[v]]) == mode(args[[v]])) {
+      opts[v] <- args[v]
     }
   }
+  
   assign_opts_jagr(opts)
   invisible(old)
 }
@@ -253,8 +256,8 @@ assign_opts_jagr <- function (opts) {
   if (!(opts$level >= 0.8 && opts$level <= 0.99)) {
     stop("option level must lie between 0.8 and 0.99")
   }  
-  if (!opts$nchains %in% 2:4) {
-    stop("option nchains must lie between 2 and 4")
+  if (!opts$nchains %in% 2:6) {
+    stop("option nchains must lie between 2 and 6")
   }  
   if (!opts$nresample %in% 0:4) {
     stop("option nresample must lie between 0 and 4")
@@ -271,6 +274,22 @@ assign_opts_jagr <- function (opts) {
   if (!(opts$rhat >= 1 &&  opts$rhat <= 2)) {
     stop("option convergence must lie between 1 and 2")
   } 
+  
+  topts <- opts[names(opts) != "mode"]
+  
+  if (isTRUE(all.equal(topts, 
+               .opts_jagr_debug[names(.opts_jagr_debug) != "mode"]))) {
+    opts$mode <- "debug"
+  } else if(isTRUE(all.equal(topts, 
+                       .opts_jagr_explore[names(.opts_jagr_explore) != "mode"]))) {
+    opts$mode <- "explore"
+  } else if(isTRUE(all.equal(topts, 
+                     .opts_jagr_paper[names(.opts_jagr_paper) != "mode"]))) {
+    opts$mode <- "paper"
+  } else if(isTRUE(all.equal(topts, 
+                     .opts_jagr_report[names(.opts_jagr_report) != "mode"]))) {
+    opts$mode <- "report"
+  }
   
   assign(".opts_jagr", opts, pos = 1)
   invisible(opts)
