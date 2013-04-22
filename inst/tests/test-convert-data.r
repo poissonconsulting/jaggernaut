@@ -2,6 +2,7 @@ context("convert-data")
 
 test_that("convert_data returns correct number of rows", {
   data <- data.frame(
+    dlogical = as.logical(0:9),
     dnumeric = 1:10 + 0.1,
     dinteger = 1:10,
     dfactor = factor(1:10),

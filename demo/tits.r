@@ -9,7 +9,8 @@ library(scales)
 # first time observer indicators as site x year matrices in the following
 # code they are melted into long format and passed as a single data frame.
 # Also in the following code the order of the models is reversed with the
-# full model being the first model.
+# full model being the first model. The indicator first is passed as a logical
+# vector to ensure it is treated correctly by the predict function.
 
 # GLMM5 (Kery & Schaub 2011 p.108-109)
 mod1 <- jags_model ("
@@ -182,12 +183,11 @@ mod6 <- jags_model ("
               log(prediction[i]) <- mu
               }
  }",
-select = c("C","first"),
-modify_data = function (data) {print(data); stop()}
+select = c("C")
 )
 
 mods <- list(mod1,mod2,mod3,mod4,mod5,mod6)
-mods <- list(mod6)
+mods <- list(mod1)
 
 data(tits)
 dat <- tits

@@ -1,12 +1,14 @@
 context("get_mean")
 
 test_that("get_mean returns vector of correct class", {
+  dlogical <- dvariable(as.logical(0:9))
   dnumeric <- dvariable(1:10 + 0.1)
   dinteger <- dvariable(1:10)
   dfactor <- dvariable(factor(1:10))
   ddate <- dvariable(as.Date("2000-01-01") + 1:10)
   dposixt <- dvariable(as.POSIXct("2000-01-01", tz= "GMT") + 1:10)
   
+  expect_that(get_mean(dlogical), is_a('logical'))
   expect_that(get_mean(dnumeric), is_a('numeric'))
   expect_that(get_mean(dinteger), is_a('integer'))
   expect_that(get_mean(dfactor), is_a('factor'))
@@ -15,12 +17,14 @@ test_that("get_mean returns vector of correct class", {
 })
 
 test_that("get_mean returns vector of length 1", {
+  dlogical <- dvariable(as.logical(0:9))
   dnumeric <- dvariable(1:10 + 0.1)
   dinteger <- dvariable(1:10)
   dfactor <- dvariable(factor(1:10))
   ddate <- dvariable(as.Date("2000-01-01") + 1:10)
   dposixt <- dvariable(as.POSIXct("2000-01-01", tz= "GMT") + 1:10)
   
+  expect_that(length(get_mean(dlogical)), equals(1))
   expect_that(length(get_mean(dnumeric)), equals(1))
   expect_that(length(get_mean(dinteger)), equals(1))
   expect_that(length(get_mean(dfactor)), equals(1))
@@ -29,12 +33,14 @@ test_that("get_mean returns vector of length 1", {
 })
 
 test_that("get_mean returns correct value", {
+  dlogical <- dvariable(as.logical(0:9))
   dnumeric <- dvariable(1:10 + 0.1)
   dinteger <- dvariable(1:10)
   dfactor <- dvariable(factor(1:10))
   ddate <- dvariable(as.Date("2000-01-01") + 1:10)
   dposixt <- dvariable(as.POSIXct("2000-01-01", tz= "GMT") + 1:10)
   
+  expect_that(get_mean(dlogical), equals(FALSE))
   expect_that(get_mean(dnumeric), equals(mean(1:10 + 0.1)))
   expect_that(get_mean(dinteger), equals(as.integer(round(mean(1:10)))))
   expect_that(get_mean(dfactor), equals(factor(1:10)[1]))

@@ -3,6 +3,17 @@ convert_variable <- function(object, x, numericise = T, centre = F, standardise 
   UseMethod("convert_variable", object)
 }
 
+convert_variable.dlogical <- function(object, x, numericise = T, centre = F, 
+                                     standardise = F) {
+  
+  x <- as.logical(x)
+  
+  if (numericise || centre || standardise)
+    x <- as.integer(x)
+  
+  return (x)
+}
+
 convert_variable.dnumeric <- function(object, x, numericise = T, centre = F, standardise = F) {
 
   x <- as.numeric (x)

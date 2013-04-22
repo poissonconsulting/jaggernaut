@@ -2,6 +2,7 @@ context("generate-data")
 
 test_that("generates data frame with correct number of rows", {
   data <- data.frame(
+    dlogical = as.logical(0:9),
     dnumeric = 1:10 + 0.1,
     dinteger = 1:10,
     ddate = as.Date("2000-01-01") + 1:10,

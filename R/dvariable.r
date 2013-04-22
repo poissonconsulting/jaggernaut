@@ -3,6 +3,19 @@ dvariable <- function(x) {
   UseMethod("dvariable", x)
 }
 
+dvariable.logical <- function (x) {
+  x <- as.logical (x)
+  
+  min = FALSE
+  mean = NA
+  max = TRUE
+  sd = NA
+  object <- list(min = min, mean = mean, max = max, sd = sd)    
+  class(object)<-c("dlogical","dvariable")
+  
+  return (object)
+}
+
 dvariable.numeric <- function (x) {
     x <- as.numeric(x)
     
