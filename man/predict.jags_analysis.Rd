@@ -4,7 +4,7 @@
 \usage{
   \method{predict}{jags_analysis} (object, newdata = NULL,
     parm = "prediction", base = FALSE, values = NULL,
-    model = 1, derived_code = NULL, hyper_parm = NULL,
+    model = 1, derived_code = NULL, random_effects = NULL,
     level = "current", length_out = 50, ...)
 }
 \arguments{
@@ -40,10 +40,10 @@
   derived_code is as defined by the JAGS model for which
   the JAGS analysis was performed.}
 
-  \item{hyper_parm}{a named list which specifies which
-  parameters to treat as random variables. If NULL
-  hyper_parm is as defined by the JAGS model for which the
-  JAGS analysis was performed.}
+  \item{random_effects}{a named list which specifies which
+  parameters to treat as random variables in the derived
+  code. If NULL random_effects is as defined by the JAGS
+  model for which the JAGS analysis was performed.}
 
   \item{level}{a numeric scalar specifying the significance
   level or a character scalar specifying which mode the

@@ -3,8 +3,9 @@
 \title{Create a JAGS model}
 \usage{
   jags_model(code, monitor = NULL, select = NULL,
-    modify_data = NULL, gen_inits = NULL,
-    derived_code = NULL, hyper_parm = NULL,
+    modify_data = function(data) {     return(data) },
+    gen_inits = function(data) {     return(list()) },
+    derived_code = NULL, random_effects = NULL,
     description = NULL)
 }
 \arguments{
@@ -30,7 +31,7 @@
   in the JAGS dialect of the BUGS language that specifies
   derived parameters}
 
-  \item{hyper_parm}{a named list of parameters to be
+  \item{random_effects}{a named list of parameters to be
   treated as random effects with the related data as
   values}
 
@@ -127,13 +128,13 @@
   the use of the \code{derived_code} argument see
   \code{\link{predict.jags_analysis}}.
 
-  The \code{hyper_parm} argument is used specify which
+  The \code{random_effects} argument is used specify which
   parameters represent random effects. It takes the form of
   a named list where the parameters are the names of the
   list elements and the values are character vectors of the
   variables in the input data frame that the parameters are
   random with respect to. For further information on the
-  use of the \code{hyper_parm} argument see the
+  use of the \code{random_effects} argument see the
   \code{predict} function.
 
   The \code{description} argument is a named character

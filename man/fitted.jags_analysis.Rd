@@ -4,7 +4,7 @@
 \usage{
   \method{fitted}{jags_analysis} (object,
     parm = "prediction", model = 1, derived_code = NULL,
-    hyper_parm = NULL, level = "current", ...)
+    random_effects = NULL, level = "current", ...)
 }
 \arguments{
   \item{object}{a jags_analysis object.}
@@ -23,7 +23,7 @@
   NULL derived_code is as defined by the JAGS model for
   which the JAGS analysis was performed.}
 
-  \item{hyper_parm}{a named list which specifies which
+  \item{random_effects}{a named list which specifies which
   parameters to treat as random variables. If NULL random
   is as defined by the JAGS model for which the JAGS
   analysis was performed.}
