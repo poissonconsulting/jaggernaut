@@ -14,7 +14,7 @@
 #' parameters for each row of data. 
 #' If NULL derived_code is as defined by the JAGS model for which 
 #' the JAGS analysis was performed. 
-#' @param random a named list which specifies which parameters to treat 
+#' @param hyper_parm a named list which specifies which parameters to treat 
 #' as random variables. If NULL random is as defined by the JAGS model for which the JAGS analysis was performed. 
 #' @param level a numeric scalar specifying the significance level or a character
 #' scalar specifying which mode the level should be taken from. By default the
@@ -28,7 +28,7 @@
 fitted.jags_analysis <- function (object, 
                                   parm = "prediction", 
                                    model = 1, 
-                                   derived_code = NULL, random = NULL, 
+                                   derived_code = NULL, hyper_parm = NULL, 
                                    level = "current", ...) {
   
   old_opts <- opts_jagr()
@@ -48,7 +48,7 @@ fitted.jags_analysis <- function (object,
     
   fit <- calc_expected(object, 
                         parameter = parm, data = dataset(object), 
-                        derived_model = derived_code, random = random, 
+                        derived_model = derived_code, random = hyper_parm, 
                         calc_estimates = T)
   rownames(fit) <- NULL
   

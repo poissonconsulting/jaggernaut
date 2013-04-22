@@ -23,8 +23,8 @@
 #' @param derived_code a character element defining a block in the JAGS dialect of 
 #' the BUGS language that defines one or more derived parameters for each row of data. 
 #' If NULL derived_code is as defined by the JAGS model for which the JAGS analysis was performed. 
-#' @param random a named list which specifies which parameters to treat 
-#' as random variables. If NULL random is as defined by the JAGS model for which the JAGS analysis was performed. 
+#' @param hyper_parm a named list which specifies which parameters to treat 
+#' as random variables. If NULL hyper_parm is as defined by the JAGS model for which the JAGS analysis was performed. 
 #' @param level a numeric scalar specifying the significance level or a character
 #' scalar specifying which mode the level should be taken from. By default the
 #' level is as currently specified by \code{opts_jagr} in the global options.
@@ -40,7 +40,7 @@
 predict.jags_analysis <- function (object, newdata = NULL, 
                                    parm = "prediction", base = FALSE, 
                                    values = NULL, model = 1, 
-                                   derived_code = NULL, random = NULL, 
+                                   derived_code = NULL, hyper_parm = NULL, 
                                    level = "current", length_out = 50, ...) {
 
   old_opts <- opts_jagr()
@@ -61,7 +61,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
   pred <- calc_expected(object, 
                          parameter = parm, data = newdata, 
                          base = base, values = values, 
-                        derived_model = derived_code, random = random, 
+                        derived_model = derived_code, random = hyper_parm, 
                          length.out = length_out, 
                          calc_estimates = T)
   rownames(pred) <- NULL

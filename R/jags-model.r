@@ -20,7 +20,7 @@
 #' (it is passed the (modified) data in list form)
 #' @param derived_code a character element defining a model in the JAGS dialect
 #'  of the BUGS language that specifies derived parameters
-#' @param random a named list of parameters to be treated as random effects with the
+#' @param hyper_parm a named list of parameters to be treated as random effects with the
 #' related data as values
 #' @param description a named character vector descriping each of the parameters 
 #' in the model where the name indicates the parameter to which the description applies
@@ -82,12 +82,12 @@
 #' For further information on the use of the \code{derived_code} argument see
 #'  \code{\link{predict.jags_analysis}}.
 #' 
-#' The \code{random} argument is used specify which parameters represent random effects.
+#' The \code{hyper_parm} argument is used specify which parameters represent random effects.
 #' It takes 
 #' the form of a named list where the parameters are the names of the list elements 
 #' and the values are character vectors of the variables in the input data frame that
 #' the parameters are random with respect to. For further information on the
-#' use of the \code{random} argument see the \code{predict} function.
+#' use of the \code{hyper_parm} argument see the \code{predict} function.
 #' 
 #' The \code{description} argument is a named character vector that can be used
 #' to provide a description of parameters or variables in the JAGS model code. Currently
@@ -111,7 +111,7 @@
 #'
 #' @export 
 jags_model <- function (code, monitor = NULL, select = NULL, modify_data = NULL, 
-                    gen_inits = NULL, derived_code = NULL, random = NULL, 
+                    gen_inits = NULL, derived_code = NULL, hyper_parm = NULL, 
                     description = NULL
 ) {
   
@@ -127,8 +127,8 @@ jags_model <- function (code, monitor = NULL, select = NULL, modify_data = NULL,
     stop ("modify_data must be NULL or a function")
   if (!(is.null(gen_inits) || is.function(gen_inits)))
     stop ("gen_inits must be NULL or a function")
-  if (!(is.null(random) || (is.list(random) & !is.null(names(random)))))
-    stop ("random must be NULL or a named list")  
+  if (!(is.null(hyper_parm) || (is.list(hyper_parm) & !is.null(names(hyper_parm)))))
+    stop ("hyper_parm must be NULL or a named list")  
   if (!(is.null(derived_code) || (is.character(derived_code) && length(derived_code)==1)))
     stop ("derived_code must be NULL or a character vector of length 1")
   if(!(is.null(extract_data) || is.function(extract_data)))
@@ -146,7 +146,7 @@ jags_model <- function (code, monitor = NULL, select = NULL, modify_data = NULL,
     select = select,
     modify_data = modify_data,
     gen_inits = gen_inits,
-    random = random,
+    random = hyper_parm,
     derived_model = derived_code,
     extract_data = extract_data,
     description = description

@@ -12,7 +12,7 @@
 #' estimates.
 #' 
 #' @param models a \code{jags_model} or list of \code{jags_model}s  specifying the JAGS model(s).
-#' @param data the data.frame to analyse.
+#' @param dataset the data.frame to analyse.
 #' @param niter an integer element of the number of iterations to run per MCMC chain.
 #' @param mode a character element indicating the mode for the analysis.
 #' @details 
@@ -51,7 +51,7 @@
 #' 
 #' @export
 jags_analysis <- function (
-  models, data, niter = 10^3, mode = "current"
+  models, dataset, niter = 10^3, mode = "current"
 )
 { 
   old_opts <- opts_jagr(mode = mode)
@@ -108,7 +108,7 @@ jags_analysis <- function (
     doMC::registerDoMC(cores=n.model)
     
     object$analyses <- foreach(i = 1:n.model) %dopar% { 
-      jagr_analysis(models[[i]], data, 
+      jagr_analysis(models[[i]], dataset, 
                     n.iter = niter, n.chain = nchains, resample = resample,
                     convergence = convergence, independence = independence,
                     parallelChains = parallelChains,
@@ -118,7 +118,7 @@ jags_analysis <- function (
     for (i in 1:n.model) {
       if (!quiet)
         cat(paste("\n\nModel",i,"of",n.model,"\n\n"))
-      object$analyses[[i]] <- jagr_analysis(models[[i]], data,
+      object$analyses[[i]] <- jagr_analysis(models[[i]], dataset,
                                             n.iter = niter, n.chain = nchains, resample = resample,
                                             convergence = convergence, independence = independence,
                                             parallelChains = parallelChains,

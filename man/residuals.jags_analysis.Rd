@@ -4,7 +4,7 @@
 \usage{
   \method{residuals}{jags_analysis} (object,
     parm = "residual", model = 1, derived_code = NULL,
-    random = NULL, level = "current", ...)
+    hyper_parm = NULL, level = "current", ...)
 }
 \arguments{
   \item{object}{a jags_analysis object.}
@@ -22,7 +22,7 @@
   derived_code is as defined by the JAGS model for which
   the JAGS analysis was performed.}
 
-  \item{random}{a named list which specifies which
+  \item{hyper_parm}{a named list which specifies which
   parameters to treat as random variables. If NULL random
   is as defined by the JAGS model for which the JAGS
   analysis was performed.}
