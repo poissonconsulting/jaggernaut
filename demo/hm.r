@@ -5,7 +5,7 @@ library(scales)
 # State-space model for annual population counts
 
 # ssm (Kery and Schaub 2011 p.127)
-mod <- model("
+mod <- jags_model("
              model {
              logN.est[1] ~ dnorm(5.6, 10^-2)
              mean.r ~ dnorm(1, 10^-2)

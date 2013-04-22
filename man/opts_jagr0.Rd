@@ -92,6 +92,6 @@ opts_jagr0(old)
 opts_jagr0("nchains","mode")
 }
 \seealso{
-  \code{\link{analysis}} and \code{\link{options}}
+  \code{\link{jags_analysis}} and \code{\link{options}}
 }
 

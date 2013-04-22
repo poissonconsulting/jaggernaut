@@ -11,7 +11,7 @@ calc_derived.gsmcmc <- function (object, model, monitor, calc_estimates = FALSE)
   if (!inherits(monitor,"character") || length(monitor) < 1) 
     stop ("monitor must be a character vector of length 1 or more")
       
-  model <- jmodel (model, monitor)
+  model <- jags_model (model, monitor)
   options(jags.pb = "none")
 
   file <- tempfile(fileext=".bug")
@@ -61,7 +61,7 @@ calc_derived.jagr_analysis <- function (object, model, monitor,
     data <- generate_data (object, range = data)
   } 
   dat <- translate_data(object$model,object$data, dat = data)  
-  model <- jmodel (model= model, monitor = monitor)
+  model <- jags_model (model, monitor = monitor)
   options(jags.pb = "none")
   file <- tempfile(fileext=".bug")
   cat(model$model, file=file)

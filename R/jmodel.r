@@ -39,7 +39,7 @@ jmodel <- function (model, monitor = NULL, select = NULL, modify_data = NULL,
     description = description
   )
   
-  class(object) <- "jmodel"
+  class(object) <- "jags_model"
   return (object)
 }
 

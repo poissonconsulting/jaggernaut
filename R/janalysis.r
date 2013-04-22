@@ -17,15 +17,15 @@ janalysis <- function (
   if(!"dic" %in% list.modules())
     load.module("dic")
   
-  if(!is.list(models) & !is.jmodel(models))
-    stop ("models should be a jmodel object or list of jmodel")
+  if(!is.list(models) & !is.jags_model(models))
+    stop ("models should be a jags_model object or list of jags_model")
   
   if(parallelModels && .Platform$OS.type == "windows") {
     warning("parallelModels is not currently defined for windows")
     parallelModels <- FALSE
   }
   
-  if(is.jmodel(models)) {
+  if(is.jags_model(models)) {
     models <- list(models)
   }
   

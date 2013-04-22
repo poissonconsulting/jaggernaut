@@ -1,8 +1,8 @@
 
 translate_data <- function (object, data, dat = NULL)
 {  
-  if (!is.jmodel(object))
-    stop ("object must be of class jmodel")
+  if (!is.jags_model(object))
+    stop ("object must be of class jags_model")
   
   if (!is.data.frame(data))
     stop ("data must be of class data.frame")

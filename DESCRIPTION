@@ -88,7 +88,6 @@ Collate:
     'is-same.r'
     'is-scalar.r'
     'select-model.r'
-    'model.r'
     'subset.r'
     'leisleri.r'
     'orchids.r'
@@ -106,3 +105,4 @@ Collate:
     'jagr-analysis.r'
     'jags-analysis-internal.r'
     'jags-analysis.r'
+    'jags-model.r'

@@ -122,7 +122,7 @@
 #' sorted by name. For \code{opts_jagr0(name)} a list of length one of the 
 #' option value. When setting one or more options a list with the previous values of
 #' the options unchanged (returned invisibly).
-#' @seealso \code{\link{analysis}} and \code{\link{options}}
+#' @seealso \code{\link{jags_analysis}} and \code{\link{options}}
 #' @usage opts_jagr0(...)
 #' 
 #' options_jaggernaut(...) 

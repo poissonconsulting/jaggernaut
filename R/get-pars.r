@@ -1,7 +1,7 @@
 
 get_pars <- function (object, type = "fixed") {
-  if(!is.jmodel(object))
-    stop("object must be of class jmodel")
+  if(!is.jags_model(object))
+    stop("object must be of class jags_model")
   
   if (!type %in% c("fixed","random","all"))
     stop ("type should be fixed, random or all")

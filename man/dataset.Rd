@@ -21,6 +21,7 @@
   use of base values see the \code{derived} function.
 }
 \seealso{
-  \code{\link{jaggernaut}}, \link{analysis}, \link{derived}
+  \code{\link{jaggernaut}}, \link{jags_analysis},
+  \link{derived}
 }
 

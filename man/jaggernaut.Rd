@@ -11,19 +11,19 @@
 }
 \details{
   In short an analysis proceeds first by the definition of
-  the JAGS model(s) using the \code{\link{model}} function.
-  Next the resultant \code{jags_model} object or
+  the JAGS model(s) using the \code{\link{jags_model}}
+  function.  Next the resultant \code{jags_model} object or
   \code{\link{jags_model}} objects in list form are passed
-  together with a data set to the \code{\link{analysis}}
-  function which calls the JAGS software to perform the
-  actual MCMC sampling.  The resultant
-  \code{\link{jags_analysis}} object can then be passed to
-  the \code{\link{plot.jags_analysis}} function to view the
-  MCMC traces, the \code{\link{convergence}} function to
-  check the Rhat values of individual parameters and the
-  \code{\link{estimates}} function to get the parameter
-  estimates with 95\% credible limits.  The
-  \code{\link{derived}} function can then be used to
+  together with a data set to the
+  \code{\link{jags_analysis}} function which calls the JAGS
+  software to perform the actual MCMC sampling.  The
+  resultant \code{\link{jags_analysis}} object can then be
+  passed to the \code{\link{plot.jags_analysis}} function
+  to view the MCMC traces, the \code{\link{convergence}}
+  function to check the Rhat values of individual
+  parameters and the \code{\link{estimates}} function to
+  get the parameter estimates with 95\% credible limits.
+  The \code{\link{derived}} function can then be used to
   extract derived parameter estimates from a
   \link{jags_analysis} object without the need for further
   MCMC sampling.
@@ -45,7 +45,7 @@
   maintainer at \email{<joe@poissonconsulting.ca>}.
 }
 \examples{
-mod <- model("
+mod <- jags_model("
 model {
  bLambda ~ dlnorm(0,10^-2)
  for (i in 1:nrow) {
@@ -55,7 +55,7 @@ model {
 
 dat <- data.frame(x = rpois(100,1))
 
-an <- analysis (mod, dat)
+an <- jags_analysis (mod, dat)
 
 plot(an)
 convergence(an)
@@ -78,7 +78,7 @@ summary(an)
   \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
 }
 \seealso{
-  \code{\link{model}}, \code{\link{analysis}},
+  \code{\link{jags_model}}, \code{\link{jags_analysis}},
   \code{\link{plot.jags_analysis}},
   \code{\link{convergence}}, \code{\link{estimates}} and
   \code{\link{derived}}.

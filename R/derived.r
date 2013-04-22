@@ -29,7 +29,8 @@
 #' @return the input data frame with the median and 95% credibility intervals 
 #' (or iterations) for
 #' the derived parameter of interest
-#' @seealso \code{\link{jaggernaut}}, \code{\link{model}} and \code{\link{analysis}}
+#' @seealso \code{\link{jags_model}}, \code{\link{jags_analysis}}
+#' and \code{\link{jaggernaut}}
 #' @export 
 derived <- function (object, parameter, data = NULL, base = FALSE, 
                      values = NULL, model = 1, derived_code = NULL, random = NULL, 

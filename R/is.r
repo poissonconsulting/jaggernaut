@@ -7,14 +7,16 @@ is.gsmcmc <- function (object) {
   inherits(object, "gsmcmc")
 }
 
-is.jmodel <- function (object) {
-  inherits(object, "jmodel")
+#' @export
+is.jags_model <- function (object) {
+  inherits(object, "jags_model")
 }
 
 is.jagr_analysis <- function (object) {
   inherits(object, "jagr_analysis")
 }
 
+#' @export
 is.jags_analysis <- function (object) {
   inherits(object, "jags_analysis")
 }

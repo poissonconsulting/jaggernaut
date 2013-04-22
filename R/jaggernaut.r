@@ -8,9 +8,9 @@
 #' @details
 #' In short an analysis proceeds first by the 
 #' definition of the JAGS model(s) using
-#' the \code{\link{model}} function.  Next the resultant \code{jags_model} object
+#' the \code{\link{jags_model}} function.  Next the resultant \code{jags_model} object
 #' or  \code{\link{jags_model}} objects in list form are passed together with a data set to 
-#' the \code{\link{analysis}} function which calls the JAGS software to 
+#' the \code{\link{jags_analysis}} function which calls the JAGS software to 
 #' perform the actual MCMC
 #' sampling.  The resultant \code{\link{jags_analysis}} object can then be passed
 #' to the \code{\link{plot.jags_analysis}} function to view the MCMC traces, the 
@@ -43,12 +43,12 @@
 #' @import abind coda rjags foreach
 #' @name jaggernaut
 #' @aliases package-jaggernaut jagr0
-#' @seealso \code{\link{model}}, \code{\link{analysis}}, \code{\link{plot.jags_analysis}},
+#' @seealso \code{\link{jags_model}}, \code{\link{jags_analysis}}, \code{\link{plot.jags_analysis}},
 #' \code{\link{convergence}},
 #' \code{\link{estimates}} and \code{\link{derived}}.
 #' @examples
 #' 
-#' mod <- model("
+#' mod <- jags_model("
 #' model { 
 #'  bLambda ~ dlnorm(0,10^-2) 
 #'  for (i in 1:nrow) { 
@@ -58,7 +58,7 @@
 #'
 #' dat <- data.frame(x = rpois(100,1))
 #' 
-#' an <- analysis (mod, dat)
+#' an <- jags_analysis (mod, dat)
 #' 
 #' plot(an)
 #' convergence(an)

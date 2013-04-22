@@ -9,7 +9,7 @@
 #' @param object a jags_analysis object
 #' @param base a logical scalar indicating whether to return the base values
 #' @return a data frame of the data used in the analysis or the corresponding base values
-#' @seealso \code{\link{jaggernaut}}, \link{analysis}, \link{derived}
+#' @seealso \code{\link{jaggernaut}}, \link{jags_analysis}, \link{derived}
 #' @export
 dataset <- function (object, base = FALSE) {
   if(!is.jags_analysis(object))

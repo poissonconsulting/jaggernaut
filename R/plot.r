@@ -29,7 +29,7 @@ plot.jagr_analysis <- function (x, parameters, ...) {
 #' @param model an integer element specifying the model to select. 
 #' If model = 0 then it selects the model with the lowest DIC.
 #' @param ... arguments to pass to coda::plot.mcmc
-#' @seealso \code{\link{jaggernaut}}, \code{\link{analysis}} and \code{\link[coda]{plot.mcmc}}
+#' @seealso \code{\link{jags_analysis}} and \code{\link[coda]{plot.mcmc}}
 #' @method plot jags_analysis
 #' @export
 plot.jags_analysis <- function (x, model = 1, ...) {

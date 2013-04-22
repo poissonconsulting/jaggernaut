@@ -29,9 +29,9 @@
   \code{estimates} and \code{derived} parameter estimates.
 }
 \details{
-  The \code{analysis} function performs a Bayesian analysis
-  of a data frame for a \code{jags_model} or list of
-  \code{jags_model}s. If \code{mode = "current"} (the
+  The \code{jags_analysis} function performs a Bayesian
+  analysis of a data frame for a \code{jags_model} or list
+  of \code{jags_model}s. If \code{mode = "current"} (the
   default) then the analysis options are as currently
   globally defined by \code{opts_jagr0()} otherwise the
   \code{mode} argument specifies the analysis mode for that
@@ -47,7 +47,7 @@
   halves of the chains.
 }
 \examples{
-mod <- model("
+mod <- jags_model("
 model {
  bLambda ~ dlnorm(0,10^-2)
  for (i in 1:nrow) {
@@ -57,14 +57,14 @@ model {
 
 dat <- data.frame(x = rpois(100,1))
 
-an <- analysis (mod, dat)
+an <- jags_analysis (mod, dat)
 }
 \references{
   Plummer M (2012) JAGS Version 3.3.0 User Manual
   \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
 }
 \seealso{
-  \code{\link{model}}, \code{\link{opts_jagr0}},
+  \code{\link{jags_model}}, \code{\link{opts_jagr0}},
   \code{\link{convergence}}, \code{\link{estimates}},
   \code{\link{derived}} and \code{\link{jaggernaut}}
 }

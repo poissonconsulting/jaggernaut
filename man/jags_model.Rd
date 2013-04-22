@@ -1,9 +1,8 @@
-\name{model}
+\name{jags_model}
 \alias{jags_model}
-\alias{model}
 \title{Create a JAGS model}
 \usage{
-  model(code, monitor = NULL, select = NULL,
+  jags_model(code, monitor = NULL, select = NULL,
     modify_data = NULL, gen_inits = NULL,
     derived_code = NULL, random = NULL, description = NULL)
 }
@@ -38,7 +37,7 @@
   indicates the parameter to which the description applies}
 }
 \value{
-  a \code{jmodel} object
+  a \code{jags_model} object
 }
 \description{
   Creates a JAGS model object which defines a Bayesian
@@ -51,15 +50,15 @@
   model among other things.
 }
 \details{
-  The \code{model} function defines a JAGS model that can
-  then be passed to the \code{analysis} function together
-  with a data frame to perform a Bayesian analysis. The
-  idea is that a JAGS model can be defined once and then
-  used to perform analyses on different data frames. The
-  only argument that needs to be set is a character element
-  defining the model block in the JAGS dialect of the the
-  BUGS language. However various other arguments can also
-  be set to provide additional control.
+  The \code{jags_model} function defines a JAGS model that
+  can then be passed to the \code{jags_analysis} function
+  together with a data frame to perform a Bayesian
+  analysis. The idea is that a JAGS model can be defined
+  once and then used to perform analyses on different data
+  frames. The only argument that needs to be set is a
+  character element defining the model block in the JAGS
+  dialect of the the BUGS language. However various other
+  arguments can also be set to provide additional control.
 
   The \code{monitor} argument is used to define the
   parameters in the model to monitor - by default all model
@@ -141,7 +140,7 @@
   the \code{description} argument has no functionality.
 }
 \examples{
-mod <- model("
+mod <- jags_model("
 model {
  bLambda ~ dlnorm(0,10^-2)
  for (i in 1:nrow) {
@@ -156,7 +155,6 @@ print(mod)
   \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
 }
 \seealso{
-  \code{\link{jaggernaut}}, \code{\link{analysis}} and
-  \code{\link{derived}}
+  \code{\link{jags_analysis}} and \code{\link{derived}}
 }
 

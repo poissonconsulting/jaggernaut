@@ -25,8 +25,8 @@
 #' @param description a named character vector descriping each of the parameters 
 #' in the model where the name indicates the parameter to which the description applies
 #' @details 
-#' The \code{model} function defines a JAGS model that can then be passed to the 
-#' \code{analysis} function together with a data frame to perform a Bayesian analysis.
+#' The \code{jags_model} function defines a JAGS model that can then be passed to the 
+#' \code{jags_analysis} function together with a data frame to perform a Bayesian analysis.
 #' The idea is that a JAGS model can be defined once and then used to perform 
 #' analyses on different data frames. The only argument that 
 #' needs to be set is a character element defining the model block in the JAGS dialect of the 
@@ -92,13 +92,13 @@
 #' to provide a description of parameters or variables in the JAGS model code. Currently
 #' the \code{description} argument has no functionality.
 #' 
-#' @return a \code{jmodel} object
+#' @return a \code{jags_model} object
 #' @references  
 #' Plummer M (2012) JAGS Version 3.3.0 User Manual \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
-#' @seealso \code{\link{jaggernaut}}, \code{\link{analysis}} and \code{\link{derived}}  
+#' @seealso \code{\link{jags_analysis}} and \code{\link{derived}}  
 #' @examples
 #' 
-#' mod <- model("
+#' mod <- jags_model("
 #' model { 
 #'  bLambda ~ dlnorm(0,10^-2) 
 #'  for (i in 1:nrow) { 
@@ -109,8 +109,7 @@
 #' print(mod)
 #'
 #' @export 
-#' @aliases jags_model
-model <- function (code, monitor = NULL, select = NULL, modify_data = NULL, 
+jags_model <- function (code, monitor = NULL, select = NULL, modify_data = NULL, 
                     gen_inits = NULL, derived_code = NULL, random = NULL, 
                     description = NULL
 ) {
@@ -152,7 +151,7 @@ model <- function (code, monitor = NULL, select = NULL, modify_data = NULL,
     description = description
   )
   
-  class(object) <- "jmodel"
+  class(object) <- "jags_model"
   return (object)
 }
 

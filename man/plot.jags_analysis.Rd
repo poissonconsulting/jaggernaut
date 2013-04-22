@@ -18,7 +18,7 @@
   the coda::plot.mcmc function.
 }
 \seealso{
-  \code{\link{jaggernaut}}, \code{\link{analysis}} and
+  \code{\link{jags_analysis}} and
   \code{\link[coda]{plot.mcmc}}
 }
 

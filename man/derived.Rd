@@ -58,7 +58,7 @@
   analysis
 }
 \seealso{
-  \code{\link{jaggernaut}}, \code{\link{model}} and
-  \code{\link{analysis}}
+  \code{\link{jags_model}}, \code{\link{jags_analysis}} and
+  \code{\link{jaggernaut}}
 }
 

@@ -6,8 +6,8 @@ jagr_analysis <- function (
   debug = FALSE, quiet = FALSE, n.sim = 1000
 )
 {  
-  if(!is.jmodel(model))
-    stop ("model should be class jmodel")
+  if(!is.jags_model(model))
+    stop ("model should be class jags_model")
   
   if(!is.data.frame(data))
     stop ("data should be class data.frame")

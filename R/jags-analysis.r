@@ -16,7 +16,7 @@
 #' @param niter an integer element of the number of iterations to run per MCMC chain.
 #' @param mode a character element indicating the mode for the analysis.
 #' @details 
-#' The \code{analysis} function performs a Bayesian analysis of a data frame
+#' The \code{jags_analysis} function performs a Bayesian analysis of a data frame
 #' for a \code{jags_model} or list of \code{jags_model}s. 
 #' If \code{mode = "current"} (the default) then the analysis options are as currently
 #' globally defined by \code{opts_jagr0()} otherwise the \code{mode} argument specifies 
@@ -31,12 +31,12 @@
 #' @return a \code{jags_analysis} object
 #' @references 
 #' Plummer M (2012) JAGS Version 3.3.0 User Manual \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
-#' @seealso \code{\link{model}}, \code{\link{opts_jagr0}},
+#' @seealso \code{\link{jags_model}}, \code{\link{opts_jagr0}},
 #' \code{\link{convergence}}, \code{\link{estimates}}, \code{\link{derived}} 
 #' and \code{\link{jaggernaut}}
 #' @examples
 #' 
-#' mod <- model("
+#' mod <- jags_model("
 #' model { 
 #'  bLambda ~ dlnorm(0,10^-2) 
 #'  for (i in 1:nrow) { 
@@ -46,10 +46,9 @@
 #'
 #' dat <- data.frame(x = rpois(100,1))
 #' 
-#' an <- analysis (mod, dat)
+#' an <- jags_analysis (mod, dat)
 #' 
 #' @export
-#' @aliases jags_analysis
 jags_analysis <- function (
   models, data, niter = 10^3, mode = "current"
 )
@@ -82,15 +81,15 @@ jags_analysis <- function (
   if(!"dic" %in% list.modules())
     load.module("dic")
   
-  if(!is.list(models) & !is.jmodel(models))
-    stop ("models should be a jmodel object or list of jmodel")
+  if(!is.list(models) & !is.jags_model(models))
+    stop ("models should be a jags_model object or list of jags_model")
   
   if(parallelModels && .Platform$OS.type == "windows") {
     warning("parallelModels is not currently defined for windows")
     parallelModels <- FALSE
   }
   
-  if(is.jmodel(models)) {
+  if(is.jags_model(models)) {
     models <- list(models)
   }
   

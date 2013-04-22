@@ -12,7 +12,7 @@ library(scales)
 # full model being the first model.
 
 # GLMM5 (Kery & Schaub 2011 p.108-109)
-mod1 <- model("
+mod1 <- jags_model("
               model {
               mu ~ dnorm(0, 10^-2)
               beta1 ~ dnorm(0, 10^-2)
@@ -50,7 +50,7 @@ random = list(alpha = "site", eps = "nyearFac", gamma = "obs"),
 )
 
 # GLMM4 (Kery & Schaub 2011 p.106-107)
-mod2 <- model("
+mod2 <- jags_model("
               model {
               mu ~ dnorm(0, 10^-2)
               beta1 ~ dnorm(0, 10^-2)
@@ -83,7 +83,7 @@ random = list(alpha = "site", eps = "nyearFac"),
 )
 
 # GLMM3 (Kery & Schaub 2011 p.105)
-mod3 <- model("
+mod3 <- jags_model("
               model {
               mu ~ dnorm(0, 10^-2)
               beta2 ~ dnorm(0, 10^-2)
@@ -115,7 +115,7 @@ random = list(alpha = "site", eps = "nyearFac"),
 )
 
 # GLMM2 (Kery & Schaub 2011 p.103-104)
-mod4 <- model("
+mod4 <- jags_model("
               model {
               mu ~ dnorm(0, 10^-2)
               
@@ -144,7 +144,7 @@ random = list(alpha = "site", eps = "nyearFac"),
 )
 
 # GLMM1 (Kery & Schaub 2011 p.102)
-mod5 <- model("
+mod5 <- jags_model("
               model {
               mu ~ dnorm(0, 10^-2)
               
@@ -168,7 +168,7 @@ random = list(alpha = "site"),
 )
 
 #' # GLM0 (Kery & Schaub 2011 p.102)
-mod6 <- model("
+mod6 <- jags_model("
               model {
               mu ~ dnorm(0, 10^-2)
               
@@ -220,7 +220,7 @@ gp <- gp + theme(legend.position = "none")
 
 print(gp)
 
-an <- analysis (mods, dat, niter = 10^4, mode = "default")
+an <- analysis (mods, dat, niter = 10^4, mode = "explore")
 
 summary(an)
 

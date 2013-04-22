@@ -1,8 +1,8 @@
-context("analysis")
+context("jags_analysis")
 
 test_that("analysis returns object of correct class", {
   
-  model <- model(" model { 
+  model <- jags_model(" model { 
       bLambda ~ dlnorm(0,10^-2) 
       for (i in 1:nrow) { 
         x[i]~dpois(bLambda) 

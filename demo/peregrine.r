@@ -5,7 +5,7 @@ library(scales)
 # Poisson GLM analysis of peregrine breeding pairs (Kery & Schaub 2011 p.55-66)
 
 # GLM_Poisson (Kery & Schaub 2011 p.58-59)
-mod <- model("
+mod <- jags_model("
              model {
              alpha ~ dunif(-20, 20)
              beta1 ~ dunif(-10, 10)
@@ -68,7 +68,7 @@ print(gp)
 # Binomial GLM analysis of peregrine reproductive success (Kery & Schaub 2011 p.67-71)
 
 # GLM_Binomial (Kery & Schaub 2011 p.68-69)
-mod <- model("
+mod <- jags_model("
              model {
              alpha ~ dnorm(0, 10^-2)
              beta1 ~ dnorm(0, 10^-2)
@@ -108,7 +108,7 @@ print(gp)
 # Overdispersed Poisson GLMM analysis of peregrine breeding pairs (Kery & Schaub 2011 p.82-90)
 
 # GLMM_Poisson (Kery & Schaub 2011 p.87)
-mod <- model("
+mod <- jags_model("
              model {
              alpha ~ dunif(-20, 20)
              beta1 ~ dunif(-10, 10)
