@@ -26,21 +26,23 @@ mod <- jags_model("
              log(prediction[i]) <- logN.est[year[i]]
              }
  }",
-random = list(r = "year"),
-             select = c("C","year")
+random_effects = list(r = "year", logN.est = "year"),
+select = c("C","year")
 )
 
 data(hm)
 
 dat <- hm
 pyears <- 6
-dat <- data.frame(C = c(dat$hm,rep(NA,pyears)),
-                  year = c(dat$year,max(dat$year+1):max(dat$year+pyears)))
+C <- c(dat$hm,rep(NA,pyears))
+year <- c(dat$year,max(dat$year+1):max(dat$year+pyears))
+dat <- data.frame(C = C, year = year)
+
 dat$year <- factor(dat$year)
 
 an <- jags_analysis (mod, dat, niter = 10^5, mode = "default")
 
-estimates(an,parameters = c("mean.r","sigma.obs","sigma.proc"))
+coef(an,parm = c("mean.r","sigma.obs","sigma.proc"))
 
 pred <- predict(an, newdata = "year")
 

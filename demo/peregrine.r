@@ -133,7 +133,7 @@ mod <- jags_model("
              + beta2 * Year[i]^2 + beta3 * Year[i]^3
              }
  }",
-random = list(eps = "Year"),
+random_effects = list(eps = "Year"),
 select = c("C","Year*")
 )
 
@@ -143,6 +143,6 @@ dat <- peregrine
 dat$C <- dat$Pairs
 an <- jags_analysis (mod, dat, niter = 10^4, mode = "default")
 coef(an)
-coef(an, param = "fixed")
-coef(an, param = "random")
-coef(an, param = "all")
+coef(an, parm = "fixed")
+coef(an, parm = "random")
+coef(an, parm = "all")
