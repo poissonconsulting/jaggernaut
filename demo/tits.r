@@ -187,7 +187,6 @@ select = c("C")
 )
 
 mods <- list(mod1,mod2,mod3,mod4,mod5,mod6)
-mods <- list(mod1)
 
 data(tits)
 dat <- tits
