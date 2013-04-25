@@ -53,7 +53,25 @@
 jags_analysis <- function (
   models, dataset, niter = 10^3, mode = "current"
 )
-{ 
+{
+  if(!(is.jags_model(models) || is.list(models))) {
+    stop("models should be class jags_model or a list of objects of class jags_model")
+  }
+  if(!(is.data.frame(dataset) || is.list(dataset))) {
+    stop("dataset should be a data.frame or a list")
+  }
+   
+  if(!is.numeric(niter))
+    stop("niter should be class integer")
+  
+  if(!length(niter) == 1)
+    stop("niter should be a vector of length one (scalar)")
+  
+  niter <- as.integer(niter)
+  
+  if(!(niter >= 100 && niter <= 10^6))
+    stop("niter should lie between 100 and 10^6")
+
   old_opts <- opts_jagr(mode = mode)
   on.exit(opts_jagr(old_opts))
     
