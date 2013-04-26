@@ -15,7 +15,7 @@ convergence <- function (object, model_number = 1, param = "fixed") {
   if(!is.jags_analysis(object))
     stop ("object should be class jags_analysis")
   
-  object <- subset(object, model = model_number)
+  object <- subset(object, model_number)
   
   con <- calc_convergence.jags_analysis (object, summarise = FALSE, type = param)
   

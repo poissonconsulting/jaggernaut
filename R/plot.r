@@ -10,6 +10,7 @@ plot.gsmcmc <- function (x, parameters = parameters, ...) {
 }
 
 plot.jagr_analysis <- function (x, parameters, ...) {
+
   if (!is.jagr_analysis(x))
     stop ('x should be of class jagr_analysis')
   
@@ -36,19 +37,10 @@ plot.jags_analysis <- function (x, model_number = 1, ...) {
 
   if (!is.jags_analysis(x))
     stop ("x must be class jags_analysis")
+      
+  x <- subset(x, model_number)
 
-  if (!is.numeric(model_number))
-    stop ("model_number must be class numeric")
-  
-  if (!length(model_number) == 1)
-    stop ("model_number must be length one")
-
-#  if (!length(model_number) %in% 1:n)
-#    stop ("model_number must be length one")
-    
   parameters <- "all"
-  
-  x <- subset(x, model = model_number)
   
   return (plot.jagr_analysis(x$analyses[[1]], parameters = parameters, ...))
 }
