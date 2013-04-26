@@ -35,7 +35,9 @@ coef.jags_analysis <- function (object, model_number = 1, parm = "fixed", level 
   
   object <- subset(object, model_number = model_number)
   
-  est <- calc_estimates(object, parameters = parm)
+  parm <- parm (object, parm)
+  
+  est <- calc_estimates(object, parm = parm)
   
   est <- est[rownames(est) != "deviance",]
 

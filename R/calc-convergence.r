@@ -3,7 +3,7 @@ calc_convergence <- function (object, ...) {
   UseMethod("calc_convergence", object)
 }
 
-calc_convergence.gsmcmc <- function (object, summarise = FALSE, pars = NULL) {
+calc_convergence.gsmcmc <- function (object, summarise = FALSE, parm = NULL) {
 
   nsim <- nsim(object)
   
@@ -15,7 +15,7 @@ calc_convergence.gsmcmc <- function (object, summarise = FALSE, pars = NULL) {
   
   svars <- sapply(vars,strsplit,split="[",fixed=T)
   for (i in 1:length(vars)) {
-    bol[i] <- svars[[i]][1] %in% pars
+    bol[i] <- svars[[i]][1] %in% parm
   }
   
   vars<-vars[bol]
@@ -42,19 +42,13 @@ calc_convergence.gsmcmc <- function (object, summarise = FALSE, pars = NULL) {
   return (convergence)
 }
 
-calc_convergence.jagr_analysis <- function (object, summarise = TRUE, type = "all") {
+calc_convergence.jagr_analysis <- function (object, summarise = TRUE, parm = parm) {
 
-  if (length(type) == 1 && type %in% c("all","fixed","random")) {
-    pars <- get_pars (object$model, type = type)
-  } else {
-    pars <- type
-  }
-    
-  return (calc_convergence (object$mcmc, summarise = summarise, pars = pars))
+  return (calc_convergence (object$mcmc, summarise = summarise, parm = parm))
 }
 
-calc_convergence.jags_analysis <- function (object, summarise = TRUE, type = "all") {
-  return (calc_convergence (top_model(object), summarise = summarise, type = type))
+calc_convergence.jags_analysis <- function (object, summarise = TRUE, parm) {
+  return (calc_convergence (top_model(object), summarise = summarise, parm = parm))
 }
 
 

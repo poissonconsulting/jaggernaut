@@ -76,10 +76,6 @@ jags_analysis <- function (
   if(!(niter >= 100 && niter <= 10^6))
     stop("niter must lie between 100 and 10^6")
   
-  if(is.list(data) & !is.null(model$select)) {
-    warning("select argument is ignored when data is passed as a list")
-  }
-  
   niter <- as.integer(niter)
   
   old_opts <- opts_jagr(mode = mode)

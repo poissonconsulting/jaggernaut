@@ -26,9 +26,13 @@ summary.jagr_analysis <- function (object, ...)
   
   summ[["Dimensions"]] <- c(simulations = nsim(object),chains = nchain(object))
 
-  summ[["Convergence"]] <- calc_convergence(object)
+  parm <- parm(object, parm = "all")
+  
+  summ[["Convergence"]] <- calc_convergence(object, parm = parm)
 
-  summ[["Estimates"]] <- calc_estimates(object)
+  parm <- parm(object, parm = "fixed")
+  
+  summ[["Estimates"]] <- calc_estimates(object, parm = parm)
 
   summ[["Deviance Information Criterion"]] <- DIC(object)
   

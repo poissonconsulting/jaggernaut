@@ -34,27 +34,24 @@ calc_estimates.matrix <- function(object) {
 }
 
 
-calc_estimates.gsmcmc <- function (object, parameters = NULL) {
-  return (calc_estimates (get_sims (object, parameters)))
+calc_estimates.gsmcmc <- function (object, parm = NULL) {
+  return (calc_estimates (get_sims (object, parm)))
 }
 
-calc_estimates.jagr_analysis <- function (object, parameters = "fixed") {
+calc_estimates.jagr_analysis <- function (object, parm) {
   
   if(!is.jagr_analysis(object))
     stop ("object should be class jagr_analysis")
   
-  if (!is.character(parameters))
-    stop ("parameters must be a character vector")
+  if (!is.character(parm))
+    stop ("parm must be a character vector")
   
-  if (length(parameters) == 1 && parameters %in% c("all","fixed","random"))
-    parameters <- get_pars (object$model, type = parameters)
-  
-  return (calc_estimates (object$mcmc, parameters = parameters))
+  return (calc_estimates (object$mcmc, parm = parm))
 }
 
-calc_estimates.jags_analysis <- function (object, parameters = "fixed") {
+calc_estimates.jags_analysis <- function (object, parm) {
   
-  return (calc_estimates(top_model(object),parameters = parameters))
+  return (calc_estimates(top_model(object), parm = parm))
 }
 
 calc_estimates.gssimulation <- function (object, pars = NULL) {

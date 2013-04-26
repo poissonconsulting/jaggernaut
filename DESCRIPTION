@@ -109,3 +109,4 @@ Collate:
     'residuals.r'
     'opts-jagr.r'
     'nmodel.r'
+    'parm.r'
