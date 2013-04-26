@@ -1,20 +1,17 @@
   
-plot.gsmcmc <- function (x, parameters = parameters, ...) {
+plot.gsmcmc <- function (x, parm = NULL, ...) {
   if (!inherits (x, 'gsmcmc'))
     stop ('x should be of class gsmcmc')
-  
-  if (parameters != "all")
-    warning("parameters argument not yet implemented")
   
   return (coda:::plot.mcmc.list(as.mcmc.list(x),...))
 }
 
-plot.jagr_analysis <- function (x, parameters, ...) {
+plot.jagr_analysis <- function (x, parm, ...) {
 
   if (!is.jagr_analysis(x))
     stop ('x should be of class jagr_analysis')
   
-  return (plot(x$mcmc, parameters = parameters, ...))
+  return (plot(x$mcmc, parm = parm, ...))
 }
 
 #' @title Plot a JAGS analysis
@@ -40,5 +37,5 @@ plot.jags_analysis <- function (x, model_number = 1, parm = "fixed", ...) {
   
   parm <- parm(x, parm = parm)
     
-  return (plot.jagr_analysis(x$analyses[[1]], parameters = parm, ...))
+  return (plot.jagr_analysis(x$analyses[[1]], parm = parm, ...))
 }

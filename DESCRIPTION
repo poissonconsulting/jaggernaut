@@ -52,7 +52,6 @@ Collate:
     'operators.r'
     'set-random.r'
     'summary.r'
-    'get-pars.r'
     'get-data.r'
     'zero-random.r'
     'set-derived.r'

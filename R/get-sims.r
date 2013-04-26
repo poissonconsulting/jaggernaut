@@ -1,22 +1,22 @@
 
-get_sims <- function (object, pars = NULL) {
+get_sims <- function (object, parm = NULL) {
   if (!inherits(object,"gsmcmc"))
     stop("object should be of class gsmcmc")
   
   mcmc<-as.matrix(object)
     
-  if(is.null(pars))
+  if(is.null(parm))
     return (mcmc)
     
-  pars <- unlist(lapply(strsplit(pars,'[',fixed=T),FUN = function (x) x[1]))
+  parm <- unlist(lapply(strsplit(parm,'[',fixed=T),FUN = function (x) x[1]))
   colnames <- unlist(lapply(strsplit(colnames(mcmc),'[',fixed=T),FUN = function (x) x[1]))
 
-  bol <- !pars %in% colnames
+  bol <- !parm %in% colnames
   if(any(bol)) {
-    warning(paste(pars[bol],"are not monitored parameters"))
+    warning(paste(parm[bol],"are not monitored parameters"))
   }
   bol<-rep(F, ncol(mcmc))
-  for (par in pars) {
+  for (par in parm) {
     bol <- bol | par == colnames                          
   }
   if(!any(bol)) {
