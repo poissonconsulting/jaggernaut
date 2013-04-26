@@ -3,10 +3,10 @@
 \title{Create a JAGS model}
 \usage{
   jags_model(code, monitor = NULL, select = NULL,
-    modify_data = function(data) {     return(data) },
-    gen_inits = function(data) {     return(list()) },
-    derived_code = NULL, random_effects = NULL,
-    description = NULL)
+    modify_data = function(data, derived = FALSE) {
+        return(data) }, gen_inits = function(data) {
+        return(list()) }, derived_code = NULL,
+    random_effects = NULL, description = NULL)
 }
 \arguments{
   \item{code}{a character element defining the model in the
