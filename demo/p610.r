@@ -20,7 +20,7 @@ mod1 <- jags_model(" model {
     eps[i] ~ dnorm(0, sd^-2) T(-16, 16)
     logit(p[i, 1]) <- alpha[1] + eps[i]
     eY[i, 1] <- z[i] * p[i, 1]
-    y[i,1] ~ dbern(eY)
+    y[i,1] ~ dbern(eY[i, 1])
 
     for (j in 2:ncol) {
       logit(p[i, j]) <- alpha[j] + eps[i] + gamma * y[i, (j-1)]
@@ -42,7 +42,6 @@ gen_inits = function (data) {
   inits$z <- rep(1,data$nrow)
   return (inits)
 },
-
 random = list(z = NULL, eps = NULL, p = NULL)
 )
 
@@ -75,18 +74,66 @@ gen_inits = function (data) {
 random = list(z = NULL)
 )
 
-mods <- list(mod1, mod2)
+# M_t+X (Kery and Schaub 2011 164-165)
+mod3 <- jags_model (" model {
+  omega ~ dunif(0, 1)
+  beta ~ dnorm(0, 10^-2)
+  mu.size ~ dnorm(0, 10^-2)
+  sd.size ~ dunif(0, prior.sd.upper)
+  
+  for (j in 1:ncol) {
+    alpha[j] ~ dnorm(0, 2^-2)
+    logit(mean.p[j]) <- alpha[j]
+  }
+                   
+  for (i in 1:nrow) {
+    z[i] ~ dbern(omega)
+    size[i] ~ dnorm(mu.size, sd.size^-2) T(-6, 6)
+    for (j in 1:ncol) {
+      logit(p[i, j]) <- alpha[j] + beta * size[i]
+      eY[i, j] <- z[i] * p[i, j]
+      y[i, j] ~ dbern(eY[i, j])
+    }
+  }
+  N <- sum(z[])
+}",
+modify_data = function (data) {
+  
+  data$nrow <- nrow(data$y)
+  data$ncol <- ncol(data$y)
+  
+  return (data)
+  },
+ gen_inits = function (data) {
+   inits <- list()
+   inits$z <- rep(1,data$nrow)
+   inits$mu.size <- mean(data$size,na.rm=T)
+   inits$size <- rep(NA,length(data$size))
+   inits$size[is.na(data$size)] <- inits$mu.size
+   
+   print(inits)
+   return (inits)
+ },
+ random = list(z = NULL, eps = NULL, p = NULL)
+)
+
+
+mods <- list(mod3,mod1)
 
 data(p610)
 dat <- p610
+
+bm <- dat$bm
 
 dat <- dat[,substr(colnames(dat),1,5) == "count"]
 for (i in 1:ncol(dat)) {
   dat[,i] <- as.logical(dat[,i])
 }
 dat <- as.matrix(dat)
-dat <- list(y = dat)
+is.na(bm[!apply(dat,1,max)]) <- T
+dat <- list(y = dat, size = bm, prior.sd.upper = 33)
 
-an <- jags_analysis (mod, dat, niter = 10^5, mode = "debug")
+an <- jags_analysis (mods, dat, niter = 10^5, mode = "debug")
 
-coef(an)
+coef(an, model_number = 1)
+coef(an,model_number = 2)
