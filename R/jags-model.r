@@ -111,7 +111,7 @@
 #'
 #' @export 
 jags_model <- function (code, monitor = NULL, select = NULL, 
-                        modify_data = function (data) { return (data) },
+                        modify_data = function (data, derived = FALSE) { return (data) },
                         gen_inits = function (data) { return (list()) }, 
                         derived_code = NULL, random_effects = NULL, 
                         description = NULL
@@ -125,10 +125,18 @@ jags_model <- function (code, monitor = NULL, select = NULL,
     stop ("monitor must be NULL or a character vector of length 1 or more")
   if (!is.null(select) && !is.character(select))
     stop ("select must be NULL or a character vector")
-  if (!is.function(modify_data))
+  if (!is.function(modify_data)) {
     stop ("modify_data must be a function")
-  if (!is.function(gen_inits))
+  }
+  if (!identical(names(formals(modify_data)),c("data","derived"))) {
+    stop ("modify_data function must have data and derived arguments only")
+  }
+  if (!is.function(gen_inits))  {
     stop ("gen_inits must be  a function")
+  }
+  if (!identical(names(formals(gen_inits)),c("data"))) {
+    stop ("gen_inits function must have data argument only")
+  }  
   if (!(is.null(random_effects) || (is.list(random_effects) & !is.null(names(random_effects)))))
     stop ("random_effects must be NULL or a named list")  
   if (!(is.null(derived_code) || (is.character(derived_code) && length(derived_code)==1)))

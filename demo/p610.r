@@ -42,7 +42,8 @@ gen_inits = function (data) {
   inits$z <- rep(1,data$nrow)
   return (inits)
 },
-random = list(z = NULL, eps = NULL, p = NULL)
+random = list(z = NULL, eps = NULL, p = NULL),
+select = c("y")
 )
 
 # M0 (Kery and Schaub 2011 p.160-161)
@@ -71,7 +72,8 @@ gen_inits = function (data) {
   inits$z <- rep(1,data$nrow)
   return (inits)
 },
-random = list(z = NULL)
+random = list(z = NULL),
+select = c("y")                  
 )
 
 # M_t+X (Kery and Schaub 2011 164-165)
@@ -107,18 +109,15 @@ modify_data = function (data) {
  gen_inits = function (data) {
    inits <- list()
    inits$z <- rep(1,data$nrow)
-   inits$mu.size <- mean(data$size,na.rm=T)
-   inits$size <- rep(NA,length(data$size))
-   inits$size[is.na(data$size)] <- inits$mu.size
    
-   print(inits)
    return (inits)
  },
- random = list(z = NULL, eps = NULL, p = NULL)
+ random = list(z = NULL, eps = NULL, p = NULL),
+select = c("y","size","prior.sd.upper")                                      
 )
 
 
-mods <- list(mod3,mod1)
+mods <- list(mod1,mod2,mod3)
 
 data(p610)
 dat <- p610
@@ -131,9 +130,14 @@ for (i in 1:ncol(dat)) {
 }
 dat <- as.matrix(dat)
 is.na(bm[!apply(dat,1,max)]) <- T
+bm <- log(bm^(1/3))
+mean.bm <- mean(bm, na.rm = T)
+bm <- bm - mean.bm
+
 dat <- list(y = dat, size = bm, prior.sd.upper = 33)
 
 an <- jags_analysis (mods, dat, niter = 10^5, mode = "debug")
 
 coef(an, model_number = 1)
 coef(an,model_number = 2)
+coef(an,model_number = 3)

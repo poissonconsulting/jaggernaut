@@ -71,8 +71,6 @@ Collate:
     'generate-range.r'
     'get-mean.r'
     'unique.r'
-    'jmodel.r'
-    'janalysis.r'
     'get-subset.r'
     'dic.r'
     'top-model.r'
@@ -109,3 +107,4 @@ Collate:
     'opts-jagr.r'
     'nmodel.r'
     'parm.r'
+    'variables-select.r'

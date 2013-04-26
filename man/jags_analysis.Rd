@@ -9,7 +9,7 @@
   \item{models}{a \code{jags_model} or list of
   \code{jags_model}s specifying the JAGS model(s).}
 
-  \item{data}{the data.frame to analyse.}
+  \item{data}{the data.frame or list of data to analyse.}
 
   \item{niter}{an integer element of the number of
   iterations to run per MCMC chain.}
@@ -32,11 +32,12 @@
 \details{
   The \code{jags_analysis} function performs a Bayesian
   analysis of a data frame for a \code{jags_model} or list
-  of \code{jags_model}s. If \code{mode = "current"} (the
-  default) then the analysis options are as currently
-  globally defined by \code{opts_jagr()} otherwise the
-  \code{mode} argument specifies the analysis mode for that
-  particular analysis.
+  of \code{jags_model}s.
+
+  If \code{mode = "current"} (the default) then the
+  analysis options are as currently globally defined by
+  \code{opts_jagr()} otherwise the \code{mode} argument
+  specifies the analysis mode for that particular analysis.
 
   The \code{niter} argument specifies the total number of
   iterations including adaptive and burn in periods for

@@ -42,3 +42,31 @@ test_that("checks input", {
    expect_that(jags_analysis (model, data, niter = 100.1, mode = "test"), is_a("jags_analysis"))
    expect_that(jags_analysis (model, data, mode = "unknown"), throws_error())
 })
+
+
+test_that("select check", {
+  
+  code <- " model { 
+                      bLambda ~ dlnorm(0,10^-2) 
+                      for (i in 1:nrow) { 
+                      x[i]~dpois(bLambda) 
+                      } 
+}"
+  
+  data <- data.frame(x = rpois(100,1))
+  mod <- jags_model(code, select = "x") 
+  expect_that(jags_analysis (mod, data, mode = "test"), is_a("jags_analysis"))
+  mod <- jags_model(code, select = "y") 
+  expect_that(jags_analysis (mod, data, mode = "test"), throws_error())
+  mod <- jags_model(code, select = c("y","x")) 
+  expect_that(jags_analysis (mod, data, mode = "test"), throws_error())
+  
+  data <- as.list(data)
+  data$nrow <- length(data$x)
+  mod <- jags_model(code, select = c("x","nrow")) 
+  expect_that(jags_analysis (mod, data, mode = "test"), is_a("jags_analysis"))
+  mod <- jags_model(code, select = c("y","nrow")) 
+  expect_that(jags_analysis (mod, data, mode = "test"), throws_error())
+  mod <- jags_model(code, select = c("y","x","nrow")) 
+  expect_that(jags_analysis (mod, data, mode = "test"), throws_error())  
+})
