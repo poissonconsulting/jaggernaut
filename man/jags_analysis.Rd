@@ -2,14 +2,14 @@
 \alias{jags_analysis}
 \title{Perform a JAGS analysis}
 \usage{
-  jags_analysis(models, dataset, niter = 10^3,
+  jags_analysis(models, data, niter = 10^3,
     mode = "current")
 }
 \arguments{
   \item{models}{a \code{jags_model} or list of
   \code{jags_model}s specifying the JAGS model(s).}
 
-  \item{dataset}{the data.frame to analyse.}
+  \item{data}{the data.frame to analyse.}
 
   \item{niter}{an integer element of the number of
   iterations to run per MCMC chain.}

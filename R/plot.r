@@ -33,9 +33,19 @@ plot.jagr_analysis <- function (x, parameters, ...) {
 #' @method plot jags_analysis
 #' @export
 plot.jags_analysis <- function (x, model_number = 1, ...) {
+
   if (!is.jags_analysis(x))
-    stop ('x should be of class jags_analysis')
+    stop ("x must be class jags_analysis")
+
+  if (!is.numeric(model_number))
+    stop ("model_number must be class numeric")
   
+  if (!length(model_number) == 1)
+    stop ("model_number must be length one")
+
+#  if (!length(model_number) %in% 1:n)
+#    stop ("model_number must be length one")
+    
   parameters <- "all"
   
   x <- subset(x, model = model_number)

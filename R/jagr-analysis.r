@@ -9,9 +9,7 @@ jagr_analysis <- function (
   if(!is.jags_model(model))
     stop ("model should be class jags_model")
   
-  if(!is.data.frame(data))
-    stop ("data should be class data.frame")
-  
+
   if(parallelChains && .Platform$OS.type == "windows") {
     warning("parallelChains is not currently defined for windows")
     parallelChains <- FALSE
@@ -54,8 +52,16 @@ jagr_analysis <- function (
     model$monitor <- sort(unique(c(model$monitor,"deviance")))
   }
   
-  data_analysis <- translate_data(model, data) 
-       
+  data_analysis <- data
+  
+  if (is.data.frame (data_analysis)) {
+    data_analysis <- translate_data(model, data_analysis) 
+  }
+  
+  if (is.function (model$modify_data)) {
+    data_analysis <- model$modify_data (data_analysis)
+  }
+  
   if (is.function(model$gen_inits)) {
     inits <- list()
     for (i in 1:n.chain)   

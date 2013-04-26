@@ -12,7 +12,7 @@
 #' estimates.
 #' 
 #' @param models a \code{jags_model} or list of \code{jags_model}s  specifying the JAGS model(s).
-#' @param dataset the data.frame to analyse.
+#' @param data the data.frame to analyse.
 #' @param niter an integer element of the number of iterations to run per MCMC chain.
 #' @param mode a character element indicating the mode for the analysis.
 #' @details 
@@ -51,7 +51,7 @@
 #' 
 #' @export
 jags_analysis <- function (
-  models, dataset, niter = 10^3, mode = "current"
+  models, data, niter = 10^3, mode = "current"
 ) {
   
   if (!is.jags_model(models)) {
@@ -63,8 +63,8 @@ jags_analysis <- function (
       stop("models must be class jags_model or a list of objects of class jags_model")
   }
 
-  if(!(is.data.frame(dataset) || is.list(dataset))) {
-    stop("dataset must be a data.frame or a list")
+  if(!(is.data.frame(data) || is.list(data))) {
+    stop("data must be a data.frame or a list")
   }
    
   if(!is.numeric(niter))
@@ -75,6 +75,10 @@ jags_analysis <- function (
     
   if(!(niter >= 100 && niter <= 10^6))
     stop("niter must lie between 100 and 10^6")
+  
+  if(is.list(data) & !is.null(model$select)) {
+    warning("select argument is ignored when data is passed as a list")
+  }
   
   niter <- as.integer(niter)
   
@@ -132,7 +136,7 @@ jags_analysis <- function (
     doMC::registerDoMC(cores=n.model)
     
     object$analyses <- foreach(i = 1:n.model) %dopar% { 
-      jagr_analysis(models[[i]], dataset, 
+      jagr_analysis(models[[i]], data, 
                     n.iter = niter, n.chain = nchains, resample = resample,
                     convergence = convergence, independence = independence,
                     parallelChains = parallelChains,
@@ -142,7 +146,7 @@ jags_analysis <- function (
     for (i in 1:n.model) {
       if (!quiet)
         cat(paste("\n\nModel",i,"of",n.model,"\n\n"))
-      object$analyses[[i]] <- jagr_analysis(models[[i]], dataset,
+      object$analyses[[i]] <- jagr_analysis(models[[i]], data,
                                             n.iter = niter, n.chain = nchains, resample = resample,
                                             convergence = convergence, independence = independence,
                                             parallelChains = parallelChains,

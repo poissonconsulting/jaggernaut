@@ -87,8 +87,5 @@ translate_data <- function (object, data, dat = NULL)
   
   data <- c(as.list(data), facs, nrow = nrow)
   
-  if (is.function (object$modify_data))
-    data <- object$modify_data (data)
-  
   return (data)
 }
