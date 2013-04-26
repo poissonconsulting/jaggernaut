@@ -64,7 +64,7 @@ jagr_analysis <- function (
     }
     data_analysis <- translate_data(model, data_analysis) 
   } else {
-    if (!identical(vars, model$select)) {
+    if (!identical(vars, model$select)) { 
       stop("transformation or standardization unavailable when data passed as list")      
     }
     bol <- !vars %in% names(data_analysis)
