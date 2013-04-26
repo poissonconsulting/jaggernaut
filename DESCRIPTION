@@ -108,3 +108,4 @@ Collate:
     'coef.r'
     'residuals.r'
     'opts-jagr.r'
+    'nmodel.r'

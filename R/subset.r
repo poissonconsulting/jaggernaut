@@ -1,18 +1,21 @@
 
 subset.jags_analysis <- function (x, model_number = 0, ...)
 {   
+  if (!is.jags_analysis(x))
+    stop ("x must be class jags_analysis")
+  
   if (!is.numeric(model_number))
     stop ("model_number must be class numeric")
   
   if (length(model_number) != 1)
     stop ("model_number must be length one")
     
-  if(!(model_number >= 0 & model_number <= x$n.model))
-    stop(paste("model_number must lie between 0 and the number of models (in this case",x$n.model,")"))
+  if(!(model_number >= 0 & model_number <= nmodel(x)))
+    stop(paste("model_number must lie between 0 and the number of models (in this case",nmodel(x),")"))
   
   model_number <- as.integer(model_number)
   
-  if (x$n.model == 1)
+  if (nmodel(x) == 1)
     return (x)
   
   newObject <- list()
