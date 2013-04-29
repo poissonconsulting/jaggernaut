@@ -71,7 +71,7 @@ calc_estimates.gspower <- function (object, pars = "fixed") {
       stop ("pars must be NULL or a character vector")
     
     if (is.null(pars) || (length(pars) == 1 && pars %in% c("all","fixed","random"))) {
-      pars <- get_pars (object$analyses[[1]][[1]]$block, type = pars)
+      pars <- parm (object$analyses[[1]][[1]]$block, type = pars)
     } else {
       monitor <- object$analyses[[1]][[1]]$block$monitor
 

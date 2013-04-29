@@ -27,24 +27,23 @@ zero_random.gsmcmc <- function (object, random) {
 }
 
 zero_random.jagr_analysis <- function (object, data) {
-  data <- as.data.frame (data)
   
   dat <- convert_data(object$data, standardise=object$model$standardise,
                       dat = data)
   
-    for (colname in colnames(data)) {
-      var <- data[,colname,drop=T] 
-      va <- unique(dat[,colname,drop=T])
+    for (name in names_data(data)) {
+      var <- data[[name]] 
+      va <- unique(dat[[name]])
       if (!(is.factor(var) && length(va) == 1 && va == 1))
-        data[,colname] <- NULL
+        data[[name]] <- NULL
     }
   
   random <- object$model$random
-  
+    
   for (ran in names(random))
-    if (!any(random[[ran]] %in% colnames(data)))
+    if (!any(random[[ran]] %in% names_data(data)))
       random[[ran]] <- NULL
-  
+    
   if (length(random))
     object$mcmc <- zero_random (object$mcmc, random = random)
   

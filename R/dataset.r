@@ -17,6 +17,9 @@ dataset <- function (object, base = FALSE) {
   if(!is.jags_analysis(object))
     stop("object should be of class jags_analysis")
   
+  if(base && is_data_list(object$analyses[[1]]))
+    stop("if data is a data list base must be FALSE")
+  
   object <- object$analyses[[1]]
 
   if(!base) {

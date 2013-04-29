@@ -107,4 +107,6 @@ Collate:
     'opts-jagr.r'
     'nmodel.r'
     'parm.r'
-    'variables-select.r'
+    'is-data-list.r'
+    'names-select.r'
+    'names-data.r'

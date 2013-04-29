@@ -20,11 +20,11 @@
 # ' Date and POSIXt values are divided by their respective standard deviation.
 # '
 # '
-# ' @param data the data frame on which the conversion is based
+# ' @param data the data frame or data list on which the conversion is based
 # ' @param numericise the variables to numericise
 # ' @param centre the variables to centre
 # ' @param standardise the variables to standardise
-# ' @param dat the data frame to convert. If dat is NULL data is 
+# ' @param dat the data frame or data list to convert. If dat is NULL data is 
 # ' converted
 # ' @return the converted data frame
 # ' @details
@@ -38,32 +38,39 @@
 # ' convert_data(data, numericise = FALSE, centre = "date", standardise = "date")
 convert_data <- function (data, numericise = TRUE, centre = FALSE, standardise = FALSE, dat = NULL)
 {
-  if (!is.data.frame(data)) 
-    stop ("object must be class data.frame")
+  if (!(is.data.frame(data) || is_data_list(data))) 
+    stop ("object must be class data.frame or a list of vectors, matrices and arrays")
   if (!(is.logical(numericise) || is.character(numericise) || is.null(numericise)))
     stop ("numericise must be class logical, character or NULL") 
   if (!(is.logical(centre) || is.character(centre) || is.null(centre)))
-    stop ("centre mmust be class logical, character or NULL") 
+    stop ("centre must be class logical, character or NULL") 
   if (!(is.logical(standardise) || is.character(standardise) || is.null(standardise)))
     stop ("standardise must be class logical, character or NULL") 
-  if (!(is.null(dat) || is.data.frame(dat)))
-    stop ("dat must be NULL or class data.frame")
+  if (!(is.null(dat) || (is.data.frame(data) && is.data.frame(dat)) || (is_data_list(data) && is_data_list(dat))))
+    stop ("dat must be NULL or class data.frame or a data list")
+  
+  if (is.null(dat)) {
+    dat <- data
+  }
+  
+  names_data <- names_data(data)
+  names_dat <- names_data(dat)
   
   if (is.logical(numericise)) {
     if (numericise) {
-      numericise <- colnames(data)
+      numericise <- names_data
     } else
       numericise <- NULL
   }
   if (is.logical(centre)) {
     if (centre) {
-      centre <- colnames(data)
+      centre <- names_data
     } else
       centre <- NULL
   }
   if (is.logical(standardise)) {
     if (standardise) {
-      standardise <- colnames(data)
+      standardise <- names_data
     } else
       standardise <- NULL
   }  
@@ -72,27 +79,24 @@ convert_data <- function (data, numericise = TRUE, centre = FALSE, standardise =
   centre <- centre[!centre %in% standardise]
   
   all <- c(numericise, centre, standardise)
-
-  if (is.null(dat))
-    dat <- data
   
-  x <- all[!all %in% colnames (data)]
+  x <- all[!all %in% names_data]
   if(length(x))
     message(paste("the following variables are not in data:", x))
   
-  x <- colnames(dat)[!colnames(dat) %in% colnames (data)]
+  x <- names_dat[!names_dat %in% names_data]
   if (length(x))
     message(paste("the following variables are in dat but not data: ", x))
   
-  for(colname in colnames(data)) {
-    variable <- dvariable(data[, colname, drop=T])
-    if (colname %in% colnames(dat)) {
-      dat[,colname] <- convert_variable(
+  for(name in names_data) {
+      variable <- dvariable(data[[name]])      
+    if (name %in% names_dat) {
+      dat[[name]] <- convert_variable(
         variable, 
-        dat[,colname], 
-        numericise = colname %in% numericise,
-        centre = colname %in% centre,
-        standardise = colname %in% standardise
+        dat[[name]], 
+        numericise = name %in% numericise,
+        centre = name %in% centre,
+        standardise = name %in% standardise
       )
     }
   }

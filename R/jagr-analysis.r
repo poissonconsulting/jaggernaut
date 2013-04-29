@@ -52,32 +52,13 @@ jagr_analysis <- function (
   if(!is.null(model$monitor)) {
     model$monitor <- sort(unique(c(model$monitor,"deviance")))
   }
+    
+  data_analysis <- translate_data(model$select, data) 
   
-  data_analysis <- data
-  
-  vars <- variables_select(model$select)
-  
-  if (is.data.frame (data_analysis)) {
-    bol <- !vars %in% colnames(data_analysis)
-    if (any(bol)) {
-      stop(paste("The following variables in the select argument are not in data:",sort(vars[bol])))
-    }
-    data_analysis <- translate_data(model, data_analysis) 
+  if("analysis" %in% names(formals(model$modify_data))) {
+    data_analysis <- model$modify_data (data_analysis, analysis = TRUE)
   } else {
-    if (!identical(vars, model$select)) { 
-      stop("transformation or standardization unavailable when data passed as list")      
-    }
-    bol <- !vars %in% names(data_analysis)
-    if (any(bol)) {
-      stop(paste("The following variables in the select argument are not in data:",sort(vars[bol])))
-    }
-    if(!is.null(vars)) {
-      data_analysis <- data_analysis[vars]
-    }
-  }
-  
-  if (is.function (model$modify_data)) {
-    data_analysis <- model$modify_data (data_analysis, derived = FALSE)
+    data_analysis <- model$modify_data (data_analysis)
   }
   
   if (is.function(model$gen_inits)) {

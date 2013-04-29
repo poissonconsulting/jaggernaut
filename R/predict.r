@@ -43,6 +43,21 @@ predict.jags_analysis <- function (object, newdata = NULL,
                                    derived_code = NULL, random_effects = NULL, 
                                    level = "current", length_out = 50, ...) {
 
+  if (!is.jags_analysis(object))
+    stop ("object should be class jags_analysis") 
+  
+  if (is_data_list(object$analyses[[1]]$data)) {
+    if (!(is.null(newdata) || is_data_list(newdata))) {     
+      stop("when original data is a data list newdata must be a NULL or data list")
+    }
+    if (!identical(base,FALSE)) {
+      stop("when original data is data list base must be FALSE")
+    }
+    if (!is.null(values)) {
+      stop("when original data is data list values must be NULL")
+    }
+  }
+  
   old_opts <- opts_jagr()
   on.exit(opts_jagr(old_opts))
   
@@ -53,8 +68,6 @@ predict.jags_analysis <- function (object, newdata = NULL,
    }
    opts_jagr(level = level)
   
-  if (!is.jags_analysis(object))
-    stop ("object should be class jags_analysis")  
 
   object <- subset(object, model = model_number)
  

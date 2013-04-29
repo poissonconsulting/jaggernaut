@@ -7,8 +7,8 @@ calc_expected_jagr_analysis <- function (analysis, parameter, data = "", base = 
     stop ("analysis should be class jagr_analysis")
   if (!(is.character(parameter) && length(parameter) == 1))
     stop("parameter should be a character vector of length one")  
-  if (!(is.null(data) || is.data.frame(data) || is.character (data)))
-    stop ("data must be a data frame, a character or NULL")
+  if (!(is.null(data) || is.data.frame(data) || is_data_list(data) || is.character (data)))
+    stop ("data must be a data.frame, data list, character vector or NULL")
   if (!(is.logical(base) || is.data.frame(base)))
     stop ("effect must be a data frame or TRUE or FALSE")
   if(is.data.frame (base) && nrow(base)!=1)
@@ -29,7 +29,7 @@ calc_expected_jagr_analysis <- function (analysis, parameter, data = "", base = 
   if (is.null(data)) {
     data <- analysis$data
   } else if (is.character(data)) {
-    data <- generate_data (analysis$data, range = data, length.out=length.out)
+    data <- generate_data (analysis$data, range = data, length_out=length.out)
   }
        
   if(is.data.frame(base)) {

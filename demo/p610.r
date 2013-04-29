@@ -99,11 +99,20 @@ mod3 <- jags_model (" model {
   }
   N <- sum(z[])
 }",
-modify_data = function (data) {
+derived_code = "model {
+  for (i in 1:nrow) {
+    logit(prediction[i]) <- alpha[1] + beta * size[i] 
+  }
+}",
+modify_data = function (data, analysis) {
   
-  data$nrow <- nrow(data$y)
-  data$ncol <- ncol(data$y)
+  stopifnot(nrow(data$y) == length(data$size))
   
+  data$nrow <- length(data$size)
+  
+  if (analysis) {
+    data$ncol <- ncol(data$y)
+  }
   return (data)
   },
  gen_inits = function (data) {
@@ -113,7 +122,7 @@ modify_data = function (data) {
    return (inits)
  },
  random = list(z = NULL, eps = NULL, p = NULL),
-select = c("y","size","prior.sd.upper")                                      
+select = c("y","log_cbrt(size)*","prior.sd.upper")                                      
 )
 
 
@@ -129,15 +138,29 @@ for (i in 1:ncol(dat)) {
   dat[,i] <- as.logical(dat[,i])
 }
 dat <- as.matrix(dat)
-is.na(bm[!apply(dat,1,max)]) <- T
-bm <- log(bm^(1/3))
-mean.bm <- mean(bm, na.rm = T)
-bm <- bm - mean.bm
 
 dat <- list(y = dat, size = bm, prior.sd.upper = 33)
 
-an <- jags_analysis (mods, dat, niter = 10^5, mode = "debug")
+log_cbrt <- function (x) {
+  return (log(x^(1/3)))
+}
+
+an <- jags_analysis (mods, dat, niter = 10^5, mode = "default")
 
 coef(an, model_number = 1)
 coef(an,model_number = 2)
 coef(an,model_number = 3)
+
+size <- seq(from = min(dat$size), to = 2000, length.out = 50)
+
+newdata <- list(size = size)
+
+pred <- predict(an,newdata,model_number = 3)
+
+gp <- ggplot(data = pred, aes(x = size, y = estimate))
+gp <- gp + geom_line()
+gp <- gp + scale_x_continuous(name = "Body mass (g)")
+gp <- gp + scale_y_continuous(name = "Detection probability",labels=percent,expand=c(0,0))
+gp <- gp + expand_limits(y = c(0,0.55))
+
+print(gp)

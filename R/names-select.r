@@ -1,5 +1,5 @@
 
-variables_select <- function (select) {
+names_select <- function (select) {
   if (!(is.null(select) || is.character(select))) {
     stop("select must be NULL or class character")
   }
@@ -7,10 +7,19 @@ variables_select <- function (select) {
     stop("select must have one or more elements")
   }  
   
+  if(is.null(select))
+    return (NULL)
+  
   nchar <- nchar(select)
   standardise <- substr(select,nchar,nchar) == '*'
   if (any(standardise)) {
     select[standardise] <- substr(select[standardise],1,nchar[standardise]-1)
+  }
+
+  nchar <- nchar(select)
+  centre <- substr(select,nchar,nchar) == '+'
+  if (any(centre)) {
+    select[centre] <- substr(select[centre],1,nchar[centre]-1)
   }
   
   for (i in seq_along(select)) {

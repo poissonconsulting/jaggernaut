@@ -27,6 +27,9 @@ residuals.jags_analysis <- function (object,
                                    parm = "residual", model_number = 1, 
                                    derived_code = NULL, random_effects = NULL, 
                                    level = "current", ...) {
+  if (!is.jags_analysis(object))
+    stop ("object should be class jags_analysis") 
+     
   old_opts <- opts_jagr()
   on.exit(opts_jagr(old_opts))
   
@@ -36,9 +39,6 @@ residuals.jags_analysis <- function (object,
     opts_jagr(old_opts)
   }
   opts_jagr(level = level)
-  
-  if (!is.jags_analysis(object))
-    stop ("object should be class jags_analysis")  
   
   object <- subset(object, model = model_number)
   

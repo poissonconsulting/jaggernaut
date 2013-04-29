@@ -11,7 +11,21 @@ dvariable.logical <- function (x) {
   max = TRUE
   sd = NA
   object <- list(min = min, mean = mean, max = max, sd = sd)    
-  class(object)<-c("dlogical","dvariable")
+  class(object)<-c("vlogical","dvariable")
+  
+  return (object)
+}
+
+dvariable.integer <- function (x) {
+  x <- as.integer(x)
+  
+  min = as.integer(min(x, na.rm=T))
+  mean = as.integer(round(mean(x, na.rm=T)))
+  max = as.integer(max(x, na.rm=T))
+  sd = sd(x, na.rm=T)
+  
+  object <- list(min = min, mean = mean, max = max, sd = sd)    
+  class(object)<-c("vinteger","dvariable")
   
   return (object)
 }
@@ -25,23 +39,9 @@ dvariable.numeric <- function (x) {
     sd = sd(x, na.rm=T)
     
     object <- list(min = min, mean = mean, max = max, sd = sd)    
-    class(object)<-c("dnumeric","dvariable")
+    class(object)<-c("vnumeric","dvariable")
     
     return (object)
-}
-
-dvariable.integer <- function (x) {
-  x <- as.integer(x)
-  
-  min = as.integer(min(x, na.rm=T))
-  mean = as.integer(round(mean(x, na.rm=T)))
-  max = as.integer(max(x, na.rm=T))
-  sd = sd(x, na.rm=T)
-  
-  object <- list(min = min, mean = mean, max = max, sd = sd)    
-  class(object)<-c("dinteger","dvariable")
-    
-  return (object)
 }
 
 dvariable.factor <- function (x) {
@@ -53,7 +53,7 @@ dvariable.factor <- function (x) {
     max = levels[nlevels(x)]
     sd = NA
     object <- list(min = min, mean = mean, max = max, sd = sd, levels = levels)    
-    class(object)<-c("dfactor","dvariable")
+    class(object)<-c("vfactor","dvariable")
     
     return (object)
 }
@@ -66,7 +66,7 @@ dvariable.Date <- function (x) {
   max = max(x, na.rm=T)
   sd = sd(x, na.rm=T)
   object <- list(min = min, mean = mean, max = max, sd = sd)    
-  class(object)<-c("ddate","dvariable")
+  class(object)<-c("vdate","dvariable")
   
   return (object)
 }
@@ -79,7 +79,77 @@ dvariable.POSIXt <- function (x) {
   max = max(x, na.rm=T)
   sd = sd(x, na.rm=T)
   object <- list(min = min, mean = mean, max = max, sd = sd)    
-  class(object)<-c("dposixt","dvariable")
+  class(object)<-c("vposixt","dvariable")
   
+  return (object)
+}
+
+dvariable.matrix <- function (x) {
+  
+  smode <- storage.mode(x)
+  ndim <- 2
+  if (smode == "logical") {
+  
+    min = FALSE
+    mean = NA
+    max = TRUE
+    sd = NA
+    object <- list(min = min, mean = mean, max = max, sd = sd, ndim = ndim)    
+    class(object)<-c("mlogical","dvariable")
+  } else if (smode == "integer") {
+    
+    min = as.integer(min(x, na.rm=T))
+    mean = as.integer(round(mean(x, na.rm=T)))
+    max = as.integer(max(x, na.rm=T))
+    sd = sd(x, na.rm=T)
+    
+    object <- list(min = min, mean = mean, max = max, sd = sd, ndim = ndim)    
+    class(object)<-c("minteger","dvariable")
+  } else if (smode == "double") {
+    
+    min = min(x, na.rm=T)
+    mean = mean(x, na.rm=T)
+    max = max(x, na.rm=T)
+    sd = sd(x, na.rm=T)    
+    object <- list(min = min, mean = mean, max = max, sd = sd, ndim = ndim)    
+    class(object)<-c("mdouble","dvariable")
+  } else {
+    stop(paste("storage mode",smode,"not recognised"))
+  } 
+  return (object)
+}
+
+dvariable.array <- function (x) {
+  
+  smode <- storage.mode(x)
+  ndim <- length(dim(x))
+  if (smode == "logical") {
+    
+    min = FALSE
+    mean = NA
+    max = TRUE
+    sd = NA
+    object <- list(min = min, mean = mean, max = max, sd = sd, ndim = ndim)    
+    class(object)<-c("alogical","dvariable")
+  } else if (smode == "integer") {
+    
+    min = as.integer(min(x, na.rm=T))
+    mean = as.integer(round(mean(x, na.rm=T)))
+    max = as.integer(max(x, na.rm=T))
+    sd = sd(x, na.rm=T)
+    
+    object <- list(min = min, mean = mean, max = max, sd = sd, ndim = ndim)    
+    class(object)<-c("ainteger","dvariable")
+  } else if (smode == "double") {
+    
+    min = min(x, na.rm=T)
+    mean = mean(x, na.rm=T)
+    max = max(x, na.rm=T)
+    sd = sd(x, na.rm=T)    
+    object <- list(min = min, mean = mean, max = max, sd = sd, ndim = ndim)    
+    class(object)<-c("adouble","dvariable")
+  } else {
+    stop(paste("storage mode",smode,"not recognised"))
+  } 
   return (object)
 }

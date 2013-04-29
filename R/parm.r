@@ -22,14 +22,12 @@ parm.jagr_analysis <- function (object, parm = "fixed") {
     return (pars)
   }
   
+  add <- NULL
+  
   if ("fixed" %in% parm) {
     add <- pars[!pars %in% names(model$random)]
   } else if ("random" %in% parm) {
     add <- pars[pars %in% names(model$random)]
-    if (is.null(add)) {
-      warning("there are no monitored random parameters")
-      add <- "deviance"
-    }
   }
   pars <- pars[pars %in% parm]
   pars <- unique(c(pars,add))  

@@ -111,7 +111,7 @@
 #'
 #' @export 
 jags_model <- function (code, monitor = NULL, select = NULL, 
-                        modify_data = function (data, derived = FALSE) { return (data) },
+                        modify_data = function (data) { return (data) },
                         gen_inits = function (data) { return (list()) }, 
                         derived_code = NULL, random_effects = NULL, 
                         description = NULL
@@ -125,11 +125,19 @@ jags_model <- function (code, monitor = NULL, select = NULL,
     stop ("monitor must be NULL or a character vector of length 1 or more")
   if (!is.null(select) && !is.character(select))
     stop ("select must be NULL or a character vector")
+
+  if(!is.null(select)) {
+    names <- names_select(select)
+    if(any(duplicated(names))) {
+      stop(paste("duplicate names in select",sort(unique(names[duplicated(names)]))))
+    }
+  }
+  
   if (!is.function(modify_data)) {
     stop ("modify_data must be a function")
   }
-  if (!identical(names(formals(modify_data)),c("data","derived"))) {
-    stop ("modify_data function must have data and derived arguments only")
+  if (!(identical(names(formals(modify_data)),c("data")) || identical(names(formals(modify_data)),c("data","analysis")))) {
+    stop ("modify_data function must have a data and possibly an analysis argument only")
   }
   if (!is.function(gen_inits))  {
     stop ("gen_inits must be  a function")

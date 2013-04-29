@@ -64,8 +64,8 @@ jags_analysis <- function (
       stop("models must be class jags_model or a list of objects of class jags_model")
   }
 
-  if(!(is.data.frame(data) || is.list(data))) {
-    stop("data must be a data.frame or a list")
+  if(!(is.data.frame(data) || is_data_list(data))) {
+    stop("data must be a data.frame or a data list")
   }
    
   if(!is.numeric(niter))

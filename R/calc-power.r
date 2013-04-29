@@ -10,7 +10,7 @@ calc_power <- function (object, pars = NULL) {
   monitor <- object$analyses[[1]][[1]]$block$monitor
   
   if(is.null(pars)) {
-    pars <- get_pars(object$analyses[[1]][[1]]$block)
+    pars <- parm(object$analyses[[1]][[1]]$block)
     pname <- pars
     pars <- rep(0,length(pars))
     names(pars) <- pname

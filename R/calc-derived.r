@@ -46,28 +46,40 @@ calc_derived.gsmcmc <- function (object, model, monitor, calc_estimates = FALSE)
 
 calc_derived.jagr_analysis <- function (object, model, monitor, 
   data = NULL, calc_estimates = FALSE) {
+  
   if (!is.jagr_analysis(object))
     stop ("object should be class jagr_analysis")
   if (length(model) != 1 || !inherits(model,"character")) 
     stop ("model must be a character vector of length 1")
   if (!inherits(monitor,"character") || length(monitor) < 1) 
     stop ("monitor must be a character vector of length 1 or more")
-  if (!is.null(data) & !is.character(data) & !is.data.frame(data))
-    stop ("data must be a data frame, a character or NULL")
-    
+  if (!(is.null(data) || is.character(data) || is.data.frame(data) || is_data_list(data))) {
+    stop ("data must be a data frame, data list, a character or NULL")
+}
   if (is.null(data)) {
-    data <- as.data.frame (object)
+    data <- dataset (object)
   } else if (is.character (data)) {
     data <- generate_data (object, range = data)
   } 
-  dat <- translate_data(object$model,object$data, dat = data)  
+
+  dat <- translate_data(object$model$select,object$data, dat = data) 
+  
+  if("analysis" %in% names(formals(object$model$modify_data))) {
+    dat <- object$model$modify_data (dat, analysis = FALSE)
+  } else {
+    dat <- object$model$modify_data (dat)
+  }
+
   model <- jags_model (model, monitor = monitor)
   options(jags.pb = "none")
   file <- tempfile(fileext=".bug")
   cat(model$model, file=file)
   
-  object <- zero_random (object,data)
-  
+  if (is.data.frame(data)) {
+    object <- zero_random (object,data)
+  } else if (!is.null(object$model$random)) {
+    message("zero random is only available when original data set is a data frame")
+  }
   nchain <- nchain (object)
   niter <- niter (object)
 
@@ -106,9 +118,7 @@ calc_derived.jags_analysis <- function (object, model = NULL, monitor,
   analysis <- top_model(object)
   if(is.null(model))
     model <- analysis$model$derived
-  
-  print("herey")
-  
+    
   return (calc_derived(top_model(object), model = model, monitor = monitor, 
                         data = data, calc_estimates = calc_estimates))
 }
