@@ -5,13 +5,10 @@ parm<- function (object, ...) {
 
 parm.jagr_analysis <- function (object, parm = "fixed") {
   
-  if(!is.jagr_analysis(object))
-    stop("object must be class jagr_analysis")
+  stopifnot(is.jagr_analysis(object))  
+  stopifnot(is.character(parm))
+  stopifnot(length(parm) > 0)
   
-  if(!is.character(parm)) {
-    stop("parm must be class character")
-  }
-    
   model <- object$model
   
   parm <- unique(parm)
@@ -37,12 +34,9 @@ parm.jagr_analysis <- function (object, parm = "fixed") {
 
 parm.jags_analysis <- function (object, parm = "fixed", model_number = 1) {
 
-  if(!is.jags_analysis(object))
-    stop("object must be class jags_analysis")
-  
-  if(!is.character(parm)) {
-    stop("parm must be class character")
-  }
+  stopifnot(is.jags_analysis(object))
+  stopifnot(is.character(parm))
+  stopifnot(length(parm) > 0)
   
   object <- subset(object, model_number = model_number)
   

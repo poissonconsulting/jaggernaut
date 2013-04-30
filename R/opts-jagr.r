@@ -272,7 +272,7 @@ assign_opts_jagr <- function (opts) {
     stop("option parallel_models == TRUE not yet implemented for windows")
   } 
   if (!(opts$rhat >= 1 &&  opts$rhat <= 2)) {
-    stop("option convergence must lie between 1 and 2")
+    stop("option rhat must lie between 1 and 2")
   } 
   
   topts <- opts[names(opts) != "mode"]

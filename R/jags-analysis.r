@@ -56,29 +56,60 @@ jags_analysis <- function (
 ) {
   
   if (!is.jags_model(models)) {
-    if (!is.list(models)) 
-      stop("models must be class jags_model or a list of objects of class jags_model")
+    if (!is.list(models)) {
+      stop("models must be a jags_model or list of jags_models")
+    }
+    if (!all(sapply(models,is.jags_model))) {
+      stop("models must be a jags_model or list of jags_models")      
+    } 
+  }
     
-    bol <- sapply(models,is.jags_model)
-    if (!all(bol)) 
-      stop("models must be class jags_model or a list of objects of class jags_model")
+  if (!is.data.frame (data)) {
+    if (!is.list(data)) {
+      stop("data must be a data.frame or a data list")
+    }
+    names <- names(data)
+    if(is.null(names)) {
+      stop("variables in data must be named")
+    }
+    classes <- c("logical","integer","numeric","factor",
+                 "Date","POSIXt","matrix","array")
+      bol <- sapply(data, inherits,classes[1])
+    for (class in classes[-1]) {
+      bol <- bol | sapply(data,inherits,class)
+    }
+    if (!all(bol)) {
+      stop(paste("variables in data list must be class",classes))
+    }
+    if (!is_data_list (data)) {
+      stop("data must be a data.frame or a data list")
+    }
+  } else {
+    if (!nrow(data)) {
+      stop("data must include at least one row")
+    }
+    if (!ncol(data)) {
+      stop("data must include at least one column")
+    }
   }
 
-  if(!(is.data.frame(data) || is_data_list(data))) {
-    stop("data must be a data.frame or a data list")
+  if (is.numeric(niter)) {
+    if (length(niter) != 1) {
+      stop("niter must be length one")  
+    }
+    if(niter < 100 || niter > 10^6) {
+      stop("niter must lie between 100 and 10^6")
+    }
+  } else {
+    stop("niter must be numeric")
   }
-   
-  if(!is.numeric(niter))
-    stop("niter must be class integer")
   
-  if(!length(niter) == 1)
-    stop("niter must be a vector of length one (scalar)")
-    
-  if(!(niter >= 100 && niter <= 10^6))
-    stop("niter must lie between 100 and 10^6")
+  if (is.jags_model(models)) {
+    models <- list(models)
+  }
   
   niter <- as.integer(niter)
-  
+    
   old_opts <- opts_jagr(mode = mode)
   on.exit(opts_jagr(old_opts))
     
@@ -89,15 +120,19 @@ jags_analysis <- function (
   quiet <- opts_jagr("quiet")
   parallelChains <- opts_jagr("parallel_chains")
   parallelModels <- opts_jagr("parallel_models")
-  mode <- opts_jagr("mode")
   
-  niter <- max(niter, nsims * 2 / nchains)
-  
-  if (mode == "debug") {
+  if (opts_jagr("mode") == "debug") {
     niter <- 100
   } 
   
-  independence <- 0
+  niter <- max(niter, nsims * 2 / nchains)
+  
+  n.model <- length(models)
+  
+  if(n.model == 1) {
+    parallelModels <- FALSE
+  }
+
   if(!"basemod" %in% list.modules())
     load.module("basemod")  
   
@@ -106,24 +141,6 @@ jags_analysis <- function (
   
   if(!"dic" %in% list.modules())
     load.module("dic")
-  
-  if(!is.list(models) & !is.jags_model(models))
-    stop ("models should be a jags_model object or list of jags_model")
-  
-  if(parallelModels && .Platform$OS.type == "windows") {
-    warning("parallelModels is not currently defined for windows")
-    parallelModels <- FALSE
-  }
-  
-  if(is.jags_model(models)) {
-    models <- list(models)
-  }
-  
-  n.model <- length(models)
-  
-  if(n.model == 1) {
-    parallelModels <- FALSE
-  }
   
   object <- list()
   object$analyses <- list()
@@ -135,9 +152,9 @@ jags_analysis <- function (
     object$analyses <- foreach(i = 1:n.model) %dopar% { 
       jagr_analysis(models[[i]], data, 
                     n.iter = niter, n.chain = nchains, resample = resample,
-                    convergence = convergence, independence = independence,
+                    convergence = convergence, independence = 0,
                     parallelChains = parallelChains,
-                    debug = FALSE, quiet = quiet, n.sim = nsims)
+                    quiet = quiet, n.sim = nsims)
     }
   } else {
     for (i in 1:n.model) {
@@ -145,9 +162,9 @@ jags_analysis <- function (
         cat(paste("\n\nModel",i,"of",n.model,"\n\n"))
       object$analyses[[i]] <- jagr_analysis(models[[i]], data,
                                             n.iter = niter, n.chain = nchains, resample = resample,
-                                            convergence = convergence, independence = independence,
+                                            convergence = convergence, independence = 0,
                                             parallelChains = parallelChains,
-                                            debug = FALSE, quiet = quiet, n.sim = nsims)
+                                            quiet = quiet, n.sim = nsims)
     }
   }
   

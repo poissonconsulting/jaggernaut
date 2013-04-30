@@ -43,8 +43,9 @@ predict.jags_analysis <- function (object, newdata = NULL,
                                    derived_code = NULL, random_effects = NULL, 
                                    level = "current", length_out = 50, ...) {
 
-  if (!is.jags_analysis(object))
-    stop ("object should be class jags_analysis") 
+  if (!is.jags_analysis(object)) {
+    stop ("object must be a jags_analysis") 
+  }
   
   if (is_data_list(object$analyses[[1]]$data)) {
     if (!(is.null(newdata) || is_data_list(newdata))) {     

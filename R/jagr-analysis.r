@@ -3,7 +3,7 @@ jagr_analysis <- function (
   model, data, n.iter = 1000, n.chain = 3, resample = 3,
   convergence = 1.1, independence = 0,
   parallelChains = .Platform$OS.type != "windows", 
-  debug = FALSE, quiet = FALSE, n.sim = 1000
+  quiet = FALSE, n.sim = 1000
 )
 {  
   if(!is.jags_model(model))
@@ -33,15 +33,6 @@ jagr_analysis <- function (
   }
   
   n.iter <- ceiling(max(n.iter, n.sim * 2 / n.chain))
-    
-  if (debug) {
-    n.iter <- 200
-    n.chain <- 2
-    n.sim <- 100
-    quiet <- FALSE
-    resample <- 0
-    parallelChains <- F
-  }
     
   if (quiet) {
     options(jags.pb = "none")

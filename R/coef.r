@@ -20,8 +20,17 @@
 #' @export
 coef.jags_analysis <- function (object, model_number = 1, parm = "fixed", level = "current", ...) {
  
-  if(!is.jags_analysis(object))
-    stop ("object should be class jags_analysis")
+  if (!is.jags_analysis(object)) {
+    stop ("object must be a jags_analysis")
+  }
+  
+  if (is.character(parm)) {
+    if (!length(parm)) {
+      stop("parm must be at least length one")
+    }
+  } else {
+    stop ("parm must be character vector")
+  }
   
   old_opts <- opts_jagr()
   on.exit(opts_jagr(old_opts))
@@ -29,7 +38,6 @@ coef.jags_analysis <- function (object, model_number = 1, parm = "fixed", level 
   if (!is.numeric(level)) {
     opts_jagr(mode = level)
     level <- opts_jagr("level")
-    opts_jagr(old_opts)
   }
   opts_jagr(level = level)
   

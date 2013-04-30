@@ -1,4 +1,82 @@
 
+check_jags_model <- function (model_code, monitor = NULL, select = NULL, 
+                        modify_data = NULL, gen_inits = NULL, 
+                        derived_code = NULL, random_effects = NULL
+) {  
+
+  if (is.character (model_code)) {
+    if (length(model_code) != 1) {
+      stop ("model_code must be define a single model - for multiple models pass a list of jags_model objects to jags_analysis")
+    }
+  } else {
+    stop ("model_code must be class character")
+  }
+  
+  if (!is.null(monitor)) {
+    if (!is.character(monitor)) {
+      stop ("monitor must be NULL or class character")
+    }
+    if (!length(monitor)) {
+      stop ("monitor must be NULL or define at least one parameter to monitor")
+    } 
+    if (any(duplicated(monitor))) {
+      stop ("parameters to monitor must be unique")
+    }
+  }
+  
+  if (!is.null(select)) {
+    if (!is.character(select)) {
+      stop ("select must be NULL or class character")
+    }
+    if (!length(select)) {
+      stop ("select must be NULL or define at least one variable to include")
+    }
+    names <- names_select(select)
+    if (any(duplicated(names))) {
+      stop ("variables to select must be unique")
+    }
+  }  
+  
+  if (!is.null(modify_data)) {
+    if (!is.function(modify_data)) {
+      stop ("modify_data must be NULL or a function")
+    }
+    args <- names(formals(modify_data))
+    if (!identical(args,c("data")) && !identical(args,c("data","analysis"))) {
+      stop ("modify_data argument(s) must be named data (and analysis)")
+    }
+  }
+  
+  if (!is.null(gen_inits)) {
+    if (!is.function(gen_inits)) {
+      stop ("gen_inits must be NULL or a function")
+    }
+    args <- names(formals(gen_inits))
+    if (!identical(args,c("data"))) {
+      stop ("gen_inits argument must be named data")
+    }
+  }
+
+  if (!is.null (derived_code)) {
+    if (length(derived_code) != 1) {
+      stop ("derived_code must be define a single model block")
+    }
+  }
+  
+  if (!is.null(random_effects)) {
+    if (!is.list(random_effects)) {
+      stop ("random_effects must be NULL or a list")
+    }
+    names <- names(random_effects)
+    if (is.null(names)) {
+      stop("random effects must be a named list")
+    }
+    if (any(duplicated(names))) {
+      stop ("random effects must be unique")
+    }
+  }
+}
+
 #' @title Create a JAGS model
 #'
 #' @description 
@@ -9,7 +87,7 @@
 #' to generate all (or some) of the initial values and JAGS code
 #' to predict derived values from the final model among other things.
 #' 
-#' @param code a character element defining the model in the JAGS dialect of 
+#' @param model_code a character element defining the model in the JAGS dialect of 
 #' the BUGS language
 #' @param monitor a character vector of the parameters to monitor
 #' @param select a character vector of the variables to select from the 
@@ -22,8 +100,6 @@
 #'  of the BUGS language that specifies derived parameters
 #' @param random_effects a named list of parameters to be treated as random effects with the
 #' related data as values
-#' @param description a named character vector descriping each of the parameters 
-#' in the model where the name indicates the parameter to which the description applies
 #' @details 
 #' The \code{jags_model} function defines a JAGS model that can then be passed to the 
 #' \code{jags_analysis} function together with a data frame to perform a Bayesian analysis.
@@ -88,11 +164,6 @@
 #' and the values are character vectors of the variables in the input data frame that
 #' the parameters are random with respect to. For further information on the
 #' use of the \code{random_effects} argument see the \code{predict} function.
-#' 
-#' The \code{description} argument is a named character vector that can be used
-#' to provide a description of parameters or variables in the JAGS model code. Currently
-#' the \code{description} argument has no functionality.
-#' 
 #' @return a \code{jags_model} object
 #' @references  
 #' Plummer M (2012) JAGS Version 3.3.0 User Manual \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
@@ -110,69 +181,31 @@
 #' print(mod)
 #'
 #' @export 
-jags_model <- function (code, monitor = NULL, select = NULL, 
+jags_model <- function (model_code, monitor = NULL, select = NULL, 
                         modify_data = function (data) { return (data) },
                         gen_inits = function (data) { return (list()) }, 
-                        derived_code = NULL, random_effects = NULL, 
-                        description = NULL
-) {
+                        derived_code = NULL, random_effects = NULL) {  
   
-  extract_data <- NULL
-  
-  if (length(code) != 1 || !is.character(code)) 
-    stop ("code must be a character vector of length 1")
-  if (!(is.null(monitor) || (is.character(monitor) && length(monitor) >= 1))) 
-    stop ("monitor must be NULL or a character vector of length 1 or more")
-  if (!is.null(select) && !is.character(select))
-    stop ("select must be NULL or a character vector")
-
-  if(!is.null(select)) {
-    names <- names_select(select)
-    if(any(duplicated(names))) {
-      stop(paste("duplicate names in select",sort(unique(names[duplicated(names)]))))
-    }
-  }
-  
-  if (!is.function(modify_data)) {
-    stop ("modify_data must be a function")
-  }
-  if (!(identical(names(formals(modify_data)),c("data")) || identical(names(formals(modify_data)),c("data","analysis")))) {
-    stop ("modify_data function must have a data and possibly an analysis argument only")
-  }
-  if (!is.function(gen_inits))  {
-    stop ("gen_inits must be  a function")
-  }
-  if (!identical(names(formals(gen_inits)),c("data"))) {
-    stop ("gen_inits function must have data argument only")
-  }  
-  if (!(is.null(random_effects) || (is.list(random_effects) & !is.null(names(random_effects)))))
-    stop ("random_effects must be NULL or a named list")  
-  if (!(is.null(derived_code) || (is.character(derived_code) && length(derived_code)==1)))
-    stop ("derived_code must be NULL or a character vector of length 1")
-  if(!(is.null(extract_data) || is.function(extract_data)))
-    stop("extract_data must be NULL or a function")
-  if (!(is.null(description) || (is.character(description) & !is.null(names(description)))))
-    stop ("description must be NULL or a named character vector")
-  
-  if(!is.null(monitor)) {
-    monitor <- sort(unique(monitor))
-  }
+  check_jags_model (model_code = model_code,
+                    monitor = monitor, 
+                    select = select, 
+                    modify_data = modify_data,
+                    gen_inits = gen_inits, 
+                    derived_code = derived_code, 
+                    random_effects = random_effects)
   
   object<-list(
-    model = code,
+    model = model_code,
     monitor = monitor,
     select = select,
     modify_data = modify_data,
     gen_inits = gen_inits,
     random = random_effects,
     derived_model = derived_code,
-    extract_data = extract_data,
-    description = description
+    extract_data = NULL
   )
   
   class(object) <- "jags_model"
+
   return (object)
 }
-
-
-

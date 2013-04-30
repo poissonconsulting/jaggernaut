@@ -1,24 +1,22 @@
 
-jags_analysis_internal <- function (data, file, monitor, inits, n.chain, n.adapt, n.burnin, n.sim, n.thin, quiet = F)
-{
+jags_analysis_internal <- function (data, file, monitor, inits, n.chain, n.adapt, n.burnin, n.sim, n.thin, quiet = F) {
+  stopifnot(is.null(monitor) || is.character(monitor))
+  stopifnot(is.list(data))
+  stopifnot(is.null(inits) || is.list(inits))
+  
   n.adapt <- as.integer(n.adapt)
   n.burnin <- as.integer(n.burnin)
   n.sim <- as.integer(n.sim)
   n.chain <- as.integer(n.chain)
   
-  if(!(is.null(monitor) || is.character(monitor)))
-    stop ("monitor should be NULL or class character")
-  if(!is.list(data))
-    stop ("data should be class list")
-  if(!(is.null(inits) || is.list(inits)))
-    stop ("inits should be a list")
-  
   jags_model_internal <- function (..., inits) {
-    if (!length(inits))
+    if (!length(inits)) {
       return (jags.model (...))
+    }
     return (jags.model (..., inits = inits))
   }
   
+  print(inits)
   jags <- jags_model_internal (file = file, data = data, inits = inits, 
                       n.chains = n.chain, n.adapt = n.adapt, quiet = quiet)
   if (n.burnin) 

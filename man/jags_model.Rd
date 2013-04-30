@@ -2,15 +2,14 @@
 \alias{jags_model}
 \title{Create a JAGS model}
 \usage{
-  jags_model(code, monitor = NULL, select = NULL,
+  jags_model(model_code, monitor = NULL, select = NULL,
     modify_data = function(data) {     return(data) },
     gen_inits = function(data) {     return(list()) },
-    derived_code = NULL, random_effects = NULL,
-    description = NULL)
+    derived_code = NULL, random_effects = NULL)
 }
 \arguments{
-  \item{code}{a character element defining the model in the
-  JAGS dialect of the BUGS language}
+  \item{model_code}{a character element defining the model
+  in the JAGS dialect of the BUGS language}
 
   \item{monitor}{a character vector of the parameters to
   monitor}
@@ -34,10 +33,6 @@
   \item{random_effects}{a named list of parameters to be
   treated as random effects with the related data as
   values}
-
-  \item{description}{a named character vector descriping
-  each of the parameters in the model where the name
-  indicates the parameter to which the description applies}
 }
 \value{
   a \code{jags_model} object
@@ -136,11 +131,6 @@
   random with respect to. For further information on the
   use of the \code{random_effects} argument see the
   \code{predict} function.
-
-  The \code{description} argument is a named character
-  vector that can be used to provide a description of
-  parameters or variables in the JAGS model code. Currently
-  the \code{description} argument has no functionality.
 }
 \examples{
 mod <- jags_model("
