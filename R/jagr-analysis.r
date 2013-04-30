@@ -6,15 +6,7 @@ jagr_analysis <- function (
   quiet = FALSE, n.sim = 1000
 )
 {  
-  if(!is.jags_model(model))
-    stop ("model should be class jags_model")
-  
-
-  if(parallelChains && .Platform$OS.type == "windows") {
-    warning("parallelChains is not currently defined for windows")
-    parallelChains <- FALSE
-  }
-  
+  stopifnot(is.jags_model(model))
   stopifnot(n.iter >= 100)
   stopifnot(n.chain %in% 2:6)
   stopifnot(resample %in% 0:4)
@@ -46,19 +38,23 @@ jagr_analysis <- function (
     
   data_analysis <- translate_data(model$select, data) 
   
-  if("analysis" %in% names(formals(model$modify_data))) {
-    data_analysis <- model$modify_data (data_analysis, analysis = TRUE)
-  } else {
-    data_analysis <- model$modify_data (data_analysis)
+  if (is.function(model$modify_data)) {
+    if("analysis" %in% names(formals(model$modify_data))) {
+      data_analysis <- model$modify_data (data_analysis, analysis = TRUE)
+    } else {
+      data_analysis <- model$modify_data (data_analysis)
+    }
   }
-  
+    
   if (is.function(model$gen_inits)) {
     inits <- list()
-    for (i in 1:n.chain)   
+    for (i in 1:n.chain) {   
       inits[[i]] <- model$gen_inits(data_analysis)
-  } else
+    }
+  } else {
     inits <- NULL
-              
+  }
+  
   n.adapt <- 100
   n.burnin <- as.integer(n.iter /2)
   n.thin <- max(1, floor(n.chain * n.burnin / n.sim))
@@ -74,8 +70,9 @@ jagr_analysis <- function (
     if (!is.null (inits)) {
       for (i in 1:n.chain)
         inits[[i]] <- c(inits[[i]],rngs[[i]])
-    } else
+    } else {
       inits <- rngs
+    }
     
       mcmc <- foreach(i = 1:n.chain, .combine = add_chains_gsmcmc) %dopar% { 
         file <- tempfile(fileext=".bug")
@@ -91,7 +88,7 @@ jagr_analysis <- function (
   } else {    
     file <- tempfile(fileext=".bug")
     cat(model$model, file=file)
-    
+        
     mcmc <- jags_analysis_internal (
       data = data_analysis, file=file, monitor = model$monitor, 
       inits = inits, n.chain = n.chain, 

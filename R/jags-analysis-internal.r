@@ -16,7 +16,6 @@ jags_analysis_internal <- function (data, file, monitor, inits, n.chain, n.adapt
     return (jags.model (..., inits = inits))
   }
   
-  print(inits)
   jags <- jags_model_internal (file = file, data = data, inits = inits, 
                       n.chains = n.chain, n.adapt = n.adapt, quiet = quiet)
   if (n.burnin) 

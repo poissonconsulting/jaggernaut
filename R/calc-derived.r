@@ -64,10 +64,12 @@ calc_derived.jagr_analysis <- function (object, model, monitor,
 
   dat <- translate_data(object$model$select,object$data, dat = data) 
   
-  if("analysis" %in% names(formals(object$model$modify_data))) {
-    dat <- object$model$modify_data (dat, analysis = FALSE)
-  } else {
-    dat <- object$model$modify_data (dat)
+  if (is.function(object$model$modify_data)) {
+    if("analysis" %in% names(formals(object$model$modify_data))) {
+      dat <- object$model$modify_data (dat, analysis = FALSE)
+    } else {
+      dat <- object$model$modify_data (dat)
+    }
   }
 
   model <- jags_model (model, monitor = monitor)
