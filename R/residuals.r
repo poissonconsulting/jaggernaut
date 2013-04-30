@@ -27,28 +27,8 @@ residuals.jags_analysis <- function (object,
                                    parm = "residual", model_number = 1, 
                                    derived_code = NULL, random_effects = NULL, 
                                    level = "current", ...) {
-  if (!is.jags_analysis(object))
-    stop ("object should be class jags_analysis") 
-     
-  old_opts <- opts_jagr()
-  on.exit(opts_jagr(old_opts))
   
-  if (!is.numeric(level)) {
-    opts_jagr(mode = level)
-    level <- opts_jagr("level")
-    opts_jagr(old_opts)
-  }
-  opts_jagr(level = level)
-  
-  object <- subset(object, model = model_number)
-  
-  res <- calc_expected(object, 
-                        parameter = parm, data = dataset(object), 
-                        derived_model = derived_code, random = random_effects, 
-                        calc_estimates = T)
-    
-  rownames(res) <- NULL
-  
-  return (res)
-  
+  return (predict(object, parm = parm, model = model_number, 
+                  derived_code = derived_code, random_effects = random_effects, 
+                  level = level, ...))
 }
