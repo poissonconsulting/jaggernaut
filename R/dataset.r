@@ -28,7 +28,7 @@ dataset <- function (object, base = FALSE) {
   
   data <- generate_data (object$data)
   if (!is.null(object$block$select))
-    data <- subset (data, select = process_select(object$block$select))
+    data <- subset (data, select = names_select(object$block$select))
   
   return (data)
 }

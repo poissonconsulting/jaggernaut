@@ -15,8 +15,8 @@ jagr_analysis <- function (
   stopifnot(n.sim >= 100 && n.sim <= 2000)
   
   cat_convergence <- function (object) {
-    parm <- parm(object, parm = "all")
-    convergence <- calc_convergence (object, summarise = T, parm = parm) 
+    parm <- get_parm (object, parm = "all")
+    convergence <- convergence_jagr_analysis (object, parm = parm, summarise = TRUE) 
     cat (' (Rhat:')
     cat (convergence['convergence'])
 #    cat (', ind:')

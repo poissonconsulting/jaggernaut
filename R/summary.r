@@ -18,21 +18,27 @@ summary.gsmcmc <- function (object, ...) {
   return (NULL)  
 }
 
-summary.jagr_analysis <- function (object, ...)
+summary.jagr_analysis <- function (object, level = level, ...)
 {
+  stopifnot(is.jagr_analysis(object))
+  stopifnot(is.numeric(level))
+  stopifnot(length(level) == 1)
+  stopifnot(level >= 0.75)
+  stopifnot(level <= 0.99)
+  
   summ <- list()
   
   summ[["Generation"]] <- c(iterations = object$iterations,time = round(object$time,2))
   
   summ[["Dimensions"]] <- c(simulations = nsim(object),chains = nchain(object))
 
-  parm <- parm(object, parm = "all")
+  parm <- get_parm(object, parm = "all")
   
-  summ[["Convergence"]] <- calc_convergence(object, parm = parm)
+  summ[["Convergence"]] <- convergence_jagr_analysis(object, parm = parm, summarise = TRUE)
 
-  parm <- parm(object, parm = "fixed")
+  parm <- get_parm(object, parm = "fixed")
   
-  summ[["Estimates"]] <- calc_estimates(object, parm = parm)
+  summ[["Estimates"]] <- calc_estimates(object, parm = parm, level = level)
 
   summ[["Deviance Information Criterion"]] <- DIC(object)
   
@@ -43,40 +49,37 @@ summary.jagr_analysis <- function (object, ...)
 
 #' @method summary jags_analysis
 #' @export
-summary.jags_analysis <- function (object, ...)
-{  
+summary.jags_analysis <- function (object, level = "current", ...)
+{
+  if (!is.jags_analysis(object)) {
+    stop("object must be a jags_analysis")
+  }
+
+  old_opts <- opts_jagr()
+  on.exit(opts_jagr(old_opts))
+  
+  if (!is.numeric(level)) {
+      opts_jagr(mode = level)
+      level <- opts_jagr("level")
+  } else {
+    if (length(level) != 1) {
+      stop("level must be length 1")
+    } 
+    if (level < 0.75 || level > 0.99) {
+      stop("level must lie between 0.75 and 0.99")
+    }
+  } 
+  
   summ <- list()
-  
-  n <- length(object$analyses)
-  
-  for (i in 1:n) {
-    summ[[paste0("Model",i)]] <- summary(object$analyses[[i]])
+    
+  for (i in 1:nmodel(object)) {
+    x <- subset(object,model_number = i)
+    x <- as.jagr_analysis(x)
+    summ[[paste0("Model",i)]] <- summary(x, level = level)
   }
   summ[["Model Comparison"]] <- object$dic
   
   class (summ) <- "summary_jags_analysis"
   
   return (summ)  
-}
-
-
-summary.gspower <- function (object, ...)
-{  
-  cat("\nDimensions:\n")
-  print(c(values = object$nvalues,nreps = object$nreps))
-  
-  cat("\nConvergence (%):\n")
-  percon <- (1 - object$nconfail / object$nreps) * 100
-  names(percon) <- rownames(object$values)
-  print(percon)
-
-  cat("\nParameter Values:\n")
-  pars <- object$parvalues
-  names(pars) <- object$parnames
-  print(pars)
-  
-  cat("\nPower:\n")        
-  print(object$power)
-  
-  return (NULL)  
 }

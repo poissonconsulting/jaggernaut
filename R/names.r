@@ -1,4 +1,15 @@
 
+names_data <- function (data) {
+  
+  if (!(is.data.frame(data) || is_data_list(data)))
+    stop("data must be a data.frame or data list")
+  
+  if(is.data.frame(data)) {
+    return (colnames(data))
+  }
+  return (names(data))
+}
+
 names_select <- function (select) {
   if (!(is.null(select) || is.character(select))) {
     stop("select must be NULL or class character")
@@ -15,7 +26,7 @@ names_select <- function (select) {
   if (any(standardise)) {
     select[standardise] <- substr(select[standardise],1,nchar[standardise]-1)
   }
-
+  
   nchar <- nchar(select)
   centre <- substr(select,nchar,nchar) == '+'
   if (any(centre)) {
@@ -33,3 +44,4 @@ names_select <- function (select) {
   }
   return (select)
 }
+

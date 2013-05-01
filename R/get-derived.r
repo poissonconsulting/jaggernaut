@@ -1,15 +1,14 @@
 
-calc_derived<- function (object, ...) {
-  UseMethod("calc_derived", object)
+get_derived<- function (object, ...) {
+  UseMethod("get_derived", object)
 }
 
-calc_derived.gsmcmc <- function (object, model, monitor, calc_estimates = FALSE) {
-  if (!inherits(object,"gsmcmc"))
-    stop ("object should be class gsmcmc")
-  if (length(model) != 1 || !inherits(model,"character")) 
-    stop ("model must be a character vector of length 1")
-  if (!inherits(monitor,"character") || length(monitor) < 1) 
-    stop ("monitor must be a character vector of length 1 or more")
+get_derived.gsmcmc <- function (object, model, monitor) {
+  stopifnot(inherits(object,"gsmcmc"))
+  stopifnot(is.character(model))
+  stopifnot(length(model) != 0)
+  stopifnot(is.character(monitor))
+  stopifnot(length(monitor) == 0)
       
   model <- jags_model (model, monitor)
   options(jags.pb = "none")
@@ -38,31 +37,17 @@ calc_derived.gsmcmc <- function (object, model, monitor, calc_estimates = FALSE)
   }
   mcmc <- gsmcmc(samples, jags = list(NULL))
   
-  if(calc_estimates)
-    return (calc_estimates (mcmc))
-  
   return (mcmc)
 }
 
-calc_derived.jagr_analysis <- function (object, model, monitor, 
-  data = NULL, calc_estimates = FALSE) {
+get_derived.jagr_analysis <- function (object, monitor, data) {
   
-  if (!is.jagr_analysis(object))
-    stop ("object should be class jagr_analysis")
-  if (length(model) != 1 || !inherits(model,"character")) 
-    stop ("model must be a character vector of length 1")
-  if (!inherits(monitor,"character") || length(monitor) < 1) 
-    stop ("monitor must be a character vector of length 1 or more")
-  if (!(is.null(data) || is.character(data) || is.data.frame(data) || is_data_list(data))) {
-    stop ("data must be a data frame, data list, a character or NULL")
-}
-  if (is.null(data)) {
-    data <- dataset (object)
-  } else if (is.character (data)) {
-    data <- generate_data (object, range = data)
-  } 
+  stopifnot(is.jagr_analysis(object))
+  stopifnot(is.character(monitor))
+  stopifnot(length(monitor) == 0)
+  stopifnot(is.data.frame(data) || is_data_list(data))
 
-  dat <- translate_data(object$model$select,object$data, dat = data) 
+  dat <- translate_data(object$model$select, object$data, dat = data) 
   
   if (is.function(object$model$modify_data)) {
     if("analysis" %in% names(formals(object$model$modify_data))) {
@@ -72,7 +57,7 @@ calc_derived.jagr_analysis <- function (object, model, monitor,
     }
   }
 
-  model <- jags_model (model, monitor = monitor)
+  model <- jags_model (object$model$derived_model, monitor = monitor)
   options(jags.pb = "none")
   file <- tempfile(fileext=".bug")
   cat(model$model, file=file)
@@ -105,23 +90,16 @@ calc_derived.jagr_analysis <- function (object, model, monitor,
   }
   mcmc <- gsmcmc(samples, jags = list(NULL))
   
-  if(calc_estimates) {
-    return (calc_estimates (mcmc))
-  }
   return (mcmc)
 }
 
-calc_derived.jags_analysis <- function (object, model = NULL, monitor, 
-                                    data = NULL, calc_estimates = FALSE) {
+get_derived.jags_analysis <- function (object, monitor, data) {
   
-  if (!is.jags_analysis(object))
-    stop ("analyses should be class jags_analysis")
-  
-  analysis <- top_model(object)
-  if(is.null(model))
-    model <- analysis$model$derived
+  stopifnot(is.jags_analysis(object))
+  stopifnot(nmodel(object) == 1)
+  stopifnot(is.character(monitor))
+  stopifnot(length(monitor) == 0)
+  stopifnot(is.data.frame(data) || is_data_list(data))
     
-  return (calc_derived(top_model(object), model = model, monitor = monitor, 
-                        data = data, calc_estimates = calc_estimates))
+  return (get_derived(as.jagr_analysis(object), monitor = monitor, data = data))
 }
-

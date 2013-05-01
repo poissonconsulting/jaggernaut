@@ -9,15 +9,15 @@
     length_out = 50, ...)
 }
 \arguments{
-  \item{object}{a jags_analysis object.}
+  \item{object}{a jags_analysis}
 
-  \item{newdata}{a data.frame of the data values over which
-  to calculate the estimates of the derived parameter or a
-  character vector specify the variable or variable
-  combination for which to calculate the estimates of the
-  derived parameter. If NULL (the default) the derived
-  parameter is calculated for each row in the original data
-  set.}
+  \item{newdata}{a data.frame or data list of the data
+  values over which to calculate the estimates of the
+  derived parameter or a character vector specify the
+  variable or variable combination for which to calculate
+  the estimates of the derived parameter. If NULL (the
+  default) the derived parameter is calculated for each row
+  in the original data set.}
 
   \item{parm}{a character element naming the derived
   parameter for which the estimates should be calculated.}
@@ -28,8 +28,8 @@
 
   \item{values}{a data frame with a single row that defines
   the value of particular variables. The variables in the
-  arguments data and base are replaced by the corresponding
-  values.}
+  arguments newdata and base are replaced by the
+  corresponding values.}
 
   \item{model_number}{an integer vector specifying the
   model to select. If model_number = 0 then it selects the
@@ -60,13 +60,26 @@
   methods.}
 }
 \value{
-  the input data frame with the median estimate and
-  credibility intervals for the derived parameter of
-  interest
+  a data frame with the median estimates and credibility
+  intervals for the derived parameter of interest
 }
 \description{
   Calculate predictions with estimates for derived
   parameters in a JAGS analysis
+}
+\details{
+  Its important to realise that if the original data set
+  was a data list then newdata must be a data list or NULL,
+  base must be FALSE and values must be NULL. Otherwise if
+  the original data set was a data frame then newdata can
+  be NULL, a character vector of the variables to generate
+  data for or a data.frame and base and values can be
+  data.frames.
+
+  Its also important to realize that values always replaces
+  the corresponding values in base but only replaces the
+  corresponding values in newdata if they are unaltered,
+  i.e., as they are in dataset(object,base = TRUE).
 }
 \seealso{
   \code{\link{jags_model}}, \code{\link{jags_analysis}} and

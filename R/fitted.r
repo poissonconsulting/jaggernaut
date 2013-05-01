@@ -31,7 +31,7 @@ fitted.jags_analysis <- function (object,
                                    derived_code = NULL, random_effects = NULL, 
                                    level = "current", ...) {
   
-  return (predict(object, parm = parm, model = model_number, 
+  return (predict(object, newdata = NULL, parm = parm, model = model_number, 
                   derived_code = derived_code, random_effects = random_effects, 
                   level = level, ...))
 }

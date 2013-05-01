@@ -58,6 +58,9 @@ check_jags_model <- function (model_code, monitor = NULL, select = NULL,
   }
 
   if (!is.null (derived_code)) {
+    if(!is.character(derived_code)) {
+      stop("derived_code must be a character")
+    }
     if (length(derived_code) != 1) {
       stop ("derived_code must be define a single model block")
     }

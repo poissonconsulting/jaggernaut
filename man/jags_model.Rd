@@ -3,8 +3,7 @@
 \title{Create a JAGS model}
 \usage{
   jags_model(model_code, monitor = NULL, select = NULL,
-    modify_data = function(data) {     return(data) },
-    gen_inits = function(data) {     return(list()) },
+    modify_data = NULL, gen_inits = NULL,
     derived_code = NULL, random_effects = NULL)
 }
 \arguments{

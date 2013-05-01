@@ -2,7 +2,8 @@
 \alias{convergence}
 \title{Calculate convergence values}
 \usage{
-  convergence(object, model_number = 1, parm = "fixed")
+  convergence(object, model_number = 1, parm = "fixed",
+    ...)
 }
 \arguments{
   \item{object}{a jags_analysis object}
@@ -13,6 +14,8 @@
 
   \item{parm}{a character vector specifying the parameters
   for which to calculate the convergence}
+
+  \item{...}{passed to and from other functions}
 }
 \value{
   a data.frame of the parameters with their convergence

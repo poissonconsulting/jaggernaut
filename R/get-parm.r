@@ -1,9 +1,9 @@
 
-parm<- function (object, ...) {
-  UseMethod("parm", object)
+get_parm<- function (object, ...) {
+  UseMethod("get_parm", object)
 }
 
-parm.jagr_analysis <- function (object, parm = "fixed") {
+get_parm.jagr_analysis <- function (object, parm = "fixed") {
   
   stopifnot(is.jagr_analysis(object))  
   stopifnot(is.character(parm))
@@ -32,7 +32,7 @@ parm.jagr_analysis <- function (object, parm = "fixed") {
   return (pars)
 }
 
-parm.jags_analysis <- function (object, parm = "fixed", model_number = 1) {
+get_parm.jags_analysis <- function (object, parm = "fixed", model_number = 1) {
 
   stopifnot(is.jags_analysis(object))
   stopifnot(is.character(parm))
@@ -40,5 +40,5 @@ parm.jags_analysis <- function (object, parm = "fixed", model_number = 1) {
   
   object <- subset(object, model_number = model_number)
   
-  return (parm (object$analyses[[1]], parm = parm))
+  return (get_parm (as.jagr_analysis(object), parm = parm))
 }

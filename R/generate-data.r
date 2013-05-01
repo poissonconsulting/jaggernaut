@@ -47,7 +47,7 @@ generate_data <- function (data, range = NULL, length_out = 30)
     if (colname %in% range) {
         dat[[colname]] <- generate_range(variable, length_out=length_out)        
     } else {
-      dat[[colname]] <- get_mean(variable)                
+      dat[[colname]] <- get_base_value(variable)                
     }
   }
   data <- expand.grid (dat)

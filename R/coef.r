@@ -39,13 +39,12 @@ coef.jags_analysis <- function (object, model_number = 1, parm = "fixed", level 
     opts_jagr(mode = level)
     level <- opts_jagr("level")
   }
-  opts_jagr(level = level)
   
   object <- subset(object, model_number = model_number)
   
-  parm <- parm (object, parm)
+  parm <- get_parm (object, parm)
   
-  est <- calc_estimates(object, parm = parm)
+  est <- calc_estimates(object, parm = parm, level = level)
   
   est <- est[rownames(est) != "deviance",]
 

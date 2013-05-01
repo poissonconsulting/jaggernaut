@@ -3,6 +3,10 @@ as.gsmcmc<- function (object, ...) {
   UseMethod("as.gsmcmc", object)
 }
 
+as.jagr_analysis<- function (object, ...) {
+  UseMethod("as.jagr_analysis", object)
+}
+
 as.array.mcarray <- function (object) {
   if (!inherits(object,"mcarray"))
     stop("object should be of class mcarray")
@@ -73,15 +77,24 @@ as.data.frame.gsmcmc <- function (x) {
   return (as.data.frame(as.matrix(x)))
 }
 
-as.data.frame.gsanalysis <- function (x) {
-  if (!inherits(x,"gsanalysis"))
-    stop ("x should be class gsmcmc")
-   return (x$data)
- }
-
-as.gsmcmc.gsanalysis <- function (object) {
-  if (!inherits(object,"gsanalysis"))
-    stop("object should be of class gsanalysis")
-  
+as.gsmcmc.jagr_analysis <- function (object) {
   return (object$mcmc)
 }
+
+as.jagr_analysis.jags_analysis <- function (object) {
+  stopifnot(is.jags_analysis(object))
+  stopifnot(nmodel(object) == 1)
+    
+  return (object$analyses[[1]])
+}
+
+as.gmcmc.jags_analysis <- function (object) {
+  stopifnot(is.jags_analysis(object))
+  stopifnot(nmodel(object) == 1)
+  
+  object <- as.jagr_analysis(object)
+  object <- as.gsmcmc (object)
+  
+  return (object)
+}
+  

@@ -35,7 +35,7 @@ plot.jags_analysis <- function (x, model_number = 1, parm = "fixed", ...) {
       
   x <- subset(x, model_number)
   
-  parm <- parm(x, parm = parm)
+  parm <- get_parm(x, parm = parm)
     
   return (plot.jagr_analysis(x$analyses[[1]], parm = parm, ...))
 }

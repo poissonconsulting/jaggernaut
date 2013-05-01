@@ -1,6 +1,6 @@
-context("parm")
+context("get-parm")
 
-test_that("parm returns correct values", {
+test_that("get_parm returns correct values", {
   
   mod <- jags_model("
                     model {
@@ -34,9 +34,9 @@ test_that("parm returns correct values", {
   dat$C <- dat$Pairs
   an <- jags_analysis (mod, dat, niter = 10^4, mode = "test")
   
-  expect_that(parm(an), equals(c("alpha","beta1","beta2","beta3","deviance","sd")))
-  expect_that(parm(an,"fixed"), equals(c("alpha","beta1","beta2","beta3","deviance","sd")))
-  expect_that(parm(an,"all"), equals(c("alpha","beta1","beta2","beta3","deviance","eps","sd")))  
-  expect_that(parm(an,"random"), equals("eps"))
-  expect_that(parm(an, c("random","alpha")), equals(c("alpha","eps")))              
+  expect_that(get_parm(an), equals(c("alpha","beta1","beta2","beta3","deviance","sd")))
+  expect_that(get_parm(an,"fixed"), equals(c("alpha","beta1","beta2","beta3","deviance","sd")))
+  expect_that(get_parm(an,"all"), equals(c("alpha","beta1","beta2","beta3","deviance","eps","sd")))  
+  expect_that(get_parm(an,"random"), equals("eps"))
+  expect_that(get_parm(an, c("random","alpha")), equals(c("alpha","eps")))              
 })
