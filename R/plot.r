@@ -1,15 +1,33 @@
   
-plot.jags_mcmc <- function (x, parm = NULL, ...) {
-  if (!inherits (x, 'jags_mcmc'))
-    stop ('x should be of class jags_mcmc')
+plot.jags_mcmc <- function (x, parm, ...) {
+
+  stopifnot(is.jags_mcmc(x))
+  stopifnot(is.character(parm))
+  stopifnot(length(parm) > 0)
   
-  return (coda:::plot.mcmc.list(as.mcmc.list(x),...))
+  mcmc <- as.mcmc.list (x)
+  
+  vars<-coda::varnames(mcmc)
+  
+  bol<-rep(F, length(vars))
+  
+  svars <- sapply(vars,strsplit,split="[",fixed=T)
+  for (i in 1:length(vars)) {
+    bol[i] <- svars[[i]][1] %in% parm
+  }
+  
+  vars<-vars[bol]
+
+  mcmc <- mcmc[,vars, drop = FALSE]
+    
+  return (coda:::plot.mcmc.list(mcmc,...))
 }
 
 plot.jagr_analysis <- function (x, parm, ...) {
 
-  if (!is.jagr_analysis(x))
-    stop ('x should be of class jagr_analysis')
+  stopifnot(is.jagr_analysis(x))
+  stopifnot(is.character(parm))
+  stopifnot(length(parm) > 0)
   
   return (plot(x$mcmc, parm = parm, ...))
 }
@@ -37,5 +55,5 @@ plot.jags_analysis <- function (x, model_number = 1, parm = "fixed", ...) {
   
   parm <- get_parm(x, parm = parm)
     
-  return (plot.jagr_analysis(x$analyses[[1]], parm = parm, ...))
+  return (plot.jagr_analysis(as.jagr_analysis(x), parm = parm, ...))
 }
