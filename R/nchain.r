@@ -15,10 +15,10 @@ nchain.mcmc.list <- function (object) {
   return (coda::nchain (object))
 }
 
-nchain.gsmcmc <- function (object)
+nchain.jags_mcmc <- function (object)
 {
-  if (!inherits(object,"gsmcmc"))
-    stop ("object should be class gsmcmc")
+  if (!inherits(object,"jags_mcmc"))
+    stop ("object should be class jags_mcmc")
   
   return (nchain (object$mcmc[[1]]))
 }

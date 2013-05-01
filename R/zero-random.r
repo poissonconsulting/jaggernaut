@@ -8,7 +8,7 @@ zero_random.mcarray <- function (object) {
   return (object)
 }
 
-zero_random.gsmcmc <- function (object, random) {
+zero_random.jags_mcmc <- function (object, random) {
   if (!is.list(random)) {
     stop ("random must be a list")
   }

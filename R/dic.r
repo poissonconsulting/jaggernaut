@@ -1,5 +1,5 @@
 
-DIC_gsmcmc <- function (object) {
+DIC_jags_mcmc <- function (object) {
   
   deviance <- get_sims(object,"deviance")
   deviance <- as.vector(deviance)
@@ -10,7 +10,7 @@ DIC_gsmcmc <- function (object) {
 }
 
 DIC_jagr_analysis <- function (object) {
-  return (DIC_gsmcmc(object$mcmc))
+  return (DIC_jags_mcmc(object$mcmc))
 }
 
 DIC <- function (object) {

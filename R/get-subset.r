@@ -21,10 +21,10 @@ get_subset_mcarray <- function (x, iter, chain)
   return (x)
 }
 
-get_subset_gsmcmc <- function (x, iter, chain)
+get_subset_jags_mcmc <- function (x, iter, chain)
 {
-  if (!inherits(x,"gsmcmc"))
-    stop ("x must be of class gsmcmc")
+  if (!inherits(x,"jags_mcmc"))
+    stop ("x must be of class jags_mcmc")
   if (chain < 1)
     stop ("chain should be one or more")
   if (iter < 1)

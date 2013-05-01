@@ -15,9 +15,9 @@
   return (c)
 }
 
-"-.gsmcmc" <- function (a, b) {
-  if (!is.gsmcmc (b))
-    stop ("b should be of class gsmcmc")
+"-.jags_mcmc" <- function (a, b) {
+  if (!is.jags_mcmc (b))
+    stop ("b should be of class jags_mcmc")
   
   if (length (a$mcmc) != length (b$mcmc))
     stop ("a and b should be of the same dimensions")
@@ -45,9 +45,9 @@
   return (c)
 }
 
-"/.gsmcmc" <- function (a, b) {
-  if (!is.gsmcmc (b))
-    stop ("b should be of class gsmcmc")
+"/.jags_mcmc" <- function (a, b) {
+  if (!is.jags_mcmc (b))
+    stop ("b should be of class jags_mcmc")
   
   if (length (a$mcmc) != length (b$mcmc))
     stop ("a and b should be of the same dimensions")

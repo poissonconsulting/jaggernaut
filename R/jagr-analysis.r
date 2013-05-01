@@ -74,7 +74,7 @@ jagr_analysis <- function (
       inits <- rngs
     }
     
-      mcmc <- foreach(i = 1:n.chain, .combine = add_chains_gsmcmc) %dopar% { 
+      mcmc <- foreach(i = 1:n.chain, .combine = add_chains_jags_mcmc) %dopar% { 
         file <- tempfile(fileext=".bug")
         cat(model$model, file=file)
         

@@ -35,6 +35,6 @@ jags_analysis_internal <- function (data, file, monitor, inits, n.chain, n.adapt
     model = jags, variable.names = monitor, n.iter = n.sim, thin = n.thin
   )
 
-  mcmc <- gsmcmc(mcmc=mcmc,jags=list(jags))
+  mcmc <- jags_mcmc(mcmc=mcmc,jags=list(jags))
   return (mcmc)
 }

@@ -11,10 +11,10 @@ nsim.mcarray <- function (object)
   return (nchain(object)  * niter(object))
 }
 
-nsim.gsmcmc <- function (object)
+nsim.jags_mcmc <- function (object)
 {
-  if (!inherits(object,"gsmcmc"))
-    stop ("object should be class gsmcmc")
+  if (!inherits(object,"jags_mcmc"))
+    stop ("object should be class jags_mcmc")
   
   return (nchain(object)  * niter(object))
 }

@@ -44,7 +44,7 @@ add_chains.list <- function (object, chain) {
   return (object)
 }
 
-add_chains.gsmcmc <- function (object, chain) {
+add_chains.jags_mcmc <- function (object, chain) {
   
   object$jags <- c(object$jags, chain$jags)
   
@@ -52,7 +52,7 @@ add_chains.gsmcmc <- function (object, chain) {
   return (object)
 }
 
-add_chains_gsmcmc <- function (object, chain) {
+add_chains_jags_mcmc <- function (object, chain) {
 
   object$jags <- c(object$jags, chain$jags)
   object$mcmc <- add_chains (object$mcmc, chain$mcmc)

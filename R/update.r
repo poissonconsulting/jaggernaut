@@ -16,7 +16,7 @@ update.jagr_analysis <- function (object, quiet = F)
   if (parallel) {
     doMC::registerDoMC(cores=n.chain)   
     i <- 1 # hack to prevent warning on package check
-    mcmc <- foreach(i = 1:n.chain, .combine = add_chains_gsmcmc) %dopar% {
+    mcmc <- foreach(i = 1:n.chain, .combine = add_chains_jags_mcmc) %dopar% {
       update_jags(
         jags = jags[[i]], monitor = monitor, n.sim = n.sim, n.thin = n.thin, 
         quiet = quiet, recompile = T
@@ -53,6 +53,6 @@ update_jags <- function (jags, monitor, n.sim, n.thin, quiet, recompile)
     model = jags, variable.names = monitor, n.iter = n.sim, thin = n.thin
   )
   
-  mcmc <- gsmcmc(mcmc=mcmc,jags=list(jags))
+  mcmc <- jags_mcmc(mcmc=mcmc,jags=list(jags))
   return (mcmc)
 }

@@ -7,8 +7,8 @@ is.mcarray <- function (object) {
   inherits(object, "mcarray")
 }
 
-is.gsmcmc <- function (object) {
-  inherits(object, "gsmcmc")
+is.jags_mcmc <- function (object) {
+  inherits(object, "jags_mcmc")
 }
 
 is.jags_model <- function (object) {

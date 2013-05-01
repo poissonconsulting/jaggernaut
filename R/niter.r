@@ -15,10 +15,10 @@ niter.mcmc.list <- function (object) {
   return (coda::niter (object))
 }
 
-niter.gsmcmc <- function (object)
+niter.jags_mcmc <- function (object)
 {
-  if (!inherits(object,"gsmcmc"))
-    stop ("object should be class gsmcmc")
+  if (!inherits(object,"jags_mcmc"))
+    stop ("object should be class jags_mcmc")
   
   return (niter (object$mcmc[[1]]))
 }

@@ -1,5 +1,5 @@
 
-gsmcmc <- function (mcmc, jags) {
+jags_mcmc <- function (mcmc, jags) {
   if (!inherits (mcmc,"list"))
     stop ("mcmc should be a list of mcarray objects")
   if(length(mcmc)<1)
@@ -8,6 +8,6 @@ gsmcmc <- function (mcmc, jags) {
     stop("mcmc should be a list of at least one mcarray object")
   
   object <- list(mcmc = mcmc, jags = jags)
-  class(object) <- "gsmcmc"
+  class(object) <- "jags_mcmc"
   return (object)
 }

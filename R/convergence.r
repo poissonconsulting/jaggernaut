@@ -1,7 +1,7 @@
 
-convergence_gsmcmc <- function (object, parm, ...) {
+convergence_jags_mcmc <- function (object, parm, ...) {
   
-  stopifnot(is.gsmcmc(object))
+  stopifnot(is.jags_mcmc(object))
   stopifnot(is.character(parm))
   stopifnot(length(parm) >= 1)
   
@@ -44,7 +44,7 @@ convergence_jagr_analysis <- function (object, parm, summarise = TRUE, ...) {
   stopifnot(is.logical(summarise))
   stopifnot(is_scalar(summarise))
   
-  convergence <- convergence_gsmcmc(as.gsmcmc(object), parm = parm)
+  convergence <- convergence_jags_mcmc(as.jags_mcmc(object), parm = parm)
   
   if(summarise) {
     independence <- min(convergence$independence)

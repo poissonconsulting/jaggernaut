@@ -28,7 +28,7 @@ multiply_mcarray <- function (object, times = 1) {
   
 }
 
-multiply.gsmcmc <- function (object, times = 1, ...) {
+multiply.jags_mcmc <- function (object, times = 1, ...) {
 
   object$mcmc <- lapply (object$mcmc,multiply_mcarray,times)
   

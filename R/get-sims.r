@@ -1,7 +1,7 @@
 
 get_sims <- function (object, parm = NULL) {
-  if (!inherits(object,"gsmcmc"))
-    stop("object should be of class gsmcmc")
+  if (!inherits(object,"jags_mcmc"))
+    stop("object should be of class jags_mcmc")
   
   mcmc<-as.matrix(object)
     

@@ -1,7 +1,7 @@
   
-plot.gsmcmc <- function (x, parm = NULL, ...) {
-  if (!inherits (x, 'gsmcmc'))
-    stop ('x should be of class gsmcmc')
+plot.jags_mcmc <- function (x, parm = NULL, ...) {
+  if (!inherits (x, 'jags_mcmc'))
+    stop ('x should be of class jags_mcmc')
   
   return (coda:::plot.mcmc.list(as.mcmc.list(x),...))
 }

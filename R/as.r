@@ -1,6 +1,6 @@
 
-as.gsmcmc<- function (object, ...) {
-  UseMethod("as.gsmcmc", object)
+as.jags_mcmc<- function (object, ...) {
+  UseMethod("as.jags_mcmc", object)
 }
 
 as.jagr_analysis<- function (object, ...) {
@@ -22,9 +22,9 @@ as.array.mcarray <- function (object) {
   return (object)
 }
 
-as.list.gsmcmc <- function (object) {
-  if (!inherits(object,"gsmcmc"))
-    stop("object should be of class gsmcmc")
+as.list.jags_mcmc <- function (object) {
+  if (!inherits(object,"jags_mcmc"))
+    stop("object should be of class jags_mcmc")
   
   mcmc <- object$mcmc
   list <- list()
@@ -34,9 +34,9 @@ as.list.gsmcmc <- function (object) {
   return (list)
 }
 
-as.mcmc.list.gsmcmc <- function (x) {
-  if (!inherits (x,"gsmcmc"))
-    stop ("x should be class gsmcmc")
+as.mcmc.list.jags_mcmc <- function (x) {
+  if (!inherits (x,"jags_mcmc"))
+    stop ("x should be class jags_mcmc")
   
   ans <- list()
   for (ch in 1:nchain(x)) {
@@ -65,19 +65,19 @@ as.mcmc.list.gsmcmc <- function (x) {
   return (coda::mcmc.list(ans))
 }
 
-as.matrix.gsmcmc <- function (x) {
-  if (!inherits (x,"gsmcmc"))
-    stop ("x shold be class gsmcmc")
+as.matrix.jags_mcmc <- function (x) {
+  if (!inherits (x,"jags_mcmc"))
+    stop ("x shold be class jags_mcmc")
   return (as.matrix(as.mcmc.list(x)))
 }
 
-as.data.frame.gsmcmc <- function (x) {
-  if (!inherits (x,"gsmcmc"))
-    stop ("x should be class gsmcmc")
+as.data.frame.jags_mcmc <- function (x) {
+  if (!inherits (x,"jags_mcmc"))
+    stop ("x should be class jags_mcmc")
   return (as.data.frame(as.matrix(x)))
 }
 
-as.gsmcmc.jagr_analysis <- function (object) {
+as.jags_mcmc.jagr_analysis <- function (object) {
   return (object$mcmc)
 }
 
@@ -93,7 +93,7 @@ as.gmcmc.jags_analysis <- function (object) {
   stopifnot(nmodel(object) == 1)
   
   object <- as.jagr_analysis(object)
-  object <- as.gsmcmc (object)
+  object <- as.jags_mcmc (object)
   
   return (object)
 }

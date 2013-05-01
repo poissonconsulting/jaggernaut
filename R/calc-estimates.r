@@ -37,7 +37,7 @@ calc_estimates.matrix <- function(object, level) {
   return (estimates)
 }
 
-calc_estimates.gsmcmc <- function (object, parm, level) {
+calc_estimates.jags_mcmc <- function (object, parm, level) {
 
   stopifnot(is.character(parm))
   stopifnot(is.numeric(level))

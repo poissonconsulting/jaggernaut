@@ -37,7 +37,6 @@ Collate:
     'niter.r'
     'as.r'
     'is.r'
-    'gsmcmc.r'
     'nsim.r'
     'add-iterations.r'
     'add-chains.r'
@@ -90,3 +89,4 @@ Collate:
     'data-tits.r'
     'get-base_value.r'
     'get-parm.r'
+    'jags-mcmc.r'

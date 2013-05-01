@@ -3,12 +3,12 @@ get_derived<- function (object, ...) {
   UseMethod("get_derived", object)
 }
 
-get_derived.gsmcmc <- function (object, model, monitor) {
-  stopifnot(inherits(object,"gsmcmc"))
+get_derived.jags_mcmc <- function (object, model, monitor) {
+  stopifnot(inherits(object,"jags_mcmc"))
   stopifnot(is.character(model))
-  stopifnot(length(model) != 0)
+  stopifnot(length(model) == 1)
   stopifnot(is.character(monitor))
-  stopifnot(length(monitor) == 0)
+  stopifnot(length(monitor) > 0)
       
   model <- jags_model (model, monitor)
   options(jags.pb = "none")
@@ -21,10 +21,10 @@ get_derived.gsmcmc <- function (object, model, monitor) {
   
   list <- list ()
   for (j in 1:nchain) {
-    list[[j]] <- get_samples (model,data = as.list(get_subset_gsmcmc(object, iter = 1, chain = j)), file = file)
+    list[[j]] <- get_samples (model,data = as.list(get_subset_jags_mcmc(object, iter = 1, chain = j)), file = file)
     if (niter > 1) {
       for (i in 2:niter) {
-        samples <- get_samples (model,data = as.list(get_subset_gsmcmc(object, iter = i, chain = j)), file = file)
+        samples <- get_samples (model,data = as.list(get_subset_jags_mcmc(object, iter = i, chain = j)), file = file)
         list[[j]] <- add_iterations (list[[j]], samples)
       }
     }
@@ -35,7 +35,7 @@ get_derived.gsmcmc <- function (object, model, monitor) {
     for (j in 2:nchain)
       samples <- add_chains (samples, list[[j]])
   }
-  mcmc <- gsmcmc(samples, jags = list(NULL))
+  mcmc <- jags_mcmc(samples, jags = list(NULL))
   
   return (mcmc)
 }
@@ -44,7 +44,7 @@ get_derived.jagr_analysis <- function (object, monitor, data) {
   
   stopifnot(is.jagr_analysis(object))
   stopifnot(is.character(monitor))
-  stopifnot(length(monitor) == 0)
+  stopifnot(length(monitor) > 0)
   stopifnot(is.data.frame(data) || is_data_list(data))
 
   dat <- translate_data(object$model$select, object$data, dat = data) 
@@ -73,11 +73,11 @@ get_derived.jagr_analysis <- function (object, monitor, data) {
   list <- list ()
   for (j in 1:nchain) {
     
-    data <- c(dat,as.list(get_subset_gsmcmc(object$mcmc, iter = 1, chain = j)))
-    list[[j]] <- get_samples (model,data = c(dat,as.list(get_subset_gsmcmc(object$mcmc, iter = 1, chain = j))),file = file)    
+    data <- c(dat,as.list(get_subset_jags_mcmc(object$mcmc, iter = 1, chain = j)))
+    list[[j]] <- get_samples (model,data = c(dat,as.list(get_subset_jags_mcmc(object$mcmc, iter = 1, chain = j))),file = file)    
     if (niter > 1) {
       for (i in 2:niter) {
-        samples <- get_samples (model,data = c(dat,as.list(get_subset_gsmcmc(object$mcmc, iter = i, chain = j))), file = file)
+        samples <- get_samples (model,data = c(dat,as.list(get_subset_jags_mcmc(object$mcmc, iter = i, chain = j))), file = file)
         list[[j]] <- add_iterations (list[[j]], samples)
       }
     }
@@ -88,7 +88,7 @@ get_derived.jagr_analysis <- function (object, monitor, data) {
     for (j in 2:nchain)
       samples <- add_chains (samples, list[[j]])
   }
-  mcmc <- gsmcmc(samples, jags = list(NULL))
+  mcmc <- jags_mcmc(samples, jags = list(NULL))
   
   return (mcmc)
 }
@@ -98,7 +98,7 @@ get_derived.jags_analysis <- function (object, monitor, data) {
   stopifnot(is.jags_analysis(object))
   stopifnot(nmodel(object) == 1)
   stopifnot(is.character(monitor))
-  stopifnot(length(monitor) == 0)
+  stopifnot(length(monitor) > 0)
   stopifnot(is.data.frame(data) || is_data_list(data))
     
   return (get_derived(as.jagr_analysis(object), monitor = monitor, data = data))
