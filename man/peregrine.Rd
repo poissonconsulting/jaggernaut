@@ -1,7 +1,7 @@
 \docType{data}
 \name{peregrine}
 \alias{peregrine}
-\title{Peregrine falcon breeding population}
+\title{Peregrine falcon breeding population data}
 \format{A data frame with 40 rows and 4 columns}
 \source{
   Kery & Schaub (2011 p.64-65) courtesy of R.-J. Monneret
@@ -17,17 +17,14 @@
   the number of fledged young (integer). }
 }
 \examples{
-# data(peregrine)
-# summary(peregrine)
+data(peregrine)
+summary(peregrine)
 # demo(peregrine)
 }
 \references{
   Kery M & Schaub M (2011) Bayesian Population Analysis
   using WinBUGS. Academic Press.
   (\url{http://www.vogelwarte.ch/bpa})
-}
-\seealso{
-  \code{\link{jaggernaut}}
 }
 \keyword{datasets}
 

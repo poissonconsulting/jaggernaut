@@ -147,15 +147,14 @@ log_cbrt <- function (x) {
 
 an <- jags_analysis (mods, dat, niter = 10^5, mode = "default")
 
-coef(an, model_number = 1)
-coef(an,model_number = 2)
-coef(an,model_number = 3)
+summary(an)
 
-size <- seq(from = min(dat$size), to = 2000, length.out = 50)
+plot(an, model_number = 1, parm = "N")
+plot(an, model_number = 2, parm = "N")
 
-newdata <- list(size = size)
+newdata <- list(size = seq(from = min(dat$size), to = 2000, length.out = 50))
 
-pred <- predict(an,newdata,model_number = 3)
+pred <- predict(an, newdata, model_number = 3)
 
 gp <- ggplot(data = pred, aes(x = size, y = estimate))
 gp <- gp + geom_line()

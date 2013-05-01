@@ -1,5 +1,5 @@
 
-#' @title Peregrine falcon breeding population
+#' @title Peregrine falcon breeding population data
 #'
 #' @description
 #' The peregrine falcon (\emph{Falco peregrinus}) population
@@ -13,18 +13,17 @@
 #'   \item \code{Eyasses} the number of fledged young (integer).
 #' }
 #'
-#' @docType data
-#' @name peregrine
-#' @usage peregrine
 #' @format A data frame with 40 rows and 4 columns
 #' @source Kery & Schaub (2011 p.64-65) courtesy of R.-J. Monneret
-#' @seealso \code{\link{jaggernaut}} 
 #' @references 
 #' Kery M & Schaub M (2011) Bayesian Population Analysis
 #' using WinBUGS. Academic Press. (\url{http://www.vogelwarte.ch/bpa})
+#' @docType data
+#' @name peregrine
+#' @usage peregrine
 #' @keywords datasets
 #' @examples
-#' # data(peregrine)
-#' # summary(peregrine)
+#' data(peregrine)
+#' summary(peregrine)
 #' # demo(peregrine)
 NULL

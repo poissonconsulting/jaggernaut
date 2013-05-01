@@ -1,9 +1,9 @@
 
-#' Swiss coal tits
+#' Coal tits breeding survey data
 #'
 #'
 #' The Swiss coal tit (\emph{Parus ater}) annual territory counts from 
-#' the Swiss breeding bird survey from 1999 to 2007.
+#' the Swiss breeding bird survey MHB from 1999 to 2007.
 #' 
 #' The variables are as follows:
 #' \itemize{
@@ -16,16 +16,17 @@
 #'   \item \code{first1999, first2000, ..., first2007} the first-time observer indicator by year (integer with two values 0 or 1).
 #' }
 #'
+#' @format A data frame with 235 rows and 31 columns
+#' @source Kery & Schaub (2011 p.95-96) 
+#' @references 
+#' Kery M & Schaub M Bayesian Population Analysis
+#' using WinBUGS. Academic Press. (\url{http://www.vogelwarte.ch/bpa})
 #' @docType data
 #' @name tits
 #' @usage tits
-#' @format A data frame with 235 rows and 31 columns
-#' @source
-#' Kery M & Schaub M (2011, p.95-96) Bayesian Population Analysis
-#' using WinBUGS. Academic Press. (\url{http://www.vogelwarte.ch/bpa})
 #' @keywords datasets
 #' @examples
-#' # data(tits)
-#' # summary(tits)
+#' data(tits)
+#' summary(tits)
 #' # demo(tits)
 NULL

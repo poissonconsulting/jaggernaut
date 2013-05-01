@@ -143,6 +143,4 @@ dat <- peregrine
 dat$C <- dat$Pairs
 an <- jags_analysis (mod, dat, niter = 10^4, mode = "default")
 coef(an)
-coef(an, parm = "fixed")
 coef(an, parm = "random")
-coef(an, parm = "all")

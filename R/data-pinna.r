@@ -1,11 +1,9 @@
 
-#' Pen shell detection data
+#' @title Pen shell detection data
 #'
-#'
+#' @description
 #' The pen shell (\emph{Pinna nobilis}) detection data from the Balearic Islands 
-#' in 2010 from 
-#' Kery & Schaub (2011 p.166). The data consist of the detection history of each 
-#' shell along with its width.
+#' in 2010.
 #' 
 #' The variables are as follows:
 #' \itemize{
@@ -14,13 +12,17 @@
 #'   \item \code{width} shell width (cm).
 #' }
 #'
-#' @docType data
-#' @name pinna
-#' @usage pinna
 #' @format A data frame with 143 rows and 3 columns
-#' @seealso \code{\link{jaggernaut}} 
+#' @source Kery & Schaub (2011 p.166) courtesy of Iris Hendriks and colleagues
 #' @references 
 #' Kery M & Schaub M (2011) Bayesian Population Analysis
 #' using WinBUGS. Academic Press. (\url{http://www.vogelwarte.ch/bpa})
+#' @docType data
+#' @name pinna
+#' @usage pinna
 #' @keywords datasets
+#' @examples
+#' data(pinna)
+#' summary(pinna)
+#' # demo(pina)
 NULL

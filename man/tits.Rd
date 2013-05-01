@@ -1,17 +1,15 @@
 \docType{data}
 \name{tits}
 \alias{tits}
-\title{Swiss coal tits}
+\title{Coal tits breeding survey data}
 \format{A data frame with 235 rows and 31 columns}
 \source{
-  Kery M & Schaub M (2011, p.95-96) Bayesian Population
-  Analysis using WinBUGS. Academic Press.
-  (\url{http://www.vogelwarte.ch/bpa})
+  Kery & Schaub (2011 p.95-96)
 }
 \description{
   The Swiss coal tit (\emph{Parus ater}) annual territory
-  counts from the Swiss breeding bird survey from 1999 to
-  2007.
+  counts from the Swiss breeding bird survey MHB from 1999
+  to 2007.
 }
 \details{
   The variables are as follows: \itemize{ \item \code{site}
@@ -27,9 +25,14 @@
   (integer with two values 0 or 1). }
 }
 \examples{
-# data(tits)
-# summary(tits)
+data(tits)
+summary(tits)
 # demo(tits)
+}
+\references{
+  Kery M & Schaub M Bayesian Population Analysis using
+  WinBUGS. Academic Press.
+  (\url{http://www.vogelwarte.ch/bpa})
 }
 \keyword{datasets}
 

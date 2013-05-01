@@ -42,14 +42,14 @@ dat$year <- factor(dat$year)
 
 an <- jags_analysis (mod, dat, niter = 10^5, mode = "default")
 
-coef(an,parm = c("mean.r","sigma.obs","sigma.proc"))
+coef(an, parm = c("mean.r","sigma.obs","sigma.proc"))
 
 pred <- predict(an, newdata = "year")
 
 pred$Year <- as.integer(as.character(pred$year))
 dat$Year <- as.integer(as.character(dat$year))
 
-gp <- ggplot(data = pred, aes(x = Year, y = estimate))
+gp <- ggplot(data = na.omit(pred), aes(x = Year, y = estimate))
 gp <- gp + geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 1/4)
 gp <- gp + geom_line(data = dat, aes(y = C), alpha = 1/3)
 gp <- gp + geom_line()
