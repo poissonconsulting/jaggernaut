@@ -17,9 +17,9 @@
   \item \code{width} shell width (cm). }
 }
 \examples{
-data(peregrine)
-summary(peregrine)
-# demo(peregrine)
+data(pinna)
+summary(pinna)
+# demo(pina)
 }
 \references{
   Kery M & Schaub M (2011) Bayesian Population Analysis
