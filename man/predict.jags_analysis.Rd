@@ -6,7 +6,7 @@
     parm = "prediction", base = FALSE, values = NULL,
     model_number = 1, derived_code = NULL,
     random_effects = NULL, level = "current",
-    length_out = 50, ...)
+    length_out = 50, obs_comb = FALSE, ...)
 }
 \arguments{
   \item{object}{a jags_analysis}
@@ -55,6 +55,11 @@
   \item{length_out}{an integer element indicating the
   number of values when creating a sequence of values
   across the range of a continuous variable.}
+
+  \item{obs_comb}{an logical element indicating whether to
+  only predict for observed factor combinations in the
+  original data when specifying newdata by a character
+  vector.}
 
   \item{...}{further arguments passed to or from other
   methods.}

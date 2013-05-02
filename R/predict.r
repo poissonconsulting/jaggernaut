@@ -64,6 +64,9 @@ predict.jagr_analysis <- function (object, parameter, data, base, level, ...) {
 #' level is as currently specified by \code{opts_jagr} in the global options.
 #' @param length_out an integer element indicating the number of values when 
 #' creating a sequence of values across the range of a continuous variable.
+#' @param obs_comb an logical element indicating whether to only 
+#' predict for observed factor combinations in the original data when 
+#' specifying newdata by a character vector.
 #' @param ... further arguments passed to or from other methods.
 #' @details
 #' Its important to realise that if the original data set was a data list then 
@@ -86,7 +89,8 @@ predict.jags_analysis <- function (object, newdata = NULL,
                                    parm = "prediction", base = FALSE, 
                                    values = NULL, model_number = 1, 
                                    derived_code = NULL, random_effects = NULL, 
-                                   level = "current", length_out = 50, ...) {
+                                   level = "current", length_out = 50, 
+                                   obs_comb = FALSE, ...) {
 
   if (!is.jags_analysis(object)) {
     stop ("object must be a jags_analysis") 
@@ -102,13 +106,33 @@ predict.jags_analysis <- function (object, newdata = NULL,
   } else {
     stop("length_out must be an integer")
   }
-    
+
   dataset <- dataset(object)
   
+  if (is.logical(obs_comb)) {
+    if (!is_scalar(obs_comb)) {
+      stop("obs_comb must be length one")
+    }
+    if(obs_comb) {
+      if (!is.data.frame(dataset)) {
+        stop("obs_comb is only available when the original data is a data.frame")
+      }
+      if (!is.character(newdata)) {
+        stop("obs_comb is only available when newdata is a character vector")
+      }   
+    }
+  } else {
+    stop("obs_comb must be a logical value")    
+  }
+      
   if (is.null(newdata)) {
     newdata <- dataset
   } else if (is.character(newdata)) {
+    dat <- unique(subset(dataset, select = newdata))
     newdata <- generate_data (dataset, range = newdata, length_out = length_out)
+    if (obs_comb) {
+      newdata <- merge(newdata,dat)
+    }
   }
   
   if(is.logical(base)) {

@@ -2,7 +2,7 @@
 \alias{predict_analyses}
 \title{JAGS analyses predictions}
 \usage{
-  predict_analyses(object, newdata = NULL,
+  predict_analyses(object, newdata = NULL, fun = sum,
     parm = "prediction", base = FALSE, values = NULL,
     model_number = 1, derived_code = NULL,
     random_effects = NULL, level = "current",
@@ -18,6 +18,8 @@
   the estimates of the derived parameter. If NULL (the
   default) the derived parameter is calculated for each row
   in the original data set.}
+
+  \item{fun}{the function to apply to iterations.}
 
   \item{parm}{a character element naming the derived
   parameter for which the estimates should be calculated.}

@@ -78,7 +78,8 @@ predict_analyses <- function (object, newdata = NULL, fun = sum,
                           model_number = mod_num, 
                           derived_code = derived_code, 
                           random_effects = random_effects, 
-                          level = "no", length_out = 50)
+                          level = "no", length_out = 50, 
+                          obs_comb = FALSE)
   }
 
   old_opts <- opts_jagr()
