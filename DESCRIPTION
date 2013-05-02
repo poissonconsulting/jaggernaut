@@ -90,3 +90,4 @@ Collate:
     'get-base_value.r'
     'get-parm.r'
     'jags-mcmc.r'
+    'predict_analyses.r'
