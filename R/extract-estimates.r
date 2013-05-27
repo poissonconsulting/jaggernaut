@@ -1,8 +1,8 @@
 
-extract_estimates <- function (object, pars = NULL) {
+extract_estimates <- function (est) {
   
-  est <- calc_estimates (object, pars = pars)
-  
+  stopifnot(inherits(est, "data.frame"))
+    
   ss <- strsplit(rownames(est),"\\[|,|]")
   ss <- lapply(ss,function (x) return (x[x != ""]))
   
@@ -19,11 +19,15 @@ extract_estimates <- function (object, pars = NULL) {
     par <- as.character(df$pars[i])
     ndim <- df$ndims[i]
     if (ndim == 0) {
-      estimates[[par]] <- est[par,"estimate"]
+      estimates$estimate[[par]] <- est[par,"estimate"]
+      estimates$lower[[par]] <- est[par,"lower"]
+      estimates$upper[[par]] <- est[par,"upper"]
     } else {
       bol <- substr(rownames(est),1,nchar(par)+1) == paste0(par,"[")
       sss <- lapply(ss[bol],function (x) x[-1])
-      estimates[[par]] <- array(est$estimate[bol], dim = sss[[length(sss)]])
+      estimates$estimate[[par]] <- array(est$estimate[bol], dim = sss[[length(sss)]])
+      estimates$lower[[par]] <- array(est$lower[bol], dim = sss[[length(sss)]])
+      estimates$upper[[par]] <- array(est$upper[bol], dim = sss[[length(sss)]])
     }
   }
     

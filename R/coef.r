@@ -18,7 +18,7 @@
 #' @seealso \code{\link{jags_analysis}} and \code{\link{jaggernaut}}
 #' @method coef jags_analysis
 #' @export
-coef.jags_analysis <- function (object, model_number = 1, parm = "fixed", level = "current", ...) {
+coef.jags_analysis <- function (object, model_number = 1, parm = "fixed", as_list = FALSE, level = "current", ...) {
  
   if (!is.jags_analysis(object)) {
     stop ("object must be a jags_analysis")
@@ -47,6 +47,10 @@ coef.jags_analysis <- function (object, model_number = 1, parm = "fixed", level 
   est <- calc_estimates(object, parm = parm, level = level)
   
   est <- est[rownames(est) != "deviance",]
+  
+  if(as_list) {
+    est <- extract_estimates(est)
+  }
 
   return (est)
 }
