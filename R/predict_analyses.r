@@ -32,7 +32,9 @@
 #' level is as currently specified by \code{opts_jagr} in the global options.
 #' @param length_out an integer element indicating the number of values when 
 #' creating a sequence of values across the range of a continuous variable.
-#' 
+#' @param obs_comb an logical element indicating whether to only 
+#' predict for observed factor combinations in the original data when 
+#' specifying newdata by a character vector.
 #' @return a data frame with the median estimates and credibility intervals for
 #' the derived parameter of interest
 #' @seealso \code{\link{predict.jags_analysis}}
@@ -41,7 +43,7 @@ predict_analyses <- function (object, newdata = NULL, fun = sum,
                                    parm = "prediction", base = FALSE, 
                                    values = NULL, model_number = 1, 
                                    derived_code = NULL, random_effects = NULL, 
-                                   level = "current", length_out = 50) {
+                                   level = "current", length_out = 50, obs_comb = FALSE) {
   
   if(!is.list(object)) {
     stop("object must be a list of jags_analysis objects")
@@ -79,7 +81,7 @@ predict_analyses <- function (object, newdata = NULL, fun = sum,
                           derived_code = derived_code, 
                           random_effects = random_effects, 
                           level = "no", length_out = 50, 
-                          obs_comb = FALSE)
+                          obs_comb = obs_comb)
   }
 
   old_opts <- opts_jagr()
@@ -94,6 +96,15 @@ predict_analyses <- function (object, newdata = NULL, fun = sum,
     }
   } 
   
+  if(inherits(newdata,"character")) {
+    merge <- subset(x[[1]], select = newdata)
+  for (i in 2:length(object)) {
+    merge <- merge(merge,x[[i]], by= newdata)
+  }
+  for (i in 1:length(object)) {
+    x[[i]] <- merge(x[[i]],merge,by = newdata)
+  }  
+  }
   colnames <- lapply(x, colnames)
   
   colnames <- colnames(x[[1]])
