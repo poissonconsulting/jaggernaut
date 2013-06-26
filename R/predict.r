@@ -28,6 +28,7 @@ predict.jagr_analysis <- function (object, parameter, data, base, level, ...) {
   
   if (is.data.frame(data)) {
     emcmc <- cbind (data,emcmc)
+    class(emcmc) <- c("data.frame","jags_sample")
   }
   return (emcmc)
 }
@@ -36,7 +37,7 @@ predict.jagr_analysis <- function (object, parameter, data, base, level, ...) {
 #'
 #' @description
 #' Calculate predictions with estimates for derived parameters 
-#' in a JAGS analysis
+#' in a JAGS analysis or if level = "no" returns an object of class jags_samples
 #' 
 #' @param object a jags_analysis
 #' @param newdata a data.frame or data list of the data values over which to calculate the
@@ -80,7 +81,8 @@ predict.jagr_analysis <- function (object, parameter, data, base, level, ...) {
 #' are unaltered, i.e., as they are in dataset(object,base = TRUE).
 #' 
 #' @return a data frame with the median estimates and credibility intervals for
-#' the derived parameter of interest
+#' the derived parameter of interest or if level = "no" an object of 
+#' class jags_samples
 #' @seealso \code{\link{jags_model}}, \code{\link{jags_analysis}}
 #' and \code{\link{jaggernaut}}
 #' @method predict jags_analysis

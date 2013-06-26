@@ -84,46 +84,12 @@ predict_analyses <- function (object, newdata = NULL, fun = sum,
                           obs_comb = obs_comb)
   }
 
-  old_opts <- opts_jagr()
-  on.exit(opts_jagr(old_opts))
-  
-  if (!is.numeric(level)) {
-    opts_jagr(mode = level)
-    level <- opts_jagr("level")
+  if (is.character(newdata)) {
+    x <- combine_jags_samples(x, by = newdata, fun = fun)
   } else {
-    if (level < 0.75 || level > 0.99) {
-      stop("level must lie between 0.75 and 0.99")
-    }
-  } 
-  
-  if(inherits(newdata,"character")) {
-    merge <- subset(x[[1]], select = newdata)
-  for (i in 2:length(object)) {
-    merge <- merge(merge,x[[i]], by= newdata)
+    x <- combine_jags_samples(x, fun = fun)    
   }
-  for (i in 1:length(object)) {
-    x[[i]] <- merge(x[[i]],merge,by = newdata)
-  }  
-  }
-  colnames <- lapply(x, colnames)
-  
-  colnames <- colnames(x[[1]])
-  for (i in 2:length(x)) {
-    colnames <- colnames[colnames %in% colnames(x[[i]])]
-  }
-  colnames <- colnames[grepl("V[[:digit:]]", colnames)]
-  
-  array <- as.matrix((x[[1]][,colnames]))
-  for (i in 2:length(x)) {
-    mat <- as.matrix((x[[i]][,colnames]))
-    array <- abind(array, mat, along = 3)
-  }  
-  mat <- apply(array, MARGIN=c(1,2), fun)
-  
-  pred <- calc_estimates (t(mat), level = level)
-
-  data <- x[[1]]
-  data <- data[,!colnames(data) %in% colnames]
-  pred <- cbind(data, pred)
-  return (pred)
+  if (level == "no")
+    return (x)
+  return (calc_estimates(x, level = level))
 }
