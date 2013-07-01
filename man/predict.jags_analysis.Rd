@@ -6,7 +6,8 @@
     parm = "prediction", base = FALSE, values = NULL,
     model_number = 1, derived_code = NULL,
     random_effects = NULL, level = "current",
-    length_out = 50, obs_comb = FALSE, ...)
+    length_out = 50, obs_by = NULL, split_by = NULL,
+    unique_by = NULL, ...)
 }
 \arguments{
   \item{object}{a jags_analysis}
@@ -56,21 +57,27 @@
   number of values when creating a sequence of values
   across the range of a continuous variable.}
 
-  \item{obs_comb}{an logical element indicating whether to
-  only predict for observed factor combinations in the
-  original data when specifying newdata by a character
-  vector.}
+  \item{obs_by}{a character vector indicating which factors
+  to only predict for their observed factor combinations.}
+
+  \item{split_by}{a character vector indicating which
+  factors to split the predictions by.}
+
+  \item{unique_by}{a character vector indicating which
+  factors to unique by.}
 
   \item{...}{further arguments passed to or from other
   methods.}
 }
 \value{
   a data frame with the median estimates and credibility
-  intervals for the derived parameter of interest
+  intervals for the derived parameter of interest or if
+  level = "no" an object of class jags_samples
 }
 \description{
   Calculate predictions with estimates for derived
-  parameters in a JAGS analysis
+  parameters in a JAGS analysis or if level = "no" returns
+  an object of class jags_samples
 }
 \details{
   Its important to realise that if the original data set

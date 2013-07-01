@@ -1,0 +1,25 @@
+\name{ply_jags_sample}
+\alias{ply_jags_sample}
+\title{Ply JAGS sample}
+\usage{
+  ply_jags_sample(object, by, fun = sum)
+}
+\arguments{
+  \item{object}{a jags_sample object.}
+
+  \item{by}{the variables to combine by (using ddply).}
+
+  \item{fun}{the function to using when combining samples
+  (by default fun = sum).}
+}
+\value{
+  a jags_sample object
+}
+\description{
+  Combines JAGS samples in a jags_sample object by by using
+  function fun
+}
+\seealso{
+  \code{\link{predict.jags_analysis}}
+}
+

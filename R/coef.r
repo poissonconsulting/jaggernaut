@@ -8,6 +8,8 @@
 #' @param model_number an integer element specifying the model to select. 
 #' If model_number = 0 then it selects the model with the lowest DIC.
 #' @param parm a character vector of the parameters to calculate the estimates
+#' @param as_list a logical element specifying whether to return the coef as
+#' as list or a data.frame (the default).
 #' @param level a numeric scalar specifying the significance level or a character
 #' scalar specifying which mode the level should be taken from. By default the
 #' level is as currently specified by \code{opts_jagr} in the global options.

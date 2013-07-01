@@ -1,7 +1,7 @@
 Package: jaggernaut
 Type: Package
 Title: A package to facilitate Bayesian analyses using JAGS.
-Version: 0.1.6
+Version: 0.1.7
 Date: 2013-05-01
 Author: Joe Thorley <joe@poissonconsulting.ca>
 Maintainer: Joe Thorley <joe@poissonconsulting.ca>
@@ -90,3 +90,5 @@ Collate:
     'get-parm.r'
     'jags-mcmc.r'
     'predict_analyses.r'
+    'combine-jags-samples.r'
+    'ply-jags-sample.r'

@@ -65,9 +65,10 @@ predict.jagr_analysis <- function (object, parameter, data, base, level, ...) {
 #' level is as currently specified by \code{opts_jagr} in the global options.
 #' @param length_out an integer element indicating the number of values when 
 #' creating a sequence of values across the range of a continuous variable.
-#' @param obs_comb an logical element indicating whether to only 
-#' predict for observed factor combinations in the original data when 
-#' specifying newdata by a character vector.
+#' @param obs_by a character vector indicating which factors to only predict 
+#' for their observed factor combinations.
+#' @param split_by a character vector indicating which factors to split the predictions by.
+#' @param unique_by a character vector indicating which factors to unique by.
 #' @param ... further arguments passed to or from other methods.
 #' @details
 #' Its important to realise that if the original data set was a data list then 
@@ -92,7 +93,8 @@ predict.jags_analysis <- function (object, newdata = NULL,
                                    values = NULL, model_number = 1, 
                                    derived_code = NULL, random_effects = NULL, 
                                    level = "current", length_out = 50, 
-                                   obs_comb = FALSE, ...) {
+                                   obs_by = NULL, split_by = NULL,
+                                   unique_by = NULL, ...) {
 
   if (!is.jags_analysis(object)) {
     stop ("object must be a jags_analysis") 
@@ -110,31 +112,32 @@ predict.jags_analysis <- function (object, newdata = NULL,
   }
 
   dataset <- dataset(object)
-  
-  if (is.logical(obs_comb)) {
-    if (!is_scalar(obs_comb)) {
-      stop("obs_comb must be length one")
-    }
-    if(obs_comb) {
-      if (!is.data.frame(dataset)) {
-        stop("obs_comb is only available when the original data is a data.frame")
-      }
-      if (!is.character(newdata)) {
-        stop("obs_comb is only available when newdata is a character vector")
-      }   
-    }
-  } else {
-    stop("obs_comb must be a logical value")    
+
+  if(!is.null(obs_by)) {
+    if(!is.character(obs_by))
+      stop("obs_by must be NULL or a character vector")
+    if (!is.data.frame(dataset))
+      stop("obs_by is only available when the original data is a data.frame")
   }
-      
+  
+  if(!is.null(split_by)) {
+    if(!is.character(split_by))
+      stop("split_by must be NULL or a character vector")
+      if (!is.data.frame(dataset))
+        stop("split_by is only available when the original data is a data.frame")
+  }
+
+  if(!is.null(unique_by)) {
+    if(!is.character(unique_by))
+      stop("unique_by must be NULL or a character vector")
+    if (!is.data.frame(dataset))
+      stop("unique_by is only available when the original data is a data.frame")
+  }
+  
   if (is.null(newdata)) {
     newdata <- dataset
   } else if (is.character(newdata)) {
-    dat <- unique(subset(dataset, select = newdata))
     newdata <- generate_data (dataset, range = newdata, length_out = length_out)
-    if (obs_comb) {
-      newdata <- merge(newdata,dat)
-    }
   }
   
   if(is.logical(base)) {
@@ -302,11 +305,58 @@ predict.jags_analysis <- function (object, newdata = NULL,
     object$model$random <- random_effects
   }
 
-  pred <- predict(object, parameter = parm, 
-                  data = newdata, base = base, level = level, ...)
-
+  if(is.character(obs_by)) {
+    if (!all(obs_by %in% colnames(newdata)))
+      stop("all obs_by must be in newdata")
+  }
+  
+  if(is.character(split_by)) {
+    if (!all(split_by %in% colnames(newdata)))
+      stop("all split_by must be in newdata")
+  }
+  
+  if(is.character(unique_by)) {
+    if (!all(unique_by %in% colnames(newdata)))
+      stop("all unique_by must be in newdata")
+  }
+  
+  if(!is.null(obs_by)) {
+    dat <- unique(subset(dataset,select = obs_by))
+    newdata <- merge(newdata, dat)
+    stopifnot(nrow(newdata) > 0)
+  }
+  
+  do_unique_by <- function (pred, unique_by) {
+    if (is.null(unique_by))
+      return (pred)
+    
+    bol <- colnames(pred) %in% c(unique_by,"estimate","lower","upper","error","significance",paste0("V",1:ncol(pred)))
+    
+    pred <- pred[,bol,drop = TRUE]
+    pred <- unique(pred)
+    return (pred)
+  }
+    
+  do_predict <- function (newdata, object, parm, base, level, unique_by, ...) {
+    pred <- predict(object, parameter = parm, 
+                    data = newdata, base = base, level = level, ...)
+    
+    pred <- do_unique_by(pred, unique_by)
+    
+    return (pred)
+  }
+    
+  if (is.null(split_by)) {
+    pred <- do_predict(newdata, object, parm = parm, 
+                  base = base, level = level, unique_by = unique_by, ...)
+    
+  } else {
+    pred <- plyr::ddply(newdata,split_by,do_predict,object = object, 
+          parm = parm, base = base, level = level, unique_by = unique_by, ...)
+    return (pred)
+  }
+  
   rownames(pred) <- NULL
   
   return (pred)
-  
 }

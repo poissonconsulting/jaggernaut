@@ -3,7 +3,8 @@
 \title{Calculate parameter estimates}
 \usage{
   \method{coef}{jags_analysis} (object, model_number = 1,
-    parm = "fixed", level = "current", ...)
+    parm = "fixed", as_list = FALSE, level = "current",
+    ...)
 }
 \arguments{
   \item{object}{a \code{jags_analysis} object}
@@ -14,6 +15,10 @@
 
   \item{parm}{a character vector of the parameters to
   calculate the estimates}
+
+  \item{as_list}{a logical element specifying whether to
+  return the coef as as list or a data.frame (the
+  default).}
 
   \item{level}{a numeric scalar specifying the significance
   level or a character scalar specifying which mode the
