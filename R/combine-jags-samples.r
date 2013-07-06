@@ -70,7 +70,7 @@ combine_jags_samples <- function (object, by = NULL, fun = sum) {
   array <- as.matrix((object[[1]][,colnames]))
   for (i in 2:length(object)) {
     mat <- as.matrix((object[[i]][,colnames]))
-    array <- abind(array, mat, along = 3)
+    array <- abind::abind(array, mat, along = 3)
   }  
   samples <- apply(array, MARGIN=c(1,2), fun)  
     
