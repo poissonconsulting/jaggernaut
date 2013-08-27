@@ -214,7 +214,7 @@ dat$first <- as.logical(dat$first)
 dat$yearFac <- factor(dat$year)
 dat$obs <- factor(dat$obs)
 
-gp <- ggplot(data = dat, aes(x = year, y = C))
+gp <- ggplot(data = na.omit(dat), aes(x = year, y = C))
 gp <- gp + geom_line(aes(group = site, color = site))
 gp <- gp + scale_y_continuous(name = "Territory count")
 gp <- gp + scale_x_continuous(name = "Year", breaks = seq(2000,2006,by=2))
