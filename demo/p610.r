@@ -106,11 +106,10 @@ derived_code = "model {
 }",
 modify_data = function (data, analysis) {
   
-  stopifnot(nrow(data$y) == length(data$size))
-  
   data$nrow <- length(data$size)
   
   if (analysis) {
+    stopifnot(nrow(data$y) == length(data$size))
     data$ncol <- ncol(data$y)
   }
   return (data)
@@ -154,9 +153,11 @@ plot(an, model_number = 2, parm = "N")
 
 newdata <- list(size = seq(from = min(dat$size), to = 2000, length.out = 50))
 
-pred <- predict(an, newdata, model_number = 3)
+pred <- predict(an, newdata = newdata, model_number = 3)
 
-gp <- ggplot(data = pred, aes(x = size, y = estimate))
+pred$Size <- newdata$size
+
+gp <- ggplot(data = pred, aes(x = Size, y = estimate))
 gp <- gp + geom_line()
 gp <- gp + scale_x_continuous(name = "Body mass (g)")
 gp <- gp + scale_y_continuous(name = "Detection probability",labels=percent,expand=c(0,0))
