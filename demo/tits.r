@@ -227,7 +227,7 @@ an <- jags_analysis (mods, dat, niter = 10^4, mode = "default")
 
 summary(an)
 
-pred <- predict(an, data = "site")
+pred <- predict(an, newdata = "site")
 
 gp <- ggplot(data = pred, aes(x = site, y = estimate))
 gp <- gp + geom_pointrange(aes(ymin = lower, ymax = upper))
@@ -237,7 +237,7 @@ gp <- gp + expand_limits(y = 0)
 
 print(gp)
 
-pred <- predict(an, data = "site", model_number = 2)
+pred <- predict(an, newdata = "site", model_number = 2)
 
 gp <- gp %+% pred
 
