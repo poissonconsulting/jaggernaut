@@ -1,8 +1,8 @@
 Package: jaggernaut
 Type: Package
 Title: A package to facilitate Bayesian analyses using JAGS.
-Version: 0.1.8
-Date: 2013-07-29
+Version: 1.0.0
+Date: 2013-08-27
 Author: Joe Thorley <joe@poissonconsulting.ca>
 Maintainer: Joe Thorley <joe@poissonconsulting.ca>
 URL: https://github.com/joethorley/jaggernaut
@@ -22,7 +22,8 @@ Imports:
     abind,
     coda,
     rjags,
-    foreach
+    foreach,
+    plyr
 Suggests:
     multicore,
     doMC,
