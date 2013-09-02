@@ -1,3 +1,7 @@
+jaggernaut 1.0.1
+===========
+
+  * now only two chains when performing tests and running examples (uses test and demo modes respectively)
 
 jaggernaut 1.0.0
 ===========
