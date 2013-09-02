@@ -1,5 +1,9 @@
 context("jagr_opts")
 
+test_that("start mode is test", {
+  expect_that(opts_jagr("mode"),is_identical_to("test"))
+})
+
 test_that("default mode is report", {
   
     opts_jagr(mode = "default")
@@ -47,3 +51,26 @@ test_that("changing to known mode sets that mode", {
   
   expect_that(opts_jagr("mode"),is_identical_to("report"))
 })
+
+test_that("set for all modes", {
+  
+  opts_jagr(mode = "debug")
+  expect_that(opts_jagr("mode"),is_identical_to("debug"))
+  opts_jagr(mode = "explore")
+  expect_that(opts_jagr("mode"),is_identical_to("explore"))
+  opts_jagr(mode = "test")
+  expect_that(opts_jagr("mode"),is_identical_to("test"))  
+  opts_jagr(mode = "demo")
+  expect_that(opts_jagr("mode"),is_identical_to("demo")) 
+  opts_jagr(mode = "report")
+  expect_that(opts_jagr("mode"),is_identical_to("report"))
+  opts_jagr(mode = "paper")
+  expect_that(opts_jagr("mode"),is_identical_to("paper"))
+})
+
+test_that("end mode is test", {
+  opts_jagr(mode = "test")
+  
+  expect_that(opts_jagr("mode"),is_identical_to("test"))
+})
+

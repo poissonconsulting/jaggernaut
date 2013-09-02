@@ -10,7 +10,7 @@ test_that("nmodel returns object of correct class and length", {
 }")
   
   data <- data.frame(x = rpois(100,1))
-  an <- jags_analysis (mod, data, mode = "test") 
+  an <- jags_analysis (mod, data) 
   
   expect_that(nmodel(an), is_a("integer"))
   expect_that(length(nmodel(an)), equals(1))
@@ -35,7 +35,7 @@ test_that("nmodel returns object of correct value", {
   
   data <- data.frame(x = rpois(100,1))
 
-  an <- jags_analysis (mods, data, mode = "test") 
+  an <- jags_analysis (mods, data) 
   
   expect_that(nmodel(an), equals(2))
 })

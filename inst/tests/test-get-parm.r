@@ -32,7 +32,7 @@ test_that("get_parm returns correct values", {
   dat <- peregrine
 
   dat$C <- dat$Pairs
-  an <- jags_analysis (mod, dat, niter = 10^4, mode = "test")
+  an <- jags_analysis (mod, dat, niter = 10^4)
   
   expect_that(get_parm(an), equals(c("alpha","beta1","beta2","beta3","deviance","sd")))
   expect_that(get_parm(an,"fixed"), equals(c("alpha","beta1","beta2","beta3","deviance","sd")))

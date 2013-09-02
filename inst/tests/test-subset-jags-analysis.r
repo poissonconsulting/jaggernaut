@@ -10,7 +10,7 @@ test_that("subset.jags_analysis returns object of correct class", {
 }")
   
   data <- data.frame(x = rpois(100,1))
-  an <- jags_analysis (model, data, mode = "test") 
+  an <- jags_analysis (model, data) 
   expect_that(subset(an), is_a("jags_analysis"))
 })
 
@@ -33,7 +33,7 @@ test_that("subset.jags_analysis subsets", {
   
   data <- data.frame(x = rpois(100,1))
 
-  an <- jags_analysis (mods, data, mode = "test") 
+  an <- jags_analysis (mods, data) 
   
   expect_that(subset(an), is_a("jags_analysis"))
   expect_that(subset(an, 0), is_a("jags_analysis"))
