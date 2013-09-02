@@ -2,8 +2,6 @@
 library(ggplot2)
 library(scales)
 
-opts_jagr(mode = "demo")
-
 # Mark-recapture analysis of species detections
 
 # M_tbh (Kery and Schaub 2011 p.158-159)
@@ -146,7 +144,7 @@ log_cbrt <- function (x) {
   return (log(x^(1/3)))
 }
 
-an <- jags_analysis (mods, dat, niter = 10^5)
+an <- jags_analysis (mods, dat, niter = 10^5, mode = "demo")
 
 summary(an)
 

@@ -2,8 +2,6 @@
 library(ggplot2)
 library(scales) 
 
-opts_jagr(mode = "demo")
-
 # Poisson GLM analysis of peregrine breeding pairs (Kery & Schaub 2011 p.55-66)
 
 # GLM_Poisson (Kery & Schaub 2011 p.58-59)
@@ -33,7 +31,7 @@ data(peregrine)
 dat <- peregrine
 
 dat$C <- dat$Pairs
-an <- jags_analysis (mod, dat)
+an <- jags_analysis (mod, dat, mode = "demo")
 
 coef(an)
 pred <- predict(an, newdata = "Year")
@@ -55,7 +53,7 @@ data(peregrine)
 dat <- peregrine
 
 dat$C <- dat$Eyasses
-an <- jags_analysis (mod, dat)
+an <- jags_analysis (mod, dat, mode = "demo")
 coef(an)
 pred <- predict(an, newdata = "Year")
 
@@ -96,7 +94,7 @@ dat <- peregrine
 dat$C <- dat$R.Pairs
 dat$N <- dat$Pairs
 
-an <- jags_analysis (mod, dat)
+an <- jags_analysis (mod, dat, mode = "demo")
 coef(an)
 
 pred <- predict(an, newdata = "Year")
@@ -143,6 +141,6 @@ data(peregrine)
 dat <- peregrine
 
 dat$C <- dat$Pairs
-an <- jags_analysis (mod, dat, niter = 10^4)
+an <- jags_analysis (mod, dat, niter = 10^4, mode = "demo")
 coef(an)
 coef(an, parm = "random")
