@@ -2,6 +2,8 @@
 library(ggplot2)
 library(scales)
 
+opts_jagr(mode = "demo")
+
 # State-space model for annual population counts
 
 # ssm (Kery and Schaub 2011 p.127)
@@ -40,7 +42,7 @@ dat <- data.frame(C = C, year = year)
 
 dat$year <- factor(dat$year)
 
-an <- jags_analysis (mod, dat, niter = 10^5, mode = "default")
+an <- jags_analysis (mod, dat, niter = 10^5)
 
 coef(an, parm = c("mean.r","sigma.obs","sigma.proc"))
 
