@@ -11,21 +11,33 @@
   rhat = 2
 )
 
+.opts_jagr_explore<- list(
+  level = 0.95,
+  mode = "explore",
+  nchains = 3,
+  nresample = 2,
+  nsims = 500,
+  parallel_chains = .Platform$OS.type!="windows", 
+  parallel_models = FALSE,
+  quiet = FALSE,
+  rhat = 1.5
+)
+
 .opts_jagr_test<- list(
-  level = 0.90,
+  level = 0.95,
   mode = "test",
   nchains = 2,
   nresample = 2,
   nsims = 500,
-  parallel_chains = .Platform$OS.type!="windows", 
+  parallel_chains = FALSE, 
   parallel_models = FALSE,
   quiet = TRUE,
   rhat = 1.5
 )
 
-.opts_jagr_explore<- list(
-  level = 0.90,
-  mode = "explore",
+.opts_jagr_demo<- list(
+  level = 0.95,
+  mode = "demo",
   nchains = 2,
   nresample = 2,
   nsims = 500,
@@ -75,14 +87,15 @@
 #' \code{opts_jagr(mode="default")}
 #'  will 
 #' reset all options to the values for the default mode. 
-#' There are four available modes: debug, explore,
-#' report and paper which are characterized by increasing accuracy. 
+#' There are six available modes: debug, explore, test and demo
+#' report and paper. 
 #' In summary the debug model should be used when first trying to code models in the
 #' JAGS dialect of the BUGS language. Once the JAGS code is running without errors
 #' is now time to switch to the explore model to look at model adequacy. Once you are content
 #' that the model is adequate you can now switch to report model to extract the results
 #' for presentation in a report or paper model if you are going to be sending the results to 
-#' a peer-reviewed journal. The default mode is report mode.
+#' a peer-reviewed journal. The default mode is report mode. test and demo mode are used
+#' internally when testing the package and running demos respectively.
 #' 
 #' Available options are
 #' \describe{
@@ -140,8 +153,9 @@
 #' @export 
 #' @aliases options_jaggernaut
 opts_jagr <- function (...) {
+    
   single <- FALSE
-  opts <- if (exists(".opts_jagr", frame = 1)) {
+  opts <- if (exists(".opts_jagr", where = 1)) {
       get(".opts_jagr", pos = 1)
   } else {
     .opts_jagr_def
@@ -177,14 +191,16 @@ opts_jagr <- function (...) {
       opts <- .opts_jagr_debug
     } else if (args$mode == "explore") {
       opts <- .opts_jagr_explore
+    } else if (args$mode == "test") {
+      opts <- .opts_jagr_test
+    } else if (args$mode == "demo") {
+      opts <- .opts_jagr_demo
     } else if (args$mode == "report") {
       opts <- .opts_jagr_report
     } else if (args$mode == "paper") {
       opts <- .opts_jagr_paper
     } else if (args$mode == "default") {
       opts <- .opts_jagr_def
-    } else if (args$mode == "test") {
-      opts <- .opts_jagr_test
     }else if (!args$mode %in% c("current","custom")) {
       stop(paste("mode",args$mode,"not recognized"))
     }
@@ -283,6 +299,12 @@ assign_opts_jagr <- function (opts) {
   } else if(isTRUE(all.equal(topts, 
                        .opts_jagr_explore[names(.opts_jagr_explore) != "mode"]))) {
     opts$mode <- "explore"
+  } else if(isTRUE(all.equal(topts, 
+                             .opts_jagr_test[names(.opts_jagr_test) != "mode"]))) {
+    opts$mode <- "test"
+  } else if(isTRUE(all.equal(topts, 
+                             .opts_jagr_demo[names(.opts_jagr_demo) != "mode"]))) {
+    opts$mode <- "demo"
   } else if(isTRUE(all.equal(topts, 
                      .opts_jagr_paper[names(.opts_jagr_paper) != "mode"]))) {
     opts$mode <- "paper"
