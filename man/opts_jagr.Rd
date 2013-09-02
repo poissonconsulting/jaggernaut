@@ -27,18 +27,19 @@
   like the \code{options()} function in the base library,
   with the additional feature that
   \code{opts_jagr(mode="default")} will reset all options
-  to the values for the default mode. There are four
-  available modes: debug, explore, report and paper which
-  are characterized by increasing accuracy. In summary the
-  debug model should be used when first trying to code
-  models in the JAGS dialect of the BUGS language. Once the
-  JAGS code is running without errors is now time to switch
-  to the explore model to look at model adequacy. Once you
-  are content that the model is adequate you can now switch
-  to report model to extract the results for presentation
-  in a report or paper model if you are going to be sending
-  the results to a peer-reviewed journal. The default mode
-  is report mode.
+  to the values for the default mode. There are six
+  available modes: debug, explore, test and demo report and
+  paper. In summary the debug model should be used when
+  first trying to code models in the JAGS dialect of the
+  BUGS language. Once the JAGS code is running without
+  errors is now time to switch to the explore model to look
+  at model adequacy. Once you are content that the model is
+  adequate you can now switch to report model to extract
+  the results for presentation in a report or paper model
+  if you are going to be sending the results to a
+  peer-reviewed journal. The default mode is report mode.
+  test and demo mode are used internally when testing the
+  package and running demos respectively.
 
   Available options are \describe{ \item{level}{the
   credible interval level (default = 0.95)}
