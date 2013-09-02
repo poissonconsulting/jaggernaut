@@ -58,7 +58,7 @@
 #'
 #' dat <- data.frame(x = rpois(100,1))
 #' 
-#' an <- jags_analysis (mod, dat)
+#' an <- jags_analysis (mod, dat, mode = "test")
 #' 
 #' plot(an)
 #' convergence(an)
