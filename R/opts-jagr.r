@@ -73,6 +73,22 @@
 
 .opts_jagr_def <- .opts_jagr_report
 
+.opts_jagr <- (function() {
+  opts_jagr <- .opts_jagr_def
+  
+  list(
+    get = function() opts_jagr,
+    set = function(new) {
+      old <- opts_jagr
+      opts_jagr <<- new
+      invisible(old)
+    }
+  )
+})()
+
+opts_jagr_get <- .opts_jagr$get
+opts_jagr_set <- .opts_jagr$set
+
 #' @title Get and set jaggernaut options
 #'
 #' @description
@@ -155,11 +171,8 @@
 opts_jagr <- function (...) {
     
   single <- FALSE
-  opts <- if (exists(".opts_jagr", where = 1)) {
-      get(".opts_jagr", pos = 1)
-  } else {
-    .opts_jagr_def
-  }
+  opts <- opts_jagr_get()
+  
   if (nargs() == 0) {
     return(opts)
   }
@@ -313,7 +326,7 @@ assign_opts_jagr <- function (opts) {
     opts$mode <- "report"
   }
   
-  assign(".opts_jagr", opts, pos = 1)
+  opts_jagr_set(opts)
   invisible(opts)
 }
 
