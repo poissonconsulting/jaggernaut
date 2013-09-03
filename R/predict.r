@@ -39,7 +39,7 @@ predict.jagr_analysis <- function (object, parameter, data, base, level, ...) {
 #' Calculate predictions with estimates for derived parameters 
 #' in a JAGS analysis or if level = "no" returns an object of class jags_samples
 #' 
-#' @param object a jags_analysis
+#' @param object a jags_analysis.
 #' @param newdata a data.frame or data list of the data values over which to calculate the
 #' estimates of the derived parameter or a character vector specify the variable
 #' or variable combination
