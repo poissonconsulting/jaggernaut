@@ -93,3 +93,5 @@ Collate:
     'predict_analyses.r'
     'combine-jags-samples.r'
     'ply-jags-sample.r'
+    'jags-simulation.r'
+    'jagr-simulation.r'
