@@ -15,6 +15,10 @@ is.jags_model <- function (object) {
   inherits(object, "jags_model")
 }
 
+is.jags_data_model <- function (object) {
+  inherits(object, "jags_data_model")
+}
+
 is.jagr_analysis <- function (object) {
   inherits(object, "jagr_analysis")
 }
