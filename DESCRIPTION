@@ -95,3 +95,5 @@ Collate:
     'ply-jags-sample.r'
     'jags-simulation.r'
     'jagr-simulation.r'
+    'jags-data-model.r'
+    'jags-power.r'

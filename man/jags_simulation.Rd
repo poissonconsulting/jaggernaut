@@ -2,11 +2,11 @@
 \alias{jags_simulation}
 \title{Perform a JAGS simulation}
 \usage{
-  jags_simulation(model, values,
+  jags_simulation(data_model, values, nrep = 1,
     quiet = opts_jagr("quiet"))
 }
 \arguments{
-  \item{model}{a \code{jags_model}.}
+  \item{model}{a \code{jags_data)model}.}
 
   \item{values}{a data.frame of values.}
 
@@ -17,12 +17,13 @@
   a \code{jags_simulation} object
 }
 \description{
-  Performs a JAGS simulation by using a \code{jags_model}
-  and a data frame of values to generate a simulation data
-  frame using JAGS (Plummer 2012).
+  Performs a JAGS simulation by using a
+  \code{jags_data_model} and a data frame of values to
+  generate a simulation data frame using JAGS (Plummer
+  2012).
 }
 \examples{
-mod <- jags_model("
+mod <- jags_data_model("
 data {
  for (i in 1:nx) {
    x[i] ~ dpois(bIntercept)
@@ -36,13 +37,14 @@ data {
 
 val <- data.frame(nx = 10, bIntercept = 10)
 
-sim <- jags_simulation (mod, val, quiet = TRUE)
+sim <- jags_simulation (mod, val, nrep = 100, quiet = FALSE)
 }
 \references{
   Plummer M (2012) JAGS Version 3.3.0 User Manual
   \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
 }
 \seealso{
-  \code{\link{jags_model}} and \code{\link{jaggernaut}}
+  \code{\link{jags_data_model}} and
+  \code{\link{jaggernaut}}
 }
 
