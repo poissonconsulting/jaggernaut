@@ -133,7 +133,7 @@ check_jags_model <- function (model_code, monitor = NULL, select = NULL,
 #' standardised in the analysis while \code{select=c("Weight", "Length")} would not. A transformation can also
 #' be applied to a variable - for example the
 #'  argument \code{select=c("Weight", "log(Length)*")} would result in 
-#' \code{Length} being logged (and renamed \code{LogLength}) and then standardised. 
+#' \code{Length} being logged and then standardised. 
 #' 
 #' Once the \code{select} argument has been applied to the the data, dates and factors are converted
 #' into integers and the data frame is converted into list form for input into JAGS. 
