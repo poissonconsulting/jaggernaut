@@ -149,7 +149,7 @@ jags_analysis <- function (
     
     doMC::registerDoMC(cores=n.model)
     
-    object$analyses <- foreach(i = 1:n.model) %dopar% { 
+    object$analyses <- foreach::foreach(i = 1:n.model) %dopar% { 
       jagr_analysis(models[[i]], data, 
                     n.iter = niter, n.chain = nchains, resample = resample,
                     convergence = convergence, independence = 0,
