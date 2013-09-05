@@ -10,7 +10,7 @@
     unique_by = NULL, ...)
 }
 \arguments{
-  \item{object}{a jags_analysis}
+  \item{object}{a jags_analysis.}
 
   \item{newdata}{a data.frame or data list of the data
   values over which to calculate the estimates of the
