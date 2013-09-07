@@ -27,24 +27,31 @@
 #'}    
 #' ")
 #'
-#' val <- data.frame(nx = 10, bIntercept = 10)
+#' val <- data.frame(nx = c(1,10), bIntercept = c(5,10))
 #' 
-#' sim <- jags_simulation (mod, val, nrep = 100, quiet = FALSE)
+#' sim <- jags_simulation (mod, val, nrep = 100)
+#' 
+#' dataset(sim,value = 1, rep = 1:2, variables = c("x","y"))
 #' 
 #' @export
-jags_simulation <- function (data_model, values, nrep = 1, quiet = opts_jagr("quiet")) {
+jags_simulation <- function (data_model, values = NULL, nrep = 1, mode = "current") {
+    
+  if (!is.jags_data_model(data_model)) 
+    stop("data_model must be class jags_data_model")
   
-  model <- data_model
-  
-  if (!is.jags_data_model(model)) 
-    stop("model must be class jags_model")
-  
-  if(!(is.data.frame(values) && nrow(values) == 1))
-    stop ("values must be a data frame with one row of parameter values")
-
-  nrep <- as.integer(nrep)
+  if(!is.null(values)) {
+    if(!is.data.frame(values))
+      stop ("values must be NULL or a data frame")
+    
+    if(nrow(values) == 0)
+      stop ("values must have at least one row of data")
+    
+    if(ncol(values) == 0)
+      stop ("values must have at least one column of data")
+  }
+     
   if(!is.numeric(nrep))
-    stop("quiet must be class integer")
+    stop("nrep must be class integer")
   
   if(!length(nrep) == 1)
     stop("nrep must be a single value")
@@ -52,14 +59,7 @@ jags_simulation <- function (data_model, values, nrep = 1, quiet = opts_jagr("qu
   if(nrep < 1)
     stop("nrep must be positive")
   
-  if(!is.logical(quiet))
-    stop("quiet must be class logical")
-  
-  if(!length(quiet) == 1)
-    stop("quiet must be a single value")
-  
-  if(is.na(quiet) == 1)
-    stop("quiet must be TRUE or FALSE")
+  nrep <- as.integer(nrep)
   
   if(!"basemod" %in% list.modules())
     load.module("basemod")  
@@ -67,38 +67,49 @@ jags_simulation <- function (data_model, values, nrep = 1, quiet = opts_jagr("qu
   if(!"bugs" %in% list.modules())
     load.module("bugs")
   
+  old_opts <- opts_jagr(mode = mode)
+  on.exit(opts_jagr(old_opts))
+  
   data <- list()
-  for (i in 1:nrep) {
-    if (!quiet)
-      print(paste("Rep:",i))
-    
-    object <- jagr_simulation(model = model, data = values, quiet = quiet)
-
-    est <- calc_estimates(object)
-    
-    est <- est[rownames(est) != "deviance",]
-    
-    data[[i]] <- extract_estimates(est)[["estimate"]]
+  
+  print(opts_jagr("mode"))
+        
+  nvalues <- nrow(values)
+  for (value in 1:nvalues) {
+    data[[value]] <- list()
+    for (rep in 1:nrep) {
+      if (!opts_jagr("quiet"))
+        print(paste0("Value: ",value," of ",nvalues,"  Rep: ", rep," of ",nrep))
+      
+      object <- jagr_simulation(model = data_model, 
+                                data = values[value,,drop = FALSE], 
+                                quiet = opts_jagr("mode") != "debug")
+      
+      est <- calc_estimates(object)
+      
+      est <- est[rownames(est) != "deviance",]
+      
+      data[[value]][[rep]] <- extract_estimates(est)[["estimate"]]
+    }
   }
   
-  object$simulated <- data
+  object <- list(
+    data_model = data_model, 
+    values = values,
+    nvalues = nrow(values),
+    nrep = nrep,
+    simulated = data
+  )
   
   class(object) <- "jags_simulation"
   
   return (object)
 }
 
-#' ## jags_simulation()
-#' 
-#' ## so need option to have multiple rows in values
-#' ## need to take quiet from mode
-#' ## note debug mode different to quiet i.e. if in debug mode proper
-#' ## then show model fitting information plus in debug mode
-#' ## nrep = 1 maybe set nrep in mode?
-#' ## once fitted need ability to pull out data lists by values and rep 
-#' ## and also variable names some function like 
-#' 
-#' ## data_set(sim, value = NULL, rep = NULL, variables = NULL)
+#' jags_simulated needs subset() really just use dataset with rewrap
+#' update(sim, nrep = 1, values = NULL)
+#' add(sim1, sim2)
+
 #' 
 #' ## note I think jags_data_models no conversion in select i.e. (*+
 #' ## also only allow integer and numeric
