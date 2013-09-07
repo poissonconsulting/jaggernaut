@@ -28,6 +28,7 @@ jags_analysis_internal <- function (data, file, monitor, inits, n.chain, n.adapt
     bol <- bol & substr(monitor,2,2) == toupper(substr(monitor,2,2))
     monitor <- monitor[!bol]
   }
+  monitor <- c(monitor, "deviance")
   monitor <- sort(unique(monitor))
   
   mcmc <- jags.samples(
