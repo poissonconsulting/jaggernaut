@@ -2,8 +2,8 @@
 \alias{jags_simulation}
 \title{Perform a JAGS simulation}
 \usage{
-  jags_simulation(data_model, values, nrep = 1,
-    quiet = opts_jagr("quiet"))
+  jags_simulation(data_model, values = NULL, nrep = 1,
+    mode = "current")
 }
 \arguments{
   \item{model}{a \code{jags_data)model}.}
@@ -35,9 +35,11 @@ data {
 }
 ")
 
-val <- data.frame(nx = 10, bIntercept = 10)
+val <- data.frame(nx = c(1,10), bIntercept = c(5,10))
 
-sim <- jags_simulation (mod, val, nrep = 100, quiet = FALSE)
+sim <- jags_simulation (mod, val, nrep = 100)
+
+dataset(sim,value = 1, rep = 1:2, variables = c("x","y"))
 }
 \references{
   Plummer M (2012) JAGS Version 3.3.0 User Manual
