@@ -29,12 +29,19 @@
 #'
 #' val <- data.frame(nx = c(1,10), bIntercept = c(5,10))
 #' 
-#' sim <- jags_simulation (mod, val, nrep = 100)
+#' sim <- jags_simulation (mod, val, nrep = 5)
+#'
+#' sim1 <- subset_jags(sim, value = 1, rep = 1:2)
+#' sim1 <- update_jags(sim1, nrep = 2)
 #' 
-#' dataset(sim,value = 1, rep = 1:2, variables = c("x","y"))
+#' sim2 <- subset_jags(sim, value = 2, rep = 1)
+#' 
+#' sims <- add_jags(sim1, sim2)
+#' 
+#' dataset(sims, variables = c("x","z"))
 #' 
 #' @export
-jags_simulation <- function (data_model, values = NULL, nrep = 1, mode = "current") {
+jags_simulation <- function (data_model, nrep = 1, values = NULL, mode = "current") {
     
   if (!is.jags_data_model(data_model)) 
     stop("data_model must be class jags_data_model")
@@ -71,9 +78,7 @@ jags_simulation <- function (data_model, values = NULL, nrep = 1, mode = "curren
   on.exit(opts_jagr(old_opts))
   
   data <- list()
-  
-  print(opts_jagr("mode"))
-        
+          
   nvalues <- nrow(values)
   for (value in 1:nvalues) {
     data[[value]] <- list()
@@ -105,41 +110,3 @@ jags_simulation <- function (data_model, values = NULL, nrep = 1, mode = "curren
   
   return (object)
 }
-
-#' jags_simulated needs subset() really just use dataset with rewrap
-#' update(sim, nrep = 1, values = NULL)
-#' add(sim1, sim2)
-
-#' 
-#' ## note I think jags_data_models no conversion in select i.e. (*+
-#' ## also only allow integer and numeric
-#' ## enhancement possibility to specify type and range for things 
-#' ## in select
-#' ## could be used to automatically generate values
-#' ## get this sorted so useful for other programs in and of itself
-#' 
-#' ## then write 
-#' 
-#' ## jags_power (...,niter = 10^3) 
-#' 
-#' #' ## note if not converged then keeps but records that not conv
-#' # option to update number of iter if use then update those that not 
-#' # converged..
-#' ## applies jags_model to each simulated data and gets parameter
-#' ## key requirement to add reps so that do in stages
-#' 
-#' ## update(power, nrep = 1, values = NULL, niter = NULL)
-#' 
-#' ## finally ability to add power analyses 
-#' 
-#' ## add(power1, power2)
-#' 
-#' ## must have same jags_data_model and if not same number of reps
-#' ## will update shorter one finally if shared values will drop
-#' ## value from power with less reps or second power if same number
-#' ## of reps also if different. also update niter so same (only update
-#' unconverged iterations...)
-#' 
-#' # finally need ability to query out power different parameters
-
-#' power(power1)
