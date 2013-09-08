@@ -41,7 +41,7 @@ dataset.jags_analysis <- function (object, base = FALSE) {
 
 #' @method dataset jags_simulation
 #' @export
-dataset.jags_simulation <- function (object, value = NULL, rep = NULL, variables = NULL) {
+dataset.jags_simulation <- function (object, rep = 1, value = 1, variables = NULL) {
   
   if(!is.jags_simulation(object))
     stop("object should be of class jags_simulation")
