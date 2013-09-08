@@ -68,7 +68,6 @@ convergence_jagr_analysis <- function (object, parm, summarise = TRUE, ...) {
 #' @param ... passed to and from other functions
 #' @return a data.frame of the parameters with their convergence (R-hat) values
 #' @seealso \code{\link{jaggernaut}} and \code{\link{jags_analysis}}
-#' @export
 convergence <- function (object, model_number = 1, parm = "fixed", ...) {
   if(!is.jags_analysis(object))
     stop ("object should be class jags_analysis")
