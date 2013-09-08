@@ -37,7 +37,7 @@
 #'
 #' values <- data.frame(ny = c(10, 100), bIntercept = c(10,10))
 #' 
-#' power <- jags_power (model, data_model, values = values, nrep = 100, mode = "demo")
+#' # power <- jags_power (model, data_model, values = values, nrep = 100, mode = "demo")
 #' @export
 jags_power <- function (model, data_model, values, nrep = 100, niter = 10^3, mode = "current") {
   if (!is.jags_model(model)) 
