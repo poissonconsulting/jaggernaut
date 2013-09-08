@@ -97,3 +97,6 @@ Collate:
     'jagr-simulation.r'
     'jags-data-model.r'
     'jags-power.r'
+    'add-jags.r'
+    'subset-jags.r'
+    'update-jags.r'

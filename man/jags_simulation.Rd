@@ -2,7 +2,7 @@
 \alias{jags_simulation}
 \title{Perform a JAGS simulation}
 \usage{
-  jags_simulation(data_model, values = NULL, nrep = 1,
+  jags_simulation(data_model, nrep = 1, values = NULL,
     mode = "current")
 }
 \arguments{
@@ -37,9 +37,16 @@ data {
 
 val <- data.frame(nx = c(1,10), bIntercept = c(5,10))
 
-sim <- jags_simulation (mod, val, nrep = 100)
+sim <- jags_simulation (mod, val, nrep = 5)
 
-dataset(sim,value = 1, rep = 1:2, variables = c("x","y"))
+sim1 <- subset_jags(sim, value = 1, rep = 1:2)
+sim1 <- update_jags(sim1, nrep = 2)
+
+sim2 <- subset_jags(sim, value = 2, rep = 1)
+
+sims <- add_jags(sim1, sim2)
+
+dataset(sims, variables = c("x","z"))
 }
 \references{
   Plummer M (2012) JAGS Version 3.3.0 User Manual
