@@ -38,7 +38,6 @@
 #' @return a data frame with the median estimates and credibility intervals for
 #' the derived parameter of interest
 #' @seealso \code{\link{predict.jags_analysis}}
-#' @export 
 predict_analyses <- function (object, newdata = NULL, fun = sum,
                                    parm = "prediction", base = FALSE, 
                                    values = NULL, model_number = 1, 
