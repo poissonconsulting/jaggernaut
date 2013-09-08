@@ -6,9 +6,10 @@
 #' \code{jags_data_model} and a data frame of values  
 #' to generate a simulation data frame using JAGS (Plummer 2012). 
 #' 
-#' @param model a \code{jags_data)model}.
-#' @param values a data.frame of values.
-#' @param quiet a logical element indicating whether to print updates.
+#' @param data_model a \code{jags_data_model}.
+#' @param nrep an integer element indicating the number of datasets to generate for each set of input values.
+#' @param values a data.frame of input values.
+#' @param mode a character element indicating the mode for the analysis.
 #' @return a \code{jags_simulation} object
 #' @references 
 #' Plummer M (2012) JAGS Version 3.3.0 User Manual \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
@@ -41,21 +42,19 @@
 #' dataset(sims, variables = c("x","z"))
 #' 
 #' @export
-jags_simulation <- function (data_model, nrep = 1, values = NULL, mode = "current") {
+jags_simulation <- function (data_model, values, nrep = 1, mode = "current") {
     
   if (!is.jags_data_model(data_model)) 
     stop("data_model must be class jags_data_model")
   
-  if(!is.null(values)) {
-    if(!is.data.frame(values))
-      stop ("values must be NULL or a data frame")
-    
-    if(nrow(values) == 0)
-      stop ("values must have at least one row of data")
-    
-    if(ncol(values) == 0)
-      stop ("values must have at least one column of data")
-  }
+  if(!is.data.frame(values))
+    stop ("values must be a data frame")
+  
+  if(nrow(values) == 0)
+    stop ("values must have at least one row of data")
+  
+  if(ncol(values) == 0)
+    stop ("values must have at least one column of data")
      
   if(!is.numeric(nrep))
     stop("nrep must be class integer")
