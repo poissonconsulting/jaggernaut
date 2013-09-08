@@ -26,14 +26,14 @@
 #' The \code{niter} argument specifies the total number of iterations including adaptive 
 #' and burn in periods for each chain. The only exceptions are when the analysis is in 
 #' debug mode in which case \code{niter} is set to be 100 or if \code{niter} is less
-#' than \code{nsims * 2 / nchain} in which case 
+#' than \code{nsims * 2 / nchain} (where nsims is set by the mode) in which case 
 #' \code{niter} is set to be \code{nsims * 2 / nchain} so that \code{nsims} can be 
 #' drawn from the second halves of the chains.
 #' @return a \code{jags_analysis} object
 #' @references 
 #' Plummer M (2012) JAGS Version 3.3.0 User Manual \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
 #' @seealso \code{\link{jags_model}}, \code{\link{opts_jagr}},
-#' \code{\link{convergence}}, \code{\link{coef.jags_analysis}}, 
+#' \code{\link{convergence_jags}}, \code{\link{coef.jags_analysis}}, 
 #' \code{\link{predict.jags_analysis}} 
 #' and \code{\link{jaggernaut}}
 #' @examples
