@@ -39,7 +39,7 @@
 #' 
 #' sims <- add_jags(sim1, sim2)
 #' 
-#' dataset(sims, variables = c("x","z"))
+#' data_jags(sims)
 #' 
 #' @export
 jags_simulation <- function (data_model, values, nrep = 1, mode = "current") {
