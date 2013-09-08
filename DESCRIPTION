@@ -100,3 +100,5 @@ Collate:
     'add-jags.r'
     'subset-jags.r'
     'update-jags.r'
+    'convergence-jags.r'
+    'data-jags.r'

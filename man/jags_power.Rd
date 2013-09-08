@@ -1,9 +1,9 @@
-\name{jags_simulation}
-\alias{jags_simulation}
+\name{jags_power}
+\alias{jags_power}
 \title{Perform a JAGS simulation}
 \usage{
-  jags_simulation(data_model, values, nrep = 1,
-    mode = "current")
+  jags_power(model, data_model, values, nrep = 100,
+    niter = 10^3, mode = "current")
 }
 \arguments{
   \item{data_model}{a \code{jags_data_model}.}
@@ -26,30 +26,26 @@
   2012).
 }
 \examples{
-mod <- jags_data_model("
+data_model <- jags_data_model("
 data {
- for (i in 1:nx) {
-   x[i] ~ dpois(bIntercept)
-   for (j in 1:nx) {
-     y[i,j] ~ dpois(bIntercept)
-   }
+ for (i in 1:ny) {
+   y[i] ~ dpois(bIntercept)
  }
- z <- bIntercept
 }
 ")
 
-val <- data.frame(nx = c(1,10), bIntercept = c(5,10))
+model <- jags_data_model("
+model {
+bIntercept ~ dunif(0, 100)
+ for (i in 1:ny) {
+   y[i] ~ dpois(bIntercept)
+ }
+}
+")
 
-sim <- jags_simulation (mod, val, nrep = 5)
+values <- data.frame(ny = c(10, 100), bIntercept = c(10,10))
 
-sim1 <- subset_jags(sim, value = 1, rep = 1:2)
-sim1 <- update_jags(sim1, nrep = 2)
-
-sim2 <- subset_jags(sim, value = 2, rep = 1)
-
-sims <- add_jags(sim1, sim2)
-
-data_jags(sims)
+# power <- jags_power (model, data_model, values = values, nrep = 100, mode = "demo")
 }
 \references{
   Plummer M (2012) JAGS Version 3.3.0 User Manual
