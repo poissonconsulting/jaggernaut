@@ -1,5 +1,4 @@
 
-#' @export
 dataset <- function (object, ...) {
   UseMethod("dataset", object)
 }
@@ -17,7 +16,6 @@ dataset <- function (object, ...) {
 #' or the corresponding base values
 #' @seealso \link{jags_analysis} and \link{predict.jags_analysis}
 #' @method dataset jags_simulation
-#' @export
 dataset.jags_analysis <- function (object, base = FALSE) {
   
   if(!is.jags_analysis(object))
@@ -40,7 +38,6 @@ dataset.jags_analysis <- function (object, base = FALSE) {
 }
 
 #' @method dataset jags_simulation
-#' @export
 dataset.jags_simulation <- function (object, rep = 1, value = 1, variables = NULL) {
   
   if(!is.jags_simulation(object))
