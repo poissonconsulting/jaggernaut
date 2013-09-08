@@ -1,4 +1,8 @@
 
+dataset <- function (object, ...) {
+  UseMethod("dataset", object)
+}
+
 #' @title Get data from a JAGS analysis
 #'
 #' @description
@@ -11,8 +15,8 @@
 #' @return a data frame of the data used in the analysis 
 #' or the corresponding base values
 #' @seealso \link{jags_analysis} and \link{predict.jags_analysis}
-#' @export
-dataset <- function (object, base = FALSE) {
+#' @method dataset jags_simulation
+dataset.jags_analysis <- function (object, base = FALSE) {
   
   if(!is.jags_analysis(object))
     stop("object should be of class jags_analysis")
@@ -29,6 +33,75 @@ dataset <- function (object, base = FALSE) {
   data <- generate_data (object$data)
   if (!is.null(object$block$select))
     data <- subset (data, select = names_select(object$block$select))
+  
+  return (data)
+}
+
+#' @method dataset jags_simulation
+dataset.jags_simulation <- function (object, rep = 1, value = 1, variables = NULL) {
+  
+  if(!is.jags_simulation(object))
+    stop("object should be of class jags_simulation")
+  
+  if(!(is.null(value))) {
+    if(!is.numeric(value))
+      stop("value must be class integer")
+    if(length(value) == 0)
+      stop("value must at least one value")
+    if(any(is.na(value)))
+      stop("value must not contain missing values")
+    if(max(value) > object$nvalues)
+      stop("value must be less than number of values")
+    
+    value <- as.integer(value)
+    value <- sort(unique(value))
+  } else {
+    value <- 1:object$nvalues
+  }
+  
+  if(!(is.null(rep))) {
+    if(!is.numeric(rep))
+      stop("rep must be class integer")
+    if(length(rep) == 0)
+      stop("rep must at least one value")
+    if(any(is.na(rep)))
+      stop("rep must not contain missing values")
+    if(max(rep) > object$nrep)
+      stop("rep must be less than number of values")
+    
+    rep <- as.integer(rep)
+    rep <- sort(unique(rep))
+  } else {
+    rep <- 1:object$nrep
+  }
+  
+  if(!(is.null(variables))) {
+    if(!is.character(variables))
+      stop("variables must be class character")
+    if(length(variables) == 0)
+      stop("variables must at least one value")
+    if(any(is.na(variables)))
+      stop("variables must not contain missing values")
+    
+    variables <- sort(unique(variables))
+    
+    vnames <- names(object$simulated[[1]][[1]])
+    
+    if(any(!variables %in% vnames))
+      stop("unrecognised variables")
+    
+  } else {
+    variables <- names(object$simulated[[1]][[1]])
+  }
+  
+  data <- object$simulated[value]
+  
+  for (i in 1:length(data)) {
+    data[[i]] <- data[[i]][rep]
+    for (j in rep) {
+      data[[i]][[j]] <- data[[i]][[j]][variables]
+    }
+  }
   
   return (data)
 }

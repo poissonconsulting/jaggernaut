@@ -9,7 +9,6 @@
 #' @param fun the function to using when combining samples (by default fun = sum). 
 #' @return a jags_sample object
 #' @seealso \code{\link{predict.jags_analysis}}
-#' @export 
 combine_jags_samples <- function (object, by = NULL, fun = sum) {
   
   if(!is.list(object))

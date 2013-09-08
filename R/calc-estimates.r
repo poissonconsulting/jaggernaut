@@ -58,6 +58,13 @@ calc_estimates.jagr_analysis <- function (object, parm, level) {
   return (calc_estimates (object$mcmc, parm = parm, level = level))
 }
 
+calc_estimates.jagr_simulation <- function (object) {
+  
+  stopifnot(is.jagr_simulation(object))
+  
+  return (calc_estimates (get_sims (object$mcmc, parm = NULL), level = 0.95))
+}
+
 calc_estimates.jags_analysis <- function (object, parm, level) {
 
   stopifnot(is.jags_analysis(object))

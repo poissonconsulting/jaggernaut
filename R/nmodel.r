@@ -6,7 +6,6 @@
 #'   
 #' @param x a jags_analysis object
 #' @seealso \code{\link{jags_model}} and \code{\link{jags_analysis}} 
-#' @export
 nmodel <- function (x) {
   
   if (!is.jags_analysis(x))

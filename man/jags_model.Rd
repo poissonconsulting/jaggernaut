@@ -82,8 +82,7 @@
   transformation can also be applied to a variable - for
   example the argument \code{select=c("Weight",
   "log(Length)*")} would result in \code{Length} being
-  logged (and renamed \code{LogLength}) and then
-  standardised.
+  logged and then standardised.
 
   Once the \code{select} argument has been applied to the
   the data, dates and factors are converted into integers
