@@ -1,4 +1,4 @@
-  
+
 plot.jags_mcmc <- function (x, parm, ...) {
 
   stopifnot(is.jags_mcmc(x))
@@ -20,7 +20,7 @@ plot.jags_mcmc <- function (x, parm, ...) {
 
   mcmc <- mcmc[,vars, drop = FALSE]
     
-  return (coda:::plot.mcmc.list(mcmc,...))
+  return (plot.mcmc.list(mcmc,...))
 }
 
 plot.jagr_analysis <- function (x, parm, ...) {
