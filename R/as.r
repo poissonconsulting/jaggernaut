@@ -55,7 +55,7 @@ as.mcmc.list.jags_mcmc <- function (x) {
         var.i[, j] <- values[j + (0:(niter - 1)) * nvar + 
           (ch - 1) * niter * nvar]
       }
-      vnames.ch <- c(vnames.ch, rjags:::coda.names(varname, vardim))
+      vnames.ch <- c(vnames.ch, coda.names(varname, vardim))
       ans.ch[[i]] <- var.i
     }
     ans.ch <- do.call("cbind", ans.ch)
