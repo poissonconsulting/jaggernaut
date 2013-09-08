@@ -1,7 +1,7 @@
 
 #' @export
 data_jags <- function (object, ...) {
-  UseMethod("data_jags", object1)
+  UseMethod("data_jags", object)
 }
 
 #' @method data_jags jags_analysis
