@@ -6,7 +6,7 @@ update_jags <- function (object, ...) {
 
 #' @method update_jags jags_simulation
 #' @export 
-update_jags.jags_simulation <- function (object, nrep = 1, values = NULL, mode = "current")
+update_jags.jags_simulation <- function (object, nrep = 1, values = NULL, mode = "current", ...)
 {
   if(!is.jags_simulation(object))
     stop("object should be of class jags_simulation")
@@ -64,16 +64,14 @@ update_jags.jags_simulation <- function (object, nrep = 1, values = NULL, mode =
       for (rep in (object$nrep + 1):(object$nrep + nrep)) {
         if (!opts_jagr("quiet"))
           print(paste0("Value: ",value," of ",nvalues,"  Rep: ", rep," of ",(object$nrep + nrep)))
-                
-        x <- jagr_simulation(model = object$data_model, 
-                                  data = object$values[value,,drop = FALSE], 
-                                  quiet = opts_jagr("mode") != "debug")
         
-        est <- calc_estimates(x)
+        x <- data_jags(object$data_model,
+                       value = object$values[value,,drop = FALSE])
         
-        est <- est[rownames(est) != "deviance",]
+        print(x)
+        object$simulated[[value]][[rep]] <- data_jags(object$data_model,
+                                                      value = object$values[value,,drop = FALSE])
         
-        object$simulated[[value]][[rep]] <- extract_estimates(est)[["estimate"]]
       }
     }
     object$nrep <- object$nrep + nrep
