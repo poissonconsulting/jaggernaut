@@ -79,7 +79,7 @@ predict.jagr_analysis <- function (object, parameter, data, base, level, ...) {
 #' 
 #' Its also important to realize that values always replaces the corresponding
 #' values in base but only replaces the corresponding values in newdata if they
-#' are unaltered, i.e., as they are in dataset(object,base = TRUE).
+#' are unaltered, i.e., as they are in data_jags(object,base = TRUE).
 #' 
 #' @return a data frame with the median estimates and credibility intervals for
 #' the derived parameter of interest or if level = "no" an object of 
@@ -111,7 +111,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
     stop("length_out must be an integer")
   }
 
-  dataset <- dataset(object)
+  dataset <- data_jags(object)
 
   if(!is.null(obs_by)) {
     if(!is.character(obs_by))
@@ -169,7 +169,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
   }
   
   if (identical(base,TRUE)) {
-    base <- dataset(object, base = TRUE)
+    base <- data_jags(object, base = TRUE)
   } else if (identical(base,FALSE)) {
     base <- NULL
   }
@@ -201,7 +201,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
     }
     newdata <- newdata[names(dataset)]
   } else {
-    dat <- dataset(object, base = TRUE)
+    dat <- data_jags(object, base = TRUE)
     bol <- !names_data(dat) %in% names_data(newdata)
     if (any(bol)) {
       dat <- dat[bol]
@@ -209,7 +209,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
     }
     newdata <- newdata[names(dataset)]
     if (is.data.frame(base)) {
-      dat <- dataset(object, base = TRUE)
+      dat <- data_jags(object, base = TRUE)
       bol <- !names_data(dat) %in% names_data(base)
       if (any(bol)) {
         dat <- dat[bol]
@@ -218,7 +218,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
       base <- base[names(dataset)]
     }
     if (is.data.frame(values)) {
-      dat <- dataset(object, base = TRUE)
+      dat <- data_jags(object, base = TRUE)
       for (name in names_data(values)) {
         if (name %in% names_data(newdata)) {
           x <- newdata[[name]]
