@@ -5,7 +5,7 @@ subset_jags <- function (x, ...) {
 
 #' @method subset_jags jags_analysis
 #' @export 
-subset_jags.jags_analysis <- function (x, model_number = 0) {   
+subset_jags.jags_analysis <- function (x, model_number = 0, ...) {   
   
   if (!is.jags_analysis(x)) {
     stop("x must be a jags_analysis")
@@ -81,10 +81,18 @@ subset_jags.jags_simulation <- function (x, rep = 1, value = 1, ...) {
     rep <- 1:x$nrep
   }
   
-  x$simulated <- dataset(x, value = value, rep = rep)
+  x$simulated <- data_jags(x, value = value, rep = rep)
   x$values <- x$values[value,,drop = FALSE]
   x$nvalues <- nrow(x$values)
   x$nrep <- length(rep)
+  
+  return (x)
+}
+
+#' @method subset_jags jags_power_analysis
+#' @export 
+subset_jags.jags_power_analysis <- function (x, rep = 1, value = 1, ...) {   
+  stop("not yet implemented")
   
   return (x)
 }
