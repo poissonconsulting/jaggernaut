@@ -6,7 +6,7 @@ add_jags <- function (object1, object2, ...) {
 
 #' @method add_jags jags_simulation
 #' @export 
-add_jags.jags_simulation <- function (object1, object2, mode = "current")
+add_jags.jags_simulation <- function (object1, object2, mode = "current", ...)
 {
   if(!is.jags_simulation(object1))
     stop("object1 should be of class jags_simulation")
