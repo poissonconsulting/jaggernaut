@@ -121,6 +121,28 @@ data_jags.jags_analysis <- function (object, base = FALSE, ...)
 #' @param ... other arguments passed to generic function.
 #' @return a list or lists of the simulated data
 #' @seealso \code{\link{data_jags}} and \code{\link{jags_simulation}}
+#' #' @examples
+#' 
+#' data_model <- jags_data_model("
+#' data { 
+#'  for (i in 1:nx) { 
+#'    x[i] ~ dpois(bIntercept) 
+#'    for (j in 1:nx) {
+#'      y[i,j] ~ dpois(bIntercept) 
+#'    }
+#'  } 
+#'  z <- bIntercept
+#'}    
+#' ")
+#'
+#' values <- data.frame(nx = c(1,10), bIntercept = c(5,10))
+#' 
+#' simulation <- jags_simulation (data_model, values, nrep = 5, mode = "test")
+#' 
+#' data_jags(simulation)
+#' data_jags(simulation, value = 1, rep = NULL)
+#' data_jags(simulation, value = NULL, rep = 1)
+#' data_jags(simulation, value = NULL, rep = NULL)
 #' @method data_jags jags_simulation
 #' @export
 data_jags.jags_simulation <- function (object, value = 1, rep = 1, ...)
