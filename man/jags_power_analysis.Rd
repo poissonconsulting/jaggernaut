@@ -1,9 +1,9 @@
-\name{jags_power}
-\alias{jags_power}
+\name{jags_power_analysis}
+\alias{jags_power_analysis}
 \title{Perform a JAGS simulation}
 \usage{
-  jags_power(model, data_model, values, nrep = 100,
-    niter = 10^3, mode = "current")
+  jags_power_analysis(model, data_model, values,
+    nrep = 100, niter = 10^3, mode = "current")
 }
 \arguments{
   \item{data_model}{a \code{jags_data_model}.}

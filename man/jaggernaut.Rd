@@ -12,19 +12,19 @@
   In short an analysis proceeds first by the definition of
   the JAGS model(s) using the \code{\link{jags_model}}
   function.  Next the resultant \code{jags_model} object or
-  \code{\link{jags_model}} objects in list form are passed
+  \code{jags_model} objects in list form are passed
   together with a data set to the
   \code{\link{jags_analysis}} function which calls the JAGS
   software to perform the actual MCMC sampling.  The
-  resultant \code{\link{jags_analysis}} object can then be
-  passed to the \code{\link{plot.jags_analysis}} function
-  to view the MCMC traces, the \code{\link{convergence}}
+  resultant \code{jags_analysis} object can then be passed
+  to the \code{\link{plot.jags_analysis}} function to view
+  the MCMC traces, the \code{\link{convergence_jags}}
   function to check the Rhat values of individual
   parameters and the \code{\link{coef.jags_analysis}}
   function to get the parameter estimates with 95\%
   credible limits.  The \code{\link{predict.jags_analysis}}
   function can then be used to extract derived parameter
-  estimates from a \link{jags_analysis} object without the
+  estimates from a \code{jags_analysis} object without the
   need for further MCMC sampling.
 
   The data sets accompanying this package are those used in
@@ -39,9 +39,9 @@
   demo for the peregrine data set use the command
   \code{demo(peregrine)}.
 
-  The package is in beta form please report any bugs or
-  pass on any comments or requests to the package
-  maintainer at \email{<joe@poissonconsulting.ca>}.
+  Please report any bugs or pass on any comments or
+  requests to the package maintainer at
+  \email{<joe@poissonconsulting.ca>}.
 }
 \examples{
 mod <- jags_model("
@@ -79,7 +79,7 @@ summary(an)
 \seealso{
   \code{\link{jags_model}}, \code{\link{jags_analysis}},
   \code{\link{plot.jags_analysis}},
-  \code{\link{convergence}},
+  \code{\link{convergence_jags}},
   \code{\link{coef.jags_analysis}} and
   \code{\link{predict.jags_analysis}}.
 }

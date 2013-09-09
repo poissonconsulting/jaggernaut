@@ -1,17 +1,17 @@
 \name{jags_simulation}
 \alias{jags_simulation}
-\title{Perform a JAGS simulation}
+\title{Create a JAGS simulation object}
 \usage{
-  jags_simulation(data_model, values, nrep = 1,
+  jags_simulation(data_model, values, nrep = 100,
     mode = "current")
 }
 \arguments{
   \item{data_model}{a \code{jags_data_model}.}
 
+  \item{values}{a data.frame of input values.}
+
   \item{nrep}{an integer element indicating the number of
   datasets to generate for each set of input values.}
-
-  \item{values}{a data.frame of input values.}
 
   \item{mode}{a character element indicating the mode for
   the analysis.}
@@ -20,13 +20,11 @@
   a \code{jags_simulation} object
 }
 \description{
-  Performs a JAGS simulation by using a
-  \code{jags_data_model} and a data frame of values to
-  generate a simulation data frame using JAGS (Plummer
-  2012).
+  Create a JAGS simulation object by generating data based
+  on JAGS data model object and a set of values
 }
 \examples{
-mod <- jags_data_model("
+data_model <- jags_data_model("
 data {
  for (i in 1:nx) {
    x[i] ~ dpois(bIntercept)
@@ -38,22 +36,21 @@ data {
 }
 ")
 
-val <- data.frame(nx = c(1,10), bIntercept = c(5,10))
+values <- data.frame(nx = c(1,10), bIntercept = c(5,10))
 
-sim <- jags_simulation (mod, val, nrep = 5)
+simulation <- jags_simulation (data_model, values, nrep = 5)
 
-sim1 <- subset_jags(sim, value = 1, rep = 1:2)
-sim1 <- update_jags(sim1, nrep = 2)
+simulation1 <- subset_jags(simulation, value = 1, rep = 1:2)
+simulation1 <- update_jags(simulation1, nrep = 2)
 
-sim2 <- subset_jags(sim, value = 2, rep = 1)
+simulation2 <- subset_jags(simulation, value = 2, rep = 1)
 
-sims <- add_jags(sim1, sim2)
+#simulation <- add_jags(simulation1, simulation2)
 
-data_jags(sims)
-}
-\references{
-  Plummer M (2012) JAGS Version 3.3.0 User Manual
-  \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
+data_jags(simulation)
+data_jags(simulation, value = 1, rep = NULL)
+data_jags(simulation, value = NULL, rep = 1)
+data_jags(simulation, value = NULL, rep = NULL)
 }
 \seealso{
   \code{\link{jags_data_model}} and
