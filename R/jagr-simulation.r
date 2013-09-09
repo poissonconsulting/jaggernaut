@@ -26,9 +26,7 @@ jagr_simulation <- function (model, data, quiet = FALSE)
   
   if (is.function(model$gen_inits)) {
     inits <- list()
-    for (i in 1:n.chain) {   
-      inits[[i]] <- model$gen_inits(data_analysis)
-    }
+    inits[[i]] <- model$gen_inits(data_analysis)
   } else {
     inits <- NULL
   }
