@@ -1,6 +1,4 @@
 
-
-
 #' @title Perform a JAGS simulation
 #'
 #' @description 
@@ -39,7 +37,7 @@
 #' 
 #' # power <- jags_power (model, data_model, values = values, nrep = 100, mode = "demo")
 #' @export
-jags_power <- function (model, data_model, values, nrep = 100, niter = 10^3, mode = "current") {
+jags_power_analysis <- function (model, data_model, values, nrep = 100, niter = 10^3, mode = "current") {
   if (!is.jags_model(model)) 
     stop("model must be class jags_model")
   
@@ -96,8 +94,8 @@ jags_power <- function (model, data_model, values, nrep = 100, niter = 10^3, mod
     if (!opts_jagr("quiet"))
       print(paste0("Value: ",value," of ",nvalues,"  Rep: ", rep," of ",nrep))
     
-    an <- jags_analysis(model = model, 
-                        data = dataset(sim, rep = rep, value = value),
+    an <- jags_analysis(models = model, 
+                        data = data_jags(sim, rep = rep, value = value),
                         niter = niter)
     
     analyses[[value]][[rep]] <- an
