@@ -38,7 +38,7 @@
 #' and \code{\link{jaggernaut}}
 #' @examples
 #' 
-#' mod <- jags_model("
+#' model <- jags_model("
 #' model { 
 #'  bLambda ~ dlnorm(0,10^-2) 
 #'  for (i in 1:nrow) { 
@@ -46,9 +46,9 @@
 #'  } 
 #'}")
 #'
-#' dat <- data.frame(x = rpois(100,1))
+#' data <- data.frame(x = rpois(100,1))
 #' 
-#' an <- jags_analysis (mod, dat, mode = "demo")
+#' analysis <- jags_analysis (model, data, mode = "demo")
 #' 
 #' @export
 jags_analysis <- function (
