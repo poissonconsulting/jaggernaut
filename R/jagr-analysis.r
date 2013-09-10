@@ -7,6 +7,9 @@ jagr_analysis <- function (
 )
 {  
   stopifnot(is.jags_model(model))
+  
+  model <- model$models[[1]]
+  
   stopifnot(n.iter >= 100)
   stopifnot(n.chain %in% 2:6)
   stopifnot(resample %in% 0:4)
