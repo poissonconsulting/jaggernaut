@@ -11,7 +11,7 @@
 #' with credible intervals and \code{predict} derived parameter
 #' estimates.
 #' 
-#' @param models a \code{jags_model} or list of \code{jags_model}s  specifying the JAGS model(s).
+#' @param model a \code{jags_model} specifying the JAGS model(s).
 #' @param data the data.frame or list of data to analyse.
 #' @param niter an integer element of the number of iterations to run per MCMC chain.
 #' @param mode a character element indicating the mode for the analysis.
@@ -52,18 +52,15 @@
 #' 
 #' @export
 jags_analysis <- function (
-  models, data, niter = 10^3, mode = "current"
+  model, data, niter = 10^3, mode = "current"
 ) {
+
+  if (!is.jags_model(model))
+    stop("model must be a jags_model")
   
-  if (!is.jags_model(models)) {
-    if (!is.list(models)) {
-      stop("models must be a jags_model or list of jags_models")
-    }
-    if (!all(sapply(models,is.jags_model))) {
-      stop("models must be a jags_model or list of jags_models")      
-    } 
-  }
-    
+  models <- model
+  rm(model)
+  
   if (!is.data.frame (data)) {
     if (!is.list(data)) {
       stop("data must be a data.frame or a data list")
@@ -104,10 +101,6 @@ jags_analysis <- function (
     stop("niter must be numeric")
   }
   
-  if (is.jags_model(models)) {
-    models <- list(models)
-  }
-  
   niter <- as.integer(niter)
     
   old_opts <- opts_jagr(mode = mode)
@@ -127,7 +120,7 @@ jags_analysis <- function (
   
   niter <- max(niter, nsims * 2 / nchains)
   
-  n.model <- length(models)
+  n.model <- number_of_models(models)
   
   if(n.model == 1) {
     parallelModels <- FALSE
@@ -150,7 +143,7 @@ jags_analysis <- function (
     doMC::registerDoMC(cores=n.model)
     
     object$analyses <- foreach::foreach(i = 1:n.model) %dopar% { 
-      jagr_analysis(models[[i]], data, 
+      jagr_analysis(subset_jags(models,i), data, 
                     n.iter = niter, n.chain = nchains, resample = resample,
                     convergence = convergence, independence = 0,
                     parallelChains = parallelChains,
@@ -160,7 +153,7 @@ jags_analysis <- function (
     for (i in 1:n.model) {
       if (!quiet)
         cat(paste("\n\nModel",i,"of",n.model,"\n\n"))
-      object$analyses[[i]] <- jagr_analysis(models[[i]], data,
+      object$analyses[[i]] <- jagr_analysis(subset_jags(models,i), data,
                                             n.iter = niter, n.chain = nchains, resample = resample,
                                             convergence = convergence, independence = 0,
                                             parallelChains = parallelChains,

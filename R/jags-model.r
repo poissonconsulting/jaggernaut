@@ -196,7 +196,7 @@ jags_model <- function (model_code, monitor = NULL, select = NULL,
                     derived_code = derived_code, 
                     random_effects = random_effects)
   
-  object<-list(
+  mod<-list(
     model = model_code,
     monitor = monitor,
     select = select,
@@ -206,6 +206,10 @@ jags_model <- function (model_code, monitor = NULL, select = NULL,
     derived_model = derived_code,
     extract_data = NULL
   )
+  
+  object <- list(
+    models = list(mod),
+    nmodel = 1)
   
   class(object) <- "jags_model"
 
