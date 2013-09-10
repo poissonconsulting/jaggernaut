@@ -38,7 +38,7 @@ get_parm.jags_analysis <- function (object, parm = "fixed", model_number = 1) {
   stopifnot(is.character(parm))
   stopifnot(length(parm) > 0)
   
-  object <- subset(object, model_number = model_number)
+  object <- subset_jags(object, model = model_number)
   
   return (get_parm (as.jagr_analysis(object), parm = parm))
 }
