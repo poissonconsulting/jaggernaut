@@ -6,8 +6,8 @@
     mode = "current")
 }
 \arguments{
-  \item{model}{a \code{jags_model} or list of
-  \code{jags_model}s specifying the JAGS model(s).}
+  \item{model}{a \code{jags_model} specifying the JAGS
+  model(s).}
 
   \item{data}{the data.frame or list of data to analyse.}
 

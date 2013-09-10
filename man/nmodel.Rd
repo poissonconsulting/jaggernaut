@@ -1,16 +1,17 @@
 \name{nmodel}
 \alias{nmodel}
-\title{Number of models in JAGS analysis}
+\title{Number of models in a JAGS object}
 \usage{
-  nmodel(x)
+  nmodel(object, ...)
 }
 \arguments{
-  \item{x}{a jags_analysis object}
+  \item{object}{a JAGS object}
 }
 \description{
-  Gets the number of models in a JAGS analysis.
+  Gets the number of models in a JAGS object
 }
 \seealso{
-  \code{\link{jags_model}} and \code{\link{jags_analysis}}
+  \code{\link{nmodel.jags_model}} and
+  \code{\link{nmodel.jags_analysis}}
 }
 

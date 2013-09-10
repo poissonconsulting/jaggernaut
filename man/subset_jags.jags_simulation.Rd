@@ -1,9 +1,9 @@
-\name{data_jags.jags_simulation}
-\alias{data_jags.jags_simulation}
-\title{Get dataset(s) from a JAGS simulation}
+\name{subset_jags.jags_simulation}
+\alias{subset_jags.jags_simulation}
+\title{Subset a JAGS simulation}
 \usage{
-  \method{data_jags}{jags_simulation} (object, value = 1,
-    rep = 1, ...)
+  \method{subset_jags}{jags_simulation} (object,
+    value = NULL, rep = NULL, ...)
 }
 \arguments{
   \item{object}{a jags_simulation object.}
@@ -17,10 +17,10 @@
   \item{...}{other arguments passed to generic function.}
 }
 \value{
-  a list or lists of the simulated data
+  the subsetted JAGS simulation object.
 }
 \description{
-  Gets the dataset(s) from a JAGS simulation object.
+  Subset a JAGS simulation object.
 }
 \examples{
 data_model <- jags_data_model("
@@ -39,13 +39,13 @@ values <- data.frame(nx = c(1,10), bIntercept = c(5,10))
 
 simulation <- jags_simulation (data_model, values, nrep = 5, mode = "test")
 
-data_jags(simulation)
-data_jags(simulation, value = 1, rep = NULL)
-data_jags(simulation, value = NULL, rep = 1)
-data_jags(simulation, value = NULL, rep = NULL)
+subset_jags(simulation)
+subset_jags(simulation, value = 1, rep = NULL)
+subset_jags(simulation, value = NULL, rep = 1)
+subset_jags(simulation, value = 1, rep = 1)
 }
 \seealso{
-  \code{\link{data_jags}} and \code{\link{jags_simulation}}
-  #'
+  \code{\link{subset_jags}} and
+  \code{\link{jags_simulation}} #'
 }
 

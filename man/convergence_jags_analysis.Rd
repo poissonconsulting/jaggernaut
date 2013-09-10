@@ -1,8 +1,9 @@
-\name{convergence}
-\alias{convergence}
+\name{convergence_jags_analysis}
+\alias{convergence_jags_analysis}
 \title{Calculate convergence values}
 \usage{
-  convergence(object, ...)
+  convergence_jags_analysis(object, model_number = 1,
+    parm = "fixed", ...)
 }
 \arguments{
   \item{object}{a jags_analysis object}
@@ -25,7 +26,6 @@
   in a JAGS analysis
 }
 \seealso{
-  \code{\link{convergence.jags_analysis}} and
-  \code{\link{jags_analysis}}
+  \code{\link{jaggernaut}} and \code{\link{jags_analysis}}
 }
 
