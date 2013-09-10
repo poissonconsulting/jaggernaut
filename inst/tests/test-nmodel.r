@@ -31,7 +31,7 @@ test_that("nmodel returns object of correct value", {
       x[i]~dpois(bLambda) 
     } 
   }")
-  mods <- list(mod1,mod2)
+  mods <- add_jags(mod1,mod2)
   
   data <- data.frame(x = rpois(100,1))
 

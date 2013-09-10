@@ -11,7 +11,7 @@ test_that("subset.jags_analysis returns object of correct class", {
   
   data <- data.frame(x = rpois(100,1))
   an <- jags_analysis (model, data, mode = "test") 
-  expect_that(subset(an), is_a("jags_analysis"))
+  expect_that(subset_jags(an), is_a("jags_analysis"))
 })
 
 test_that("subset.jags_analysis subsets", {
@@ -29,19 +29,18 @@ test_that("subset.jags_analysis subsets", {
                       x[i]~dpois(bLambda) 
                       } 
 }")
-  mods <- list(mod1,mod2)
+  mods <- add_jags(mod1,mod2)
   
   data <- data.frame(x = rpois(100,1))
 
   an <- jags_analysis (mods, data, mode = "test") 
   
-  expect_that(subset(an), is_a("jags_analysis"))
-  expect_that(subset(an, 0), is_a("jags_analysis"))
-  expect_that(subset(an, 1), is_a("jags_analysis"))
-  expect_that(subset(an, 2), is_a("jags_analysis"))
-  expect_that(subset(subset(an)), is_a("jags_analysis"))
-  expect_that(nmodel(subset(an, 2)), equals(1))
-  expect_that(subset(an, 3), throws_error())
-  expect_that(subset(an, - 1), throws_error())
-  expect_that(subset(an, c(1,2)), throws_error())
+  expect_that(subset_jags(an), is_a("jags_analysis"))
+  expect_that(subset_jags(an, 0), is_a("jags_analysis"))
+  expect_that(subset_jags(an, 1), is_a("jags_analysis"))
+  expect_that(subset_jags(an, 2), is_a("jags_analysis"))
+  expect_that(subset_jags(subset_jags(an)), is_a("jags_analysis"))
+  expect_that(subset_jags(an, 3), throws_error())
+  expect_that(subset_jags(an, - 1), throws_error())
+  expect_that(subset_jags(an, c(1,2)), throws_error())
 })
