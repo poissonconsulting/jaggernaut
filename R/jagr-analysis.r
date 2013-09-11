@@ -18,12 +18,10 @@ jagr_analysis <- function (
   stopifnot(n.sim >= 100 && n.sim <= 2000)
   
   cat_convergence <- function (object) {
-    parm <- get_parm (object, parm = "all")
-    convergence <- convergence_jagr_analysis (object, parm = parm, summarise = TRUE) 
     cat (' (Rhat:')
-    cat (convergence['convergence'])
-#    cat (', ind:')
-#    cat (convergence['independence'])
+    cat (rhat(object$mcmc))
+    cat (', ind:')
+    cat (ind(object$mcmc))
     cat (')\n')
   }
   
@@ -77,7 +75,7 @@ jagr_analysis <- function (
       inits <- rngs
     }
     
-      mcmc <- foreach::foreach(i = 1:n.chain, .combine = add_chains_jags_mcmc) %dopar% { 
+      mcmc <- foreach::foreach(i = 1:n.chain, .combine = add_jags_jags_mcmc) %dopar% { 
         file <- tempfile(fileext=".bug")
         cat(model$model, file=file)
         
@@ -114,11 +112,14 @@ jagr_analysis <- function (
     convergence = convergence,
     independence = independence
     )
-  
   class(object) <- c("jagr_analysis")
-  check_convergence (object)
   
-  while (!check_convergence (object) && resample > 0) 
+  is_converged_jagr_analysis <- function (object, ...)
+  {     
+    return (rhat(object$mcmc) <= object$convergence)
+  }
+        
+  while (!is_converged_jagr_analysis (object) && resample > 0) 
   {
     if(!quiet) {
       cat ("Resampling due to convergence failure")
@@ -127,10 +128,10 @@ jagr_analysis <- function (
     
     resample <- resample - 1
         
-    object <- update(object)
+    object <- update_jags(object)
   }
   
-  if (check_convergence (object)) {
+  if (is_converged_jagr_analysis (object)) {
     if (!quiet) {
       cat ('Analysis converged')
       cat_convergence (object)
@@ -145,8 +146,3 @@ jagr_analysis <- function (
   }    
   return (object)
 }
-
-
-
-
-
