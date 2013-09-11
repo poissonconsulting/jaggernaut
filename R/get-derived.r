@@ -25,7 +25,7 @@ get_derived.jags_mcmc <- function (object, model, monitor) {
     if (niter > 1) {
       for (i in 2:niter) {
         samples <- get_samples (model,data = as.list(get_subset_jags_mcmc(object, iter = i, chain = j)), file = file)
-        list[[j]] <- add_iterations (list[[j]], samples)
+        list[[j]] <- add_jags (list[[j]], samples, by = "iterations")
       }
     }
   }
@@ -33,7 +33,7 @@ get_derived.jags_mcmc <- function (object, model, monitor) {
   
   if (nchain > 1) {
     for (j in 2:nchain)
-      samples <- add_chains (samples, list[[j]])
+      samples <- add_jags (samples, list[[j]], by = "chains")
   }
   mcmc <- jags_mcmc(samples, jags = list(NULL))
   
@@ -78,7 +78,7 @@ get_derived.jagr_analysis <- function (object, monitor, data) {
     if (niter > 1) {
       for (i in 2:niter) {
         samples <- get_samples (model,data = c(dat,as.list(get_subset_jags_mcmc(object$mcmc, iter = i, chain = j))), file = file)
-        list[[j]] <- add_iterations (list[[j]], samples)
+        list[[j]] <- add_jags (list[[j]], samples, by = "iterations")
       }
     }
   }    
@@ -86,7 +86,7 @@ get_derived.jagr_analysis <- function (object, monitor, data) {
   
   if (nchain > 1) {
     for (j in 2:nchain)
-      samples <- add_chains (samples, list[[j]])
+      samples <- add_jags (samples, list[[j]], by = "chains")
   }
   mcmc <- jags_mcmc(samples, jags = list(NULL))
   
