@@ -14,6 +14,121 @@ add_jags <- function (object, object2, ...) {
   UseMethod("add_jags", object)
 }
 
+#' @method add_jags mcarray
+add_jags.mcarray <- function (object, object2, ..., by = "iterations") {
+  
+  if(!inherits(by,"character"))
+    stop("by must be class character")
+  if(length(by) != 1)
+    stop("by must be a character element")
+  if(is.na(by))
+    stop("by must not be a missing value")
+  
+  if(!by %in% c("iterations","chains"))
+    stop("by must be 'iterations' or 'chains'")
+  
+  if(by == "chains") {
+
+  if (!inherits (object2, "mcarray"))
+    stop ("object2 should be class mcarray")
+  if (niter (object) != niter (object2))
+    stop ("object and object2 should have the same number of iterations")
+  
+  dimobj <- dim (object)
+  dimobject2 <- dim (object2)
+  dnames <- names(dim (object))
+  
+  if (!identical(dimobj[-length(dimobj)],dimobject2[-length(dimobject2)]))
+    stop ("object and object2 should have the same dimensions (except chains)")
+  
+  class(object)<-"array"
+  class(object2)<-"array"
+  object <- abind (object,object2,along=length(dimobj))
+  
+  names(dim(object)) <- dnames
+  class(object)<-"mcarray"
+  } else if(by == "iterations") {
+    
+    if (!inherits (object, "mcarray"))
+      stop ("object should be class mcarray")
+    if (!inherits (object2, "mcarray"))
+      stop ("object2 should be class mcarray")
+    if (nchain (object) != nchain (object2))
+      stop ("object and object2 should have the same number of chains")
+    
+    dimobj <- dim (object)
+    dimiter <- dim (object2)
+    dnames <- names(dim (object))
+    
+    if (!identical(dimobj[-(length(dimobj)-1)],dimiter[-(length(dimiter)-1)]))
+      stop ("object and object2 should have the same dimensions (except iterations)")
+    
+    class(object)<-"array"
+    class(object2)<-"array"
+    object <- abind (object,object2,along=length(dimobj)-1)
+    
+    names(dim(object)) <- dnames
+    class(object)<-"mcarray"
+  }
+  
+  args <- list(...)
+  nargs <- length(args)
+  if (nargs > 0) {
+    for (i in 1:nargs) {
+      object[[i]] <- add_jags(object, args[[i]], by = by)
+    }
+  }
+  return (object)
+}
+
+#' @method add_jags list
+add_jags.list <- function (object, object2, ..., by = "iterations") {
+ 
+  for (i in seq(along = object))
+    object[[i]] <- add_jags(object[[i]], object2[[i]], by = by)
+  
+  args <- list(...)
+  nargs <- length(args)
+  if (nargs > 0) {
+    for (i in 1:nargs) {
+      object[[i]] <- add_jags(object, args[[i]], by = by)
+    }
+  }
+  return (object)
+}
+
+#' @method add_jags jags_mcmc
+add_jags.jags_mcmc <- function (object, object2, ...) {
+  
+  object$jags <- c(object$jags, object2$jags)
+  
+  object$mcmc <- add_jags (object$mcmc, object2$mcmc, by = "chains")
+  
+  args <- list(...)
+  nargs <- length(args)
+  if (nargs > 0) {
+    for (i in 1:nargs) {
+      object <- add_jags(object, args[[i]], by = "chains")
+    }
+  }
+  return (object)
+}
+
+# needed because .combine in foreach does not work with add_jags.jags_mcmc
+add_jags_jags_mcmc <- function (object, object2) {
+  
+  if(!inherits(object, "jags_mcmc"))
+    stop("object must be class jags_mcmc")
+
+  if(!inherits(object2, "jags_mcmc"))
+    stop("object2 must be class jags_mcmc")
+  
+  object$jags <- c(object$jags, object2$jags)
+  
+  object$mcmc <- add_jags (object$mcmc, object2$mcmc, by = "chains")
+  return (object)
+}
+
 #' @title Add JAGS models
 #'
 #' @description
@@ -46,7 +161,7 @@ add_jags <- function (object, object2, ...) {
 #' number_of_models(models)
 #' @method add_jags jags_model
 #' @export 
-add_jags.jags_model <- function (object, object2, ..., mode = "current")
+add_jags.jags_model <- function (object, object2, ...)
 {
   object$models <- c(object$models,object2$models) 
   object$nmodel <- object$nmodel + object2$nmodel
