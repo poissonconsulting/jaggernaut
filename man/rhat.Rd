@@ -10,7 +10,7 @@
   \item{...}{passed to and from other functions}
 }
 \value{
-  a vector or matrix of rhat values
+  a vector, matrix or array of rhat values
 }
 \description{
   Get R-hat value or values for JAGS objects

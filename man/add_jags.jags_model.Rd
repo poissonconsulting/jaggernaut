@@ -2,8 +2,7 @@
 \alias{add_jags.jags_model}
 \title{Add JAGS models}
 \usage{
-  \method{add_jags}{jags_model} (object, object2, ...,
-    mode = "current")
+  \method{add_jags}{jags_model} (object, object2, ...)
 }
 \arguments{
   \item{object}{a jags_model.}
