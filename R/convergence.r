@@ -1,42 +1,7 @@
 
-convergence_jags_mcmc <- function (object, parm, ...) {
-  
-  stopifnot(is.jags_mcmc(object))
-  stopifnot(is.character(parm))
-  stopifnot(length(parm) >= 1)
-  
-  nsim <- nsim(object)
-  
-  mcmc <- as.mcmc.list (object)
-  
-  vars<-coda::varnames(mcmc)
-  
-  bol<-rep(F, length(vars))
-  
-  svars <- sapply(vars,strsplit,split="[",fixed=T)
-  for (i in 1:length(vars)) {
-    bol[i] <- svars[[i]][1] %in% parm
-  }
-  
-  vars<-vars[bol]
-  rhat <- numeric()
-  ind <- numeric()
-  for (i in seq(along = vars)) {
-    rhat[i] <- coda::gelman.diag(mcmc[,vars[i]])$psrf[1]
-    ind[i] <- coda::effectiveSize(mcmc[,vars[i]])[1] / nsim * 100
-  }
-  convergence <- data.frame (
-    convergence = round(rhat,2), 
-    independence = round(ind,0),
-    row.names = vars
-  )
-  
-  convergence <- convergence[!(is.na(convergence$convergence) & convergence$independence == 0),]
-  
-  return (convergence)
-}
 
-convergence_jagr_analysis <- function (object, parm, summarise = TRUE, ...) {
+
+convergence_jagr_analysis <- function (object, parm = "all", summarise = TRUE, ...) {
   
   stopifnot(is.jagr_analysis(object))
   stopifnot(is.character(parm))
@@ -85,16 +50,3 @@ convergence_jags_analysis <- function (object, model_number = 1, parm = "fixed",
   return (con)
 }
 
-check_convergence <- function (object, ...) {
-  stopifnot(is.jagr_analysis (object))
-  
-  parm <- get_parm(object, parm = "all")
-  
-  convergence <- convergence_jagr_analysis (object, parm = parm)
-  
-  convergence <- !is.na(convergence) && 
-                  convergence[1]<= object$convergence && 
-                  convergence[2] > object$independence
-  
-  return (convergence)
-}
