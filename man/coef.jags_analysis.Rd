@@ -2,9 +2,8 @@
 \alias{coef.jags_analysis}
 \title{Calculate parameter estimates}
 \usage{
-  \method{coef}{jags_analysis} (object, model_number = 1,
-    parm = "fixed", as_list = FALSE, level = "current",
-    ...)
+  \method{coef}{jags_analysis} (object, parm = "fixed",
+    level = "current", ...)
 }
 \arguments{
   \item{object}{a \code{jags_analysis} object}

@@ -64,5 +64,5 @@ number_of_models.jags_model <- function (object, ...) {
 #' @export
 number_of_models.jags_analysis <- function (object, ...) {
   
-  return (as.integer(object$n.model))
+  return (as.integer(length(object$analyses)))
 }

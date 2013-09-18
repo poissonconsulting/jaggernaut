@@ -1,35 +1,31 @@
 
-plot.jags_mcmc <- function (x, parm, ...) {
+#' @method plot jagr_analysis
+plot.jags_mcmc <- function (x, parm = "all", ...) {
 
-  stopifnot(is.jags_mcmc(x))
-  stopifnot(is.character(parm))
+  stopifnot(is.character(parm) && is_length(parm))
   stopifnot(length(parm) > 0)
   
-  mcmc <- as.mcmc.list (x)
+  parm <- unique(parm)
   
-  vars<-coda::varnames(mcmc)
-  
-  bol<-rep(F, length(vars))
-  
-  svars <- sapply(vars,strsplit,split="[",fixed=T)
-  for (i in 1:length(vars)) {
-    bol[i] <- svars[[i]][1] %in% parm
+  if("all" %in% parm) {
+    vars <- x$vars
+  } else {
+    stopifnot(all(parm %in% x$svar))
+    vars <- x$vars[x$svar %in% parm]
   }
   
-  vars<-vars[bol]
-
+  mcmc <- as.mcmc.list (x)
   mcmc <- mcmc[,vars, drop = FALSE]
     
-  return (plot.mcmc.list(mcmc,...))
+  return (plot(mcmc,...))
 }
 
+#' @method plot jagr_analysis
 plot.jagr_analysis <- function (x, parm, ...) {
-
-  stopifnot(is.jagr_analysis(x))
-  stopifnot(is.character(parm))
-  stopifnot(length(parm) > 0)
   
-  return (plot(x$mcmc, parm = parm, ...))
+  parm <- expand_parm(x, parm = parm)
+  
+  return (plot(as.jags_mcmc(x), parm = parm, ...))
 }
 
 #' @title Plot a JAGS analysis
@@ -48,12 +44,7 @@ plot.jagr_analysis <- function (x, parm, ...) {
 #' @export
 plot.jags_analysis <- function (x, model_number = 1, parm = "fixed", ...) {
 
-  if (!is.jags_analysis(x))
-    stop ("x must be class jags_analysis")
-      
-  x <- subset(x, model_number)
+  x <- subset_jags(x, model_number)
   
-  parm <- get_parm(x, parm = parm)
-    
-  return (plot.jagr_analysis(as.jagr_analysis(x), parm = parm, ...))
+  return (plot(as.jagr_analysis(x), parm = parm, ...))
 }

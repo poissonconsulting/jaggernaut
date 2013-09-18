@@ -135,14 +135,13 @@ jags_analysis <- function (
   if(!"dic" %in% list.modules())
     load.module("dic")
   
-  object <- list()
-  object$analyses <- list()
+  analyses <- list()
   
   if(parallelModels) {
     
     doMC::registerDoMC(cores=n.model)
     
-    object$analyses <- foreach::foreach(i = 1:n.model) %dopar% { 
+    analyses <- foreach::foreach(i = 1:n.model) %dopar% { 
       jagr_analysis(subset_jags(models,i), data, 
                     n.iter = niter, n.chain = nchains, resample = resample,
                     convergence = convergence, independence = 0,
@@ -153,7 +152,7 @@ jags_analysis <- function (
     for (i in 1:n.model) {
       if (!quiet)
         cat(paste("\n\nModel",i,"of",n.model,"\n\n"))
-      object$analyses[[i]] <- jagr_analysis(subset_jags(models,i), data,
+      analyses[[i]] <- jagr_analysis(subset_jags(models,i), data,
                                             n.iter = niter, n.chain = nchains, resample = resample,
                                             convergence = convergence, independence = 0,
                                             parallelChains = parallelChains,
@@ -161,12 +160,17 @@ jags_analysis <- function (
     }
   }
   
-  object$dic <- t(sapply(object$analyses,DIC_jagr_analysis))
-  rownames(object$dic) <- paste0("Model",1:nrow(object$dic))
-  names(object$analyses) <- rownames(object$dic)
+  dic <- t(sapply(analyses,DIC_jagr_analysis))
+  rownames(dic) <- paste0("Model",1:nrow(dic))
+  names(analyses) <- rownames(dic)
   
-  object$dic <- object$dic[order(object$dic[,"DIC",drop=T]),]
-  object$n.model <- n.model
+  dic <- dic[order(dic[,"DIC",drop=T]),]
+  
+  object <- list(data = data,
+                analyses = analyses,
+                rhat = convergence,
+                ind = 0,
+                dic = dic)
   
   class(object) <- "jags_analysis"
   

@@ -3,13 +3,15 @@ as.jags_mcmc<- function (object, ...) {
   UseMethod("as.jags_mcmc", object)
 }
 
+as.jags_model<- function (object, ...) {
+  UseMethod("as.jags_model", object)
+}
+
 as.jagr_analysis<- function (object, ...) {
   UseMethod("as.jagr_analysis", object)
 }
 
-as.array.mcarray <- function (object) {
-  if (!inherits(object,"mcarray"))
-    stop("object should be of class mcarray")
+as.array.mcarray <- function (object, ...) {
     
   dim <- dim(object)
   dim <- dim[-length(dim)]
@@ -22,10 +24,7 @@ as.array.mcarray <- function (object) {
   return (object)
 }
 
-as.list.jags_mcmc <- function (object) {
-  if (!inherits(object,"jags_mcmc"))
-    stop("object should be of class jags_mcmc")
-  
+as.list.jags_mcmc <- function (object, ...) {  
   mcmc <- object$mcmc
   list <- list()
   for (name in names(mcmc))
@@ -34,7 +33,7 @@ as.list.jags_mcmc <- function (object) {
   return (list)
 }
 
-as.mcmc.list.jags_mcmc <- function (x) {
+as.mcmc.list.jags_mcmc <- function (x, ...) {
   if (!inherits (x,"jags_mcmc"))
     stop ("x should be class jags_mcmc")
   
@@ -65,36 +64,35 @@ as.mcmc.list.jags_mcmc <- function (x) {
   return (coda::mcmc.list(ans))
 }
 
-as.matrix.jags_mcmc <- function (x) {
-  if (!inherits (x,"jags_mcmc"))
-    stop ("x shold be class jags_mcmc")
-  return (as.matrix(as.mcmc.list(x)))
+as.matrix.jags_mcmc <- function (x, parm = "all", ...) {
+  mat <- as.matrix(as.mcmc.list(x, ...), ...)
+  
+  if (identical(parm,"all"))
+    return (mat)
+  
+  return (mat[,x$svars %in% parm,drop=F])
 }
 
-as.data.frame.jags_mcmc <- function (x) {
-  if (!inherits (x,"jags_mcmc"))
-    stop ("x should be class jags_mcmc")
-  return (as.data.frame(as.matrix(x)))
+as.data.frame.jags_mcmc <- function (x, ...) {
+  return (as.data.frame(as.matrix(x, ...), ...))
 }
 
-as.jags_mcmc.jagr_analysis <- function (object) {
+as.jags_mcmc.jagr_analysis <- function (object, ...) {
   return (object$mcmc)
 }
 
-as.jagr_analysis.jags_analysis <- function (object) {
-  stopifnot(is.jags_analysis(object))
-  stopifnot(nmodel(object) == 1)
-    
-  return (object$analyses[[1]])
+as.jags_mcmc.jags_analysis <- function (object, ...) {
+  return (as.jags_mcmc(as_jagr_analysis(object, ...), ...))
 }
 
-as.gmcmc.jags_analysis <- function (object) {
-  stopifnot(is.jags_analysis(object))
-  stopifnot(nmodel(object) == 1)
-  
-  object <- as.jagr_analysis(object)
-  object <- as.jags_mcmc (object)
-  
-  return (object)
+as.jags_model.jagr_analysis <- function (object, ...) {
+  return (object$model)
 }
-  
+
+as.jags_model.jags_analysis <- function (object, ...) {
+  return (as.jags_model(as_jagr_analysis(object, ...), ...))
+}
+
+as.jagr_analysis.jags_analysis <- function (object, ...) {    
+  return (object$analyses[[1]])
+}

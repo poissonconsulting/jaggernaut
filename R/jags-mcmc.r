@@ -1,11 +1,15 @@
 
-calc_convergence_jags_mcmc <- function (object) {
-
+update_convergence_jags_mcmc <- function (object) {
+  
+  stopifnot(is.jags_mcmc(object))
+  
   nsim <- nsim(object)
   
   mcmc <- as.mcmc.list (object)
   
   vars<-coda::varnames(mcmc)
+  
+  vars <- sort(vars)
   
   if(nchain(object) > 1) {
     rhat <- numeric()
@@ -18,13 +22,20 @@ calc_convergence_jags_mcmc <- function (object) {
     rhat <- rep(NA,length(vars))
     ind <- rep(NA,length(vars))
   }
-  convergence <- data.frame (
-    convergence = round(rhat,2), 
-    independence = round(ind,0),
-    row.names = vars
-  )
-
-  return (convergence)
+  
+  object$vars <- vars
+  
+  svars <- function (x) {
+    x <- strsplit(x, split = "[", fixed = T)
+    x <- delist(x)[1]
+    return (x)
+  }
+  
+  object$svars <- sapply(vars,svars)
+  object$rhat <- round(rhat,2)
+  object$ind <- round(ind,0)
+  
+  return (object)
 }
 
 jags_mcmc <- function (mcmc, jags) {
@@ -35,16 +46,10 @@ jags_mcmc <- function (mcmc, jags) {
   if(class(mcmc[[1]])!='mcarray')
     stop("mcmc should be a list of at least one mcarray object")
   
-  object <- list(mcmc = mcmc, jags = jags)
+  object <- list(mcmc = mcmc, jags = jags, vars = NA, svars = NA, rhat = NA, ind = NA)
   class(object) <- "jags_mcmc"
   
-  conv <- calc_convergence_jags_mcmc(object)
-  
-  rhat <- conv[,"convergence",drop=FALSE]
-  ind <- conv[,"independence",drop=FALSE]
-  
-  object$rhat <- rhat
-  object$ind <- ind
+  object <- update_convergence_jags_mcmc(object)
 
   return (object)
 }

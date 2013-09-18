@@ -1,7 +1,7 @@
 
 DIC_jags_mcmc <- function (object) {
   
-  deviance <- get_sims(object,"deviance")
+  deviance <- as.matrix(object,"deviance")
   deviance <- as.vector(deviance)
   pD <- var(deviance) / 2
   Dbar <- mean(deviance)

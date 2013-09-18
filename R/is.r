@@ -3,6 +3,18 @@ is_scalar <- function (x) {
   return (is.vector(x) && length(x) == 1)
 }
 
+is_length <- function (x) {
+  return (is.vector(x) && length(x) >= 1)
+}
+
+is_defined <- function (x) {
+  return (is.vector(x) & all(!is.na(x)))
+}
+
+is_indicator <- function (x) {
+ return (is.logical(x) & is_scalar(x) & is_defined(x)) 
+}
+
 is.mcarray <- function (object) {
   inherits(object, "mcarray")
 }

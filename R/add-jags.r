@@ -104,6 +104,8 @@ add_jags.jags_mcmc <- function (object, object2, ...) {
   
   object$mcmc <- add_jags (object$mcmc, object2$mcmc, by = "chains")
   
+  object <- update_convergence_jags_mcmc(object)
+  
   args <- list(...)
   nargs <- length(args)
   if (nargs > 0) {
@@ -114,18 +116,16 @@ add_jags.jags_mcmc <- function (object, object2, ...) {
   return (object)
 }
 
-# needed because .combine in foreach does not work with add_jags.jags_mcmc
 add_jags_jags_mcmc <- function (object, object2) {
   
-  if(!inherits(object, "jags_mcmc"))
+  if(!is.jags_mcmc(object))
     stop("object must be class jags_mcmc")
 
-  if(!inherits(object2, "jags_mcmc"))
+  if(!is.jags_mcmc(object2))
     stop("object2 must be class jags_mcmc")
   
-  object$jags <- c(object$jags, object2$jags)
+  return (add_jags(object, object2))
   
-  object$mcmc <- add_jags (object$mcmc, object2$mcmc, by = "chains")
   return (object)
 }
 

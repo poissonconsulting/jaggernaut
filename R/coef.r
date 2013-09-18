@@ -1,4 +1,75 @@
 
+coef_matrix <- function(object, level) {
+  
+  stopifnot(is.matrix(object))
+  stopifnot(is.numeric(level))
+  stopifnot(is_scalar(level))
+  stopifnot(is_defined(level))
+  stopifnot(level > 0.5 & level < 1.0)
+  
+  est <- function (x, level) {
+    lower <- (1 - level) / 2
+    upper <- level + lower
+    return (quantile(x,c(0.5,lower,upper),na.rm=T))
+  }
+  p<-function (x) {
+    x<-sum(as.integer(x>=0))/length(x)
+    x<-round(x,4)
+    return (min(x,1-x)*2)
+  }
+  fun<-function (x, level) {
+    
+    est <- est(x, level)
+    
+    pre <-round((est[3]-est[1]) / 2 / est[2] * 100)
+    pre <- abs(round(pre, 0))
+    
+    return (c(est, pre, p(x)))
+  }
+  
+  estimates<-data.frame(t(apply(object,MARGIN=2,FUN=fun, level = level)))
+  rownames(estimates)<-colnames(object)
+  colnames(estimates)<-c('estimate','lower','upper','error','significance')
+  return (estimates)
+}
+
+#' @method coef jags_mcmc
+coef.jags_mcmc <- function (object, parm = "all", level = 0.95, ...)
+{
+  stopifnot(is.character(parm)) 
+  stopifnot(is_length(parm))
+  stopifnot(is_defined(parm))
+  stopifnot(is.numeric(level))
+  stopifnot(is_scalar(level))
+  stopifnot(is_defined(level))
+  stopifnot(level > 0.5 & level < 1.0)
+  
+  coef <- coef_matrix (as.matrix(object, parm), level = level)
+    
+  return (coef)
+}
+
+#' @method coef jagr_analysis
+coef.jagr_analysis <- function (object, parm = "all", level = 0.95, ...)
+{
+  stopifnot(is.character(parm)) 
+  stopifnot(is_length(parm))
+  stopifnot(is_defined(parm))
+  stopifnot(is.numeric(level))
+  stopifnot(is_scalar(level))
+  stopifnot(is_defined(level))
+  stopifnot(level > 0.5 & level < 1.0)
+  
+  parm <- expand_parm(object, parm = parm)
+  
+  return (coef(as.jags_mcmc(object), parm = parm, level = level, ...))
+}
+
+coef_jagr_analysis <- function (object, ...) {
+  stopifnot(is.jagr_analysis(object))
+  return (coef(object, ...))
+}
+
 #' @title Calculate parameter estimates
 #'
 #' @description
@@ -20,19 +91,14 @@
 #' @seealso \code{\link{jags_analysis}} and \code{\link{jaggernaut}}
 #' @method coef jags_analysis
 #' @export
-coef.jags_analysis <- function (object, model_number = 1, parm = "fixed", as_list = FALSE, level = "current", ...) {
+coef.jags_analysis <- function (object, parm = "fixed", level = "current", ...) {
  
-  if (!is.jags_analysis(object)) {
-    stop ("object must be a jags_analysis")
-  }
-  
-  if (is.character(parm)) {
-    if (!length(parm)) {
-      stop("parm must be at least length one")
-    }
-  } else {
+  if (!is.character(parm)) 
     stop ("parm must be character vector")
-  }
+  if(!is_length(parm))
+    stop("parm must be at least length one")
+  if(!is_defined(parm))
+    stop("parm must not contain missing values")
   
   old_opts <- opts_jagr()
   on.exit(opts_jagr(old_opts))
@@ -41,18 +107,9 @@ coef.jags_analysis <- function (object, model_number = 1, parm = "fixed", as_lis
     opts_jagr(mode = level)
     level <- opts_jagr("level")
   }
+    
+  coef <- lapply(object$analyses, FUN = coef_jagr_analysis, parm = parm, level = level, ...)
   
-  object <- subset(object, model_number = model_number)
-  
-  parm <- get_parm (object, parm)
-  
-  est <- calc_estimates(object, parm = parm, level = level)
-  
-  est <- est[rownames(est) != "deviance",]
-  
-  if(as_list) {
-    est <- extract_estimates(est)
-  }
-
-  return (est)
+  coef <- delist (coef)
+  return (coef)
 }

@@ -1,31 +1,22 @@
 \name{convergence}
 \alias{convergence}
-\title{Calculate convergence values}
+\title{Get convergence value(s)}
 \usage{
   convergence(object, ...)
 }
 \arguments{
-  \item{object}{a jags_analysis object}
-
-  \item{model_number}{an integer element specifying the
-  model to select. If model_number = 0 then it selects the
-  model with the lowest DIC.}
-
-  \item{parm}{a character vector specifying the parameters
-  for which to calculate the convergence}
+  \item{object}{a JAGS object}
 
   \item{...}{passed to and from other functions}
 }
 \value{
-  a data.frame of the parameters with their convergence
-  (R-hat) values
+  a vector, matrix or array of convergence values
 }
 \description{
-  Calculates convergence (R-hat) values for the parameters
-  in a JAGS analysis
+  Get convergence values for JAGS objects
 }
 \seealso{
   \code{\link{convergence.jags_analysis}} and
-  \code{\link{jags_analysis}}
+  \code{\link{convergence.jags_power_analysis}}
 }
 

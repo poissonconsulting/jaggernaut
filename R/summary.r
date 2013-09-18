@@ -36,9 +36,7 @@ summary.jagr_analysis <- function (object, level = level, ...)
   
   summ[["Convergence"]] <- convergence_jagr_analysis(object, parm = parm, summarise = TRUE)
 
-  parm <- get_parm(object, parm = "fixed")
-  
-  summ[["Estimates"]] <- calc_estimates(object, parm = parm, level = level)
+  summ[["Estimates"]] <- coef(object, parm = "fixed", level = level)
 
   summ[["Deviance Information Criterion"]] <- DIC(object)
   
@@ -51,10 +49,6 @@ summary.jagr_analysis <- function (object, level = level, ...)
 #' @export
 summary.jags_analysis <- function (object, level = "current", ...)
 {
-  if (!is.jags_analysis(object)) {
-    stop("object must be a jags_analysis")
-  }
-
   old_opts <- opts_jagr()
   on.exit(opts_jagr(old_opts))
   
@@ -73,7 +67,7 @@ summary.jags_analysis <- function (object, level = "current", ...)
   summ <- list()
     
   for (i in 1:nmodel(object)) {
-    x <- subset(object,model_number = i)
+    x <- subset_jags(object,model_number = i)
     x <- as.jagr_analysis(x)
     summ[[paste0("Model",i)]] <- summary(x, level = level)
   }

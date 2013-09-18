@@ -19,9 +19,9 @@ jagr_analysis <- function (
   
   cat_convergence <- function (object) {
     cat (' (Rhat:')
-    cat (rhat(object$mcmc))
-    cat (', ind:')
-    cat (ind(object$mcmc))
+    cat (rhat(object))
+#    cat (', ind:')
+#    cat (ind(object$mcmc))
     cat (')\n')
   }
   
@@ -104,22 +104,14 @@ jagr_analysis <- function (
   
   object <- list(
     model = model, 
-    data = data, 
     inits = inits, 
     mcmc = mcmc,
     iterations = n.iter,
-    time = ((proc.time () - ptm)[3]) / (60 * 60),
-    convergence = convergence,
-    independence = independence
+    time = ((proc.time () - ptm)[3]) / (60 * 60)
     )
   class(object) <- c("jagr_analysis")
-  
-  is_converged_jagr_analysis <- function (object, ...)
-  {     
-    return (rhat(object$mcmc) <= object$convergence)
-  }
         
-  while (!is_converged_jagr_analysis (object) && resample > 0) 
+  while (!is_converged (object, rhat = convergence) && resample > 0) 
   {
     if(!quiet) {
       cat ("Resampling due to convergence failure")
@@ -131,7 +123,7 @@ jagr_analysis <- function (
     object <- update_jags(object)
   }
   
-  if (is_converged_jagr_analysis (object)) {
+  if (is_converged (object, rhat = convergence)) {
     if (!quiet) {
       cat ('Analysis converged')
       cat_convergence (object)

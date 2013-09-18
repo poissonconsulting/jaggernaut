@@ -93,21 +93,24 @@ data_jags.jags_data_model <- function (object, values, ...)
 #' @method data_jags jags_analysis
 #' @export
 data_jags.jags_analysis <- function (object, base = FALSE, ...)
-{   
-  if(base && is_data_list(object$analyses[[1]]))
-    stop("if data is a data list base must be FALSE")
+{
+  if(!is.logical(base))
+    stop("base must be logical")
   
-  object <- object$analyses[[1]]
+  if(length(base) !=1 )
+    stop("base must be a single value")
+
+  if(is.na(base))
+    stop("base must not be a missing value")
+  
+  if(base & !is.data.frame(object$data))
+    stop("base is only defined when data is a data.frame")
   
   if(!base) {
     return (object$data)
   }
   
-  data <- generate_data (object$data)
-  if (!is.null(object$block$select))
-    data <- subset (data, select = names_select(object$block$select))
-  
-  return (data)
+  return (generate_data (object$data))
 }
 
 #' @title Get dataset(s) from a JAGS simulation
