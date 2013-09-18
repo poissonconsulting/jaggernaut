@@ -3,6 +3,7 @@ calc_estimates<- function (object, ...) {
   UseMethod("calc_estimates", object)
 }
 
+
 calc_estimates.matrix <- function(object, level) {
   
   stopifnot(is.matrix(object))
@@ -10,28 +11,27 @@ calc_estimates.matrix <- function(object, level) {
   stopifnot(length(level) == 1)
   stopifnot(level >= 0.75)
   stopifnot(level <= 0.99)
-    
+  
   est <- function (x, level) {
+    
+    p<-function (x) {
+      x<-sum(as.integer(x>=0))/length(x)
+      x<-round(x,4)
+      return (min(x,1-x)*2)
+    }
+    
     lower <- (1 - level) / 2
     upper <- level + lower
-    return (quantile(x,c(0.5,lower,upper),na.rm=T))
-  }
-  p<-function (x) {
-    x<-sum(as.integer(x>=0))/length(x)
-    x<-round(x,4)
-    return (min(x,1-x)*2)
-  }
-  fun<-function (x, level) {
-
-    est <- est(x, level)
+    est <- quantile(x,c(0.5,lower,upper),na.rm=T)
+    names (est) <- c("estimate","lower","upper") 
     
-    pre <-round((est[3]-est[2]) / 2 / est[1] * 100)
+    pre <-round((est["upper"]-est["lower"]) / 2 / est["estimate"] * 100)
     pre <- abs(round(pre, 0))
     
     return (c(est, pre, p(x)))
   }
-    
-  estimates<-data.frame(t(apply(object,MARGIN=2,FUN=fun, level = level)))
+  
+  estimates<-data.frame(t(apply(object,MARGIN=2,FUN = est, level = level)))
   rownames(estimates)<-colnames(object)
   colnames(estimates)<-c('estimate','lower','upper','error','significance')
   return (estimates)
