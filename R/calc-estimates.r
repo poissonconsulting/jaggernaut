@@ -25,7 +25,7 @@ calc_estimates.matrix <- function(object, level) {
 
     est <- est(x, level)
     
-    pre <-round((est[3]-est[1]) / 2 / est[2] * 100)
+    pre <-round((est[3]-est[2]) / 2 / est[1] * 100)
     pre <- abs(round(pre, 0))
     
     return (c(est, pre, p(x)))
@@ -45,7 +45,7 @@ calc_estimates.jags_mcmc <- function (object, parm, level) {
   stopifnot(level >= 0.75)
   stopifnot(level <= 0.99)
   
-  return (calc_estimates (get_sims (object, parm), level = level))
+  return (calc_estimates (as.matrix (object, parm), level = level))
 }
 
 calc_estimates.jagr_analysis <- function (object, parm, level) {
@@ -62,7 +62,7 @@ calc_estimates.jagr_simulation <- function (object) {
   
   stopifnot(is.jagr_simulation(object))
   
-  return (calc_estimates (get_sims (object$mcmc, parm = NULL), level = 0.95))
+  return (calc_estimates (as.matrix (object$mcmc, parm = "all"), level = 0.95))
 }
 
 calc_estimates.jags_analysis <- function (object, parm, level) {
