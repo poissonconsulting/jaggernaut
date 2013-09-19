@@ -21,7 +21,7 @@ predict.jagr_analysis <- function (object, parameter, data, base, level, ...) {
   }
   
   if(level != 0) {
-    emcmc <- calc_estimates (emcmc, parm = parameter, level = level)
+    emcmc <- coef (emcmc, parm = parameter, level = level)
   } else {
     emcmc <- as.data.frame(t(as.matrix (emcmc, parameter)))
   }

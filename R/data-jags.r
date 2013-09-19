@@ -55,7 +55,7 @@ data_jags.jags_data_model <- function (object, values, ...)
                             data = values, 
                             quiet = TRUE)
   
-  est <- calc_estimates(simu)
+  est <- coef(simu)
   
   est <- est[rownames(est) != "deviance",]
   

@@ -90,5 +90,5 @@ predict_analyses <- function (object, newdata = NULL, fun = sum,
   }
   if (level == "no")
     return (x)
-  return (calc_estimates(x, level = level))
+  return (coef(x, level = level))
 }
