@@ -23,7 +23,7 @@ coef_matrix <- function(object, level) {
     pre <-round((est["upper"]-est["lower"]) / 2 / est["estimate"] * 100)
     pre <- abs(round(pre, 0))
     
-    return (c(est, pre, sd(x), p(x)))
+    return (c(est, pre, signif(sd(x),3), p(x)))
   }
   
   estimates<-data.frame(t(apply(object,MARGIN=2,FUN = est, level = level)))
