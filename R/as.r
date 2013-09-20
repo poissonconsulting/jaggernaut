@@ -96,3 +96,7 @@ as.jags_model.jags_analysis <- function (object, ...) {
 as.jagr_analysis.jags_analysis <- function (object, ...) {    
   return (object$analyses[[1]])
 }
+
+as.jags_mcmc.jagr_simulation <- function (object, ...) {    
+  return (object$mcmc)
+}
