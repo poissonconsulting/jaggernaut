@@ -6,7 +6,7 @@ check_jags_model <- function (model_code, monitor = NULL, select = NULL,
 
   if (is.character (model_code)) {
     if (length(model_code) != 1) {
-      stop ("model_code must be define a single model - for multiple models pass a list of jags_model objects to jags_analysis")
+      stop ("model_code must be define a single model - for multiple models use add_jags to add multiple jags_models")
     }
   } else {
     stop ("model_code must be class character")
