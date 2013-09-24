@@ -1,5 +1,5 @@
 
-predict.jagr_analysis <- function (object, parameter, data, base, level, ...) {
+predict.jagr_analysis <- function (object, parameter, data, object_data, base, level, ...) {
   
   stopifnot(is.jagr_analysis(object))
   stopifnot(is.character(parameter))
@@ -10,11 +10,11 @@ predict.jagr_analysis <- function (object, parameter, data, base, level, ...) {
   stopifnot(length(level) == 1)
   stopifnot(level == 0 || (level >= 0.75 && level <= 0.99))
   
-  emcmc <- get_derived (object, monitor=parameter, data = data)  
+  emcmc <- get_derived (object, monitor=parameter, data = data, object_data = object_data)  
   
   if (is.data.frame(base)) {
     
-    base <- get_derived (object, monitor = parameter, data = base)
+    base <- get_derived (object, monitor = parameter, data = base, object_data = object_data)
     
     base <- multiply (base, nrow(data))   
     emcmc <- (emcmc - base) / base
@@ -95,10 +95,6 @@ predict.jags_analysis <- function (object, newdata = NULL,
                                    level = "current", length_out = 50, 
                                    obs_by = NULL, split_by = NULL,
                                    unique_by = NULL, ...) {
-
-  if (!is.jags_analysis(object)) {
-    stop ("object must be a jags_analysis") 
-  }
   
   if (is.numeric(length_out)) {
     if (length(length_out)  != 1) {
@@ -112,7 +108,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
   }
 
   dataset <- data_jags(object)
-
+    
   if(!is.null(obs_by)) {
     if(!is.character(obs_by))
       stop("obs_by must be NULL or a character vector")
@@ -292,17 +288,18 @@ predict.jags_analysis <- function (object, newdata = NULL,
     }
   } 
   
-  object <- subset(object, model_number = model_number)
+  object <- subset_jags(object, model = model_number)
+  object_data <- data_jags(object)
   object <- as.jagr_analysis(object)
-  
+    
   if(!is.null(derived_code)) {
-    object$model$derived_model <- derived_code
-  } else if (is.null(object$model$derived_model)) {
+    derived_code(object) <- derived_code
+  } else if (is.null(derived_code(object))) {
     stop("derived_code is undefined")
   }  
   
   if(!is.null(random_effects)) {
-    object$model$random <- random_effects
+    random_effects(object) <- random_effects
   }
 
   if(is.character(obs_by)) {
@@ -337,21 +334,22 @@ predict.jags_analysis <- function (object, newdata = NULL,
     return (pred)
   }
     
-  do_predict <- function (newdata, object, parm, base, level, unique_by, ...) {
+  do_predict <- function (newdata, object, object_data, parm, base, level, unique_by, ...) {
     pred <- predict(object, parameter = parm, 
-                    data = newdata, base = base, level = level, ...)
+                    data = newdata, object_data = object_data, base = base, level = level, ...)
     
     pred <- do_unique_by(pred, unique_by)
     
     return (pred)
   }
-    
+        
   if (is.null(split_by)) {
-    pred <- do_predict(newdata, object, parm = parm, 
+    pred <- do_predict(newdata, object, object_data = object_data, parm = parm, 
                   base = base, level = level, unique_by = unique_by, ...)
     
   } else {
     pred <- plyr::ddply(newdata,split_by,do_predict,object = object, 
+                        object_data = object_data,
           parm = parm, base = base, level = level, unique_by = unique_by, ...)
     return (pred)
   }
