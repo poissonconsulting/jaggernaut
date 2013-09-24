@@ -32,7 +32,7 @@ summary.jagr_analysis <- function (object, level = level, ...)
   
   summ[["Dimensions"]] <- c(simulations = nsim(object),chains = nchain(object))
 
-  parm <- get_parm(object, parm = "all")
+  parm <- expand_parm(object, parm = "all")
   
   summ[["Convergence"]] <- convergence_jagr_analysis(object, parm = parm, summarise = TRUE)
 
