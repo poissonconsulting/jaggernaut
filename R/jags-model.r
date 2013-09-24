@@ -1,85 +1,4 @@
 
-check_jags_model <- function (model_code, monitor = NULL, select = NULL, 
-                        modify_data = NULL, gen_inits = NULL, 
-                        derived_code = NULL, random_effects = NULL
-) {  
-
-  if (is.character (model_code)) {
-    if (length(model_code) != 1) {
-      stop ("model_code must be define a single model - for multiple models use add_jags to add multiple jags_models")
-    }
-  } else {
-    stop ("model_code must be class character")
-  }
-  
-  if (!is.null(monitor)) {
-    if (!is.character(monitor)) {
-      stop ("monitor must be NULL or class character")
-    }
-    if (!length(monitor)) {
-      stop ("monitor must be NULL or define at least one parameter to monitor")
-    } 
-    if (any(duplicated(monitor))) {
-      stop ("parameters to monitor must be unique")
-    }
-  }
-  
-  if (!is.null(select)) {
-    if (!is.character(select)) {
-      stop ("select must be NULL or class character")
-    }
-    if (!length(select)) {
-      stop ("select must be NULL or define at least one variable to include")
-    }
-    names <- names_select(select)
-    if (any(duplicated(names))) {
-      stop ("variables to select must be unique")
-    }
-  }  
-  
-  if (!is.null(modify_data)) {
-    if (!is.function(modify_data)) {
-      stop ("modify_data must be NULL or a function")
-    }
-    args <- names(formals(modify_data))
-    if (!identical(args,c("data")) && !identical(args,c("data","analysis"))) {
-      stop ("modify_data argument(s) must be named data (and analysis)")
-    }
-  }
-  
-  if (!is.null(gen_inits)) {
-    if (!is.function(gen_inits)) {
-      stop ("gen_inits must be NULL or a function")
-    }
-    args <- names(formals(gen_inits))
-    if (!identical(args,c("data"))) {
-      stop ("gen_inits argument must be named data")
-    }
-  }
-
-  if (!is.null (derived_code)) {
-    if(!is.character(derived_code)) {
-      stop("derived_code must be a character")
-    }
-    if (length(derived_code) != 1) {
-      stop ("derived_code must be define a single model block")
-    }
-  }
-  
-  if (!is.null(random_effects)) {
-    if (!is.list(random_effects)) {
-      stop ("random_effects must be NULL or a list")
-    }
-    names <- names(random_effects)
-    if (is.null(names)) {
-      stop("random effects must be a named list")
-    }
-    if (any(duplicated(names))) {
-      stop ("random effects must be unique")
-    }
-  }
-}
-
 #' @title Create a JAGS model
 #'
 #' @description 
@@ -188,30 +107,30 @@ jags_model <- function (model_code, monitor = NULL, select = NULL,
                         modify_data = NULL, gen_inits = NULL, 
                         derived_code = NULL, random_effects = NULL) {  
   
-  check_jags_model (model_code = model_code,
-                    monitor = monitor, 
-                    select = select, 
-                    modify_data = modify_data,
-                    gen_inits = gen_inits, 
-                    derived_code = derived_code, 
-                    random_effects = random_effects)
-  
   mod<-list(
-    model = model_code,
-    monitor = monitor,
-    select = select,
-    modify_data = modify_data,
-    gen_inits = gen_inits,
-    random = random_effects,
-    derived_model = derived_code,
+    model = NULL,
+    monitor = NULL,
+    select = NULL,
+    modify_data = NULL,
+    gen_inits = NULL,
+    random = NULL,
+    derived_model = NULL,
     extract_data = NULL
-  )
+  )  
   
   object <- list(
     models = list(mod),
     nmodel = 1)
   
   class(object) <- "jags_model"
-
+  
+  model_code(object) <- model_code
+  monitor(object) <- monitor
+  select(object) <- select
+  modify_data(object) <- modify_data
+  gen_inits(object) <- gen_inits
+  random_effects(object) <- random_effects
+  derived_code(object) <- derived_code
+  
   return (object)
 }
