@@ -1,9 +1,8 @@
-\name{calc_estimates.jags_sample}
-\alias{calc_estimates.jags_sample}
+\name{calc_estimates_jags_sample}
+\alias{calc_estimates_jags_sample}
 \title{Calculate estimates}
 \usage{
-  \method{calc_estimates}{jags_sample} (object,
-    level = "current")
+  calc_estimates_jags_sample(object, level = "current")
 }
 \arguments{
   \item{object}{a data.frame or list of data.frames from

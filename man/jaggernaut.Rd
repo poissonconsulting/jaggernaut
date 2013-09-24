@@ -58,7 +58,6 @@ an <- jags_analysis (mod, dat, mode = "demo")
 
 plot(an)
 rhat(an)
-ind(an)
 coef(an)
 convergence(an)
 summary(an)

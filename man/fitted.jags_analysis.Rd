@@ -5,7 +5,7 @@
   \method{fitted}{jags_analysis} (object,
     parm = "prediction", model_number = 1,
     derived_code = NULL, random_effects = NULL,
-    level = "current", ...)
+    level = "current", data = NULL, ...)
 }
 \arguments{
   \item{object}{a jags_analysis object.}
@@ -34,6 +34,10 @@
   level should be taken from. By default the level is as
   currently specified by \code{opts_jagr} in the global
   options.}
+
+  \item{newdata}{the dataset for which to calculate the
+  residuals. By default newdata is NULL as the residuals
+  are typically calculated on the original dataset.}
 
   \item{...}{further arguments passed to or from other
   methods.}
