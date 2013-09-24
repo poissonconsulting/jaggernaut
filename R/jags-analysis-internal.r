@@ -1,5 +1,5 @@
 
-jags_analysis_internal <- function (data, file, monitor, inits, n.chain, n.adapt, n.burnin, n.sim, n.thin, quiet = F) {
+jags_analysis_internal <- function (data, file, monitor, inits, n.chain, n.adapt, n.burnin, n.sim, n.thin, quiet = FALSE) {
   stopifnot(is.null(monitor) || is.character(monitor))
   stopifnot(is.list(data))
   stopifnot(is.null(inits) || is.list(inits))
