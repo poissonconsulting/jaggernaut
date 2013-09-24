@@ -1,4 +1,3 @@
-
 jagr_analysis <- function (
   model, data, n.iter = 1000, n.chain = 3, resample = 3,
   convergence = 1.1, independence = 0,
@@ -7,9 +6,7 @@ jagr_analysis <- function (
 )
 {  
   stopifnot(is.jags_model(model))
-  
-  model <- model$models[[1]]
-  
+    
   stopifnot(n.iter >= 100)
   stopifnot(n.chain %in% 2:6)
   stopifnot(resample %in% 0:4)
@@ -20,8 +17,6 @@ jagr_analysis <- function (
   cat_convergence <- function (object) {
     cat (' (Rhat:')
     cat (rhat(object))
-#    cat (', ind:')
-#    cat (ind(object$mcmc))
     cat (')\n')
   }
   
@@ -32,25 +27,26 @@ jagr_analysis <- function (
   } else {
     options(jags.pb = "text")
   }
-
-  if(!is.null(model$monitor)) {
-    model$monitor <- sort(unique(c(model$monitor,"deviance")))
-  }
-    
-  data_analysis <- translate_data(model$select, data) 
   
-  if (is.function(model$modify_data)) {
-    if("analysis" %in% names(formals(model$modify_data))) {
-      data_analysis <- model$modify_data (data_analysis, analysis = TRUE)
+  if(!is.null(monitor(model))) {
+    monitor(model) <- sort(unique(c(monitor(model),"deviance")))
+  }
+  
+    
+  data_analysis <- translate_data(select(model), data) 
+  
+  if (is.function(modify_data(model))) {
+    if("analysis" %in% names(formals(modify_data(model)))) {
+      data_analysis <- modify_data(model)(data_analysis, analysis = TRUE)
     } else {
-      data_analysis <- model$modify_data (data_analysis)
+      data_analysis <- modify_data(model)(data_analysis)
     }
   }
     
-  if (is.function(model$gen_inits)) {
+  if (is.function(gen_inits(model))) {
     inits <- list()
     for (i in 1:n.chain) {   
-      inits[[i]] <- model$gen_inits(data_analysis)
+      inits[[i]] <- gen_inits(model)(data_analysis)
     }
   } else {
     inits <- NULL
@@ -77,10 +73,10 @@ jagr_analysis <- function (
     
       mcmc <- foreach::foreach(i = 1:n.chain, .combine = add_jags_jags_mcmc) %dopar% { 
         file <- tempfile(fileext=".bug")
-        cat(model$model, file=file)
+        cat(model_code(model), file=file)
         
         jags_analysis_internal (
-          data = data_analysis, file=file, monitor = model$monitor, 
+          data = data_analysis, file=file, monitor = monitor(model), 
           inits = inits[i], n.chain = 1, 
           n.adapt = n.adapt, n.burnin = n.burnin, n.sim = n.sim, n.thin = n.thin, 
           quiet = quiet
@@ -88,18 +84,18 @@ jagr_analysis <- function (
       }
   } else {    
     file <- tempfile(fileext=".bug")
-    cat(model$model, file=file)
+    cat(model_code(model), file=file)
         
     mcmc <- jags_analysis_internal (
-      data = data_analysis, file=file, monitor = model$monitor, 
+      data = data_analysis, file=file, monitor = monitor(model), 
       inits = inits, n.chain = n.chain, 
       n.adapt = n.adapt, n.burnin = n.burnin, n.sim = n.sim, n.thin = n.thin, 
       quiet = quiet
     )
   }
-  if(is.null(model$monitor)) {
-    model$monitor <- names(mcmc$mcmc)
-    model$monitor <- sort(model$monitor)
+  if(is.null(monitor(model))) {
+    monitor(model) <- names(mcmc$mcmc)
+    monitor(model) <- sort(monitor(model))
   }
   
   object <- list(
@@ -110,7 +106,7 @@ jagr_analysis <- function (
     time = ((proc.time () - ptm)[3]) / (60 * 60)
     )
   class(object) <- c("jagr_analysis")
-        
+    
   while (!is_converged (object, rhat = convergence) && resample > 0) 
   {
     if(!quiet) {
@@ -120,7 +116,7 @@ jagr_analysis <- function (
     
     resample <- resample - 1
         
-    object <- update_jags(object)
+    object <- update_jags(object, quiet = quiet)
   }
   
   if (is_converged (object, rhat = convergence)) {
