@@ -4,7 +4,7 @@ get_derived<- function (object, ...) {
 }
 
 get_derived.jags_mcmc <- function (object, model, monitor) {
-  stopifnot(inherits(object,"jags_mcmc"))
+
   stopifnot(is.character(model))
   stopifnot(length(model) == 1)
   stopifnot(is.character(monitor))
@@ -40,31 +40,30 @@ get_derived.jags_mcmc <- function (object, model, monitor) {
   return (mcmc)
 }
 
-get_derived.jagr_analysis <- function (object, monitor, data) {
+get_derived.jagr_analysis <- function (object, monitor, data, object_data) {
   
-  stopifnot(is.jagr_analysis(object))
   stopifnot(is.character(monitor))
   stopifnot(length(monitor) > 0)
   stopifnot(is.data.frame(data) || is_data_list(data))
 
-  dat <- translate_data(object$model$select, object$data, dat = data) 
+  dat <- translate_data(select(object), object_data, dat = data) 
   
-  if (is.function(object$model$modify_data)) {
-    if("analysis" %in% names(formals(object$model$modify_data))) {
-      dat <- object$model$modify_data (dat, analysis = FALSE)
+  if (is.function(modify_data(object))) {
+    if("analysis" %in% names(formals(modify_data(object)))) {
+      dat <- modify_data(object)(dat, analysis = FALSE)
     } else {
-      dat <- object$model$modify_data (dat)
+      dat <- modify_data(object)(dat)
     }
   }
 
-  model <- jags_model (object$model$derived_model, monitor = monitor)
+  model <- jags_model (derived_code(object), monitor = monitor)
   options(jags.pb = "none")
   file <- tempfile(fileext=".bug")
-  cat(model$model, file=file)
+  cat(model_code(model), file=file)
   
   if (is.data.frame(data)) {
-    object <- zero_random (object,data)
-  } else if (!is.null(object$model$random)) {
+    object <- zero_random (object,object_data,data)
+  } else if (!is.null(random_effects(object))) {
     message("zero random is only available when original data set is a data frame")
   }
   nchain <- nchain (object)
@@ -83,23 +82,13 @@ get_derived.jagr_analysis <- function (object, monitor, data) {
     }
   }    
   samples <- list [[1]]
-  
+    
   if (nchain > 1) {
     for (j in 2:nchain)
       samples <- add_jags (samples, list[[j]], by = "chains")
   }
+  
   mcmc <- jags_mcmc(samples, jags = list(NULL))
   
   return (mcmc)
-}
-
-get_derived.jags_analysis <- function (object, monitor, data) {
-  
-  stopifnot(is.jags_analysis(object))
-  stopifnot(nmodel(object) == 1)
-  stopifnot(is.character(monitor))
-  stopifnot(length(monitor) > 0)
-  stopifnot(is.data.frame(data) || is_data_list(data))
-    
-  return (get_derived(as.jagr_analysis(object), monitor = monitor, data = data))
 }
