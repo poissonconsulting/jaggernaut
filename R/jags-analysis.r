@@ -144,7 +144,7 @@ jags_analysis <- function (
     analyses <- foreach::foreach(i = 1:n.model) %dopar% { 
       jagr_analysis(subset_jags(models,i), data, 
                     n.iter = niter, n.chain = nchains, resample = resample,
-                    convergence = convergence, independence = 0,
+                    convergence = convergence,
                     parallelChains = parallelChains,
                     quiet = quiet, n.sim = nsims)
     }
@@ -154,7 +154,7 @@ jags_analysis <- function (
         cat(paste("\n\nModel",i,"of",n.model,"\n\n"))
       analyses[[i]] <- jagr_analysis(subset_jags(models,i), data,
                                             n.iter = niter, n.chain = nchains, resample = resample,
-                                            convergence = convergence, independence = 0,
+                                            convergence = convergence,
                                             parallelChains = parallelChains,
                                             quiet = quiet, n.sim = nsims)
     }
@@ -169,7 +169,6 @@ jags_analysis <- function (
   object <- list(data = data,
                 analyses = analyses,
                 rhat = convergence,
-                ind = 0,
                 dic = dic)
   
   class(object) <- "jags_analysis"
