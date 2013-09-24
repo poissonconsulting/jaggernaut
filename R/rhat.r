@@ -30,7 +30,7 @@ rhat.jags_mcmc <- function (object, parm = "all", combine = TRUE, ...)
   }
   
   if (combine)
-    return (max(rhat))
+    return (max(rhat, na.rm = TRUE))
   
   rhat <- data.frame(rhat = rhat, row.names = vars)
   return (rhat)
@@ -43,7 +43,7 @@ rhat.jagr_analysis <- function (object, parm = "all", combine = TRUE, ...)
   stopifnot(is_indicator(combine))
   
   parm <- expand_parm(object, parm = parm)
-  
+
   return (rhat(as.jags_mcmc(object), parm = parm, combine = combine,...))
 }
 
