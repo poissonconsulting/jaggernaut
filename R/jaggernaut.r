@@ -62,7 +62,6 @@
 #' 
 #' plot(an)
 #' rhat(an)
-#' ind(an)
 #' coef(an)
 #' convergence(an)
 #' summary(an)
