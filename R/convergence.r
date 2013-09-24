@@ -15,9 +15,8 @@ convergence <- function (object, ...) {
 
 #' @method convergence jags_mcmc
 convergence.jags_mcmc <- function (object, ...) { 
-  convergence <- c(rhat(object, parm = "all", combine = TRUE), 
-                       ind(object, parm = "all", combine = TRUE))
-  names(convergence) <- c("rhat","ind")
+  convergence <- rhat(object, parm = "all", combine = TRUE)
+  names(convergence) <- "rhat"
   return (convergence)
 }
 
