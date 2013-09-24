@@ -124,7 +124,7 @@ subset_jags.jags_analysis <- function (object, model = NULL, ...) {
   
   if(is.null(model))
     return (object)
-  
+    
   x <- object
   rm(object)
   
@@ -148,6 +148,7 @@ subset_jags.jags_analysis <- function (object, model = NULL, ...) {
     return (x)
   
   newObject <- list()
+  newObject$data <- x$data
   newObject$analyses <- list()
   if(model_number == 0) {
     newObject$analyses[[1]] <- x$analyses[[rownames(x$dic)[1]]]
@@ -157,6 +158,7 @@ subset_jags.jags_analysis <- function (object, model = NULL, ...) {
   }
   newObject$dic <- x$dic[rownames(x$dic) == paste0("Model",model_number),,drop=T]
   newObject$n.model <- 1
+  newObject$rhat <- x$rhat
   
   class(newObject) <- "jags_analysis"
   
