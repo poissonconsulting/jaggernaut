@@ -12,7 +12,7 @@ update_jags.jags_mcmc <- function (object, ...)
 
 #' @method update_jags jagr_analysis
 #' @export 
-update_jags.jagr_analysis <- function (object, quiet = F, ...)
+update_jags.jagr_analysis <- function (object, quiet = FALSE, ...)
 {  
   fun2 <- function (jags, monitor, n.sim, n.thin, quiet, recompile)
   {
@@ -40,8 +40,7 @@ update_jags.jagr_analysis <- function (object, quiet = F, ...)
   n.sim <- object$iterations
   n.thin <- max(1, floor(n.chain * n.sim / nsim(object)))
   
-  monitor <- object$model$monitor
-  
+  monitor <- monitor(object)  
   jags <- object$mcmc$jags
   
   parallel <- length(jags) > 1
@@ -143,7 +142,6 @@ update_jags.jags_simulation <- function (object, nrep = 1, values = NULL, mode =
         x <- data_jags(object$data_model,
                        value = object$values[value,,drop = FALSE])
         
-        print(x)
         object$simulated[[value]][[rep]] <- data_jags(object$data_model,
                                                       value = object$values[value,,drop = FALSE])
         
