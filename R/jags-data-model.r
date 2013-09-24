@@ -65,24 +65,11 @@
 jags_data_model <- function (model_code, monitor = NULL, select = NULL, 
                         modify_data = NULL, gen_inits = NULL) {  
   
-  check_jags_model (model_code = model_code,
+  object <- jags_model(model_code = model_code,
                     monitor = monitor, 
                     select = select, 
                     modify_data = modify_data,
-                    gen_inits = gen_inits, 
-                    derived_code = NULL, 
-                    random_effects = NULL)
-  
-  object<-list(
-    model = model_code,
-    monitor = monitor,
-    select = select,
-    modify_data = modify_data,
-    gen_inits = gen_inits,
-    random = NULL,
-    derived_model = NULL,
-    extract_data = NULL
-  )
+                    gen_inits = gen_inits)
   
   class(object) <- c("jags_data_model","jags_model")
   
