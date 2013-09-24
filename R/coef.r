@@ -130,7 +130,6 @@ coef.jagr_simulation <- function (object, parm = "all", level = "current", ...) 
 #' @return a data frame with the median estimates and credibility intervals for
 #' the derived parameter of interest
 #' @seealso \code{\link{predict.jags_analysis}}
-#' @method calc_estimates jags_sample
 #' @export 
 calc_estimates_jags_sample <- function (object, level = "current") {
   if (!inherits(object,"jags_sample"))
