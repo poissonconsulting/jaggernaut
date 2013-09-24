@@ -1,6 +1,6 @@
-context("subset.jags_analysis")
+context("subset_jags")
 
-test_that("subset.jags_analysis returns object of correct class", {
+test_that("subset_jags.jags_analysis returns object of correct class", {
   
   model <- jags_model(" model { 
                       bLambda ~ dlnorm(0,10^-2) 
@@ -39,6 +39,9 @@ test_that("subset.jags_analysis subsets", {
   expect_that(subset_jags(an, 0), is_a("jags_analysis"))
   expect_that(subset_jags(an, 1), is_a("jags_analysis"))
   expect_that(subset_jags(an, 2), is_a("jags_analysis"))
+  expect_that(nmodel(subset_jags(an, 2)), is_equivalent_to(1))
+  expect_that(nmodel(subset_jags(an, 1)), is_equivalent_to(1))
+  expect_that(nmodel(subset_jags(an, 0)), is_equivalent_to(1))
   expect_that(subset_jags(subset_jags(an)), is_a("jags_analysis"))
   expect_that(subset_jags(an, 3), throws_error())
   expect_that(subset_jags(an, - 1), throws_error())
