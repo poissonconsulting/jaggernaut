@@ -9,24 +9,24 @@ jagr_simulation <- function (model, data, quiet = FALSE)
     options(jags.pb = "text")
   }
   
-  if(!is.null(model$monitor)) {
-    model$monitor <- sort(unique(model$monitor))
+  if(!is.null(monitor(model))) {
+    monitor(model) <- sort(unique(monitor(model)))
   }
   
-  data_analysis <- translate_data(model$select, data)
+  data_analysis <- translate_data(select(model), data)
   
-  if (is.function(model$modify_data)) {
-    if("analysis" %in% names(formals(model$modify_data))) {
-      data_analysis <- model$modify_data (data_analysis, analysis = TRUE)
+  if (is.function(modify_data(model))) {
+    if("analysis" %in% names(formals(modify_data(model)))) {
+      data_analysis <- modify_data(model) (data_analysis, analysis = TRUE)
     } else {
-      data_analysis <- model$modify_data (data_analysis)
+      data_analysis <- modify_data(model) (data_analysis)
     }
   }
   data_analysis$nrow <- NULL
   
-  if (is.function(model$gen_inits)) {
+  if (is.function(gen_inits(model))) {
     inits <- list()
-    inits[[i]] <- model$gen_inits(data_analysis)
+    inits[[i]] <- gen_inits(model)(data_analysis)
   } else {
     inits <- NULL
   }
@@ -34,7 +34,7 @@ jagr_simulation <- function (model, data, quiet = FALSE)
   ptm <- proc.time()
   
   file <- tempfile(fileext=".bug")
-  cat(paste(model$model,"model { deviance <- 1}"), file=file)
+  cat(paste(model_code(model),"model { deviance <- 1}"), file=file)
   
   mcmc <- jags_analysis_internal (
     data = data_analysis, file = file, monitor = model$monitor, 
@@ -43,9 +43,9 @@ jagr_simulation <- function (model, data, quiet = FALSE)
     quiet = quiet
   )
 
-  if(is.null(model$monitor)) {
-    model$monitor <- names(mcmc$mcmc)
-    model$monitor <- sort(model$monitor)
+  if(is.null(monitor(model))) {
+    monitor(model) <- names(mcmc$mcmc)
+    monitor(model) <- sort(monitor(model))
   }
   
   object <- list(
