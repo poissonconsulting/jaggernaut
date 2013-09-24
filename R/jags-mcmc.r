@@ -13,14 +13,11 @@ update_convergence_jags_mcmc <- function (object) {
   
   if(nchain(object) > 1) {
     rhat <- numeric()
-    ind <- numeric()
     for (i in seq(along = vars)) {
       rhat[i] <- coda::gelman.diag(mcmc[,vars[i]])$psrf[1]
-      ind[i] <- coda::effectiveSize(mcmc[,vars[i]])[1] / nsim * 100
     }
   } else {
     rhat <- rep(NA,length(vars))
-    ind <- rep(NA,length(vars))
   }
   
   object$vars <- vars
@@ -33,7 +30,6 @@ update_convergence_jags_mcmc <- function (object) {
   
   object$svars <- sapply(vars,svars)
   object$rhat <- round(rhat,2)
-  object$ind <- round(ind,0)
   
   return (object)
 }
@@ -46,10 +42,9 @@ jags_mcmc <- function (mcmc, jags) {
   if(class(mcmc[[1]])!='mcarray')
     stop("mcmc should be a list of at least one mcarray object")
   
-  object <- list(mcmc = mcmc, jags = jags, vars = NA, svars = NA, rhat = NA, ind = NA)
+  object <- list(mcmc = mcmc, jags = jags, vars = NA, svars = NA, rhat = NA)
   class(object) <- "jags_mcmc"
   
   object <- update_convergence_jags_mcmc(object)
-
   return (object)
 }
