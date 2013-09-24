@@ -18,6 +18,7 @@
 #' @param level a numeric scalar specifying the significance level or a character
 #' scalar specifying which mode the level should be taken from. By default the
 #' level is as currently specified by \code{opts_jagr} in the global options.
+#' @param data the dataset for which to calculate the residuals. By default newdata is NULL as the residuals are typically calculated on the original dataset.
 #' @param ... further arguments passed to or from other methods.
 #' @return the input data frame with the median estimate and credibility intervals for the residuals
 #' @seealso \code{\link{jags_model}} and \code{\link{jags_analysis}}
@@ -26,9 +27,9 @@
 residuals.jags_analysis <- function (object, 
                                    parm = "residual", model_number = 1, 
                                    derived_code = NULL, random_effects = NULL, 
-                                   level = "current", ...) {
+                                   level = "current", data = NULL, ...) {
   
-  return (predict(object, newdata = NULL, parm = parm, model = model_number, 
+  return (predict(object, newdata = data, parm = parm, model = model_number, 
                   derived_code = derived_code, random_effects = random_effects, 
                   level = level, ...))
 }
