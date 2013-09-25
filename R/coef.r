@@ -23,12 +23,12 @@ coef_matrix <- function(object, level) {
     pre <-round((est["upper"]-est["lower"]) / 2 / est["estimate"] * 100)
     pre <- abs(round(pre, 0))
     
-    return (c(est, pre, signif(sd(x),3), p(x)))
+    return (c(est, signif(sd(x),3), pre, p(x)))
   }
   
   estimates<-data.frame(t(apply(object,MARGIN=2,FUN = est, level = level)))
   rownames(estimates)<-colnames(object)
-  colnames(estimates)<-c("estimate","lower","upper","error","sd","significance")
+  colnames(estimates)<-c("estimate","lower","upper","sd","error","significance")
   return (estimates)
 }
 
