@@ -10,7 +10,7 @@ modify_data <- function (object, ...) {
 modify_data.jags_model <- function (object, ...) {
   x <- list()
   for (i in 1:length(object$models))
-    x[i] <- object$models[[i]]$modify_data
+    x[[i]] <- object$models[[i]]$modify_data
   x <- delist(x)
   if (length(x) == 0)
     return (NULL)
