@@ -2,8 +2,7 @@
 \alias{data_jags.jags_simulation}
 \title{Get dataset(s) from a JAGS simulation}
 \usage{
-  \method{data_jags}{jags_simulation} (object, value = 1,
-    rep = 1, delist = TRUE, ...)
+  \method{data_jags}{jags_simulation} (object, ...)
 }
 \arguments{
   \item{object}{a jags_simulation object.}

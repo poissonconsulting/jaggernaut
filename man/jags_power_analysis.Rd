@@ -34,10 +34,10 @@ data {
 }
 ")
 
-model <- jags_data_model("
+model <- jags_model("
 model {
 bIntercept ~ dunif(0, 100)
- for (i in 1:ny) {
+ for (i in 1:length(y)) {
    y[i] ~ dpois(bIntercept)
  }
 }
@@ -45,7 +45,12 @@ bIntercept ~ dunif(0, 100)
 
 values <- data.frame(ny = c(10, 100), bIntercept = c(10,10))
 
-# power <- jags_power (model, data_model, values = values, nrep = 100, mode = "demo")
+power <- jags_power_analysis (model, data_model, values = values, nrep = 100, mode = "demo")
+number_of_values(power)
+number_of_replicates(power)
+number_of_iterations(power)
+rhat(power)
+rhat(power, combine = FALSE)
 }
 \references{
   Plummer M (2012) JAGS Version 3.3.0 User Manual

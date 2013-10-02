@@ -25,7 +25,7 @@
   or list of \code{jags_model}s to a data frame using JAGS
   (Plummer 2012). The resultant \code{jags_analysis} object
   can then be passed to other functions to to get the
-  \code{convergence} of particular parameters, parameter
+  \code{rhat} of particular parameters, parameter
   \code{coefficients} with credible intervals and
   \code{predict} derived parameter estimates.
 }
@@ -61,6 +61,8 @@ model {
 data <- data.frame(x = rpois(100,1))
 
 analysis <- jags_analysis (model, data, mode = "demo")
+
+analysis <- update_jags(analysis, mode = "demo")
 }
 \references{
   Plummer M (2012) JAGS Version 3.3.0 User Manual
@@ -68,8 +70,7 @@ analysis <- jags_analysis (model, data, mode = "demo")
 }
 \seealso{
   \code{\link{jags_model}}, \code{\link{opts_jagr}},
-  \code{\link{convergence_jags}},
-  \code{\link{coef.jags_analysis}},
+  \code{\link{rhat}}, \code{\link{coef.jags_analysis}},
   \code{\link{predict.jags_analysis}} and
   \code{\link{jaggernaut}}
 }

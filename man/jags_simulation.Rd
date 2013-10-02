@@ -39,13 +39,17 @@ data {
 values <- data.frame(nx = c(1,10), bIntercept = c(5,10))
 
 simulation <- jags_simulation (data_model, values, nrep = 5)
+number_of_replicates(simulation)
+number_of_values(simulation)
 
 simulation1 <- subset_jags(simulation, value = 1, rep = 1:2)
 simulation1 <- update_jags(simulation1, nrep = 2)
 
 simulation2 <- subset_jags(simulation, value = 2, rep = 1)
 
-#simulation <- add_jags(simulation1, simulation2)
+simulation <- add_jags(simulation1, simulation2)
+number_of_replicates(simulation)
+number_of_values(simulation)
 
 data_jags(simulation)
 data_jags(simulation, value = 1, rep = NULL)
