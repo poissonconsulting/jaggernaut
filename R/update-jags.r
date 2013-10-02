@@ -4,15 +4,9 @@ update_jags <- function (object, ...) {
   UseMethod("update_jags", object)
 }
 
-#' @method updated jags_mcmc
-update_jags.jags_mcmc <- function (object, ...)
-{
-
-}
-
 #' @method update_jags jagr_analysis
 #' @export 
-update_jags.jagr_analysis <- function (object, quiet = FALSE, ...)
+update_jags.jagr_analysis <- function (object, rhat, quiet = FALSE, ...)
 {  
   fun2 <- function (jags, monitor, n.sim, n.thin, quiet, recompile)
   {
@@ -68,14 +62,88 @@ update_jags.jagr_analysis <- function (object, quiet = FALSE, ...)
   object$iterations <- object$iterations * 2
   object$time <- object$time + ((proc.time () - ptm)[3]) / (60 * 60)
   
+  if (is_converged (object, rhat = rhat)) {
+    if (!quiet) {
+      cat ('Analysis converged')
+      cat_convergence (object)
+    }
+    return (object)
+  }
+  if (quiet) {
+    message ("Analysis failed to converge")
+  } else {
+    cat ('Analysis failed to converge')
+    cat_convergence (object)
+  }  
+  
   return (object)
 }
 
 #' @method update_jags jags_analysis
 #' @export 
-update_jags.jags_analysis <- function (object, quiet = F, ...)
+update_jags.jags_analysis <- function (object, mode = "current", ...)
 {
+  old_opts <- opts_jagr(mode = mode)
+  on.exit(opts_jagr(old_opts))
   
+  rhat <- opts_jagr("rhat")
+  quiet <- opts_jagr("quiet")
+  parallelChains <- opts_jagr("parallel_chains")
+  parallelModels <- opts_jagr("parallel_models")
+    
+  n.model <- number_of_models(object)
+  
+  if(n.model == 1) {
+    parallelModels <- FALSE
+  }
+  
+  if(!"basemod" %in% list.modules())
+    load.module("basemod")  
+  
+  if(!"bugs" %in% list.modules())
+    load.module("bugs")
+  
+  if(!"dic" %in% list.modules())
+    load.module("dic")
+  
+  analyses <- list()
+  if(parallelModels) {
+    
+    doMC::registerDoMC(cores=n.model)
+    
+    analyses <- foreach::foreach(i = 1:n.model) %dopar% { 
+      update_jags(object$analyses[[i]],
+                    rhat = rhat,
+                    parallelChains = parallelChains,
+                    quiet = quiet)
+    }
+  } else {
+    for (i in 1:n.model) {
+      if (!quiet)
+        cat(paste("\n\nModel",i,"of",n.model,"\n\n"))
+      analyses[[i]] <- update_jags(object$analyses[[i]],
+                                   rhat = rhat,
+                                   parallelChains = parallelChains,
+                                   quiet = quiet)
+    }
+  }
+  
+  dic <- t(sapply(analyses,DIC_jagr_analysis))
+  rownames(dic) <- paste0("Model",1:nrow(dic))
+  
+  dic <- dic[order(dic[,"DIC",drop=T]),]
+  
+  newObject <- list(data = object$data,
+                 analyses = analyses,
+                 rhat = rhat,
+                 dic = dic)
+  
+  class(newObject) <- "jags_analysis"
+  
+  newObject$derived_code <- object$derived_code
+  newObject$random_effects <- object$random_effects
+  
+  return (newObject)
 }
 
 #' @method update_jags jags_simulation
