@@ -152,17 +152,17 @@ jags_analysis <- function (
     for (i in 1:n.model) {
       if (!quiet)
         cat(paste("\n\nModel",i,"of",n.model,"\n\n"))
-      analyses[[i]] <- jagr_analysis(subset_jags(models,i), data,
-                                            n.iter = niter, n.chain = nchains, resample = resample,
-                                            convergence = convergence,
-                                            parallelChains = parallelChains,
-                                            quiet = quiet, n.sim = nsims)
+      analyses[[i]] <- jagr_analysis(subset_jags(models,i),
+                                     data,n.iter = niter, n.chain = nchains,
+                                     resample = resample, 
+                                     convergence = convergence,
+                                     parallelChains = parallelChains,
+                                    quiet = quiet, n.sim = nsims)
     }
   }
   
   dic <- t(sapply(analyses,DIC_jagr_analysis))
   rownames(dic) <- paste0("Model",1:nrow(dic))
-  names(analyses) <- rownames(dic)
   
   dic <- dic[order(dic[,"DIC",drop=T]),]
   
@@ -172,6 +172,9 @@ jags_analysis <- function (
                 dic = dic)
   
   class(object) <- "jags_analysis"
+  
+  object$derived_code <- models$derived_code
+  object$random_effects <- models$random_effects
   
   return (object)
 }
