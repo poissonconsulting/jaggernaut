@@ -18,6 +18,10 @@ nmodel <- function (object, ...) {
   UseMethod("number_of_models", object)
 }
 
+number_of_models.default <- function (object, ...) {
+  return (as.integer(1))
+}
+
 #' @title Number of models in a JAGS model
 #'
 #' @description 
