@@ -1,38 +1,4 @@
 
-predict.jagr_analysis <- function (object, parameter, data, object_data, base, level, ...) {
-  
-  stopifnot(is.jagr_analysis(object))
-  stopifnot(is.character(parameter))
-  stopifnot(length(parameter) == 1)
-  stopifnot(is.data.frame(data) || is_data_list(data))
-  stopifnot(is.null(base) || (is.data.frame(base) && is.data.frame(data)))
-  stopifnot(is.numeric(level))
-  stopifnot(length(level) == 1)
-  stopifnot(level == 0 || (level >= 0.75 && level <= 0.99))
-  
-  emcmc <- get_derived (object, monitor=parameter, data = data, object_data = object_data)  
-  
-  if (is.data.frame(base)) {
-    
-    base <- get_derived (object, monitor = parameter, data = base, object_data = object_data)
-    
-    base <- multiply (base, nrow(data))   
-    emcmc <- (emcmc - base) / base
-  }
-  
-  if(level != 0) {
-    emcmc <- coef (emcmc, parm = parameter, level = level)
-  } else {
-    emcmc <- as.data.frame(t(as.matrix (emcmc, parameter)))
-  }
-  
-  if (is.data.frame(data)) {
-    emcmc <- cbind (data,emcmc)
-    class(emcmc) <- c("data.frame","jags_sample")
-  }
-  return (emcmc)
-}
-
 #' @title JAGS analysis predictions
 #'
 #' @description
@@ -288,9 +254,8 @@ predict.jags_analysis <- function (object, newdata = NULL,
     }
   } 
   
-  object <- subset_jags(object, model = model_number)
+  object <- subset_jags(object, model_number = model_number)
   object_data <- data_jags(object)
-  object <- as.jagr_analysis(object)
     
   if(!is.null(derived_code)) {
     derived_code(object) <- derived_code
@@ -335,7 +300,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
   }
     
   do_predict <- function (newdata, object, object_data, parm, base, level, unique_by, ...) {
-    pred <- predict(object, parameter = parm, 
+    pred <- predict_internal(object, parameter = parm, 
                     data = newdata, object_data = object_data, base = base, level = level, ...)
     
     pred <- do_unique_by(pred, unique_by)
