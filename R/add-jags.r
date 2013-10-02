@@ -206,10 +206,10 @@ add_jags.jags_simulation <- function (object, object2, ..., mode = "current")
   
   object2$values <- subset(object2$values, select = colnames(object$values))
   
-  diff <- abs(object$nrep - object2$nrep)
+  diff <- abs(nrep(object) - nrep(object2))
   
   if(diff != 0) {
-    if (object$nrep > object2$nrep) {
+    if (nrep(object) > nrep(object2)) {
       object2 <- update_jags(object2, nrep = diff, mode = mode)
     } else {
       object <- update_jags(object, nrep = diff, mode = mode)
@@ -217,8 +217,7 @@ add_jags.jags_simulation <- function (object, object2, ..., mode = "current")
   }
   
   object$values <- rbind(object$values, object2$values)
-  object$nvalues <- nrow(object$values)
-  object$simulated <- c(object$simulated,object2$simulated)
+  object$data <- c(object$data,object2$data)
   
   args <- list(...)
   nargs <- length(args)
