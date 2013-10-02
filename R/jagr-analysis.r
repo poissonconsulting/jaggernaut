@@ -1,3 +1,4 @@
+
 jagr_analysis <- function (
   model, data, n.iter = 1000, n.chain = 3, resample = 3,
   convergence = 1.1, independence = 0,
@@ -6,6 +7,10 @@ jagr_analysis <- function (
 )
 {  
   stopifnot(is.jags_model(model))
+  
+  random_variables <- names(random_effects(model))
+  
+  model <- as.jagr_model(model)
     
   stopifnot(n.iter >= 100)
   stopifnot(n.chain %in% 2:6)
@@ -100,6 +105,7 @@ jagr_analysis <- function (
   
   object <- list(
     model = model, 
+    random_variables = random_variables,
     inits = inits, 
     mcmc = mcmc,
     iterations = n.iter,
