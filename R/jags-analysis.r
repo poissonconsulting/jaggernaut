@@ -7,7 +7,7 @@
 #' to a data frame using JAGS (Plummer 2012). 
 #' The resultant \code{jags_analysis} object can then be 
 #' passed to other functions to
-#' to get the \code{convergence} of particular parameters, parameter \code{coefficients}
+#' to get the \code{rhat} of particular parameters, parameter \code{coefficients}
 #' with credible intervals and \code{predict} derived parameter
 #' estimates.
 #' 
@@ -33,7 +33,7 @@
 #' @references 
 #' Plummer M (2012) JAGS Version 3.3.0 User Manual \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
 #' @seealso \code{\link{jags_model}}, \code{\link{opts_jagr}},
-#' \code{\link{convergence_jags}}, \code{\link{coef.jags_analysis}}, 
+#' \code{\link{rhat}}, \code{\link{coef.jags_analysis}}, 
 #' \code{\link{predict.jags_analysis}} 
 #' and \code{\link{jaggernaut}}
 #' @examples
@@ -49,6 +49,8 @@
 #' data <- data.frame(x = rpois(100,1))
 #' 
 #' analysis <- jags_analysis (model, data, mode = "demo")
+#' 
+#' analysis <- update_jags(analysis, mode = "demo")
 #' 
 #' @export
 jags_analysis <- function (
@@ -108,7 +110,7 @@ jags_analysis <- function (
     
   nchains <- opts_jagr("nchains")
   nsims <- opts_jagr("nsims")
-  convergence <- opts_jagr("rhat")
+  rhat <- opts_jagr("rhat")
   resample <- opts_jagr("nresample")
   quiet <- opts_jagr("quiet")
   parallelChains <- opts_jagr("parallel_chains")
@@ -144,7 +146,7 @@ jags_analysis <- function (
     analyses <- foreach::foreach(i = 1:n.model) %dopar% { 
       jagr_analysis(subset_jags(models,i), data, 
                     n.iter = niter, n.chain = nchains, resample = resample,
-                    convergence = convergence,
+                    rhat = rhat,
                     parallelChains = parallelChains,
                     quiet = quiet, n.sim = nsims)
     }
@@ -155,7 +157,7 @@ jags_analysis <- function (
       analyses[[i]] <- jagr_analysis(subset_jags(models,i),
                                      data,n.iter = niter, n.chain = nchains,
                                      resample = resample, 
-                                     convergence = convergence,
+                                     rhat = rhat,
                                      parallelChains = parallelChains,
                                     quiet = quiet, n.sim = nsims)
     }
@@ -168,7 +170,7 @@ jags_analysis <- function (
   
   object <- list(data = data,
                 analyses = analyses,
-                rhat = convergence,
+                rhat = rhat,
                 dic = dic)
   
   class(object) <- "jags_analysis"
