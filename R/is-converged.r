@@ -20,6 +20,7 @@ is_converged.jags_mcmc <- function (object, rhat, ...)
 #' @method rhat jagr_analysis
 is_converged.jagr_analysis <- function (object, rhat, ...)
 { 
+  
   return (is_converged(as.jags_mcmc(object), rhat = rhat, ...))
 }
 
@@ -32,7 +33,7 @@ is_converged.jags_analysis <- function (object, ...)
 
 #' @method rhat jags_power_analysis
 #' @export 
-is_converged.jags_power_analysis <- function (object, model = NULL, value = NULL, rep = NULL, rhat = NULL, ...)
+is_converged.jags_power_analysis <- function (object, ...)
 {
   stop("not yet implemented")
   
