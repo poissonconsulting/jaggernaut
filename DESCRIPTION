@@ -104,3 +104,6 @@ Collate:
     'predict-analyses.r'
     'derived-code.r'
     'get-base-value.r'
+    'jagr-model.r'
+    'random-variables.r'
+    'predict-internal.r'

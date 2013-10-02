@@ -34,7 +34,7 @@
   currently specified by \code{opts_jagr} in the global
   options.}
 
-  \item{newdata}{the dataset for which to calculate the
+  \item{data}{the dataset for which to calculate the
   residuals. By default newdata is NULL as the residuals
   are typically calculated on the original dataset.}
 

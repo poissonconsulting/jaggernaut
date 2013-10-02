@@ -3,7 +3,7 @@
 \title{Subset a JAGS analysis}
 \usage{
   \method{subset_jags}{jags_analysis} (object,
-    model = NULL, ...)
+    model_number = NULL, ...)
 }
 \arguments{
   \item{object}{a jags_analysis object.}

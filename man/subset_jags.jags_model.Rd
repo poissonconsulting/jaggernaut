@@ -2,14 +2,14 @@
 \alias{subset_jags.jags_model}
 \title{Subset a JAGS model}
 \usage{
-  \method{subset_jags}{jags_model} (object, model = NULL,
-    ...)
+  \method{subset_jags}{jags_model} (object,
+    model_number = NULL, ...)
 }
 \arguments{
   \item{object}{a jags_model object.}
 
-  \item{models}{an integer element indicating the model(s)
-  to select.}
+  \item{model_number}{an integer element indicating the
+  model(s) to select.}
 
   \item{...}{other arguments passed to generic function.}
 }
