@@ -33,6 +33,41 @@ print.jags_mcmc <- function (x, ...) {
   invisible(x)
 }
 
+print.jagr_model <- function (x, ...) {
+  
+  y <- x
+    
+  cat("\nmodel code:\n")
+  cat(model_code(y))
+  cat("\n")
+  
+  if(!is.null(monitor(y))) {
+    cat("\nmonitor: ")
+    print(monitor(y))
+    cat("\n")
+  } 
+  
+  if(!is.null(select(y))) {
+    cat("\nselect: ")
+    cat(select(y))   
+    cat("\n")
+  }
+  
+  if(!is.null(modify_data(y))) {
+    cat("\nmodify data:\n")
+    cat(modify_data(y))
+    cat("\n")
+  }
+  
+  if(!is.null(gen_inits(y))) {
+    cat("\ngen inits:\n")
+    print(gen_inits(y))
+    cat("\n")
+  }
+  
+  invisible(x)
+}
+
 #' @method print jags_model
 #' @export
 print.jags_model <- function (x, ...) {
@@ -43,47 +78,13 @@ print.jags_model <- function (x, ...) {
   
   for (i in 1:nmodel(x)) {
     
-    y <- subset_jags(x, model = i)
+    y <- subset_jags(x, model_number = i)
     
     cat("\nmodel number: ")
     cat(i)
     cat("\n")
     
-    cat("\nmodel code:\n")
-    cat(model_code(y))
-    cat("\n")
-    
-    if(!is.null(derived_code(y))) {
-      cat("\nderived code\n")
-      cat(derived_code(y))
-      cat("\n")
-    }
-    
-    if(!is.null(random_effects(y))) {
-      cat("\nrandom effects\n")
-      print(random_effects(y))
-    } 
-    
-    if(!is.null(select(y))) {
-      cat("\nselect\n")
-      print(select(y))   
-    }
-    
-    if(!is.null(modify_data(y))) {
-      cat("\nmodify data function\n")
-      cat(modify_data(y))
-      cat("\n")
-    }
-    
-    if(!is.null(gen_inits(y))) {
-      cat("\ngenerate initial values function\n")
-      print(gen_inits(y))   
-    }
-    
-    if(!is.null(monitor(y))) {
-      cat("\nmonitor\n")
-      print(monitor(y))
-    }   
+    print(as.jagr_model(y))
   }
   invisible(x)
 }
@@ -92,7 +93,7 @@ print.jags_model <- function (x, ...) {
 #' @export
 print.jagr_analysis <- function (x, ...) {
   
-  print(as.jags_model(x)) 
+  print(as.jagr_model(x)) 
   cat("\ninits\n")
   print(x$inits)
   cat("\niterations\n")
