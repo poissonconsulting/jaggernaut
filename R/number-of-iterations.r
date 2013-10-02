@@ -6,7 +6,7 @@
 #'   
 #' @param object a JAGS object
 #' @return an integer element indicating the number of MCMC iterations in object
-#' @aliases niter
+#' @aliases niters
 #' @seealso \code{\link{number_of_iteration.jags_analysis}} 
 #' and \code{\link{number_of_iterations.jags_power_analysis}}
 #' @export
@@ -15,7 +15,7 @@ number_of_iterations <- function (object, ...) {
 }
 
 #' @export
-niter <- function (object, ...) {
+niters <- function (object, ...) {
   UseMethod("number_of_iterations", object)
 }
 
@@ -53,9 +53,9 @@ number_of_iterations_jagr_analysis <- function (object, ...) {
 #' @export
 number_of_iterations.jags_analysis <- function (object, ...) {
   
-  niter <- lapply(object$analyses, number_of_iterations_jagr_analysis, ...)
-  niter <- delist(niter)
-  return (niter)
+  niters <- lapply(object$analyses, number_of_iterations_jagr_analysis, ...)
+  niters <- delist(niters)
+  return (niters)
 }
 
 number_of_iterations_jags_analysis <- function (object, ...) {
@@ -79,10 +79,10 @@ number_of_iterations.jags_power_analysis <- function (object, ...) {
     return (lapply(object, number_of_iterations_jags_analysis, ...))
   }
   
-  niter <- lapply(object$analyses, lapply_number_of_iterations_jags_analysis, ...)
-  niter <- delist(niter)
-  niter <- arrayicise(niter)
-  rownames(niter) <- paste0("Value",1:nrow(niter))
-  colnames(niter) <- paste0("Replicate",1:ncol(niter))
-  return (niter)
+  niters <- lapply(object$analyses, lapply_number_of_iterations_jags_analysis, ...)
+  niters <- delist(niters)
+  niters <- arrayicise(niters)
+  rownames(niters) <- paste0("Value",1:nrow(niters))
+  colnames(niters) <- paste0("Replicate",1:ncol(niters))
+  return (niters)
 }

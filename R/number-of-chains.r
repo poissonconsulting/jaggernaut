@@ -6,7 +6,7 @@
 #'   
 #' @param object a JAGS object
 #' @return an integer element indicating the number of MCMC chains in object
-#' @aliases niter
+#' @aliases nchains
 #' @seealso \code{\link{number_of_chains.jags_analysis}} 
 #' and \code{\link{number_of_chains.jags_power_analysis}}
 #' @export

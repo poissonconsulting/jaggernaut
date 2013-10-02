@@ -20,11 +20,11 @@ nsim<- function (object, ...) {
 }
 
 number_of_simulations.mcarray <- function (object) {
-  return (nchain (object) * niter(object))
+  return (nchain (object) * niters(object))
 }
 
 number_of_simulations.mcmc.list <- function (object) {
-  return (nchain (object) * niter(object))
+  return (nchain (object) * niters(object))
 }
 
 number_of_simulations.jags_mcmc <- function (object) {

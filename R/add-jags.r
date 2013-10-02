@@ -31,7 +31,7 @@ add_jags.mcarray <- function (object, object2, ..., by = "iterations") {
 
   if (!inherits (object2, "mcarray"))
     stop ("object2 should be class mcarray")
-  if (niter (object) != niter (object2))
+  if (niters (object) != niters (object2))
     stop ("object and object2 should have the same number of iterations")
   
   dimobj <- dim (object)

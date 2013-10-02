@@ -50,13 +50,13 @@ as.mcmc.list.jags_mcmc <- function (x, ...) {
       d <- dim(x$mcmc[[i]])
       vardim <- d[1:(length(d) - 2)]
       nvar <- prod(vardim)
-      niter <- d[length(d) - 1]
+      niters <- d[length(d) - 1]
       nchain <- d[length(d)]
       values <- as.vector(x$mcmc[[i]])
-      var.i <- matrix(NA, nrow = niter, ncol = nvar)
+      var.i <- matrix(NA, nrow = niters, ncol = nvar)
       for (j in 1:nvar) {
-        var.i[, j] <- values[j + (0:(niter - 1)) * nvar + 
-          (ch - 1) * niter * nvar]
+        var.i[, j] <- values[j + (0:(niters - 1)) * nvar + 
+          (ch - 1) * niters * nvar]
       }
       vnames.ch <- c(vnames.ch, coda.names(varname, vardim))
       ans.ch[[i]] <- var.i

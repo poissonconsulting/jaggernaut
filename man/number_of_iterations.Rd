@@ -1,5 +1,5 @@
 \name{number_of_iterations}
-\alias{niter}
+\alias{niters}
 \alias{number_of_iterations}
 \title{Number of MCMC iterations in a JAGS object}
 \usage{

@@ -1,5 +1,5 @@
 \name{number_of_chains}
-\alias{niter}
+\alias{nchains}
 \alias{number_of_chains}
 \title{Number of MCMC chains in a JAGS object}
 \usage{

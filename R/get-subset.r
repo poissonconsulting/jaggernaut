@@ -31,7 +31,7 @@ get_subset_jags_mcmc <- function (x, iter, chain)
     stop ("iter should be one or more")
   if (chain > nchain (x))
     stop ("chain should not exceed the number of chains in x")
-  if (iter > niter (x))
+  if (iter > niters (x))
     stop ("iter should not exceed the number of iterations in x")
   
   x$mcmc <- lapply(x$mcmc,FUN = get_subset_mcarray,iter=iter,chain=chain)
