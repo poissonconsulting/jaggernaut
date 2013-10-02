@@ -164,7 +164,8 @@ add_jags_jags_mcmc <- function (object, object2) {
 add_jags.jags_model <- function (object, object2, ...)
 {
   object$models <- c(object$models,object2$models) 
-  object$nmodel <- object$nmodel + object2$nmodel
+  object$derived_code <- c(object$derived_code,object2$derived_code) 
+  object$random_effects <- c(object$random_effects,object2$random_effects) 
   
   args <- list(...)
   nargs <- length(args)
