@@ -20,7 +20,7 @@ subset_jags <- function (object, ...) {
 #' Subset a JAGS model object.  
 #' 
 #' @param object a jags_model object.
-#' @param models an integer element indicating the model(s) to select.
+#' @param model_number an integer element indicating the model(s) to select.
 #' @param ... other arguments passed to generic function.
 #' @return the subsetted jags_analysis object
 #' @seealso \code{\link{subset_jags}} and \code{\link{jags_analysis}}
@@ -53,7 +53,9 @@ subset_jags <- function (object, ...) {
 #' 
 #' @method subset_jags jags_model
 #' @export 
-subset_jags.jags_model <- function (object, model = NULL, ...) {   
+subset_jags.jags_model <- function (object, model_number = NULL, ...) {   
+  
+  model <- model_number
   
   if(is.null(model))
     return (object)
@@ -76,7 +78,8 @@ subset_jags.jags_model <- function (object, model = NULL, ...) {
     stop("model must be less positive")  
   
   object$models <- object$models[model]
-  object$nmodel <- length(object$models)
+  object$derived_code <- object$derived_code[model]
+  object$random_effects <- object$random_effects[model]
   
   return (object)
 }
@@ -120,16 +123,13 @@ subset_jags.jags_model <- function (object, model = NULL, ...) {
 #' 
 #' @method subset_jags jags_analysis
 #' @export 
-subset_jags.jags_analysis <- function (object, model = NULL, ...) {   
-  
-  if(is.null(model))
+subset_jags.jags_analysis <- function (object, model_number = NULL, ...) {   
+    
+  if(is.null(model_number))
     return (object)
     
   x <- object
   rm(object)
-  
-  model_number <- model
-  rm(model)
   
   if (is.numeric(model_number)) {
     if (length(model_number) != 1) {
@@ -150,14 +150,19 @@ subset_jags.jags_analysis <- function (object, model = NULL, ...) {
   newObject <- list()
   newObject$data <- x$data
   newObject$analyses <- list()
-  if(model_number == 0) {
-    newObject$analyses[[1]] <- x$analyses[[rownames(x$dic)[1]]]
-    
-  } else {
-    newObject$analyses[[1]] <- x$analyses[[model_number]]
-  }
-  newObject$dic <- x$dic[rownames(x$dic) == paste0("Model",model_number),,drop=T]
-  newObject$n.model <- 1
+  newObject$derived_code <- list()
+  newObject$random_effects <- list()
+  
+  if(model_number == 0)
+    model_number <- as.integer(substr(rownames(x$dic)[1],6,8))
+
+  newObject$analyses[[1]] <- x$analyses[[model_number]]
+  newObject$derived_code[[1]] <- x$derived_code[[model_number]]
+  newObject$random_effects[[1]] <- x$random_effects[[model_number]]
+  
+  dic <- t(sapply(newObject$analyses,DIC_jagr_analysis))
+  rownames(dic) <- paste0("Model",1:nrow(dic))  
+  newObject$dic <- dic[order(dic[,"DIC",drop=T]),]    
   newObject$rhat <- x$rhat
   
   class(newObject) <- "jags_analysis"
@@ -248,7 +253,7 @@ subset_jags.jags_simulation <- function (object, value = NULL, rep = NULL, ...) 
   return (x)
 }
 
-subset_jags.jags_power_analysis <- function (object, model = NULL, value = NULL, rep = NULL, ...) {
+subset_jags.jags_power_analysis <- function (object, model_number = NULL, value = NULL, rep = NULL, ...) {
   
   if(is.null(model) & is.null(rep) & is.null(value))
     return (object)
