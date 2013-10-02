@@ -26,7 +26,7 @@ zero_random.jags_mcmc <- function (object, random) {
   return (object)
 }
 
-zero_random.jagr_analysis <- function (object, object_data, data) {
+zero_random.jagr_analysis <- function (object, object_data, data, random) {
   
   dat <- convert_data(object_data, standardise=object$model$standardise,
                       dat = data)
@@ -37,9 +37,7 @@ zero_random.jagr_analysis <- function (object, object_data, data) {
       if (!(is.factor(var) && length(va) == 1 && va == 1))
         data[[name]] <- NULL
     }
-  
-  random <- random_effects(object)
-    
+      
   for (ran in names(random))
     if (!any(random[[ran]] %in% names_data(data)))
       random[[ran]] <- NULL
@@ -49,3 +47,4 @@ zero_random.jagr_analysis <- function (object, object_data, data) {
   
   return (object)
 }
+
