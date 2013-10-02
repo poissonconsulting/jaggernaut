@@ -14,7 +14,7 @@
 #' perform the actual MCMC
 #' sampling.  The resultant \code{jags_analysis} object can then be passed
 #' to the \code{\link{plot.jags_analysis}} function to view the MCMC traces, the 
-#' \code{\link{convergence_jags}} function to check the Rhat values of individual parameters
+#' \code{\link{rhat}} function to check the Rhat values of individual parameters
 #' and the \code{\link{coef.jags_analysis}} function to get the parameter estimates with 95\%
 #' credible limits.  The \code{\link{predict.jags_analysis}} function can then be used to extract
 #' derived parameter estimates from a \code{jags_analysis} object without the need for further
@@ -44,7 +44,7 @@
 #' @name jaggernaut
 #' @aliases package-jaggernaut
 #' @seealso \code{\link{jags_model}}, \code{\link{jags_analysis}}, \code{\link{plot.jags_analysis}},
-#' \code{\link{convergence_jags}},
+#' \code{\link{rhat}},
 #' \code{\link{coef.jags_analysis}} and \code{\link{predict.jags_analysis}}.
 #' @examples
 #' 
@@ -63,7 +63,6 @@
 #' plot(an)
 #' rhat(an)
 #' coef(an)
-#' convergence(an)
 #' summary(an)
 #'  
 #' # data()  
