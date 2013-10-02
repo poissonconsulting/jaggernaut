@@ -58,7 +58,8 @@ rhat_jagr_analysis <- function (object, ...) {
 #' Get R-hat value or values for JAGS analysis
 #' 
 #' @param object a JAGS analysis
-#' @param character element
+#' @param parm a character vector indicating the parameters for which to calculate the rhat values
+#' @param combine a logical element indicating whether to return the rhat values for each parameter (combine = FALSE) or the maximum of the rhat values (combine = TRUE, i.e., the default)
 #' @param ... passed to and from other functions
 #' @return a vector, matrix or array of rhat values
 #' 
@@ -77,8 +78,7 @@ rhat_jagr_analysis <- function (object, ...) {
 #' 
 #' @method rhat jags_analysis
 #' @export 
-rhat.jags_analysis <- function (object, parm = "all", combine = TRUE, ...)
-{
+rhat.jags_analysis <- function (object, parm = "all", combine = TRUE, ...) {
   if(!is.character(parm))
     stop("parm must a character vector")
 
@@ -97,11 +97,26 @@ rhat.jags_analysis <- function (object, parm = "all", combine = TRUE, ...)
   return (rhat)
 }
 
+rhat_jags_analysis <- function (object, parm = "all", combine = TRUE, ...) {
+  stopifnot(is.jags_analysis(object))
+  return (rhat(object, parm = parm, combine = combine, ...))
+}
+
 #' @method rhat jags_power_analysis
 #' @export 
-rhat.jags_power_analysis <- function (object, model = NULL, value = NULL, rep = NULL, parm = NULL, ...)
+rhat.jags_power_analysis <- function (object, parm = "all", combine = TRUE, ...)
 {
-  stop("not yet implemented")
+  lapply_rhat_jags_analysis <- function (object, 
+                                         parm = parm, 
+                                         combine = combine, ...) {    
+    return (lapply(object, rhat_jags_analysis, 
+                   parm = parm, combine = combine, ...))
+  }
   
-  return (object)
+  rhat <- lapply(object$analyses, lapply_rhat_jags_analysis, parm = parm, combine = combine, ...)
+  rhat <- delist(rhat)
+  if(combine)
+    rhat <- arrayicise(rhat)
+  rhat <- name_object(rhat,c("Value","Replicate"))
+  return (rhat)
 }
