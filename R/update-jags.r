@@ -127,27 +127,27 @@ update_jags.jags_simulation <- function (object, nrep = 1, values = NULL, mode =
     values <- subset(values, select = colnames(object$values))
     
     newObject <- jags_simulation(data_model = object$data_model, 
-                                 nrep = object$nrep + nrep, 
+                                 nrep = nrep(object) + nrep, 
                                  values = values, 
                                  mode = "current")
   }
   
   if (nrep > 0) {
-    nvalues <- nrow(object$values)
+    nrep_object <- nrep(object)
+    nvalues <- nvalue(object)
     for (value in 1:nvalues) {
-      for (rep in (object$nrep + 1):(object$nrep + nrep)) {
+      for (rep in (nrep_object + 1):(nrep_object + nrep)) {
         if (!opts_jagr("quiet"))
-          print(paste0("Value: ",value," of ",nvalues,"  Rep: ", rep," of ",(object$nrep + nrep)))
+          print(paste0("Value: ",value," of ",nvalues,"  Rep: ", rep," of ",(nrep_object + nrep)))
         
         x <- data_jags(object$data_model,
                        value = object$values[value,,drop = FALSE])
         
-        object$simulated[[value]][[rep]] <- data_jags(object$data_model,
+        object$data[[value]][[rep]] <- data_jags(object$data_model,
                                                       value = object$values[value,,drop = FALSE])
         
       }
     }
-    object$nrep <- object$nrep + nrep
   }
   
   #  object <- object + newObject
