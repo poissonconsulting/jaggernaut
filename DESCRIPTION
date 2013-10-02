@@ -107,3 +107,5 @@ Collate:
     'jagr-model.r'
     'random-variables.r'
     'predict-internal.r'
+    'nrep.r'
+    'nvalue.r'
