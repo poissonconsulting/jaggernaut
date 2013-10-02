@@ -37,7 +37,7 @@ select = c("Volume","Girth")
   
   expect_that(is.null(monitor(model1)), is_true())
   expect_that(is.null(monitor(model2)), is_true())
-  expect_that(is.null(monitor(models)), is_true())
+  expect_that(monitor(models), is_a("list"))
   expect_that(monitor(analysis), is_a("list"))
   expect_that(length(monitor(analysis)), is_equivalent_to(2))
   expect_that(monitor(subset_jags(analysis,1)), is_identical_to(c("bGirth","bIntercept","deviance", "sVolume")))
