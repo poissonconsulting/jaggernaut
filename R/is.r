@@ -15,12 +15,20 @@ is_indicator <- function (x) {
  return (is.logical(x) & is_scalar(x) & is_defined(x)) 
 }
 
+is_named <- function (x) {
+  return (!is.null(names(x))) 
+}
+
 is.mcarray <- function (object) {
   inherits(object, "mcarray")
 }
 
 is.jags_mcmc <- function (object) {
   inherits(object, "jags_mcmc")
+}
+
+is.jagr_model <- function (object) {
+  inherits(object, "jagr_model")
 }
 
 is.jags_model <- function (object) {
