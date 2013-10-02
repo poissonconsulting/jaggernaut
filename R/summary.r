@@ -34,7 +34,7 @@ summary.jagr_analysis <- function (object, level = level, ...)
 
   parm <- expand_parm(object, parm = "all")
   
-  summ[["Convergence"]] <- convergence_jagr_analysis(object, parm = parm, summarise = TRUE)
+  summ[["Convergence"]] <- rhat(object, parm = parm, summarise = TRUE)
 
   summ[["Estimates"]] <- coef(object, parm = "fixed", level = level)
 
