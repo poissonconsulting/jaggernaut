@@ -3,6 +3,10 @@ as.jags_mcmc<- function (object, ...) {
   UseMethod("as.jags_mcmc", object)
 }
 
+as.jagr_model<- function (object, ...) {
+  UseMethod("as.jagr_model", object)
+}
+
 as.jags_model<- function (object, ...) {
   UseMethod("as.jags_model", object)
 }
@@ -81,32 +85,6 @@ as.jags_mcmc.jagr_analysis <- function (object, ...) {
   return (object$mcmc)
 }
 
-as.jags_model.jagr_analysis <- function (object, ...) {
-  return (object$model)
-}
-
-as.jags_model_jagr_analysis <- function (object, ...) {
-  stopifnot(is.jagr_analysis(object))
-  return (return (as.jags_model(object, ...)))
-}
-
-as.jagr_analysis.jags_analysis <- function (object, ...) {    
-  object <- object$analyses
-  object <- delist(object)
-  return (object)
-}
-
-as.jags_model.jags_analysis <- function (object, ...) {
-  object <- as.jagr_analysis(object, ...)
-  
-  if (is.jagr_analysis(object))
-    return (as.jags_model(object, ...))
-  
-  object <- lapply(object, as.jags_model_jagr_analysis, ...)
-  
-  return (object)
-}
-
 as.jags_mcmc.jags_analysis <- function (object, ...) {
   
   object <- as.jagr_analysis(object, ...)
@@ -121,4 +99,54 @@ as.jags_mcmc.jags_analysis <- function (object, ...) {
 
 as.jags_mcmc.jagr_simulation <- function (object, ...) {    
   return (object$mcmc)
+}
+
+as.jagr_model.jags_model <- function (object, ...) {
+  object <- object$models
+  object <- delist(object)
+  return (object)
+}
+
+as.jagr_model.jags_data_model <- function (object, ...) {
+  object <- object$models
+  object <- delist(object)
+  return (object)
+}
+
+as.jagr_model.jagr_analysis <- function (object, ...) {
+  return (object$model)
+}
+
+as.jagr_model_jagr_analysis <- function (object, ...) {
+  stopifnot(is.jagr_analysis(object))
+  return (return (as.jagr_model(object, ...)))
+}
+
+as.jagr_analysis.jags_analysis <- function (object, ...) {    
+  object <- object$analyses
+  object <- delist(object)
+  return (object)
+}
+
+as.jags_model.jags_data_model <- function (object, ...) {
+    
+  object$derived_code <- NULL
+  object$random_effects <- NULL
+  
+  class(object) <- "jags_data_model"
+  
+  return (object)
+}
+
+as.jags_model.jags_analysis <- function (object, ...) {
+  
+  model <- list()
+  
+  model$models <- lapply(object$analyses, as.jagr_model_jagr_analysis)
+  model$derived_code <- object$derived_code
+  model$random_effects <- object$random_effects
+  
+  class(model) <- "jags_model"
+  
+  return (model)
 }
