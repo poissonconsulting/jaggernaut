@@ -24,10 +24,10 @@
 #'}    
 #' ")
 #' 
-#' model <- jags_data_model("
+#' model <- jags_model("
 #' model { 
 #' bIntercept ~ dunif(0, 100)
-#'  for (i in 1:ny) { 
+#'  for (i in 1:length(y)) { 
 #'    y[i] ~ dpois(bIntercept) 
 #'  } 
 #'}    
@@ -35,7 +35,13 @@
 #'
 #' values <- data.frame(ny = c(10, 100), bIntercept = c(10,10))
 #' 
-#' # power <- jags_power (model, data_model, values = values, nrep = 100, mode = "demo")
+#' power <- jags_power_analysis (model, data_model, values = values, nrep = 100, mode = "demo")
+#' number_of_values(power)
+#' number_of_replicates(power)
+#' number_of_iterations(power)
+#' rhat(power)
+#' rhat(power, combine = FALSE)
+#' 
 #' @export
 jags_power_analysis <- function (model, data_model, values, nrep = 100, niter = 10^3, mode = "current") {
   if (!is.jags_model(model)) 
@@ -43,9 +49,6 @@ jags_power_analysis <- function (model, data_model, values, nrep = 100, niter = 
   
   if (!is.jags_data_model(data_model)) 
     stop("data_model must be class jags_data_model")
-  
-  if(!is.data.frame(values))
-    stop ("values must be a data frame")
   
   if(!is.data.frame(values))
     stop ("values must be a data frame")
@@ -81,12 +84,12 @@ jags_power_analysis <- function (model, data_model, values, nrep = 100, niter = 
   }
   nvalues <- nrow(values)
   
-  sim <- jags_simulation(data_model = data_model, 
+  simulation <- jags_simulation(data_model = data_model, 
                          values = values, 
                          nrep = 1, mode = "explore")
   
   analyses <- list()
-  convergence <- matrix(nvalues, 1)
+  rhat <- matrix(nvalues, 1)
   
   for (value in 1:nvalues) {
     analyses[[value]] <- list()
@@ -94,26 +97,21 @@ jags_power_analysis <- function (model, data_model, values, nrep = 100, niter = 
     if (!opts_jagr("quiet"))
       print(paste0("Value: ",value," of ",nvalues,"  Rep: ", rep," of ",nrep))
     
-    an <- jags_analysis(models = model, 
-                        data = data_jags(sim, rep = rep, value = value),
+    analysis <- jags_analysis(model = model, 
+                        data = data_jags(subset_jags(simulation, 
+                                         rep = rep, 
+                                         value = value))[[1]][[1]],
                         niter = niter)
     
-    analyses[[value]][[rep]] <- an
-    
-    convergence[value,rep] <- convergence(an)$convergence
+    analyses[[value]][[rep]] <- analysis    
   }
   
   object <- list(
-    model = model,
-    data_model = data_model, 
     values = values,
-    nvalues = nrow(values),
-    nrep = 1,
-    simulated = sim,
-    niter = niter,
-    analyses = analyses,
-    convergence = convergence)
+    analyses = analyses)
 
+  class(object) <- "jags_power_analysis"
+  
 #  for (rep in 2:nrep) {
 #    object <- update_jags(object, nrep = 1)
 #  }
@@ -121,7 +119,5 @@ jags_power_analysis <- function (model, data_model, values, nrep = 100, niter = 
   #   object <- calc_power(object, pars = pars)
   # 
   
-  class(object) <- "jags_power"
-
   return (object)
 }
