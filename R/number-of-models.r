@@ -49,7 +49,7 @@ nmodel <- function (object, ...) {
 #' @method number_of_models jags_model
 #' @export
 number_of_models.jags_model <- function (object, ...) {
-  return (as.integer(object$nmodel))
+  return (as.integer(length(object$models)))
 }
 
 #' @title Number of models in a JAGS analysis
