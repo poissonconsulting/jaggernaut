@@ -210,47 +210,10 @@ subset_jags.jags_simulation <- function (object, value = NULL, rep = NULL, ...) 
   if(is.null(rep) & is.null(value))
     return (object)
   
-  x <- object
-  rm(object)
+  object$data <- data_jags(object, value = value, rep = rep, delist = FALSE)
+  object$values <- object$values[value,,drop = FALSE]
   
-  if(!(is.null(value))) {
-    if(!is.numeric(value))
-      stop("value must be class integer")
-    if(length(value) == 0)
-      stop("value must at least one value")
-    if(any(is.na(value)))
-      stop("value must not contain missing values")
-    if(max(value) > x$nvalues)
-      stop("value must be less than number of values")
-    
-    value <- as.integer(value)
-    value <- sort(unique(value))
-  } else {
-    value <- 1:x$nvalues
-  }
-  
-  if(!(is.null(rep))) {
-    if(!is.numeric(rep))
-      stop("rep must be class integer")
-    if(length(rep) == 0)
-      stop("rep must at least one value")
-    if(any(is.na(rep)))
-      stop("rep must not contain missing values")
-    if(max(rep) > x$nrep)
-      stop("rep must be less than number of values")
-    
-    rep <- as.integer(rep)
-    rep <- sort(unique(rep))
-  } else {
-    rep <- 1:x$nrep
-  }
-  
-  x$simulated <- data_jags(x, value = value, rep = rep)
-  x$values <- x$values[value,,drop = FALSE]
-  x$nvalues <- nrow(x$values)
-  x$nrep <- length(rep)
-  
-  return (x)
+  return (object)
 }
 
 subset_jags.jags_power_analysis <- function (object, model_number = NULL, value = NULL, rep = NULL, ...) {
