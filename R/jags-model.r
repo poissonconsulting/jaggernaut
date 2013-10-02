@@ -106,29 +106,21 @@
 jags_model <- function (model_code, monitor = NULL, select = NULL, 
                         modify_data = NULL, gen_inits = NULL, 
                         derived_code = NULL, random_effects = NULL) {  
-  
-  mod<-list(
-    model = NULL,
-    monitor = NULL,
-    select = NULL,
-    modify_data = NULL,
-    gen_inits = NULL,
-    random = NULL,
-    derived_model = NULL,
-    extract_data = NULL
-  )  
+
+  model <- jagr_model(model_code = model_code, 
+                      monitor = monitor, 
+                      select = select,
+                      modify_data = modify_data,
+                      gen_inits = gen_inits)
   
   object <- list(
-    models = list(mod),
-    nmodel = 1)
+    models = list(model),
+    derived_code = list(NA),
+    random_effects = list(NA)
+  )
   
   class(object) <- "jags_model"
   
-  model_code(object) <- model_code
-  monitor(object) <- monitor
-  select(object) <- select
-  modify_data(object) <- modify_data
-  gen_inits(object) <- gen_inits
   random_effects(object) <- random_effects
   derived_code(object) <- derived_code
   
