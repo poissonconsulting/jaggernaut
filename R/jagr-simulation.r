@@ -1,7 +1,9 @@
 
 jagr_simulation <- function (model, data, quiet = FALSE)
 {    
-  stopifnot(is.jags_model(model))
+  stopifnot(is.jags_data_model(model))
+  
+  model <- as.jagr_model(model)
       
   if (quiet) {
     options(jags.pb = "none")
@@ -37,7 +39,7 @@ jagr_simulation <- function (model, data, quiet = FALSE)
   cat(paste(model_code(model),"model { deviance <- 1}"), file=file)
   
   mcmc <- jags_analysis_internal (
-    data = data_analysis, file = file, monitor = model$monitor, 
+    data = data_analysis, file = file, monitor = monitor(model), 
     inits = inits, n.chain = 1, 
     n.adapt = 0, n.burnin = 0, n.sim = 1, n.thin = 1, 
     quiet = quiet
