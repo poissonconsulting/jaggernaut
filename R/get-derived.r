@@ -40,12 +40,18 @@ get_derived.jags_mcmc <- function (object, model, monitor) {
   return (mcmc)
 }
 
-get_derived.jagr_analysis <- function (object, monitor, data, object_data) {
+get_derived.jags_analysis <- function (object, monitor, data, object_data) {
   
+  stopifnot(nmodel(object) == 1)
   stopifnot(is.character(monitor))
   stopifnot(length(monitor) > 0)
   stopifnot(is.data.frame(data) || is_data_list(data))
-
+  
+  derived_code <- derived_code(object)
+  random_effects <- random_effects(object)
+  
+  object <- as.jagr_analysis(object)
+  
   dat <- translate_data(select(object), object_data, dat = data) 
   
   if (is.function(modify_data(object))) {
@@ -56,16 +62,18 @@ get_derived.jagr_analysis <- function (object, monitor, data, object_data) {
     }
   }
 
-  model <- jags_model (derived_code(object), monitor = monitor)
+  model <- jags_model (derived_code, monitor = monitor)
   options(jags.pb = "none")
   file <- tempfile(fileext=".bug")
   cat(model_code(model), file=file)
   
   if (is.data.frame(data)) {
-    object <- zero_random (object,object_data,data)
-  } else if (!is.null(random_effects(object))) {
+    object <- zero_random (object,object_data,data,random = random_effects)
+  } else if (!is.null(random_effects)) {
     message("zero random is only available when original data set is a data frame")
   }
+  
+  
   nchain <- nchain (object)
   niter <- niter (object)
 
