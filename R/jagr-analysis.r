@@ -1,7 +1,7 @@
 
 jagr_analysis <- function (
   model, data, n.iter = 1000, n.chain = 3, resample = 3,
-  convergence = 1.1, independence = 0,
+  rhat = 1.1, independence = 0,
   parallelChains = .Platform$OS.type != "windows", 
   quiet = FALSE, n.sim = 1000
 )
@@ -15,15 +15,9 @@ jagr_analysis <- function (
   stopifnot(n.iter >= 100)
   stopifnot(n.chain %in% 2:6)
   stopifnot(resample %in% 0:4)
-  stopifnot(convergence >= 1.0 && convergence <= 2.0)
+  stopifnot(rhat >= 1.0 && rhat <= 2.0)
   stopifnot(independence %in% 0:100)
   stopifnot(n.sim >= 100 && n.sim <= 2000)
-  
-  cat_convergence <- function (object) {
-    cat (' (Rhat:')
-    cat (rhat(object))
-    cat (')\n')
-  }
   
   n.iter <- ceiling(max(n.iter, n.sim * 2 / n.chain))
     
@@ -113,7 +107,7 @@ jagr_analysis <- function (
     )
   class(object) <- c("jagr_analysis")
     
-  while (!is_converged (object, rhat = convergence) && resample > 0) 
+  while (!is_converged (object, rhat = rhat) && resample > 0) 
   {
     if(!quiet) {
       cat ("Resampling due to convergence failure")
@@ -122,21 +116,8 @@ jagr_analysis <- function (
     
     resample <- resample - 1
         
-    object <- update_jags(object, quiet = quiet)
+    object <- update_jags(object, rhat = rhat,  quiet = quiet)
   }
-  
-  if (is_converged (object, rhat = convergence)) {
-    if (!quiet) {
-      cat ('Analysis converged')
-      cat_convergence (object)
-    }
-    return (object)
-  }
-  if (quiet) {
-    message ("Analysis failed to converge")
-  } else {
-    cat ('Analysis failed to converge')
-    cat_convergence (object)
-  }    
+    
   return (object)
 }
