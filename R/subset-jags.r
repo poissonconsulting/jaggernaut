@@ -210,7 +210,48 @@ subset_jags.jags_simulation <- function (object, value = NULL, rep = NULL, ...) 
   if(is.null(rep) & is.null(value))
     return (object)
   
-  object$data <- data_jags(object, value = value, rep = rep, delist = FALSE)
+  if(!(is.null(value))) {
+    if(!is.numeric(value))
+      stop("value must be class integer")
+    if(length(value) == 0)
+      stop("value must at least one value")
+    if(any(is.na(value)))
+      stop("value must not contain missing values")
+    if(max(value) > nvalue(object))
+      stop("value must be less than number of values")
+    
+    value <- as.integer(value)
+    value <- sort(unique(value))
+  } else {
+    value <- 1:nvalue(object)
+  }
+  
+  if(!(is.null(rep))) {
+    if(!is.numeric(rep))
+      stop("rep must be class integer")
+    if(length(rep) == 0)
+      stop("rep must at least one value")
+    if(any(is.na(rep)))
+      stop("rep must not contain missing values")
+    if(max(rep) > nrep(object))
+      stop("rep must be less than number of replicates")
+    
+    rep <- as.integer(rep)
+    rep <- sort(unique(rep))
+  } else {
+    rep <- 1:nrep(object)
+  }
+  
+  data <- object$data[value]
+  
+  for (i in 1:length(data)) {
+    data[[i]] <- data[[i]][rep]
+    for (j in rep) {
+      data[[i]][[j]] <- data[[i]][[j]]
+    }
+  }
+
+  object$data <- data
   object$values <- object$values[value,,drop = FALSE]
   
   return (object)
