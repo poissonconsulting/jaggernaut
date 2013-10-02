@@ -68,23 +68,15 @@ values <- data.frame(nx = c(1,10), bIntercept = c(5,10))
 simulation <- jags_simulation (data_model, values, nrep = 5, mode = "test")
 
 data1 <- data_jags(simulation)
-data2 <- data_jags(simulation, value = 1, rep = NULL)
-data3 <- data_jags(simulation, value = NULL, rep = 1)
-data4 <- data_jags(simulation, value = NULL, rep = NULL)
+data2 <- data_jags(subset_jags(simulation, value = 1, rep = NULL))
+data3 <- data_jags(subset_jags(simulation, value = NULL, rep = 1))
+data4 <- data_jags(subset_jags(simulation, value = NULL, rep = NULL))
   
-  expect_that(data1, is_a("numeric"))
+  expect_that(data1, is_a("list"))
   expect_that(data2, is_a("list"))
   expect_that(data3, is_a("list"))
   expect_that(data4, is_a("list"))
   
-  expect_that(length(data1), equals(3))
-  expect_that(length(data2), equals(5))
-  expect_that(length(data3), equals(2))
-  expect_that(length(data4), equals(2))
-  
-  expect_that(names(data1), is_identical_to(c("x","y","z")))
-  expect_that(data1, is_identical_to(data2[[1]]))
-  expect_that(data1, is_identical_to(data3[[1]][[1]]))
-  expect_that(data1, is_identical_to(data4[[1]][[1]]))
+  expect_that(names(data1[[1]][[1]]), is_identical_to(c("x","y","z")))
 })
 
