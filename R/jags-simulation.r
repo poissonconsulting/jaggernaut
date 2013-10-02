@@ -91,9 +91,7 @@ jags_simulation <- function (data_model, values, nrep = 100, mode = "current") {
   object <- list(
     data_model = data_model, 
     values = values,
-    nvalues = nrow(values),
-    nrep = nrep,
-    simulated = data
+    data = data
   )
   
   class(object) <- "jags_simulation"
