@@ -25,7 +25,7 @@ print.jags_mcmc <- function (x, ...) {
   print(coef(x))
   
   cat("\nchains\n")
-  print(nchain(x))
+  print(nchains(x))
   
   cat("\nsimulations\n")
   print(nsim(x))

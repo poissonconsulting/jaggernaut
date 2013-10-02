@@ -11,7 +11,7 @@ update_convergence_jags_mcmc <- function (object) {
   
   vars <- sort(vars)
   
-  if(nchain(object) > 1) {
+  if(nchains(object) > 1) {
     rhat <- numeric()
     for (i in seq(along = vars)) {
       rhat[i] <- coda::gelman.diag(mcmc[,vars[i]])$psrf[1]

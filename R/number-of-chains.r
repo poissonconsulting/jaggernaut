@@ -15,7 +15,7 @@ number_of_chains <- function (object, ...) {
 }
 
 #' @export
-nchain <- function (object, ...) {
+nchains <- function (object, ...) {
   UseMethod("number_of_chains", object)
 }
 
@@ -29,11 +29,11 @@ number_of_chains.mcmc.list <- function (object) {
 }
 
 number_of_chains.jags_mcmc <- function (object) {
-  return (nchain (object$mcmc[[1]]))
+  return (number_of_chains (object$mcmc[[1]]))
 }
 
 number_of_chains.jagr_analysis <- function (object) {
-  return (nchain (object$mcmc))
+  return (number_of_chains (object$mcmc))
 }
 
 number_of_chains_jagr_analysis <- function (object, ...) {
@@ -53,9 +53,9 @@ number_of_chains_jagr_analysis <- function (object, ...) {
 #' @export
 number_of_chains.jags_analysis <- function (object, ...) {
   
-  nchain <- lapply(object$analyses, number_of_chains_jagr_analysis, ...)
-  nchain <- delist(nchain)
-  return (nchain)
+  nchains <- lapply(object$analyses, number_of_chains_jagr_analysis, ...)
+  nchains <- delist(nchains)
+  return (nchains)
 }
 
 number_of_chains_jags_analysis <- function (object, ...) {
@@ -80,10 +80,10 @@ number_of_chains.jags_power_analysis <- function (object, ...) {
     return (lapply(object, number_of_chains_jags_analysis, ...))
   }
   
-  nchain <- lapply(object$analyses, lapply_number_of_chains_jags_analysis, ...)
-  nchain <- delist(nchain)
-  nchain <- arrayicise(nchain)
-  rownames(nchain) <- paste0("Value",1:nrow(nchain))
-  colnames(nchain) <- paste0("Replicate",1:ncol(nchain))
-  return (nchain)
+  nchains <- lapply(object$analyses, lapply_number_of_chains_jags_analysis, ...)
+  nchains <- delist(nchains)
+  nchains <- arrayicise(nchains)
+  rownames(nchains) <- paste0("Value",1:nrow(nchains))
+  colnames(nchains) <- paste0("Replicate",1:ncol(nchains))
+  return (nchains)
 }

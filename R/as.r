@@ -42,7 +42,7 @@ as.mcmc.list.jags_mcmc <- function (x, ...) {
     stop ("x should be class jags_mcmc")
   
   ans <- list()
-  for (ch in 1:nchain(x)) {
+  for (ch in 1:nchains(x)) {
     ans.ch <- vector("list", length(x$mcmc))
     vnames.ch <- NULL
     for (i in seq(along = x$mcmc)) {
@@ -51,7 +51,7 @@ as.mcmc.list.jags_mcmc <- function (x, ...) {
       vardim <- d[1:(length(d) - 2)]
       nvar <- prod(vardim)
       niters <- d[length(d) - 1]
-      nchain <- d[length(d)]
+      nchains <- d[length(d)]
       values <- as.vector(x$mcmc[[i]])
       var.i <- matrix(NA, nrow = niters, ncol = nvar)
       for (j in 1:nvar) {

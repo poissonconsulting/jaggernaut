@@ -20,11 +20,11 @@ nsim<- function (object, ...) {
 }
 
 number_of_simulations.mcarray <- function (object) {
-  return (nchain (object) * niters(object))
+  return (nchains (object) * niters(object))
 }
 
 number_of_simulations.mcmc.list <- function (object) {
-  return (nchain (object) * niters(object))
+  return (nchains (object) * niters(object))
 }
 
 number_of_simulations.jags_mcmc <- function (object) {
@@ -52,9 +52,9 @@ number_of_simulations_jagr_analysis <- function (object, ...) {
 #' @export
 number_of_simulations.jags_analysis <- function (object, ...) {
   
-  nchain <- lapply(object$analyses, number_of_simulations_jagr_analysis, ...)
-  nchain <- delist(nchain)
-  return (nchain)
+  nsims <- lapply(object$analyses, number_of_simulations_jagr_analysis, ...)
+  nsims <- delist(nsims)
+  return (nsims)
 }
 
 number_of_simulations_jags_analysis <- function (object, ...) {

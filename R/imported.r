@@ -46,7 +46,7 @@ plot.mcmc.list <- function (x, trace = TRUE, density = TRUE, smooth = TRUE, bwf,
   oldpar <- NULL
   on.exit(par(oldpar))
   if (auto.layout) {
-    mfrow <- set.mfrow(Nchains = nchain(x), Nparms = nvar(x), 
+    mfrow <- set.mfrow(Nchains = nchains(x), Nparms = nvar(x), 
                        nplots = trace + density)
     oldpar <- par(mfrow = mfrow)
   }
