@@ -63,7 +63,7 @@ model_code.jags_analysis <- function (object, ...) {
 
 "model_code<-.jags_model" <- function (object, value, ...) {
   
-  for (i in 1:nmodel(object))
+  for (i in 1:nmodels(object))
     model_code(object$models[[i]], ...) <- value
   
   return (object)
@@ -71,7 +71,7 @@ model_code.jags_analysis <- function (object, ...) {
 
 "model_code<-.jags_data_model" <- function (object, value, ...) {
   
-  for (i in 1:nmodel(object))
+  for (i in 1:nmodels(object))
     model_code(object$models[[i]], ...) <- value
   
   return (object)

@@ -1,6 +1,6 @@
-context("nmodel")
+context("nmodels")
 
-test_that("nmodel returns object of correct class and length", {
+test_that("nmodels returns object of correct class and length", {
   
   model <- jags_model(" model { 
                       bLambda ~ dlnorm(0,10^-2) 
@@ -12,11 +12,11 @@ test_that("nmodel returns object of correct class and length", {
   data <- data.frame(x = rpois(100,1))
   analysis <- jags_analysis (model, data, mode = "test") 
   
-  expect_that(nmodel(analysis), is_a("integer"))
-  expect_that(length(nmodel(analysis)), equals(1))
+  expect_that(nmodels(analysis), is_a("integer"))
+  expect_that(length(nmodels(analysis)), equals(1))
 })
 
-test_that("nmodel returns object of correct value", {
+test_that("nmodels returns object of correct value", {
   
   mod1 <- jags_model(" model { 
     bLambda ~ dlnorm(0,10^-2) 
@@ -37,5 +37,5 @@ test_that("nmodel returns object of correct value", {
 
   an <- jags_analysis (mods, data, mode = "test") 
   
-  expect_that(nmodel(an), equals(2))
+  expect_that(nmodels(an), equals(2))
 })

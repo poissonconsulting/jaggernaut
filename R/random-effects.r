@@ -41,7 +41,7 @@ random_effects.jags_analysis <- function (object, ...) {
   if(is.null(value))
     is.na(value) <- TRUE
   
-  for (i in 1:nmodel(object))
+  for (i in 1:nmodels(object))
     object$random_effects[[i]] <- value
   
   return (object)
@@ -65,7 +65,7 @@ random_effects.jags_analysis <- function (object, ...) {
   if(is.null(value))
     is.na(value) <- TRUE
   
-  for (i in 1:nmodel(object))
+  for (i in 1:nmodels(object))
     object$random_effects[[i]] <- value
   
   return (object)

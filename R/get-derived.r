@@ -42,7 +42,7 @@ get_derived.jags_mcmc <- function (object, model, monitor) {
 
 get_derived.jags_analysis <- function (object, monitor, data, object_data) {
   
-  stopifnot(nmodel(object) == 1)
+  stopifnot(nmodels(object) == 1)
   stopifnot(is.character(monitor))
   stopifnot(length(monitor) > 0)
   stopifnot(is.data.frame(data) || is_data_list(data))

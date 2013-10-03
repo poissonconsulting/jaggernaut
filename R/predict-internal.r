@@ -2,7 +2,7 @@
 predict_internal <- function (object, parameter, data, object_data, base, level, ...) {
   
   stopifnot(is.jags_analysis(object))
-  stopifnot(nmodel(object) == 1)
+  stopifnot(nmodels(object) == 1)
   stopifnot(is.character(parameter))
   stopifnot(length(parameter) == 1)
   stopifnot(is.data.frame(data) || is_data_list(data))

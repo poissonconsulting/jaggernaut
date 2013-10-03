@@ -73,10 +73,10 @@ print.jagr_model <- function (x, ...) {
 print.jags_model <- function (x, ...) {
   
   cat("\nnumber of models: ")
-  cat(nmodel(x))
+  cat(nmodels(x))
   cat("\n")
   
-  for (i in 1:nmodel(x)) {
+  for (i in 1:nmodels(x)) {
     
     y <- subset_jags(x, model_number = i)
     

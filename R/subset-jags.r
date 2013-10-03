@@ -71,7 +71,7 @@ subset_jags.jags_model <- function (object, model_number = NULL, ...) {
   
   model <- as.integer(model)
   
-  if (max(model) > nmodel(object))
+  if (max(model) > nmodels(object))
     stop("model must be less than the number of models in object")  
   
   if (min(model) < 1)
@@ -135,8 +135,8 @@ subset_jags.jags_analysis <- function (object, model_number = NULL, ...) {
     if (length(model_number) != 1) {
       stop("model_number must be a single value")
     }
-    if (model_number < 0 || model_number > nmodel(x)) {
-      stop(paste("model_number must lie between 0 and the number of models (in this case",nmodel(x),")"))
+    if (model_number < 0 || model_number > nmodels(x)) {
+      stop(paste("model_number must lie between 0 and the number of models (in this case",nmodels(x),")"))
     }
   } else {
     stop ("model_number must be an integer")
@@ -144,7 +144,7 @@ subset_jags.jags_analysis <- function (object, model_number = NULL, ...) {
   
   model_number <- as.integer(model_number)
   
-  if (nmodel(x) == 1)
+  if (nmodels(x) == 1)
     return (x)
   
   newObject <- list()

@@ -37,7 +37,7 @@ derived_code.jags_analysis <- function (object, ...) {
   if(is.null(value))
     is.na(value) <- TRUE
     
-  for (i in 1:nmodel(object))
+  for (i in 1:nmodels(object))
     object$derived_code[[i]] <- value
   
   return (object)
@@ -57,7 +57,7 @@ derived_code.jags_analysis <- function (object, ...) {
   if(is.null(value))
     is.na(value) <- TRUE
   
-  for (i in 1:nmodel(object))
+  for (i in 1:nmodels(object))
     object$derived_code[[i]] <- value
   
   return (object)

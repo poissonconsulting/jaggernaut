@@ -14,7 +14,7 @@ number_of_models <- function (object, ...) {
 }
 
 #' @export
-nmodel <- function (object, ...) {
+nmodels <- function (object, ...) {
   UseMethod("number_of_models", object)
 }
 

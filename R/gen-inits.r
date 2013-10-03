@@ -67,7 +67,7 @@ gen_inits.jags_analysis <- function (object, ...) {
 
 "gen_inits<-.jags_model" <- function (object, value, ...) {
   
-  for (i in 1:nmodel(object))
+  for (i in 1:nmodels(object))
     gen_inits(object$models[[i]], ...) <- value
   
   return (object)
@@ -75,7 +75,7 @@ gen_inits.jags_analysis <- function (object, ...) {
 
 "gen_inits<-.jags_data_model" <- function (object, value, ...) {
   
-  for (i in 1:nmodel(object))
+  for (i in 1:nmodels(object))
     gen_inits(object$models[[i]], ...) <- value
   
   return (object)

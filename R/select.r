@@ -71,14 +71,14 @@ select.jags_analysis <- function (object, ...) {
 
 "select<-.jags_model" <- function (object, value, ...) {
   
-  for (i in 1:nmodel(object))
+  for (i in 1:nmodels(object))
     select(object$models[[i]], ...) <- value
   return (object)
 }
 
 "select<-.jags_data_model" <- function (object, value, ...) {
   
-  for (i in 1:nmodel(object))
+  for (i in 1:nmodels(object))
     select(object$models[[i]], ...) <- value
   return (object)
 }

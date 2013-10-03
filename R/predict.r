@@ -207,8 +207,8 @@ predict.jags_analysis <- function (object, newdata = NULL,
     if (length(model_number) != 1) {
       stop("model_number must be a single value")
     }
-    if (model_number < 0 || model_number > nmodel(object)) {
-      stop(paste("model_number must lie between 0 and the number of models (in this case",nmodel(object),")"))
+    if (model_number < 0 || model_number > nmodels(object)) {
+      stop(paste("model_number must lie between 0 and the number of models (in this case",nmodels(object),")"))
     }
   } else {
     stop ("model_number must be an integer")

@@ -66,7 +66,7 @@ summary.jags_analysis <- function (object, level = "current", ...)
   
   summ <- list()
     
-  for (i in 1:nmodel(object)) {
+  for (i in 1:nmodels(object)) {
     x <- subset_jags(object,model_number = i)
     x <- as.jagr_analysis(x)
     summ[[paste0("Model",i)]] <- summary(x, level = level)

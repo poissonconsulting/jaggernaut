@@ -67,7 +67,7 @@ modify_data.jags_analysis <- function (object, ...) {
 
 "modify_data<-.jags_model" <- function (object, value, ...) {
   
-  for (i in 1:nmodel(object))
+  for (i in 1:nmodels(object))
     modify_data(object$models[[i]], ...) <- value
   
   return (object)
@@ -75,7 +75,7 @@ modify_data.jags_analysis <- function (object, ...) {
 
 "modify_data<-.jags_data_model" <- function (object, value, ...) {
   
-  for (i in 1:nmodel(object))
+  for (i in 1:nmodels(object))
     modify_data(object$models[[i]], ...) <- value
   
   return (object)

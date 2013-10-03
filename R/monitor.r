@@ -69,14 +69,14 @@ monitor.jags_analysis <- function (object, ...) {
 
 "monitor<-.jags_model" <- function (object, value, ...) {
 
-  for (i in 1:nmodel(object))
+  for (i in 1:nmodels(object))
     monitor(object$models[[i]], ...) <- value
   return (object)
 }
 
 "monitor<-.jags_data_model" <- function (object, value, ...) {
   
-  for (i in 1:nmodel(object))
+  for (i in 1:nmodels(object))
     monitor(object$models[[i]], ...) <- value
   return (object)
 }
