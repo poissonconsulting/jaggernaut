@@ -217,13 +217,13 @@ subset_jags.jags_simulation <- function (object, value = NULL, rep = NULL, ...) 
       stop("value must at least one value")
     if(any(is.na(value)))
       stop("value must not contain missing values")
-    if(max(value) > nvalue(object))
+    if(max(value) > nvalues(object))
       stop("value must be less than number of values")
     
     value <- as.integer(value)
     value <- sort(unique(value))
   } else {
-    value <- 1:nvalue(object)
+    value <- 1:nvalues(object)
   }
   
   if(!(is.null(rep))) {

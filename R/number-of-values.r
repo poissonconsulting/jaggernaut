@@ -6,7 +6,7 @@
 #'   
 #' @param object a JAGS object
 #' @return an integer element indicating the number of simulation values in object
-#' @aliases nvalue
+#' @aliases nvalues
 #' @seealso \code{\link{number_of_values.jags_simulation}} and \code{\link{number_of_values.jags_power}}
 #' @export
 number_of_values <- function (object, ...) {
@@ -14,7 +14,7 @@ number_of_values <- function (object, ...) {
 }
 
 #' @export
-nvalue <- function (object, ...) {
+nvalues <- function (object, ...) {
   UseMethod("number_of_values", object)
 }
 

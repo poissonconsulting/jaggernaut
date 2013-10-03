@@ -1,6 +1,6 @@
 \name{number_of_values}
 \alias{number_of_values}
-\alias{nvalue}
+\alias{nvalues}
 \title{Number of simulation values in a JAGS object}
 \usage{
   number_of_values(object, ...)

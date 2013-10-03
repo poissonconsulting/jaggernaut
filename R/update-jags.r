@@ -202,7 +202,7 @@ update_jags.jags_simulation <- function (object, nrep = 1, values = NULL, mode =
   
   if (nrep > 0) {
     nrep_object <- nreps(object)
-    nvalues <- nvalue(object)
+    nvalues <- nvalues(object)
     for (value in 1:nvalues) {
       for (rep in (nrep_object + 1):(nrep_object + nrep)) {
         if (!opts_jagr("quiet"))
