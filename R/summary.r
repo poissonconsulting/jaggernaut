@@ -8,7 +8,7 @@ summary.mcarray <- function (object, ...) {
 
 summary.jags_mcmc <- function (object, ...) {
   cat("\nDimensions:\n")
-  dim <- c(chains = nchains(object), simulations = nsim(object))
+  dim <- c(chains = nchains(object), simulations = nsims(object))
   print(dim)
   
   for (i in seq_along(object$mcmc)) {
@@ -30,7 +30,7 @@ summary.jagr_analysis <- function (object, level = level, ...)
   
   summ[["Generation"]] <- c(iterations = object$iterations,time = round(object$time,2))
   
-  summ[["Dimensions"]] <- c(simulations = nsim(object),chains = nchains(object))
+  summ[["Dimensions"]] <- c(simulations = nsims(object),chains = nchains(object))
 
   parm <- expand_parm(object, parm = "all")
   

@@ -6,7 +6,7 @@
 #'   
 #' @param object a JAGS object
 #' @return an integer element indicating the number of MCMC simulations in object
-#' @aliases nsim
+#' @aliases nsims
 #' @seealso \code{\link{number_of_simulations.jags_analysis}} 
 #' and \code{\link{number_of_simulations.jags_power_analysis}}
 #' @export
@@ -15,7 +15,7 @@ number_of_simulations <- function (object, ...) {
 }
 
 #' @export
-nsim<- function (object, ...) {
+nsims <- function (object, ...) {
   UseMethod("number_of_simulations", object)
 }
 
@@ -78,10 +78,10 @@ number_of_simulations.jags_power_analysis <- function (object, ...) {
     return (lapply(object, number_of_simulations_jags_analysis, ...))
   }
   
-  nsim <- lapply(object$analyses, lapply_number_of_simulations_analysis, ...)
-  nsim <- delist(nsim)
-  nsim <- arrayicise(nsim)
-  rownames(nsim) <- paste0("Value",1:nrow(nsim))
-  colnames(nsim) <- paste0("Replicate",1:ncol(nsim))
-  return (nsim)
+  nsims <- lapply(object$analyses, lapply_number_of_simulations_analysis, ...)
+  nsims <- delist(nsims)
+  nsims <- arrayicise(nsims)
+  rownames(nsims) <- paste0("Value",1:nrow(nsims))
+  colnames(nsims) <- paste0("Replicate",1:ncol(nsims))
+  return (nsims)
 }

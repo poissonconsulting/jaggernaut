@@ -28,7 +28,7 @@ print.jags_mcmc <- function (x, ...) {
   print(nchains(x))
   
   cat("\nsimulations\n")
-  print(nsim(x))
+  print(nsims(x))
   
   invisible(x)
 }

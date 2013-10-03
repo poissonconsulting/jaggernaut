@@ -1,5 +1,5 @@
 \name{number_of_simulations}
-\alias{nsim}
+\alias{nsims}
 \alias{number_of_simulations}
 \title{Number of MCMC simulations in a JAGS object}
 \usage{

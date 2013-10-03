@@ -19,7 +19,7 @@ as.array.mcarray <- function (object, ...) {
     
   dim <- dim(object)
   dim <- dim[-length(dim)]
-  dim[length(dim)] <- nsim (object)
+  dim[length(dim)] <- nsims(object)
   dim(object) <- dim
   names(dim) <- NULL
   class(object)<-"array"

@@ -2,9 +2,7 @@
 update_convergence_jags_mcmc <- function (object) {
   
   stopifnot(is.jags_mcmc(object))
-  
-  nsim <- nsim(object)
-  
+    
   mcmc <- as.mcmc.list (object)
   
   vars<-coda::varnames(mcmc)

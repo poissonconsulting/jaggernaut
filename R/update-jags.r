@@ -32,7 +32,7 @@ update_jags.jagr_analysis <- function (object, rhat, quiet = FALSE, ...)
   
   n.chain <- nchains(object)
   n.sim <- object$iterations
-  n.thin <- max(1, floor(n.chain * n.sim / nsim(object)))
+  n.thin <- max(1, floor(n.chain * n.sim / nsims(object)))
   
   monitor <- monitor(object)  
   jags <- object$mcmc$jags
