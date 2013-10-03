@@ -233,13 +233,13 @@ subset_jags.jags_simulation <- function (object, value = NULL, rep = NULL, ...) 
       stop("rep must at least one value")
     if(any(is.na(rep)))
       stop("rep must not contain missing values")
-    if(max(rep) > nrep(object))
+    if(max(rep) > nreps(object))
       stop("rep must be less than number of replicates")
     
     rep <- as.integer(rep)
     rep <- sort(unique(rep))
   } else {
-    rep <- 1:nrep(object)
+    rep <- 1:nreps(object)
   }
   
   data <- object$data[value]

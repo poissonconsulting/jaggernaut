@@ -14,7 +14,7 @@ number_of_replicates <- function (object, ...) {
 }
 
 #' @export
-nrep <- function (object, ...) {
+nreps <- function (object, ...) {
   UseMethod("number_of_replicates", object)
 }
 
