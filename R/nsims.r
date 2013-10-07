@@ -57,14 +57,15 @@ nsims_jags_analysis <- function (object) {
 #' @export
 nsims.jags_power_analysis <- function (object) {
   
-  lapply_nsims_jags_analysis <- function (object) {    
-    return (lapply(object, nsims_jags_analysis))
+  lapply_nsims_jagr_power_analysis <- function (object) {    
+    return (lapply(object, nsims_jagr_power_analysis))
   }
   
-  nsims <- lapply(object$analyses, lapply_nsims_analysis)
-  nsims <- delist(nsims)
+  analyses <- analyses(object)
+  
+  nsims <- lapply(analyses, lapply_nsims_jagr_power_analysis)
+  
   nsims <- arrayicise(nsims)
-  rownames(nsims) <- paste0("value",1:nrow(nsims))
-  colnames(nsims) <- paste0("replicate",1:ncol(nsims))
+  nsims <- name_object(t(nsims),c("replicate","value"))
   return (nsims)
 }

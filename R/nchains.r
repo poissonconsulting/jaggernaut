@@ -30,7 +30,7 @@ nchains.jagr_power_analysis <- function (object) {
 }
 
 nchains_jagr_power_analysis <- function (object) {
-  stopifnot(is.jagr_analysis(object))
+  stopifnot(is.jagr_power_analysis(object))
   return (nchains (object))
 }
 
@@ -55,14 +55,17 @@ nchains_jags_analysis <- function (object) {
 #' @export
 nchains.jags_power_analysis <- function (object) {
   
-  lapply_nchains_jags_analysis <- function (object) {    
-    return (lapply(object, nchains_jags_analysis))
+  lapply_nchains_jagr_power_analysis <- function (object) {    
+    return (lapply(object, nchains_jagr_power_analysis))
   }
   
-  nchains <- lapply(object$analyses, lapply_nchains_jags_analysis)
-  nchains <- delist(nchains)
+  analyses <- analyses(object)
+  
+  nchains <- lapply(analyses, lapply_nchains_jagr_power_analysis)
+  
   nchains <- arrayicise(nchains)
-  rownames(nchains) <- paste0("value",1:nrow(nchains))
-  colnames(nchains) <- paste0("replicate",1:ncol(nchains))
-  return (nchains)
+  
+  stopifnot(all(nchains == nchains[1,1]))
+  
+  return (nchains[1,1])
 }

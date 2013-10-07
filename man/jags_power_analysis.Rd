@@ -54,9 +54,10 @@ power <- jags_power_analysis (model = model, data_model = data_model,
                              values = values, nreps = 10, mode = "demo")
 nvalues(power)
 nreps(power)
+nchains(power)
 niters(power)
+nsims(power)
 rhat(power)
-rhat(power, combine = FALSE)
 }
 \references{
   Plummer M (2012) JAGS Version 3.3.0 User Manual

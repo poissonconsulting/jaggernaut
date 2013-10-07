@@ -12,7 +12,6 @@ rhat <- function (object, ...) {
   UseMethod("rhat", object)
 }
 
-#' @method rhat jagr_chains
 rhat.jagr_chains <- function (object, parm = "all", combine = TRUE, ...)
 { 
   stopifnot(is.character(parm) && is_length(parm) && is_defined(parm))
@@ -35,7 +34,29 @@ rhat.jagr_chains <- function (object, parm = "all", combine = TRUE, ...)
   return (rhat)
 }
 
-rhat.jagr_power_analysis <- function (object, parm = "all", combine = TRUE, ...) {
+rhat.jagr_power_analysis <- function (object, model, parm = "all", combine = TRUE, ...) {
+  
+  stopifnot(is.jagr_analysis_model(model))
+  stopifnot(!is.jagr_analysis(model))
+  stopifnot(is.character(parm) && is_length(parm) && is_defined(parm))
+  stopifnot(is_indicator(combine))
+  
+  monitor(model) <- monitor(object)
+  
+  object <- c(model,object)
+  
+  class(object) <- c("jagr_analysis","jagr_analysis_model",
+                     "jagr_model","jagr_power_analysis")
+    
+  return (rhat(object, parm = parm, combine = combine,...))
+}
+
+rhat_jagr_power_analysis <- function (object, model, parm = "all", combine = TRUE, ...) {
+  stopifnot(is.jagr_power_analysis(object))
+  return (rhat(object, model = model, parm = parm, combine = combine, ...))
+}
+
+rhat.jagr_analysis <- function (object, parm = "all", combine = TRUE, ...) {
   stopifnot(is.character(parm) && is_length(parm) && is_defined(parm))
   stopifnot(is_indicator(combine))
   
@@ -44,23 +65,9 @@ rhat.jagr_power_analysis <- function (object, parm = "all", combine = TRUE, ...)
   return (rhat(as.jagr_chains(object), parm = parm, combine = combine,...))
 }
 
-rhat_jagr_power_analysis <- function (object, ...) {
-  stopifnot(is.jagr_power_analysis(object))
-  return (rhat(object, ...))
-}
-
-rhat.jagr_power_analysis <- function (object, parm = "all", combine = TRUE, ...) {
-  stopifnot(is.character(parm) && is_length(parm) && is_defined(parm))
-  stopifnot(is_indicator(combine))
-  
-  parm <- expand_parm(object, parm = parm)
-
-  return (rhat(as.jagr_chains(object), parm = parm, combine = combine,...))
-}
-
-rhat_jagr_power_analysis <- function (object, ...) {
-  stopifnot(is.jagr_power_analysis(object))
-  return (rhat(object, ...))
+rhat_jagr_analysis <- function (object, parm = "all", combine = TRUE...) {
+  stopifnot(is.jagr_analysis(object))
+  return (rhat(object, parm = parm, combine = combine, ...))
 }
 
 #' @method rhat jags_analysis
@@ -78,26 +85,36 @@ rhat.jags_analysis <- function (object, parm = "all", combine = TRUE, ...) {
   if(!is_indicator(combine))
     stop("combine must be TRUE or FALSE")
   
-  rhat <- lapply(object$analyses, FUN = rhat_jagr_power_analysis, parm = parm, combine = combine)
+  if(is_one_model(object))
+    return (rhat(analysis(object), 
+                 parm = parm, 
+                 combine = combine, ...))
   
-  rhat <- delist (rhat)
-  return (rhat)
+  analyses <- analyses(object)
+  analyses <- lapply(analyses, 
+                     rhat_jagr_analysis, 
+                     parm = parm, 
+                     combine = combine, ...)  
+  analyses <- name_object(analyses, "model")
+  return (models) 
 }
 
 #' @method rhat jags_power_analysis
 #' @export 
 rhat.jags_power_analysis <- function (object, parm = "all", combine = TRUE, ...)
 {
-  lapply_rhat_jagr_power_analysis <- function (object, 
-                                         parm = parm, 
-                                         combine = combine, ...) {    
+  lapply_rhat_jagr_power_analysis <- function (object, model,
+                                         parm, combine, ...) {    
     return (lapply(object, rhat_jagr_power_analysis, 
-                   parm = parm, combine = combine, ...))
+                   model = model, parm = parm, 
+                   combine = combine, ...))
   }
-  
+        
   analyses <- analyses(object)
-  
-  rhat <- lapply(analyses, lapply_rhat_jagr_power_analysis, parm = parm, combine = combine, ...)
+    
+  rhat <- lapply(analyses, lapply_rhat_jagr_power_analysis, 
+                 model = model(model(object)), parm = parm, 
+                 combine = combine, ...)
 
   if(combine) {
     rhat <- arrayicise(rhat)

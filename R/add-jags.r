@@ -79,7 +79,6 @@ add_jags.mcarray <- function (object, object2, ..., by = "sims") {
   return (object)
 }
 
-#' @method add_jags list
 add_jags.list <- function (object, object2, ..., by = "sims") {
  
   for (i in seq(along = object))
@@ -95,7 +94,6 @@ add_jags.list <- function (object, object2, ..., by = "sims") {
   return (object)
 }
 
-#' @method add_jags jagr_chains
 add_jags.jagr_chains <- function (object, object2, ...) {
   
   object$jags <- c(object$jags, object2$jags)

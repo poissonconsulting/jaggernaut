@@ -3,14 +3,13 @@ expand_parm <- function (object, ...) {
   UseMethod("expand_parm", object)
 }
 
-expand_parm.jagr_analysis_model <- function (object, parm = "all", ...) {
+expand_parm.jagr_analysis <- function (object, parm = "all", ...) {
 
-  stopifnot(is.jagr_analysis_model(object))
   stopifnot(is.character(parm) && is_length(parm) && is_defined(parm))
     
   parm <- sort(unique(parm))
   
-  pars <- monitor(object)
+  pars <- monitor(chains(object))
   
   if("all" %in% parm || all(c("fixed","random") %in% parm))
     return (pars)

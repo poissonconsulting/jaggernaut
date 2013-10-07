@@ -177,7 +177,27 @@ update_jags.jags_simulation <- function (object, nreps, values = NULL, mode = "c
 
 #' @method update_jags jags_power_analysis
 #' @export 
-update_jags.jags_power_analysis <- function (object, quiet = F, ...)
-{
+update_jags.jags_power_analysis <- function (object, nreps = NULL, values = NULL, mode = "current", ...) {
+  
+  old_opts <- opts_jagr(mode = mode)
+  on.exit(opts_jagr(old_opts))
+  
+  quiet <- opts_jagr("quiet")
+  
+  if(!is.null(nreps) || !is.null(values)) {
+    
+    if(!quiet)
+      cat("\nupdating data\n")
+    
+    class(object) <- c("jags_simulation")
+    
+    object <- update_jags(object, nreps = nreps, values = values, ...)
+    
+    class(object) <- c("jags_power_analysis","jags_simulation")
+  }
+  
+  
+  
+  
   
 }

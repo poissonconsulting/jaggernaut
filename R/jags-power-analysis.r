@@ -41,9 +41,10 @@
 #'                              values = values, nreps = 10, mode = "demo")
 #' nvalues(power)
 #' nreps(power)
+#' nchains(power)
 #' niters(power)
+#' nsims(power)
 #' rhat(power)
-#' rhat(power, combine = FALSE)
 #' 
 #' @export
 jags_power_analysis <- function (model, data_model, values, nreps = 100, niters = 10^3, mode = "current") {

@@ -122,6 +122,5 @@ Collate:
     'modify-data-derived.r'
     'inherits.r'
     'analysis.r'
-    'analysis_model.r'
     'data-model.r'
     'values.r'
