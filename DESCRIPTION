@@ -1,7 +1,7 @@
 Package: jaggernaut
 Type: Package
 Title: A package to facilitate Bayesian analyses using JAGS.
-Version: 1.1.0-alpha
+Version: 1.1.0.1
 Date: 2013-10-07
 Author: Joe Thorley <joe@poissonconsulting.ca>
 Maintainer: Joe Thorley <joe@poissonconsulting.ca>
