@@ -3,15 +3,20 @@
 \title{Perform a JAGS simulation}
 \usage{
   jags_power_analysis(model, data_model, values,
-    nrep = 100, niter = 10^3, mode = "current")
+    nreps = 100, niters = 10^3, mode = "current")
 }
 \arguments{
+  \item{model}{a \code{jags_model}.}
+
   \item{data_model}{a \code{jags_data_model}.}
 
-  \item{nrep}{an integer element indicating the number of
+  \item{values}{a data.frame of input values.}
+
+  \item{nreps}{an integer element indicating the number of
   datasets to generate for each set of input values.}
 
-  \item{values}{a data.frame of input values.}
+  \item{niters}{an integer element indicating the number of
+  iterations.}
 
   \item{mode}{a character element indicating the mode for
   the analysis.}
@@ -45,10 +50,11 @@ bIntercept ~ dunif(0, 100)
 
 values <- data.frame(ny = c(10, 100), bIntercept = c(10,10))
 
-power <- jags_power_analysis (model, data_model, values = values, nrep = 100, mode = "demo")
-number_of_values(power)
-number_of_replicates(power)
-number_of_iterations(power)
+power <- jags_power_analysis (model = model, data_model = data_model,
+                             values = values, nreps = 10, mode = "demo")
+nvalues(power)
+nreps(power)
+niters(power)
 rhat(power)
 rhat(power, combine = FALSE)
 }

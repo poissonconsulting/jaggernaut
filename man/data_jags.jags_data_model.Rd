@@ -13,27 +13,11 @@
   \item{...}{other arguments passed to generic function.}
 }
 \value{
-  the simulated dataset in list form.
+  the simulated dataset in list form (unless modified by
+  extract_data function).
 }
 \description{
   Simulates a dataset from a JAGS data model.
-}
-\examples{
-data_model <- jags_data_model("
-data {
- for (i in 1:nx) {
-   x[i] ~ dpois(bIntercept)
-   for (j in 1:nx) {
-     y[i,j] ~ dpois(bIntercept)
-   }
- }
- z <- bIntercept
-}
-")
-
-values <- data.frame(nx = 10, bIntercept = 5)
-
-data_jags(data_model, values)
 }
 \seealso{
   \code{\link{data_jags}} and \code{\link{jags_data_model}}

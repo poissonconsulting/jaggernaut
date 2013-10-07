@@ -1,8 +1,7 @@
 
 arrayicise <- function (object) {
-
-  if (!is.list(object))
-    return (object)
+  
+  stopifnot(is.list(object))
   
   values <- unlist(object)
   
@@ -12,7 +11,7 @@ arrayicise <- function (object) {
     dim <- c(dim,length(object))
     object <- object[[1]]    
   }
-  stopifnot(cumprod(dim) == length(values)) 
+  stopifnot(prod(dim) == length(values)) 
   
   array <- array(values, dim = dim)
   return (array)

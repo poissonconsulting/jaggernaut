@@ -14,6 +14,74 @@ subset_jags <- function (object, ...) {
   UseMethod("subset_jags", object)
 }
 
+subset_jags.mcarray <- function (object, sim = NULL, chain = NULL, ...) {
+
+  if(is.null(sim) & is.null(chain))
+    return (object)
+  
+  if(!(is.null(sim))) {
+    if(!is.numeric(sim))
+      stop("sim must be class integer")
+    if(length(sim) == 0)
+      stop("sim must at least one value")
+    if(any(is.na(sim)))
+      stop("sim must not contain missing values")
+    if(max(sim) > nsims(object) /nchains(object))
+      stop("sim must not exceed the number of MCMC simulations per chain")
+    
+    sim <- as.integer(sim)
+    sim <- sort(unique(sim))
+  } else {
+    sim <- 1:(nsims(object)/nchains(object))
+  }
+  
+  if(!(is.null(chain))) {
+    if(!is.numeric(chain))
+      stop("chain must be class integer")
+    if(length(chain) == 0)
+      stop("chain must at least one value")
+    if(any(is.na(chain)))
+      stop("chain must not contain missing values")
+    if(max(chain) > nchains(object))
+      stop("chain must not exceed the number of chains")
+    
+    chain <- as.integer(chain)
+    chain <- sort(unique(chain))
+  } else {
+    chain <- 1:nchains(object)
+  }
+  
+  ndim <- length (dim(object))
+  dnames <- dimnames(dim(object))
+  
+  commas <- paste0(rep(',',ndim - 2),collapse = "")   
+  sim <- paste0("c(",paste0(sim,collapse = ","),")")
+  chain <- paste0("c(",paste0(chain,collapse = ","),")")
+  cmd <- paste0('object<-object[', commas ,sim, ',' ,chain, ',drop=F]')
+  eval(parse(text = cmd))
+  
+  dimnames(object) <- dnames
+  class(object) <- 'mcarray'
+  
+  return (object)
+}
+
+subset_jags_mcarray <- function (object, sim = NULL, chain = NULL, ...) {
+  stopifnot(is.mcarray(object))
+  return (subset_jags(object, sim = sim, chain = chain, ...))
+}
+  
+subset_jags.jagr_chains <- function (object, sim = NULL, chain = NULL) {
+
+  object$mcmc <- lapply(object$mcmc, FUN = subset_jags_mcarray, sim=sim, chain=chain)
+  
+  object$jags <- object$jags[chain]
+  
+  object <- revise(object)
+  
+  return (object)
+}
+
 #' @title Subset a JAGS model
 #'
 #' @description
@@ -24,62 +92,29 @@ subset_jags <- function (object, ...) {
 #' @param ... other arguments passed to generic function.
 #' @return the subsetted jags_analysis object
 #' @seealso \code{\link{subset_jags}} and \code{\link{jags_analysis}}
-#' @examples
-#' model1 <- jags_model("
-#' model { 
-#'  bLambda ~ dlnorm(0, 10^-2) 
-#'  for (i in 1:nrow) { 
-#'    x[i]~dpois(bLambda) 
-#'  } 
-#'}")
-#'
-#' model2 <- jags_model("
-#' model { 
-#'  bLambda ~ dnorm(0, 10^-2) 
-#'  sLambda ~ dunif(0, 5)
-#'  for (i in 1:nrow) { 
-#'    x[i] ~ dnorm(bLambda, sLambda^-2) 
-#'  } 
-#'}")
-#'
-#' models <- add_jags(model1, model2, model1)
-#' data <- data.frame(x = rpois(100,10))
-#' 
-#' analysis <- jags_analysis (models, data, mode = "demo")
-#' 
-#' summary(analysis)
-#' summary(subset_jags(analysis))
-#' summary(subset_jags(analysis, model_number = 2))
-#' 
 #' @method subset_jags jags_model
 #' @export 
-subset_jags.jags_model <- function (object, model_number = NULL, ...) {   
+subset_jags.jags_model <- function (object, model_number, ...) {   
   
-  model <- model_number
-  
-  if(is.null(model))
-    return (object)
-  
-  if (!is.numeric(model)) 
-    stop("model must be an integer vector")
+  if (!is.numeric(model_number)) 
+    stop("model_number must be an integer vector")
 
-  if (length(model) == 0)
-    stop("model must have at least one value")
-
-  if (any(is.na(model)))
-    stop("model must not include missing values")
+  model_number <- na.omit(model_number)
   
-  model <- as.integer(model)
+  if (length(model_number) == 0)
+    stop("model_number must have at least one non-missing value")
   
-  if (max(model) > nmodels(object))
+  model_number <- as.integer(model_number)
+  
+  if (max(model_number) > nmodels(object))
     stop("model must be less than the number of models in object")  
   
-  if (min(model) < 1)
-    stop("model must be less positive")  
+  if (min(model_number) < 1)
+    stop("model must be positive")  
   
-  object$models <- object$models[model]
-  object$derived_code <- object$derived_code[model]
-  object$random_effects <- object$random_effects[model]
+  models <- models(object)
+  models <- models[model_number] 
+  models(object) <- models
   
   return (object)
 }
@@ -90,37 +125,10 @@ subset_jags.jags_model <- function (object, model_number = NULL, ...) {
 #' Subset a JAGS analysis object.  
 #' 
 #' @param object a jags_analysis object.
-#' @param model_number an integer element indicating the model to select.
+#' @param model_number an integer element indicating the model(s) to select.
 #' @param ... other arguments passed to generic function.
 #' @return the subsetted jags_analysis object
-#' @seealso \code{\link{subset_jags}} and \code{\link{jags_analysis}}
-#' @examples
-#' model1 <- jags_model("
-#' model { 
-#'  bLambda ~ dlnorm(0, 10^-2) 
-#'  for (i in 1:nrow) { 
-#'    x[i]~dpois(bLambda) 
-#'  } 
-#'}")
-#'
-#' model2 <- jags_model("
-#' model { 
-#'  bLambda ~ dnorm(0, 10^-2) 
-#'  sLambda ~ dunif(0, 5)
-#'  for (i in 1:nrow) { 
-#'    x[i] ~ dnorm(bLambda, sLambda^-2) 
-#'  } 
-#'}")
-#'
-#' models <- add_jags(model1, model2, model1)
-#' data <- data.frame(x = rpois(100,10))
-#' 
-#' analysis <- jags_analysis (models, data, mode = "demo")
-#' 
-#' summary(analysis)
-#' summary(subset_jags(analysis))
-#' summary(subset_jags(analysis, model_number = 2))
-#' 
+#' @seealso \code{\link{subset_jags}} and \code{\link{jags_analysis}} 
 #' @method subset_jags jags_analysis
 #' @export 
 subset_jags.jags_analysis <- function (object, model_number = NULL, ...) {   
@@ -150,15 +158,11 @@ subset_jags.jags_analysis <- function (object, model_number = NULL, ...) {
   newObject <- list()
   newObject$data <- x$data
   newObject$analyses <- list()
-  newObject$derived_code <- list()
-  newObject$random_effects <- list()
   
   if(model_number == 0)
     model_number <- as.integer(substr(rownames(x$dic)[1],6,8))
 
   newObject$analyses[[1]] <- x$analyses[[model_number]]
-  newObject$derived_code[[1]] <- x$derived_code[[model_number]]
-  newObject$random_effects[[1]] <- x$random_effects[[model_number]]
   
   dic <- t(sapply(newObject$analyses,DIC_jagr_analysis))
   rownames(dic) <- paste0("Model",1:nrow(dic))  
@@ -181,32 +185,9 @@ subset_jags.jags_analysis <- function (object, model_number = NULL, ...) {
 #' @param ... other arguments passed to generic function.
 #' @return the subsetted JAGS simulation object.
 #' @seealso \code{\link{subset_jags}} and \code{\link{jags_simulation}}
-#' #' @examples
-#' 
-#' data_model <- jags_data_model("
-#' data { 
-#'  for (i in 1:nx) { 
-#'    x[i] ~ dpois(bIntercept) 
-#'    for (j in 1:nx) {
-#'      y[i,j] ~ dpois(bIntercept) 
-#'    }
-#'  } 
-#'  z <- bIntercept
-#'}    
-#' ")
-#'
-#' values <- data.frame(nx = c(1,10), bIntercept = c(5,10))
-#' 
-#' simulation <- jags_simulation (data_model, values, nrep = 5, mode = "test")
-#' 
-#' subset_jags(simulation)
-#' subset_jags(simulation, value = 1, rep = NULL)
-#' subset_jags(simulation, value = NULL, rep = 1)
-#' subset_jags(simulation, value = 1, rep = 1)
 #' @method subset_jags jags_simulation
 #' @export 
 subset_jags.jags_simulation <- function (object, value = NULL, rep = NULL, ...) {   
-
   if(is.null(rep) & is.null(value))
     return (object)
   
@@ -242,17 +223,14 @@ subset_jags.jags_simulation <- function (object, value = NULL, rep = NULL, ...) 
     rep <- 1:nreps(object)
   }
   
-  data <- object$data[value]
+  values(object) <- values(object)[value,,drop = FALSE]
   
-  for (i in 1:length(data)) {
+  data <- data_jags(object)[value]
+  
+  for (i in 1:length(data))
     data[[i]] <- data[[i]][rep]
-    for (j in rep) {
-      data[[i]][[j]] <- data[[i]][[j]]
-    }
-  }
 
-  object$data <- data
-  object$values <- object$values[value,,drop = FALSE]
+  data_jags(object) <- data
   
   return (object)
 }

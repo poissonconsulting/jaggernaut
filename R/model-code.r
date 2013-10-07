@@ -1,12 +1,16 @@
 
+#' @export
 model_code <- function (object, ...) {
   UseMethod("model_code", object)
 }
 
+#' @export
 "model_code<-" <- function (object, value, ...) {
   UseMethod("model_code<-", object)
 }
 
+#' @method model_code jagr_model
+#' @export
 model_code.jagr_model <- function (object, ...) {
   return (object$model_code)
 }
@@ -16,21 +20,17 @@ model_code_jagr_model <- function (object, ...) {
   return (model_code(object, ...))
 }
 
+#' @method model_code jags_model
+#' @export
 model_code.jags_model <- function (object, ...) {
   
-  object <- as.jagr_model(object)
+  if(is_one_model(object))
+    return (model_code(model(object),...))
   
-  if(is.jagr_model(object))
-    return (model_code(object, ...))
-  
-  object <- lapply(object, model_code_jagr_model, ...)
-  
-  object <- delist(object)
-  return (object)  
-}
-
-model_code.jags_data_model <- function (object, ...) {
-  return (model_code(as.jags_model(object), ...))
+  models <- models(object)
+  models <- lapply(models, model_code_jagr_model, ...)
+  models <- name_object(models, "Model")
+  return (models)  
 }
 
 model_code.jagr_analysis <- function (object, ...) {
@@ -42,10 +42,14 @@ model_code_jagr_analysis <- function (object, ...) {
   return (model_code(object, ...))
 }
 
+#' @method model_code jags_analysis
+#' @export
 model_code.jags_analysis <- function (object, ...) {
   return (model_code(as.jags_model(object), ...))
 }
 
+#' @method model_code<- jagr_model
+#' @export
 "model_code<-.jagr_model" <- function (object, value, ...) {
   
   if (is.character (value)) {
@@ -61,18 +65,30 @@ model_code.jags_analysis <- function (object, ...) {
   return (object)
 }
 
+#' @method model_code<- jags_model
+#' @export
 "model_code<-.jags_model" <- function (object, value, ...) {
   
-  for (i in 1:nmodels(object))
-    model_code(object$models[[i]], ...) <- value
+  if(is.list(value) && length(value) != nmodels(object))
+    stop("if value is a list it must be the same length as the number of models in object")
   
+  if(is.list(value))
+    names(value) <- NULL
+  
+  models <- models(object)
+  
+  for (i in 1:length(models)) {
+    if(!is.list(value)) {
+      model_code(models[[i]]) <- value
+    } else
+      model_code(models[[i]]) <- value[[i]]
+  }
+  
+  models(object) <- models
   return (object)
 }
 
-"model_code<-.jags_data_model" <- function (object, value, ...) {
-  
-  for (i in 1:nmodels(object))
-    model_code(object$models[[i]], ...) <- value
-  
-  return (object)
-}
+#' @method model_code<- jagr_analysis
+#' @export
+"model_code<-.jagr_analysis" <- function (object, value, ...)
+  stop("cannot replace model code in a jagr_analysis object")

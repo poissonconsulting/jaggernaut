@@ -1,0 +1,18 @@
+\name{niters}
+\alias{niters}
+\title{Number of MCMC iterations used to generate a JAGS object}
+\usage{
+  niters(object)
+}
+\arguments{
+  \item{object}{a JAGS object}
+}
+\value{
+  an integer element indicating the number of MCMC
+  iterations used to generate object
+}
+\description{
+  Gets the number of MCMC iterations used to generate a
+  JAGS object
+}
+

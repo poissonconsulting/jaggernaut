@@ -3,7 +3,8 @@
 \title{Create a JAGS data model}
 \usage{
   jags_data_model(model_code, monitor = NULL,
-    select = NULL, modify_data = NULL, gen_inits = NULL)
+    select = NULL, modify_data = NULL, gen_inits = NULL,
+    extract_data = NULL)
 }
 \arguments{
   \item{model_code}{a character element defining the model
@@ -85,6 +86,18 @@
   argument which expects a function that takes the list of
   data and returns a list of the initial values - the
   function is called once for the single chain.
+}
+\examples{
+model <- jags_data_model("
+data {
+ bLambda ~ dunif(3,6)
+ for (i in 1:nx) {
+  x[i]~dpois(bLambda)
+ }
+}")
+
+values <- data.frame(nx = 10)
+data_jags(model, values)
 }
 \references{
   Plummer M (2012) JAGS Version 3.3.0 User Manual

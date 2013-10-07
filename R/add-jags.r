@@ -8,14 +8,12 @@
 #' @param object2 a second JAGS object to add to object.
 #' @param ... additional JAGS objects to add to object.
 #' @return a JAGS object of the original class
-#' @seealso \code{\link{add_jags.jags_model}}, \code{\link{add_jags.jags_analysis}}, \code{\link{add_jags.jags_simulation}} and \code{\link{add_jags.jags_power_analysis}}
 #' @export
 add_jags <- function (object, object2, ...) {
   UseMethod("add_jags", object)
 }
 
-#' @method add_jags mcarray
-add_jags.mcarray <- function (object, object2, ..., by = "iterations") {
+add_jags.mcarray <- function (object, object2, ..., by = "sims") {
   
   if(!inherits(by,"character"))
     stop("by must be class character")
@@ -24,15 +22,15 @@ add_jags.mcarray <- function (object, object2, ..., by = "iterations") {
   if(is.na(by))
     stop("by must not be a missing value")
   
-  if(!by %in% c("iterations","chains"))
-    stop("by must be 'iterations' or 'chains'")
+  if(!by %in% c("sims","chains"))
+    stop("by must be 'sims' or 'chains'")
   
   if(by == "chains") {
 
   if (!inherits (object2, "mcarray"))
     stop ("object2 should be class mcarray")
-  if (niters (object) != niters (object2))
-    stop ("object and object2 should have the same number of iterations")
+  if (nsims (object) / nchains(object) != nsims(object2) / nchains(object2))
+    stop ("object and object2 should have the same number of sims")
   
   dimobj <- dim (object)
   dimobject2 <- dim (object2)
@@ -47,7 +45,7 @@ add_jags.mcarray <- function (object, object2, ..., by = "iterations") {
   
   names(dim(object)) <- dnames
   class(object)<-"mcarray"
-  } else if(by == "iterations") {
+  } else if(by == "sims") {
     
     if (!inherits (object, "mcarray"))
       stop ("object should be class mcarray")
@@ -61,7 +59,7 @@ add_jags.mcarray <- function (object, object2, ..., by = "iterations") {
     dnames <- names(dim (object))
     
     if (!identical(dimobj[-(length(dimobj)-1)],dimiter[-(length(dimiter)-1)]))
-      stop ("object and object2 should have the same dimensions (except iterations)")
+      stop ("object and object2 should have the same dimensions (except sims)")
     
     class(object)<-"array"
     class(object2)<-"array"
@@ -82,7 +80,7 @@ add_jags.mcarray <- function (object, object2, ..., by = "iterations") {
 }
 
 #' @method add_jags list
-add_jags.list <- function (object, object2, ..., by = "iterations") {
+add_jags.list <- function (object, object2, ..., by = "sims") {
  
   for (i in seq(along = object))
     object[[i]] <- add_jags(object[[i]], object2[[i]], by = by)
@@ -97,14 +95,14 @@ add_jags.list <- function (object, object2, ..., by = "iterations") {
   return (object)
 }
 
-#' @method add_jags jags_mcmc
-add_jags.jags_mcmc <- function (object, object2, ...) {
+#' @method add_jags jagr_chains
+add_jags.jagr_chains <- function (object, object2, ...) {
   
   object$jags <- c(object$jags, object2$jags)
   
   object$mcmc <- add_jags (object$mcmc, object2$mcmc, by = "chains")
   
-  object <- update_convergence_jags_mcmc(object)
+  object <- revise(object)
   
   args <- list(...)
   nargs <- length(args)
@@ -116,56 +114,16 @@ add_jags.jags_mcmc <- function (object, object2, ...) {
   return (object)
 }
 
-add_jags_jags_mcmc <- function (object, object2) {
-  
-  if(!is.jags_mcmc(object))
-    stop("object must be class jags_mcmc")
-
-  if(!is.jags_mcmc(object2))
-    stop("object2 must be class jags_mcmc")
-  
+add_jags_jagr_chains <- function (object, object2) {
+  stopifnot(is.jagr_chains(object))
   return (add_jags(object, object2))
-  
-  return (object)
 }
 
-#' @title Add JAGS models
-#'
-#' @description
-#' Adds two or more JAGS models.  
-#' 
-#' @param object a jags_model.
-#' @param object2 a second jags_model.
-#' @param ... additional jags_models to add to object.
-#' @return a jags_model object
-#' @seealso \code{\link{add_jags}} and \code{\link{jags_model}}
-#' @examples
-#' model1 <- jags_model("
-#' model { 
-#'  bLambda ~ dlnorm(0, 10^-2) 
-#'  for (i in 1:nrow) { 
-#'    x[i]~dpois(bLambda) 
-#'  } 
-#'}")
-#'
-#' model2 <- jags_model("
-#' model { 
-#'  bLambda ~ dnorm(0, 10^-2) 
-#'  sLambda ~ dunif(0, 5)
-#'  for (i in 1:nrow) { 
-#'    x[i] ~ dnorm(bLambda, sLambda^-2) 
-#'  } 
-#'}")
-#'
-#' models <- add_jags(model1, model2)
-#' number_of_models(models)
 #' @method add_jags jags_model
 #' @export 
 add_jags.jags_model <- function (object, object2, ...)
 {
   object$models <- c(object$models,object2$models) 
-  object$derived_code <- c(object$derived_code,object2$derived_code) 
-  object$random_effects <- c(object$random_effects,object2$random_effects) 
   
   args <- list(...)
   nargs <- length(args)
@@ -174,50 +132,41 @@ add_jags.jags_model <- function (object, object2, ...)
       object <- add_jags(object, args[[i]])
     }
   }
-  return (object)
-}
-
-#' @method add_jags jags_analysis
-#' @export 
-add_jags.jags_analysis <- function (object, object2, ..., mode = "current")
-{
-  stop("not yet implemented")
   return (object)
 }
     
 #' @method add_jags jags_simulation
 #' @export 
-add_jags.jags_simulation <- function (object, object2, ..., mode = "current")
-{
-  if(!is.jags_simulation(object))
-    stop("object should be of class jags_simulation")
+add_jags.jags_simulation <- function (object, object2, mode = "current", ...) {
 
   if(!is.jags_simulation(object2))
     stop("object2 should be of class jags_simulation")
   
-  if(!identical(object$data_model,object2$data_model))
+  if(!identical(data_model(object),data_model(object2)))
     stop("objects must have identical data_models")
-  
-  if(any(!colnames(object$values) %in% colnames(object2$values)))
-    stop("objects must have values with the same names")
-  
-  if(any(!colnames(object2$values) %in% colnames(object$values)))
-    stop("objects must have values with the same names")
-  
-  object2$values <- subset(object2$values, select = colnames(object$values))
-  
-  diff <- abs(nreps(object) - nreps(object2))
-  
-  if(diff != 0) {
+    
     if (nreps(object) > nreps(object2)) {
-      object2 <- update_jags(object2, nrep = diff, mode = mode)
-    } else {
-      object <- update_jags(object, nrep = diff, mode = mode)
+      object2 <- update_jags(object2, 
+                             nreps = nreps(object) - nreps(object2), 
+                             mode = mode)
     }
-  }
+    if (nreps(object2) > nreps(object))
+      object <- update_jags(object, 
+                             nreps = nreps(object2) - nreps(object), 
+                             mode = mode)
   
-  object$values <- rbind(object$values, object2$values)
-  object$data <- c(object$data,object2$data)
+  values(object) <- rbind(values(object), values(object2))
+
+  data <- data_jags(object)
+  data2 <- data_jags(object2)
+  
+  len_data <- length(data)
+  
+  for (i in 1:length(data2)) {
+    data[[i + len_data]] <- data2[[i]]
+  }
+
+  data_jags(object) <- data
   
   args <- list(...)
   nargs <- length(args)
@@ -226,13 +175,5 @@ add_jags.jags_simulation <- function (object, object2, ..., mode = "current")
       object <- add_jags(object, args[[i]])
     }
   }
-  return (object)
-}
-
-#' @method add_jags jags_power_analysis
-#' @export 
-add_jags.jags_power_analysis <- function (object, object2, ..., mode = "current")
-{
-  stop("not yet implemented")
   return (object)
 }

@@ -1,34 +1,35 @@
 
 #' @export
-is_converged <- function (object, ...) {
+is_converged <- function (object, ...)
   UseMethod("is_converged", object)
+
+is_converged.jagr_chains <- function (object, rhat_threshold, ...) {
+  stopifnot(is_scalar(rhat_threshold))
+  rhat(object, parm = "all", combine = TRUE) <= rhat_threshold
 }
 
-#' @method rhat jags_mcmc
-is_converged.jags_mcmc <- function (object, rhat, ...)
-{ 
-  stopifnot(is.numeric(rhat))
-  stopifnot(is_scalar(rhat))
-  stopifnot(is_defined(rhat))
-  
-  if(rhat < 1.0 || rhat > 2.0)
-    stop("rhat must be between 1.0 and 2.0")
-  
-  return (rhat(object) <= rhat)
-}
+is_converged.jagr_power_analysis <- function (object, rhat_threshold, ...)
+  is_converged(as.jagr_chains(object), rhat_threshold = rhat_threshold, ...)
 
-#' @method rhat jagr_analysis
-is_converged.jagr_analysis <- function (object, rhat, ...)
-{ 
-  
-  return (is_converged(as.jags_mcmc(object), rhat = rhat, ...))
+is_converged_jagr_power_analysis <- function (object, rhat_threshold, ...) {
+  stopifnot(is.jagr_power_analysis(object))
+  is_converged(object, rhat_threshold = rhat_threshold, ...)
 }
 
 #' @method rhat jags_analysis
 #' @export 
-is_converged.jags_analysis <- function (object, ...)
-{
-  return (sapply(object$analyses, is_converged, rhat = object$rhat))
+is_converged.jags_analysis <- function (object, ...) {
+  rhat_threshold <- rhat_threshold(object)
+  
+  if(is_one_model(object))
+    return (is_converged(analysis(object), rhat_threshold = rhat_threshold, ...))
+  
+  analyses <- analyses(object)
+  analyses <- sapply(analyses, is_converged_jagr_power_analysis,  
+                     rhat_threshold = rhat_threshold, ...)
+  analyses <- name_object(analyses, "Model")
+  
+  return (analyses)  
 }
 
 #' @method rhat jags_power_analysis

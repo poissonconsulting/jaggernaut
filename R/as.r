@@ -1,35 +1,63 @@
 
-as.jags_mcmc<- function (object, ...) {
-  UseMethod("as.jags_mcmc", object)
+as.jagr_chains<- function (x, ...) {
+  UseMethod("as.jagr_chains", x)
 }
 
-as.jagr_model<- function (object, ...) {
-  UseMethod("as.jagr_model", object)
+as.jagr_model<- function (x, ...) {
+  UseMethod("as.jagr_model", x)
 }
 
-as.jags_model<- function (object, ...) {
-  UseMethod("as.jags_model", object)
+#' @export
+as.jags_data_model<- function (x, ...) {
+  UseMethod("as.jags_data_model", x)
 }
 
-as.jagr_analysis<- function (object, ...) {
-  UseMethod("as.jagr_analysis", object)
+as.jagr_analysis_model<- function (x, ...) {
+  UseMethod("as.jagr_analysis_model", x)
 }
 
-as.array.mcarray <- function (object, ...) {
-    
-  dim <- dim(object)
+#' @export
+as.jags_model <- function (x, ...) {
+  UseMethod("as.jags_model", x)
+}
+
+as.jagr_power_analysis <- function (x, ...) {
+  UseMethod("as.jagr_power_analysis", x)
+}
+
+#' @export
+as.jags_simulation <- function (x, ...) {
+  UseMethod("as.jags_simulation", x)
+}
+
+as.array.mcarray <- function (x, ...) {
+
+  dim <- dim(x)
   dim <- dim[-length(dim)]
-  dim[length(dim)] <- nsims(object)
-  dim(object) <- dim
+  dim[length(dim)] <- nsims(x)
+  dim(x) <- dim
   names(dim) <- NULL
-  class(object)<-"array"
-  object<-drop(object)
+  class(x)<-"array"
+  x<-drop(x)
 
-  return (object)
+  return (x)
 }
 
-as.list.jags_mcmc <- function (object, ...) {  
-  mcmc <- object$mcmc
+as.matrix.jagr_chains <- function (x, parm = "all", ...) {
+  mat <- as.matrix(as.mcmc.list(x, ...), ...)
+  
+  if (identical(parm,"all"))
+    return (mat)
+  
+  return (mat[,x$svars %in% parm,drop=F])
+}
+
+as.data.frame.jagr_chains <- function (x, ...) {
+  return (as.data.frame(as.matrix(x, ...), ...))
+}
+
+as.list.jagr_chains <- function (x, ...) {  
+  mcmc <- x$mcmc
   list <- list()
   for (name in names(mcmc))
     list[[name]] <- as.array(mcmc[[name]])
@@ -37,9 +65,7 @@ as.list.jags_mcmc <- function (object, ...) {
   return (list)
 }
 
-as.mcmc.list.jags_mcmc <- function (x, ...) {
-  if (!inherits (x,"jags_mcmc"))
-    stop ("x should be class jags_mcmc")
+as.mcmc.list.jagr_chains <- function (x, ...) {
   
   ans <- list()
   for (ch in 1:nchains(x)) {
@@ -68,85 +94,107 @@ as.mcmc.list.jags_mcmc <- function (x, ...) {
   return (coda::mcmc.list(ans))
 }
 
-as.matrix.jags_mcmc <- function (x, parm = "all", ...) {
-  mat <- as.matrix(as.mcmc.list(x, ...), ...)
-  
-  if (identical(parm,"all"))
-    return (mat)
-  
-  return (mat[,x$svars %in% parm,drop=F])
+as.jagr_chains.jagr_power_analysis <- function (x, ...) {
+  return (chains(x))
 }
 
-as.data.frame.jags_mcmc <- function (x, ...) {
-  return (as.data.frame(as.matrix(x, ...), ...))
+as.jagr_model.jags_data_model <- function (x, ...) {
+  
+  x$extract_data <- NULL
+  
+  class(x) <- "jagr_model"
+  return (return (model))
 }
 
-as.jags_mcmc.jagr_analysis <- function (object, ...) {
-  return (object$mcmc)
+as.jagr_model.jagr_analysis_model <- function (x, ...) {
+  
+  x$modify_data_derived <- NULL
+  x$derived_code <- NULL
+  x$random_effects <- NULL
+  
+  class(x) <- "jagr_model"
+  return (x)
 }
 
-as.jags_mcmc.jags_analysis <- function (object, ...) {
+as.jagr_model.jagr_analysis <- function (x, ...) {
   
-  object <- as.jagr_analysis(object, ...)
+  x <- as.jagr_analysis_model(x, ...)
   
-  if (is.jagr_analysis(object))
-    return (as.jags_mcmc(object, ...))
-  
-  object <- lapply(object, as.jags_mcmc, ...)
-  
-  return (object)
+  return (as.jagr_model(x, ...))
 }
 
-as.jags_mcmc.jagr_simulation <- function (object, ...) {    
-  return (object$mcmc)
+as.jags_data_model.jags_simulation <- function (x, ...) {
+  return (data_model(x))
 }
 
-as.jagr_model.jags_model <- function (object, ...) {
-  object <- object$models
-  object <- delist(object)
-  return (object)
-}
-
-as.jagr_model.jags_data_model <- function (object, ...) {
-  object <- object$models
-  object <- delist(object)
-  return (object)
-}
-
-as.jagr_model.jagr_analysis <- function (object, ...) {
-  return (object$model)
-}
-
-as.jagr_model_jagr_analysis <- function (object, ...) {
-  stopifnot(is.jagr_analysis(object))
-  return (return (as.jagr_model(object, ...)))
-}
-
-as.jagr_analysis.jags_analysis <- function (object, ...) {    
-  object <- object$analyses
-  object <- delist(object)
-  return (object)
-}
-
-as.jags_model.jags_data_model <- function (object, ...) {
-    
-  object$derived_code <- NULL
-  object$random_effects <- NULL
+as.jagr_analysis_model.jagr_analysis<- function (x, ...) {
   
-  class(object) <- "jags_data_model"
+  x$init_values <- NULL
+  x$chains <- NULL
+  x$niters <- NULL
+  x$time_interval <- NULL
   
-  return (object)
+  class(x) <- c("jagr_analysis_model","jagr_model")
+  
+  return (x)
 }
 
-as.jags_model.jags_analysis <- function (object, ...) {
+as.jagr_analysis_model_jagr_analysis <- function (x, ...) {
+  stopifnot(is.jagr_analysis(x))
+  return (as.jagr_analysis_model(x, ...))
+}
+
+#' @method as.jags_model jags_analysis
+#' @export
+as.jags_model.jags_analysis <- function (x, ...) {
+  analyses <- analyses(x)
   
-  model <- list()
+  models <- lapply(analyses, as.jagr_analysis_model_jagr_analysis, ...)
   
-  model$models <- lapply(object$analyses, as.jagr_model_jagr_analysis)
-  model$derived_code <- object$derived_code
-  model$random_effects <- object$random_effects
+  x <- list()
+  class(x) <- "jags_model"
   
-  class(model) <- "jags_model"
+  models(x) <- models
   
-  return (model)
+  return (x)
+}
+
+#' @method as.jags_model jags_analysis
+#' @export
+as.jags_model.jags_power_analysis <- function (x, ...) {
+  analysis_model <- analysis_model(x)
+  
+  object <- list()
+  class(object) <- "jags_model"
+  models(object) <- as.list(analysis_model)
+  
+  return(object)
+}
+
+as.jagr_power_analysis.jagr_analysis <- function (x, ...) {
+
+  x$model_code <- NULL
+  x$monitor <- NULL
+  x$select <- NULL
+  x$modify_data <- NULL
+  x$gen_inits <- NULL
+  x$modify_data_derived <- NULL
+  x$derived_code <- NULL
+  x$random_effects <- NULL
+  
+  class(x) <- c("jagr_power_analysis")
+  
+  return (x)
+}
+
+as.jags_simulation.jags_power_analysis <- function (x, ...) {
+  
+  x$analysis_model <- NULL
+  x$analyses <- NULL
+  x$rhat_threshold <- NULL
+  x$power <- NULL
+  
+  class(x) <- c("jags_simulation")
+  
+  return (x)
 }

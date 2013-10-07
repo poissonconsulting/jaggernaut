@@ -22,30 +22,8 @@
 \description{
   Subset a JAGS simulation object.
 }
-\examples{
-data_model <- jags_data_model("
-data {
- for (i in 1:nx) {
-   x[i] ~ dpois(bIntercept)
-   for (j in 1:nx) {
-     y[i,j] ~ dpois(bIntercept)
-   }
- }
- z <- bIntercept
-}
-")
-
-values <- data.frame(nx = c(1,10), bIntercept = c(5,10))
-
-simulation <- jags_simulation (data_model, values, nrep = 5, mode = "test")
-
-subset_jags(simulation)
-subset_jags(simulation, value = 1, rep = NULL)
-subset_jags(simulation, value = NULL, rep = 1)
-subset_jags(simulation, value = 1, rep = 1)
-}
 \seealso{
   \code{\link{subset_jags}} and
-  \code{\link{jags_simulation}} #'
+  \code{\link{jags_simulation}}
 }
 

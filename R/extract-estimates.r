@@ -1,19 +1,27 @@
 
-extract_estimates <- function (est) {
+extract_estimates <- function (object, ...) {
+  UseMethod("extract_estimates", object)
+}
+
+extract_estimates.jagr_chains <- function (object, ...) {
   
-  stopifnot(inherits(est, "data.frame"))
-    
+  est <- coef(object)
+      
   ss <- strsplit(rownames(est),"\\[|,|]")
   ss <- lapply(ss,function (x) return (x[x != ""]))
   
   pars <- sapply(ss,function (x) return (x[1]))
   ndims <- sapply(ss,function (x) return (length(x)-1))
+
   
   df <- data.frame(pars,ndims)
   df <- unique(df)
   df <- df[order(df$pars),]
 
   estimates <- list()
+  estimates$estimate <- list()
+  estimates$lower <- list()
+  estimates$upper <- list()
   
   for (i in 1:nrow(df)) {
     par <- as.character(df$pars[i])

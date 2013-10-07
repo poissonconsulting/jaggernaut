@@ -2,7 +2,7 @@
 \alias{jags_analysis}
 \title{Perform a JAGS analysis}
 \usage{
-  jags_analysis(model, data, niter = 10^3,
+  jags_analysis(model, data, niters = 10^3,
     mode = "current")
 }
 \arguments{
@@ -11,7 +11,7 @@
 
   \item{data}{the data.frame or list of data to analyse.}
 
-  \item{niter}{an integer element of the number of
+  \item{niters}{an integer element of the number of
   iterations to run per MCMC chain.}
 
   \item{mode}{a character element indicating the mode for
@@ -39,13 +39,13 @@
   \code{opts_jagr()} otherwise the \code{mode} argument
   specifies the analysis mode for that particular analysis.
 
-  The \code{niter} argument specifies the total number of
+  The \code{niters} argument specifies the total number of
   iterations including adaptive and burn in periods for
   each chain. The only exceptions are when the analysis is
-  in debug mode in which case \code{niter} is set to be 100
-  or if \code{niter} is less than \code{nsims * 2 / nchain}
-  (where nsims is set by the mode) in which case
-  \code{niter} is set to be \code{nsims * 2 / nchain} so
+  in debug mode in which case \code{niters} is set to be
+  100 or if \code{niters} is less than \code{nsims * 2 /
+  nchain} (where nsims is set by the mode) in which case
+  \code{niters} is set to be \code{nsims * 2 / nchain} so
   that \code{nsims} can be drawn from the second halves of
   the chains.
 }
@@ -53,7 +53,7 @@
 model <- jags_model("
 model {
  bLambda ~ dlnorm(0,10^-2)
- for (i in 1:nrow) {
+ for (i in 1:length(x)) {
    x[i]~dpois(bLambda)
  }
 }")
@@ -63,6 +63,10 @@ data <- data.frame(x = rpois(100,1))
 analysis <- jags_analysis (model, data, mode = "demo")
 
 analysis <- update_jags(analysis, mode = "demo")
+
+nchains(analysis)
+nsims(analysis)
+rhat(analysis)
 }
 \references{
   Plummer M (2012) JAGS Version 3.3.0 User Manual

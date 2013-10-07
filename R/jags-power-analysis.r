@@ -6,9 +6,11 @@
 #' \code{jags_data_model} and a data frame of values  
 #' to generate a simulation data frame using JAGS (Plummer 2012). 
 #' 
+#' @param model a \code{jags_model}.
 #' @param data_model a \code{jags_data_model}.
-#' @param nrep an integer element indicating the number of datasets to generate for each set of input values.
 #' @param values a data.frame of input values.
+#' @param nreps an integer element indicating the number of datasets to generate for each set of input values.
+#' @param niters an integer element indicating the number of iterations.
 #' @param mode a character element indicating the mode for the analysis.
 #' @return a \code{jags_simulation} object
 #' @references 
@@ -35,89 +37,59 @@
 #'
 #' values <- data.frame(ny = c(10, 100), bIntercept = c(10,10))
 #' 
-#' power <- jags_power_analysis (model, data_model, values = values, nrep = 100, mode = "demo")
-#' number_of_values(power)
-#' number_of_replicates(power)
-#' number_of_iterations(power)
+#' power <- jags_power_analysis (model = model, data_model = data_model, 
+#'                              values = values, nreps = 10, mode = "demo")
+#' nvalues(power)
+#' nreps(power)
+#' niters(power)
 #' rhat(power)
 #' rhat(power, combine = FALSE)
 #' 
 #' @export
-jags_power_analysis <- function (model, data_model, values, nrep = 100, niter = 10^3, mode = "current") {
-  if (!is.jags_model(model)) 
-    stop("model must be class jags_model")
+jags_power_analysis <- function (model, data_model, values, nreps = 100, niters = 10^3, mode = "current") {
   
-  if (!is.jags_data_model(data_model)) 
-    stop("data_model must be class jags_data_model")
-  
-  if(!is.data.frame(values))
-    stop ("values must be a data frame")
-  
-  if(nrow(values) == 0)
-    stop ("values must have at least one row of data")
-  
-  if(ncol(values) == 0)
-    stop ("values must have at least one column of data")
-  
-  if(!is.numeric(nrep))
-    stop("nrep must be class integer")
-  
-  if(!length(nrep) == 1)
-    stop("nrep must be a single value")
-  
-  if(nrep < 1)
-    stop("nrep must be positive")
-  
-  nrep <- as.integer(nrep)
-  
-  if(!"basemod" %in% list.modules())
-    load.module("basemod")  
-  
-  if(!"bugs" %in% list.modules())
-    load.module("bugs")
-  
+  if(!is.jags_model(model) && !is_one_model(model))
+    stop("model must be a jags_model with a single model")
+    
   old_opts <- opts_jagr(mode = mode)
   on.exit(opts_jagr(old_opts))
   
-  if(opts_jagr("mode") == "debug") {
-    nrep <- 1
-  }
-  nvalues <- nrow(values)
+  if(opts_jagr("mode") == "debug")
+    nreps <- 1
   
-  simulation <- jags_simulation(data_model = data_model, 
-                         values = values, 
-                         nrep = 1, mode = "explore")
+  quiet <- opts_jagr("quiet")
+  
+  if (!quiet)
+    cat("\ngenerating data\n")
+  
+  object <- jags_simulation(data_model, values = values, nreps = nreps)
+
+  if (!quiet)
+    cat("\nanalysing data\n")
   
   analyses <- list()
-  rhat <- matrix(nvalues, 1)
   
-  for (value in 1:nvalues) {
+  for (value in 1:nvalues(object)) {
     analyses[[value]] <- list()
-    rep <- 1
-    if (!opts_jagr("quiet"))
-      print(paste0("Value: ",value," of ",nvalues,"  Rep: ", rep," of ",nrep))
-    
-    analysis <- jags_analysis(model = model, 
-                        data = data_jags(subset_jags(simulation, 
-                                         rep = rep, 
-                                         value = value))[[1]][[1]],
-                        niter = niter)
-    
-    analyses[[value]][[rep]] <- analysis    
+    for (rep in 1:nreps) {
+      if (!quiet)
+        cat(paste0("value: ",value," of ",nvalues(object),"  replicate: ", rep," of ",nreps,"\n"))
+            
+      analysis <- jags_analysis(model = model, 
+                    data = data_jags(subset_jags(object,value,rep))[[1]][[1]], 
+                    niters = niters)      
+      
+      analyses[[value]][[rep]] <- as.jagr_power_analysis(analysis(analysis))
+    }
   }
-  
-  object <- list(
-    values = values,
-    analyses = analyses)
 
-  class(object) <- "jags_power_analysis"
+  class(object) <- c("jags_power_analysis","jags_simulation")
   
-#  for (rep in 2:nrep) {
-#    object <- update_jags(object, nrep = 1)
-#  }
-  #   
-  #   object <- calc_power(object, pars = pars)
-  # 
+  model(object) <- model
+  rhat_threshold(object) <- opts_jagr("rhat")
+  analyses(object) <- analyses
   
+#  object <- revise(object)
+
   return (object)
 }

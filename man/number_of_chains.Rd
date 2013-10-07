@@ -15,8 +15,4 @@
 \description{
   Gets the number of MCMC chains in a JAGS object
 }
-\seealso{
-  \code{\link{number_of_chains.jags_analysis}} and
-  \code{\link{number_of_chains.jags_power_analysis}}
-}
 

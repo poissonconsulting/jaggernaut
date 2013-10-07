@@ -1,5 +1,4 @@
 
-
 #' @title Create a JAGS data model
 #'
 #' @description 
@@ -61,22 +60,33 @@
 #' @references  
 #' Plummer M (2012) JAGS Version 3.3.0 User Manual \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
 #' @seealso \code{\link{jags_simulation}}  
+#' @examples
+#'
+#' model <- jags_data_model("
+#' data { 
+#'  bLambda ~ dunif(3,6)
+#'  for (i in 1:nx) { 
+#'   x[i]~dpois(bLambda) 
+#'  } 
+#' }")
+#' 
+#' values <- data.frame(nx = 10)
+#' data_jags(model, values)
+#'
 #' @export 
 jags_data_model <- function (model_code, monitor = NULL, select = NULL, 
-                        modify_data = NULL, gen_inits = NULL) {  
+                             modify_data = NULL, gen_inits = NULL,
+                             extract_data = NULL) {  
   
+  object <- jagr_model(model_code = model_code,
+                       monitor = monitor, 
+                       select = select,
+                       modify_data = modify_data,
+                       gen_inits = gen_inits)
+    
+  class(object) <- c("jags_data_model","jagr_model")
   
-  model <- jagr_model(model_code = model_code, 
-                      monitor = monitor, 
-                      select = select,
-                      modify_data = modify_data,
-                      gen_inits = gen_inits)
-  
-  object <- list(
-    models = list(model)
-  )
-  
-  class(object) <- "jags_data_model"
-  
+  extract_data(object) <- extract_data
+
   return (object)
 }

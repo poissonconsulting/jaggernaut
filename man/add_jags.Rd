@@ -17,10 +17,4 @@
 \description{
   Adds two or more JAGS object of the same class.
 }
-\seealso{
-  \code{\link{add_jags.jags_model}},
-  \code{\link{add_jags.jags_analysis}},
-  \code{\link{add_jags.jags_simulation}} and
-  \code{\link{add_jags.jags_power_analysis}}
-}
 

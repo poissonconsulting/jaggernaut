@@ -1,63 +1,27 @@
 
-is_scalar <- function (x) {
-  return (is.vector(x) && length(x) == 1)
-}
+is_scalar <- function (x)
+  is.vector(x) && length(x) == 1
 
-is_length <- function (x) {
-  return (is.vector(x) && length(x) >= 1)
-}
+is_vector <- function (x)
+  is.vector(x) && length(x) > 1
 
-is_defined <- function (x) {
-  return (is.vector(x) & all(!is.na(x)))
-}
+is_length <- function (x)
+  is_scalar(x) || is_vector(x)
 
-is_indicator <- function (x) {
- return (is.logical(x) & is_scalar(x) & is_defined(x)) 
-}
+is_no_missing <- function (x)
+  !any(is.na(x))
 
-is_named <- function (x) {
-  return (!is.null(names(x))) 
-}
+is_defined <- function (x)
+  is_no_missing(x)
 
-is.mcarray <- function (object) {
-  inherits(object, "mcarray")
-}
+is_indicator <- function (x)
+ is.logical(x) & is_scalar(x) & is_defined(x)
 
-is.jags_mcmc <- function (object) {
-  inherits(object, "jags_mcmc")
-}
+is_named <- function (x)
+  !is.null(names(x)) 
 
-is.jagr_model <- function (object) {
-  inherits(object, "jagr_model")
-}
-
-is.jags_model <- function (object) {
-  inherits(object, "jags_model")
-}
-
-is.jags_data_model <- function (object) {
-  inherits(object, "jags_data_model")
-}
-
-is.jagr_analysis <- function (object) {
-  inherits(object, "jagr_analysis")
-}
-
-is.jagr_simulation <- function (object) {
-  inherits(object, "jagr_simulation")
-}
-
-is.jags_analysis <- function (object) {
-  inherits(object, "jags_analysis")
-}
-
-is.jags_simulation <- function (object) {
-  inherits(object, "jags_simulation")
-}
-
-is.jags_sample <- function (object) {
-  inherits(object, "jags_sample")
-}
+is_one_model <- function (x) 
+  nmodels(x) == 1
 
 is_data_list <- function (data) {
   if (!is.list(data)) {
@@ -82,6 +46,3 @@ is_data_list <- function (data) {
   }
   return (all(bol))
 }
-
-
-

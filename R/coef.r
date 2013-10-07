@@ -3,9 +3,9 @@ coef_matrix <- function(object, level) {
   
   stopifnot(is.matrix(object))
   stopifnot(is.numeric(level))
-  stopifnot(length(level) == 1)
-  stopifnot(level >= 0.75)
-  stopifnot(level <= 0.99)
+  stopifnot(is_scalar(level))
+  stopifnot(is_defined(level))
+  stopifnot(level > 0.5 & level < 1.0)
   
   est <- function (x, level) {
     
@@ -32,36 +32,28 @@ coef_matrix <- function(object, level) {
   return (estimates)
 }
 
-#' @method coef jags_mcmc
-coef.jags_mcmc <- function (object, parm = "all", level = 0.95, ...)
-{
-  stopifnot(is.character(parm)) 
-  stopifnot(is_length(parm))
-  stopifnot(is_defined(parm))
+coef.jagr_chains <- function (object, parm = "all", level = 0.95, ...) {
   stopifnot(is.numeric(level))
   stopifnot(is_scalar(level))
   stopifnot(is_defined(level))
   stopifnot(level > 0.5 & level < 1.0)
   
   coef <- coef_matrix (as.matrix(object, parm), level = level)
+  
+  coef <- coef[rownames(coef) != "deviance",]
     
   return (coef)
 }
 
-#' @method coef jagr_analysis
-coef.jagr_analysis <- function (object, parm = "all", level = 0.95, ...)
-{
-  stopifnot(is.character(parm)) 
-  stopifnot(is_length(parm))
-  stopifnot(is_defined(parm))
-  stopifnot(is.numeric(level))
-  stopifnot(is_scalar(level))
-  stopifnot(is_defined(level))
-  stopifnot(level > 0.5 & level < 1.0)
-  
+coef.jagr_power_analysis <- function (object, parm = "all", level = 0.95, ...) {
+  return (coef(as.jagr_chains(object), parm = parm, level = level, ...))
+}
+
+coef.jagr_analysis <- function (object, parm = "all", level = 0.95, ...) {
+
   parm <- expand_parm(object, parm = parm)
   
-  return (coef(as.jags_mcmc(object), parm = parm, level = level, ...))
+  return (coef(as.jagr_chains(object), parm = parm, level = level, ...))
 }
 
 coef_jagr_analysis <- function (object, ...) {
@@ -75,11 +67,7 @@ coef_jagr_analysis <- function (object, ...) {
 #' Calculates parameter estimates for a JAGS analysis
 #' 
 #' @param object a \code{jags_analysis} object
-#' @param model_number an integer element specifying the model to select. 
-#' If model_number = 0 then it selects the model with the lowest DIC.
 #' @param parm a character vector of the parameters to calculate the estimates
-#' @param as_list a logical element specifying whether to return the coef as
-#' as list or a data.frame (the default).
 #' @param level a numeric scalar specifying the significance level or a character
 #' scalar specifying which mode the level should be taken from. By default the
 #' level is as currently specified by \code{opts_jagr} in the global options.
@@ -91,7 +79,6 @@ coef_jagr_analysis <- function (object, ...) {
 #' @method coef jags_analysis
 #' @export
 coef.jags_analysis <- function (object, parm = "fixed", level = "current", ...) {
- 
   if (!is.character(parm)) 
     stop ("parm must be character vector")
   if(!is_length(parm))
@@ -106,16 +93,15 @@ coef.jags_analysis <- function (object, parm = "fixed", level = "current", ...) 
     opts_jagr(mode = level)
     level <- opts_jagr("level")
   }
-    
-  coef <- lapply(object$analyses, FUN = coef_jagr_analysis, parm = parm, level = level, ...)
   
-  coef <- delist (coef)
-  return (coef)
-}
-
-
-coef.jagr_simulation <- function (object, parm = "all", level = "current", ...) {
-  return (coef (as.jags_mcmc(object), parm = parm, level = 0.95, ...))
+  if(is_one_model(object))
+    return (coef(analysis(object), parm = parm, level = level, ...))
+  
+  analyses <- analyses(object)
+  analyses <- lapply(analyses, coef_jagr_analysis, 
+                     parm = parm, level = level, ...)
+  analyses <- name_object(analyses, "Model")
+  return (analyses) 
 }
 
 #' @title Calculate estimates

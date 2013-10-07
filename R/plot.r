@@ -1,6 +1,6 @@
 
 #' @method plot jagr_analysis
-plot.jags_mcmc <- function (x, parm = "all", ...) {
+plot.jagr_chains <- function (x, parm = "all", ...) {
 
   stopifnot(is.character(parm) && is_length(parm))
   stopifnot(length(parm) > 0)
@@ -25,7 +25,7 @@ plot.jagr_analysis <- function (x, parm, ...) {
   
   parm <- expand_parm(x, parm = parm)
   
-  return (plot(as.jags_mcmc(x), parm = parm, ...))
+  return (plot(as.jagr_chains(x), parm = parm, ...))
 }
 
 #' @title Plot a JAGS analysis

@@ -3,10 +3,6 @@ name_object <- function (object, name) {
   UseMethod("name_object", object)
 }
 
-name_object.default <- function (object, names) {
-  return (object)
-}
-
 name_object.matrix <- function (object, names) {
   stopifnot(length(dim(object)) == length(names))
   

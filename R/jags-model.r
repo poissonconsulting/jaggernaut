@@ -92,37 +92,36 @@
 #' @seealso \code{\link{jags_analysis}} and \code{\link{predict.jags_analysis}}  
 #' @examples
 #' 
-#' mod <- jags_model("
+#' model <- jags_model("
 #' model { 
 #'  bLambda ~ dlnorm(0,10^-2) 
-#'  for (i in 1:nrow) { 
+#'  for (i in 1:length(x)) { 
 #'    x[i]~dpois(bLambda) 
 #'  } 
 #'}")
 #'
-#' print(mod)
+#' print(model)
+#' nmodel(model)
+#' model_code(model)
 #'
 #' @export 
 jags_model <- function (model_code, monitor = NULL, select = NULL, 
                         modify_data = NULL, gen_inits = NULL, 
                         derived_code = NULL, random_effects = NULL) {  
 
-  model <- jagr_model(model_code = model_code, 
+  model <- jagr_analysis_model(model_code = model_code, 
                       monitor = monitor, 
                       select = select,
                       modify_data = modify_data,
-                      gen_inits = gen_inits)
+                      gen_inits = gen_inits,
+                      derived_code = derived_code,
+                      random_effects = random_effects)
   
   object <- list(
-    models = list(model),
-    derived_code = list(NA),
-    random_effects = list(NA)
+    models = list(model)
   )
   
   class(object) <- "jags_model"
-  
-  random_effects(object) <- random_effects
-  derived_code(object) <- derived_code
-  
+
   return (object)
 }

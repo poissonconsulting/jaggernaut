@@ -7,12 +7,13 @@
 #' @param object a object.
 #' @param ... other arguments.
 #' @return a data.frame or list(s) of the data
-#' @seealso \code{\link{data_jags.jags_data_model}},  \code{\link{data_jags.jags_analysis}},
-#' \code{\link{data_jags.jags_simulation}} and \code{\link{data_jags.jags_power_analysis}}
+#' @seealso \code{\link{data_jags.jags_data_model}}  
 #' @export
-data_jags <- function (object, ...) {
+data_jags <- function (object, ...)
   UseMethod("data_jags", object)
-}
+
+"data_jags<-" <- function (object, ...)
+  UseMethod("data_jags<-", object)
 
 #' @title Get dataset from a JAGS data model
 #'
@@ -22,143 +23,109 @@ data_jags <- function (object, ...) {
 #' @param object a JAGS data model.
 #' @param values a data.frame with a single row of data indicating the values for the simulation.
 #' @param ... other arguments passed to generic function.
-#' @return the simulated dataset in list form.
+#' @return the simulated dataset in list form (unless modified by extract_data function).
 #' @seealso \code{\link{data_jags}} and \code{\link{jags_data_model}}
-#' @examples
-#' data_model <- jags_data_model("
-#' data { 
-#'  for (i in 1:nx) { 
-#'    x[i] ~ dpois(bIntercept) 
-#'    for (j in 1:nx) {
-#'      y[i,j] ~ dpois(bIntercept) 
-#'    }
-#'  } 
-#'  z <- bIntercept
-#'}    
-#' ")
-#'
-#' values <- data.frame(nx = 10, bIntercept = 5)
-#' 
-#' data_jags(data_model, values)
 #' @method data_jags jags_data_model
 #' @export
-data_jags.jags_data_model <- function (object, values, ...)
-{ 
-  if (!is.data.frame(values))
-    stop("values must be a data.frame")
+data_jags.jags_data_model <- function (object, values, ...) { 
+  if (!is.data.frame(values) || nrow(values) != 1)
+    stop("values must be a data.frame with a single row")
 
-  if (nrow(values) != 1) {
-    warning("only using the first row of values")
-    values <- values[1, , drop = FALSE]
-  }
-  simu <- jagr_simulation(model = object, 
-                            data = values, 
-                            quiet = TRUE)
+  options(jags.pb = "none")
   
-  est <- coef(simu)
+  if(!"basemod" %in% list.modules())
+    load.module("basemod")  
   
-  est <- est[rownames(est) != "deviance",]
+  if(!"bugs" %in% list.modules())
+    load.module("bugs")
   
-  data <- extract_estimates(est)[["estimate"]]
+  values <- translate_data(select(object), values)
+  
+  if (is.function(modify_data(object))) 
+    values <- modify_data(object)(values)
+  
+  if (is.function(gen_inits(object))) {
+    inits <- list()
+    inits[[i]] <- gen_inits(object)(values)
+  } else
+    inits <- NULL
+  
+  file <- tempfile(fileext=".bug")
+  cat(paste(model_code(object),"model { deviance <- 1}"), file=file)
+    
+  chains <- jags_analysis_internal (
+    data = values, file = file, monitor = monitor(object), 
+    inits = inits, n.chain = 1, 
+    n.adapt = 0, n.burnin = 0, n.sim = 1, n.thin = 1, 
+    quiet = TRUE
+  )
 
+  data <- extract_estimates(chains)[["estimate"]]
+    
+  if(is.function(extract_data(object)))
+    data <- extract_data(object)(data)
+  
   return (data)
 }
 
-#' @title Get dataset from a JAGS analysis
-#'
-#' @description
-#' Gets the dataset from a JAGS analysis object.  
-#' 
-#' @param object a jags_analysis object.
-#' @param based a logical element indicating xx.
-#' @param ... other arguments passed to generic function.
-#' @return a data.frame or list of the data used in the analysis
-#' @seealso \code{\link{data_jags}} and \code{\link{jags_analysis}}
-#' @examples
-#' model <- jags_model("
-#' model { 
-#'  bLambda ~ dlnorm(0, 10^-2) 
-#'  for (i in 1:nrow) { 
-#'    x[i]~dpois(bLambda) 
-#'  } 
-#'}")
-#'
-#' data <- data.frame(x = rpois(100,10))
-#' 
-#' analysis <- jags_analysis (model, data, mode = "demo")
-#' 
-#' data_jags(analysis)
-#' data_jags(analysis, base = TRUE)
-#' 
 #' @method data_jags jags_analysis
 #' @export
-data_jags.jags_analysis <- function (object, base = FALSE, ...)
-{
-  if(!is.logical(base))
-    stop("base must be logical")
-  
-  if(length(base) !=1 )
-    stop("base must be a single value")
+data_jags.jags_analysis <- function (object, ...) 
+  object$data
 
-  if(is.na(base))
-    stop("base must not be a missing value")
-  
-  if(base & !is.data.frame(object$data))
-    stop("base is only defined when data is a data.frame")
-  
-  if(!base) {
-    return (object$data)
-  }
-  
-  return (generate_data (object$data))
-}
-
-#' @title Get dataset(s) from a JAGS simulation
-#'
-#' @description
-#' Gets the dataset(s) from a JAGS simulation object.  
-#' 
-#' @param object a jags_simulation object.
-#' @param value an integer vector indicating the rows in values to select.
-#' @param rep an integer vector indicating the replicates to select.
-#' @param ... other arguments passed to generic function.
-#' @return a list or lists of the simulated data
-#' @seealso \code{\link{data_jags}} and \code{\link{jags_simulation}}
-#' #' @examples
-#' 
-#' data_model <- jags_data_model("
-#' data { 
-#'  for (i in 1:nx) { 
-#'    x[i] ~ dpois(bIntercept) 
-#'    for (j in 1:nx) {
-#'      y[i,j] ~ dpois(bIntercept) 
-#'    }
-#'  } 
-#'  z <- bIntercept
-#'}    
-#' ")
-#'
-#' values <- data.frame(nx = c(1,10), bIntercept = c(5,10))
-#' 
-#' simulation <- jags_simulation (data_model, values, nrep = 5, mode = "test")
-#' 
-#' data_jags(simulation)
-#' data_jags(simulation, value = 1, rep = NULL)
-#' data_jags(simulation, value = NULL, rep = 1)
-#' data_jags(simulation, value = NULL, rep = NULL)
 #' @method data_jags jags_simulation
 #' @export
-data_jags.jags_simulation <- function (object, ...)
-{  
+data_jags.jags_simulation <- function (object, ...) {  
   data <- object$data
-  data <- name_object(data,c("Value","Replicate"))
+  data <- name_object(data,c("value","replicate"))
   
   return (data)
 }
 
-data_jags.jags_power_analysis <- function (object, value = 1, rep = 1, ...)
-{  
-  stop("not yet implemented")
+"data_jags<-.jags_analysis" <- function (object, value, ...) {
+
+  if (!is.data.frame (value)) {
+    if (!is.list(value)) {
+      stop("value must be a data.frame or a data list")
+    }
+    names <- names(value)
+    if(is.null(names)) {
+      stop("variables in value must be named")
+    }
+    classes <- c("logical","integer","numeric","factor",
+                 "Date","POSIXt","matrix","array")
+    bol <- sapply(value, inherits,classes[1])
+    for (class in classes[-1]) {
+      bol <- bol | sapply(value,inherits,class)
+    }
+    if (!all(bol)) {
+      stop(paste("variables in data list must be class",classes))
+    }
+    if (!is_data_list (value)) {
+      stop("value must be a data.frame or a data list")
+    }
+  } else {
+    if (!nrow(value)) {
+      stop("value must include at least one row")
+    }
+    if (!ncol(value)) {
+      stop("value must include at least one column")
+    }
+  }
   
-  return (data)
+  object$data <- value
+  
+  return (object)
+}
+
+"data_jags<-.jags_simulation" <- function (object, value, ...) {  
+  if (!is.list(value) || !is.list(value)[[1]])
+      stop("value must be a list of lists")
+  
+  stopifnot(is_scalar(unique(sapply(value,length))))
+  stopifnot(length(value) == nvalues(object))
+  
+  object$data <- value
+  
+  return (object)
 }

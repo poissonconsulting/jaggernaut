@@ -8,16 +8,8 @@
 \arguments{
   \item{object}{a \code{jags_analysis} object}
 
-  \item{model_number}{an integer element specifying the
-  model to select. If model_number = 0 then it selects the
-  model with the lowest DIC.}
-
   \item{parm}{a character vector of the parameters to
   calculate the estimates}
-
-  \item{as_list}{a logical element specifying whether to
-  return the coef as as list or a data.frame (the
-  default).}
 
   \item{level}{a numeric scalar specifying the significance
   level or a character scalar specifying which mode the

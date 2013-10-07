@@ -2,19 +2,18 @@
 #' @title Get R-hat value(s)
 #'
 #' @description
-#' Get R-hat value or values for JAGS objects
+#' Get R-hat value(s) for JAGS objects
 #' 
 #' @param object a JAGS object
 #' @param ... passed to and from other functions
 #' @return a vector, matrix or array of rhat values
-#' @seealso \code{\link{rhat.jags_analysis}} and \code{\link{rhat.jags_power_analysis}}
 #' @export
 rhat <- function (object, ...) {
   UseMethod("rhat", object)
 }
 
-#' @method rhat jags_mcmc
-rhat.jags_mcmc <- function (object, parm = "all", combine = TRUE, ...)
+#' @method rhat jagr_chains
+rhat.jagr_chains <- function (object, parm = "all", combine = TRUE, ...)
 { 
   stopifnot(is.character(parm) && is_length(parm) && is_defined(parm))
   stopifnot(is_indicator(combine))
@@ -36,46 +35,34 @@ rhat.jags_mcmc <- function (object, parm = "all", combine = TRUE, ...)
   return (rhat)
 }
 
-#' @method rhat jagr_analysis
-rhat.jagr_analysis <- function (object, parm = "all", combine = TRUE, ...)
-{
+rhat.jagr_power_analysis <- function (object, parm = "all", combine = TRUE, ...) {
+  stopifnot(is.character(parm) && is_length(parm) && is_defined(parm))
+  stopifnot(is_indicator(combine))
+  
+  parm <- expand_parm(object, parm = parm)
+  
+  return (rhat(as.jagr_chains(object), parm = parm, combine = combine,...))
+}
+
+rhat_jagr_power_analysis <- function (object, ...) {
+  stopifnot(is.jagr_power_analysis(object))
+  return (rhat(object, ...))
+}
+
+rhat.jagr_power_analysis <- function (object, parm = "all", combine = TRUE, ...) {
   stopifnot(is.character(parm) && is_length(parm) && is_defined(parm))
   stopifnot(is_indicator(combine))
   
   parm <- expand_parm(object, parm = parm)
 
-  return (rhat(as.jags_mcmc(object), parm = parm, combine = combine,...))
+  return (rhat(as.jagr_chains(object), parm = parm, combine = combine,...))
 }
 
-rhat_jagr_analysis <- function (object, ...) {
-  stopifnot(is.jagr_analysis(object))
+rhat_jagr_power_analysis <- function (object, ...) {
+  stopifnot(is.jagr_power_analysis(object))
   return (rhat(object, ...))
 }
 
-#' @title Get R-hat value(s)
-#'
-#' @description
-#' Get R-hat value or values for JAGS analysis
-#' 
-#' @param object a JAGS analysis
-#' @param parm a character vector indicating the parameters for which to calculate the rhat values
-#' @param combine a logical element indicating whether to return the rhat values for each parameter (combine = FALSE) or the maximum of the rhat values (combine = TRUE, i.e., the default)
-#' @param ... passed to and from other functions
-#' @return a vector, matrix or array of rhat values
-#' 
-#' model <- jags_model("
-#' model { 
-#'  bLambda ~ dlnorm(0,10^-2) 
-#'  for (i in 1:nrow) { 
-#'    x[i]~dpois(bLambda) 
-#'  } 
-#'}")
-#'
-#' data <- data.frame(x = rpois(100,1))
-#' 
-#' analysis <- jags_analysis (model, data, mode = "demo")
-#' rhat(analysis)
-#' 
 #' @method rhat jags_analysis
 #' @export 
 rhat.jags_analysis <- function (object, parm = "all", combine = TRUE, ...) {
@@ -91,32 +78,31 @@ rhat.jags_analysis <- function (object, parm = "all", combine = TRUE, ...) {
   if(!is_indicator(combine))
     stop("combine must be TRUE or FALSE")
   
-  rhat <- lapply(object$analyses, FUN = rhat_jagr_analysis, parm = parm, combine = combine)
+  rhat <- lapply(object$analyses, FUN = rhat_jagr_power_analysis, parm = parm, combine = combine)
   
   rhat <- delist (rhat)
   return (rhat)
-}
-
-rhat_jags_analysis <- function (object, parm = "all", combine = TRUE, ...) {
-  stopifnot(is.jags_analysis(object))
-  return (rhat(object, parm = parm, combine = combine, ...))
 }
 
 #' @method rhat jags_power_analysis
 #' @export 
 rhat.jags_power_analysis <- function (object, parm = "all", combine = TRUE, ...)
 {
-  lapply_rhat_jags_analysis <- function (object, 
+  lapply_rhat_jagr_power_analysis <- function (object, 
                                          parm = parm, 
                                          combine = combine, ...) {    
-    return (lapply(object, rhat_jags_analysis, 
+    return (lapply(object, rhat_jagr_power_analysis, 
                    parm = parm, combine = combine, ...))
   }
   
-  rhat <- lapply(object$analyses, lapply_rhat_jags_analysis, parm = parm, combine = combine, ...)
-  rhat <- delist(rhat)
-  if(combine)
+  analyses <- analyses(object)
+  
+  rhat <- lapply(analyses, lapply_rhat_jagr_power_analysis, parm = parm, combine = combine, ...)
+
+  if(combine) {
     rhat <- arrayicise(rhat)
-  rhat <- name_object(rhat,c("Value","Replicate"))
+    rhat <- name_object(t(rhat),c("replicate","value"))
+  } else
+    rhat <- name_object(rhat,c("value","replicate"))
   return (rhat)
 }

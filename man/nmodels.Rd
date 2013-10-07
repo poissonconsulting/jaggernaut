@@ -1,0 +1,18 @@
+\name{nmodels}
+\alias{nmodel}
+\alias{nmodels}
+\title{Number of models in a JAGS object}
+\usage{
+  nmodels(object)
+}
+\arguments{
+  \item{object}{a JAGS object}
+}
+\value{
+  an integer element indicating the number of models in
+  object
+}
+\description{
+  Gets the number of models in a JAGS object
+}
+

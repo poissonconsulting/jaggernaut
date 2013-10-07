@@ -1,9 +1,9 @@
 
-jags_analysis_internal <- function (data, file, monitor, inits, n.chain, n.adapt, n.burnin, n.sim, n.thin, quiet = FALSE) {
+jags_analysis_internal <- function (data, file, monitor, inits, n.chain, n.adapt, n.burnin, n.sim, n.thin, quiet) {
   stopifnot(is.null(monitor) || is.character(monitor))
   stopifnot(is.list(data))
   stopifnot(is.null(inits) || is.list(inits))
-  
+    
   n.adapt <- as.integer(n.adapt)
   n.burnin <- as.integer(n.burnin)
   n.sim <- as.integer(n.sim)
@@ -15,7 +15,7 @@ jags_analysis_internal <- function (data, file, monitor, inits, n.chain, n.adapt
     }
     return (jags.model (..., inits = inits))
   }
-  
+    
   jags <- jags_model_internal (file = file, data = data, inits = inits, 
                       n.chains = n.chain, n.adapt = n.adapt, quiet = quiet)
   if (n.burnin) 
@@ -35,6 +35,6 @@ jags_analysis_internal <- function (data, file, monitor, inits, n.chain, n.adapt
     model = jags, variable.names = monitor, n.iter = n.sim, thin = n.thin
   )
 
-  mcmc <- jags_mcmc(mcmc=mcmc,jags=list(jags))
+  mcmc <- jagr_chains(mcmc=mcmc,jags=list(jags))
   return (mcmc)
 }

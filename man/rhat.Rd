@@ -13,10 +13,6 @@
   a vector, matrix or array of rhat values
 }
 \description{
-  Get R-hat value or values for JAGS objects
-}
-\seealso{
-  \code{\link{rhat.jags_analysis}} and
-  \code{\link{rhat.jags_power_analysis}}
+  Get R-hat value(s) for JAGS objects
 }
 

@@ -5,40 +5,40 @@ library(scales)
 # Poisson GLM analysis of peregrine breeding pairs (Kery & Schaub 2011 p.55-66)
 
 # GLM_Poisson (Kery & Schaub 2011 p.58-59)
-mod <- jags_model("
+model <- jags_model("
              model {
              alpha ~ dunif(-20, 20)
              beta1 ~ dunif(-10, 10)
              beta2 ~ dunif(-10, 10)
              beta3 ~ dunif(-10, 10)
              
-             for (i in 1:nrow) {
-             log(eC[i]) <- alpha + beta1 * Year[i]
-             + beta2 * Year[i]^2 + beta3 * Year[i]^3
+             for (i in 1:length(C)) {
+             log(eC[i]) <- alpha + beta1 * Year[i] 
+                + beta2 * Year[i]^2 + beta3 * Year[i]^3
              C[i] ~ dpois(eC[i])
              }
              }",
  derived_code = "model{
-  for (i in 1:nrow) {
+  for (i in 1:length(Year)) {
     log(prediction[i]) <- alpha + beta1 * Year[i]
-      + beta2 * Year[i]^2 + beta3 * Year[i]^3
+        + beta2 * Year[i]^2 + beta3 * Year[i]^3
     }
  }",
 select = c("C","Year*")
 )
 
 data(peregrine)
-dat <- peregrine
+data <- peregrine
 
-dat$C <- dat$Pairs
-an <- jags_analysis (mod, dat, mode = "demo")
+data$C <- data$Pairs
+analysis <- jags_analysis (model, data, mode = "demo")
 
-coef(an)
-pred <- predict(an, newdata = "Year")
+coef(analysis)
+prediction <- predict(analysis, newdata = "Year")
 
-gp <- ggplot(data = pred, aes(x = Year, y = estimate))
-gp <- gp + geom_line(data = dat, aes(y = C), alpha = 1/3)
-gp <- gp + geom_point(data = dat, aes(y = C), shape = 1)
+gp <- ggplot(data = prediction, aes(x = Year, y = estimate))
+gp <- gp + geom_line(data = data, aes(y = C), alpha = 1/3)
+gp <- gp + geom_point(data = data, aes(y = C), shape = 1)
 gp <- gp + geom_line()
 gp <- gp + scale_y_continuous(name = "Pair count")
 gp <- gp + expand_limits(y = 0)
@@ -50,16 +50,16 @@ print(gp)
 # uses GLM_Poisson model from previous example
 
 data(peregrine)
-dat <- peregrine
+data <- peregrine
 
-dat$C <- dat$Eyasses
-an <- jags_analysis (mod, dat, mode = "demo")
-coef(an)
-pred <- predict(an, newdata = "Year")
+data$C <- data$Eyasses
+analysis <- jags_analysis (model, data, mode = "demo")
+coef(analysis)
+prediction <- predict(analysis, newdata = "Year")
 
-gp <- ggplot(data = pred, aes(x = Year, y = estimate))
-gp <- gp + geom_line(data = dat, aes(y = C), alpha = 1/3)
-gp <- gp + geom_point(data = dat, aes(y = C), shape = 1)
+gp <- ggplot(data = prediction, aes(x = Year, y = estimate))
+gp <- gp + geom_line(data = data, aes(y = C), alpha = 1/3)
+gp <- gp + geom_point(data = data, aes(y = C), shape = 1)
 gp <- gp + geom_line()
 gp <- gp + scale_y_continuous(name = "Nestling count")
 gp <- gp + expand_limits(y = 0)
@@ -75,13 +75,13 @@ mod <- jags_model("
              beta1 ~ dnorm(0, 10^-2)
              beta2 ~ dnorm(0, 10^-2)
              
-             for (i in 1:nrow) {
+             for (i in 1:length(Year)) {
              logit(eP[i]) <- alpha + beta1 * Year[i] + beta2 * Year[i]^2
              C[i] ~ dbin(eP[i], N[i])
              }
              }",
  derived_code = "model{
-             for (i in 1:nrow) {
+             for (i in 1:length(Year)) {
              logit(prediction[i]) <- alpha + beta1 * Year[i] + beta2 * Year[i]^2
              }
  }",
@@ -89,19 +89,19 @@ select = c("C","N","Year*")
 )
 
 data(peregrine)
-dat <- peregrine
+data <- peregrine
 
-dat$C <- dat$R.Pairs
-dat$N <- dat$Pairs
+data$C <- data$R.Pairs
+data$N <- data$Pairs
 
-an <- jags_analysis (mod, dat, mode = "demo")
-coef(an)
+analysis <- jags_analysis (model, data, mode = "demo")
+coef(analysis)
 
-pred <- predict(an, newdata = "Year")
+prediction <- predict(analysis, newdata = "Year")
 
-gp <- ggplot(data = pred, aes(x = Year, y = estimate))
-gp <- gp + geom_line(data = dat, aes(y = C/N), alpha = 1/3)
-gp <- gp + geom_point(data = dat, aes(y = C/N), shape = 1)
+gp <- ggplot(data = prediction, aes(x = Year, y = estimate))
+gp <- gp + geom_line(data = data, aes(y = C/N), alpha = 1/3)
+gp <- gp + geom_point(data = data, aes(y = C/N), shape = 1)
 gp <- gp + geom_line()
 gp <- gp + scale_y_continuous(name = "Proportion successful pairs", expand=c(0,0))
 gp <- gp + expand_limits(y = c(0,1))
@@ -111,7 +111,7 @@ print(gp)
 # Overdispersed Poisson GLMM analysis of peregrine breeding pairs (Kery & Schaub 2011 p.82-90)
 
 # GLMM_Poisson (Kery & Schaub 2011 p.87)
-mod <- jags_model("
+model <- jags_model("
              model {
              alpha ~ dunif(-20, 20)
              beta1 ~ dunif(-10, 10)
@@ -119,7 +119,7 @@ mod <- jags_model("
              beta3 ~ dunif(-10, 10)
              sd ~ dunif(0, 5)
              
-             for (i in 1:nrow) {
+             for (i in 1:length(Year)) {
              eps[i] ~ dnorm(0, sd^-2)
              eLogC[i] <- alpha + beta1 * Year[i]
              + beta2 * Year[i]^2 + beta3 * Year[i]^3
@@ -128,7 +128,7 @@ mod <- jags_model("
              }
              }",
  derived_code = "model{
-             for (i in 1:nrow) {
+             for (i in 1:length(Year)) {
              log(prediction[i]) <- alpha + beta1 * Year[i]
              + beta2 * Year[i]^2 + beta3 * Year[i]^3
              }
@@ -138,9 +138,9 @@ select = c("C","Year*")
 )
 
 data(peregrine)
-dat <- peregrine
+data <- peregrine
 
-dat$C <- dat$Pairs
-an <- jags_analysis (mod, dat, niter = 10^4, mode = "demo")
-coef(an)
-coef(an, parm = "random")
+data$C <- data$Pairs
+analysis <- jags_analysis (model, data, niter = 10^4, mode = "demo")
+coef(analysis)
+coef(analysis, parm = "random")

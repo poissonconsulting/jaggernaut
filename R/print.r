@@ -1,91 +1,112 @@
 
 print.mcarray <- function (x, ...) {
   
-  ndim <- length(dim(x))  
-  xx <- x
-  class(xx) <- 'array'
-  xx <- apply(xx, 1, mean)
+  x1 <- x
   
-  print(xx, ...)
+  class(x) <- "array"
+  x <- apply(x, 1, mean)
+  print(x, ...)
   
-  invisible(x)
+  invisible(x1)
 }
 
-print.jags_mcmc <- function (x, ...) {
-  cat("\nparameters\n")
+print.jagr_chains <- function (x, ...) {
   
-  
-  print_list <- function (x) {
-    for (par in names(x)) {
-      print(par)
-      print(x[[par]])
-    }
-  }
-  
-  print(coef(x))
-  
-  cat("\nchains\n")
-  print(nchains(x))
-  
-  cat("\nsimulations\n")
-  print(nsims(x))
+  cat(paste("\nchains:",nchains(x),"\n"))
+  cat(paste("\nsimulations:",nsims(x),"\n"))
   
   invisible(x)
 }
 
 print.jagr_model <- function (x, ...) {
-  
-  y <- x
-    
-  cat("\nmodel code:\n")
-  cat(model_code(y))
+      
+  cat("\nmodel code: ")
+  cat(model_code(x))
   cat("\n")
   
-  if(!is.null(monitor(y))) {
+  if(!is.null(monitor(x))) {
     cat("\nmonitor: ")
-    print(monitor(y))
+    cat(monitor(x))
     cat("\n")
   } 
   
-  if(!is.null(select(y))) {
+  if(!is.null(select(x))) {
     cat("\nselect: ")
-    cat(select(y))   
+    cat(select(x))   
     cat("\n")
   }
   
-  if(!is.null(modify_data(y))) {
-    cat("\nmodify data:\n")
-    cat(modify_data(y))
-    cat("\n")
+  if(!is.null(modify_data(x))) {
+    cat("\nmodify data: ")
+    print(modify_data(x))
   }
   
-  if(!is.null(gen_inits(y))) {
-    cat("\ngen inits:\n")
-    print(gen_inits(y))
-    cat("\n")
+  if(!is.null(gen_inits(x))) {
+    cat("\ngen inits: ")
+    print(gen_inits(x))
   }
   
+  invisible(x)
+}
+
+#' @method print jags_data_model
+#' @export
+print.jags_data_model <- function (x, ...) {
+  
+  print(as.jagr_model(x, ...))
+  
+  if(!is.null(extract_data(x))) {
+    cat("\nextract data: ")
+    cat(extract_data(x))
+    cat("\n")
+  } 
+  invisible(x)
+}
+
+print.jagr_analysis_model <- function (x, ...) {
+  
+  print(as.jagr_model(x), ...)
+
+  if(!is.null(modify_data_derived(x))) {
+    cat("\nmodify data derived: ")
+    cat(modify_data_derived(x))
+    cat("\n")
+  } 
+  
+  if(!is.null(derived_code(x))) {
+    cat("\nderived code: ")
+    cat(derived_code(x))
+    cat("\n")
+  } 
+  
+  if(!is.null(random_effects(x))) {
+    cat("\nrandom effects: ")
+    cat(random_effects(x))   
+    cat("\n")
+  }
   invisible(x)
 }
 
 #' @method print jags_model
 #' @export
 print.jags_model <- function (x, ...) {
-  
-  cat("\nnumber of models: ")
-  cat(nmodels(x))
-  cat("\n")
-  
+
+  models <- models(x)
+    
   for (i in 1:nmodels(x)) {
-    
-    y <- subset_jags(x, model_number = i)
-    
-    cat("\nmodel number: ")
-    cat(i)
-    cat("\n")
-    
-    print(as.jagr_model(y))
+    cat(paste0("\n",paste0("Model",i),":\n"))
+    print(models[[i]], ...)
   }
+  invisible(x)
+}
+
+#' @method print jagr_analysis
+#' @export
+print.jagr_power_analysis <- function (x, ...) {
+    
+  cat(paste("iterations:",niters(x),"\n"))
+  print(as.jagr_chains(x), ...)
+  
   invisible(x)
 }
 
@@ -93,15 +114,8 @@ print.jags_model <- function (x, ...) {
 #' @export
 print.jagr_analysis <- function (x, ...) {
   
-  print(as.jagr_model(x)) 
-  cat("\ninits\n")
-  print(x$inits)
-  cat("\niterations\n")
-  print(x$iterations)
-  cat("\ntime\n")
-  print(x$time)
-  cat("\nmcmc\n")
-  print(as.jags_mcmc(x))
+  print(as.jagr_analysis_model(x), ...)
+  print(as.jagr_power_analysis(x), ...)
   
   invisible(x)
 }
@@ -109,11 +123,18 @@ print.jagr_analysis <- function (x, ...) {
 #' @method print jags_analysis
 #' @export
 print.jags_analysis <- function (x, ...) {
+
+  cat("\ndata:\n")
+  print(head(data_jags(x)))
   
-  cat("\ndata\n")
-  print(head(x$data))
+  analyses <- analyses(x)
+    
+  for (i in 1:nmodels(x)) {
+    cat(paste0("\n",paste0("Analysis",i),":\n"))
+    print(analyses[[i]], ...)
+  }
   
-  lapply(x$analyses, print)
+  cat(paste0("\nrhat threshold: ", rhat_threshold(x),"\n"))
   
   invisible(x)
 }

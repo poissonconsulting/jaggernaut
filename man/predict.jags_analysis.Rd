@@ -4,10 +4,9 @@
 \usage{
   \method{predict}{jags_analysis} (object, newdata = NULL,
     parm = "prediction", base = FALSE, values = NULL,
-    model_number = 1, derived_code = NULL,
-    random_effects = NULL, level = "current",
-    length_out = 50, obs_by = NULL, split_by = NULL,
-    unique_by = NULL, ...)
+    model_number = 1, modify_data_derived = NULL,
+    derived_code = NULL, random_effects = NULL,
+    level = "current", length_out = 50, obs_by = NULL, ...)
 }
 \arguments{
   \item{object}{a jags_analysis.}
@@ -59,12 +58,6 @@
 
   \item{obs_by}{a character vector indicating which factors
   to only predict for their observed factor combinations.}
-
-  \item{split_by}{a character vector indicating which
-  factors to split the predictions by.}
-
-  \item{unique_by}{a character vector indicating which
-  factors to unique by.}
 
   \item{...}{further arguments passed to or from other
   methods.}

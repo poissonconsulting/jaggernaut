@@ -13,7 +13,7 @@
 #' 
 #' @param model a \code{jags_model} specifying the JAGS model(s).
 #' @param data the data.frame or list of data to analyse.
-#' @param niter an integer element of the number of iterations to run per MCMC chain.
+#' @param niters an integer element of the number of iterations to run per MCMC chain.
 #' @param mode a character element indicating the mode for the analysis.
 #' @details 
 #' The \code{jags_analysis} function performs a Bayesian analysis of a data frame
@@ -23,11 +23,11 @@
 #' globally defined by \code{opts_jagr()} otherwise the \code{mode} argument specifies 
 #' the analysis mode for that particular analysis. 
 #' 
-#' The \code{niter} argument specifies the total number of iterations including adaptive 
+#' The \code{niters} argument specifies the total number of iterations including adaptive 
 #' and burn in periods for each chain. The only exceptions are when the analysis is in 
-#' debug mode in which case \code{niter} is set to be 100 or if \code{niter} is less
+#' debug mode in which case \code{niters} is set to be 100 or if \code{niters} is less
 #' than \code{nsims * 2 / nchain} (where nsims is set by the mode) in which case 
-#' \code{niter} is set to be \code{nsims * 2 / nchain} so that \code{nsims} can be 
+#' \code{niters} is set to be \code{nsims * 2 / nchain} so that \code{nsims} can be 
 #' drawn from the second halves of the chains.
 #' @return a \code{jags_analysis} object
 #' @references 
@@ -41,7 +41,7 @@
 #' model <- jags_model("
 #' model { 
 #'  bLambda ~ dlnorm(0,10^-2) 
-#'  for (i in 1:nrow) { 
+#'  for (i in 1:length(x)) { 
 #'    x[i]~dpois(bLambda) 
 #'  } 
 #'}")
@@ -52,82 +52,53 @@
 #' 
 #' analysis <- update_jags(analysis, mode = "demo")
 #' 
+#' nchains(analysis)
+#' nsims(analysis)
+#' rhat(analysis)
+#' 
 #' @export
-jags_analysis <- function (
-  model, data, niter = 10^3, mode = "current"
-) {
+jags_analysis <- function (model, data, niters = 10^3, mode = "current") {
 
   if (!is.jags_model(model))
     stop("model must be a jags_model")
   
-  models <- model
-  rm(model)
+  if(is.numeric(niters)) {
+    if(!is_scalar(niters))
+      stop("niters must be a single value")  
+    if(niters < 100 || niters > 10^6) 
+      stop("niters must lie between 100 and 10^6")
+  } else
+    stop("niters must be numeric")
   
-  if (!is.data.frame (data)) {
-    if (!is.list(data)) {
-      stop("data must be a data.frame or a data list")
-    }
-    names <- names(data)
-    if(is.null(names)) {
-      stop("variables in data must be named")
-    }
-    classes <- c("logical","integer","numeric","factor",
-                 "Date","POSIXt","matrix","array")
-      bol <- sapply(data, inherits,classes[1])
-    for (class in classes[-1]) {
-      bol <- bol | sapply(data,inherits,class)
-    }
-    if (!all(bol)) {
-      stop(paste("variables in data list must be class",classes))
-    }
-    if (!is_data_list (data)) {
-      stop("data must be a data.frame or a data list")
-    }
-  } else {
-    if (!nrow(data)) {
-      stop("data must include at least one row")
-    }
-    if (!ncol(data)) {
-      stop("data must include at least one column")
-    }
-  }
-
-  if (is.numeric(niter)) {
-    if (length(niter) != 1) {
-      stop("niter must be length one")  
-    }
-    if(niter < 100 || niter > 10^6) {
-      stop("niter must lie between 100 and 10^6")
-    }
-  } else {
-    stop("niter must be numeric")
-  }
+  object <- list()
   
-  niter <- as.integer(niter)
+  class(object) <- "jags_analysis"
+  
+  data_jags(object) <- data
+  
+  niters <- as.integer(niters)
     
   old_opts <- opts_jagr(mode = mode)
   on.exit(opts_jagr(old_opts))
     
-  nchains <- opts_jagr("nchains")
-  nsims <- opts_jagr("nsims")
-  rhat <- opts_jagr("rhat")
-  resample <- opts_jagr("nresample")
-  quiet <- opts_jagr("quiet")
-  parallelChains <- opts_jagr("parallel_chains")
   parallelModels <- opts_jagr("parallel_models")
+  quiet <- opts_jagr("quiet")
+  
+  if (quiet) {
+    options(jags.pb = "none")
+  } else {
+    options(jags.pb = "text")
+  }
   
   if (opts_jagr("mode") == "debug") {
-    niter <- 100
+    niters <- 100
   } 
+    
+  nmodels <- nmodels(model)
   
-  niter <- max(niter, nsims * 2 / nchains)
-  
-  n.model <- number_of_models(models)
-  
-  if(n.model == 1) {
+  if(nmodels == 1)
     parallelModels <- FALSE
-  }
-
+  
   if(!"basemod" %in% list.modules())
     load.module("basemod")  
   
@@ -138,45 +109,28 @@ jags_analysis <- function (
     load.module("dic")
   
   analyses <- list()
-  
+      
   if(parallelModels) {
     
-    doMC::registerDoMC(cores=n.model)
+    doMC::registerDoMC(cores=nmodels)
     
-    analyses <- foreach::foreach(i = 1:n.model) %dopar% { 
-      jagr_analysis(subset_jags(models,i), data, 
-                    n.iter = niter, n.chain = nchains, resample = resample,
-                    rhat = rhat,
-                    parallelChains = parallelChains,
-                    quiet = quiet, n.sim = nsims)
+    analyses <- foreach::foreach(i = 1:nmodels) %dopar% { 
+      jagr_analysis(model(subset_jags(model,i)), data, niters = niters)
     }
   } else {
-    for (i in 1:n.model) {
+    for (i in 1:nmodels) {
+      
       if (!quiet)
-        cat(paste("\n\nModel",i,"of",n.model,"\n\n"))
-      analyses[[i]] <- jagr_analysis(subset_jags(models,i),
-                                     data,n.iter = niter, n.chain = nchains,
-                                     resample = resample, 
-                                     rhat = rhat,
-                                     parallelChains = parallelChains,
-                                    quiet = quiet, n.sim = nsims)
+        cat(paste("\n\nModel",i,"of",nmodels,"\n\n"))
+      
+      analyses[[i]] <- jagr_analysis(model(subset_jags(model,i)), data, niters = niters)
     }
   }
   
-  dic <- t(sapply(analyses,DIC_jagr_analysis))
-  rownames(dic) <- paste0("Model",1:nrow(dic))
-  
-  dic <- dic[order(dic[,"DIC",drop=T]),]
-  
-  object <- list(data = data,
-                analyses = analyses,
-                rhat = rhat,
-                dic = dic)
-  
-  class(object) <- "jags_analysis"
-  
-  object$derived_code <- models$derived_code
-  object$random_effects <- models$random_effects
+  analyses(object) <- analyses
+  rhat_threshold(object) <- opts_jagr("rhat")
+    
+  object <- revise(object)
   
   return (object)
 }

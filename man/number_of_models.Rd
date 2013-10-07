@@ -15,8 +15,4 @@
 \description{
   Gets the number of models in a JAGS object
 }
-\seealso{
-  \code{\link{number_of_models.jags_model}} and
-  \code{\link{number_of_models.jags_analysis}}
-}
 

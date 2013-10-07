@@ -4,21 +4,24 @@ test_that("analysis returns object of correct class", {
   
   model <- jags_model(" model { 
       bLambda ~ dlnorm(0,10^-2) 
-      for (i in 1:nrow) { 
+      for (i in 1:length(x)) { 
         x[i]~dpois(bLambda) 
       } 
     }")
   
   data <- data.frame(x = rpois(100,1))
-  an <- jags_analysis (model, data, mode = "test")  
-  expect_that(an, is_a("jags_analysis"))
+  analysis <- jags_analysis (model, data, mode = "test")  
+  expect_that(analysis, is_a("jags_analysis"))
+  expect_equal(nmodels(analysis), 1)
+  expect_that(as.jags_model(analysis),is_a("jags_model"))
+  expect_equal(model_code(analysis), model_code(model))
 })
 
 test_that("checks input", {
    
    model <- jags_model(" model { 
        bLambda ~ dlnorm(0,10^-2) 
-       for (i in 1:nrow) { 
+       for (i in 1:length(x)) { 
          x[i]~dpois(bLambda) 
        } 
      }")
@@ -48,7 +51,7 @@ test_that("select check", {
   
   code <- " model { 
                       bLambda ~ dlnorm(0,10^-2) 
-                      for (i in 1:nrow) { 
+                      for (i in 1:length(x)) { 
                       x[i]~dpois(bLambda) 
                       } 
 }"
@@ -62,12 +65,11 @@ test_that("select check", {
   expect_that(jags_analysis (mod, data, mode = "test"), throws_error())
   
   data <- as.list(data)
-  data$nrow <- length(data$x)
-  mod <- jags_model(code, select = c("x","nrow")) 
+  mod <- jags_model(code, select = c("x")) 
   expect_that(jags_analysis (mod, data, mode = "test"), is_a("jags_analysis"))
-  mod <- jags_model(code, select = c("y","nrow")) 
+  mod <- jags_model(code, select = c("y")) 
   expect_that(jags_analysis (mod, data, mode = "test"), throws_error())
-  mod <- jags_model(code, select = c("y","x","nrow")) 
+  mod <- jags_model(code, select = c("y","x")) 
   expect_that(jags_analysis (mod, data, mode = "test"), throws_error())  
 })
 
@@ -75,7 +77,7 @@ test_that("select check transform", {
   
   code <- " model { 
   bLambda ~ dlnorm(0,10^-2) 
-  for (i in 1:nrow) { 
+  for (i in 1:length(x)) { 
   x[i]~dpois(bLambda) 
   } 
 }"
@@ -92,11 +94,10 @@ test_that("select check transform", {
   expect_that(jags_analysis (mod, data, mode = "test"), throws_error())
   
   data <- as.list(data)
-  data$nrow <- length(data$x)
-  mod <- jags_model(code, select = c("trans(x)","nrow")) 
+  mod <- jags_model(code, select = c("trans(x)")) 
   expect_that(jags_analysis (mod, data, mode = "test"), is_a("jags_analysis"))
-  mod <- jags_model(code, select = c("trans(y)","nrow")) 
+  mod <- jags_model(code, select = c("trans(y)")) 
   expect_that(jags_analysis (mod, data, mode = "test"), throws_error())
-  mod <- jags_model(code, select = c("trans(y)","trans(x)","nrow")) 
+  mod <- jags_model(code, select = c("trans(y)","trans(x)")) 
   expect_that(jags_analysis (mod, data, mode = "test"), throws_error())  
 })

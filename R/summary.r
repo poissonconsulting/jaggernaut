@@ -6,7 +6,7 @@ summary.mcarray <- function (object, ...) {
   return (NULL)
 }
 
-summary.jags_mcmc <- function (object, ...) {
+summary.jagr_chains <- function (object, ...) {
   cat("\nDimensions:\n")
   dim <- c(chains = nchains(object), simulations = nsims(object))
   print(dim)

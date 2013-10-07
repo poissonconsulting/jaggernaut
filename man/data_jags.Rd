@@ -16,9 +16,6 @@
   Gets the dataset(s) from a JAGS object.
 }
 \seealso{
-  \code{\link{data_jags.jags_data_model}},
-  \code{\link{data_jags.jags_analysis}},
-  \code{\link{data_jags.jags_simulation}} and
-  \code{\link{data_jags.jags_power_analysis}}
+  \code{\link{data_jags.jags_data_model}}
 }
 

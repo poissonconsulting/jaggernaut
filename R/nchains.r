@@ -1,0 +1,68 @@
+
+#' @title Number of MCMC chains in a JAGS object
+#'
+#' @description 
+#' Gets the number of MCMC chains in a JAGS object
+#'   
+#' @param object a JAGS object
+#' @return an integer element indicating the number of MCMC chains in object
+#' @aliases nchains
+#' @export
+nchains <- function (object) {
+  UseMethod("nchains", object)
+}
+
+nchains.mcarray <- function (object) {
+  dim <- dim (object)
+  return (as.integer(dim[length(dim)]))
+}
+
+nchains.mcmc.list <- function (object) {
+  return (coda::nchain (object))
+}
+
+nchains.jagr_chains <- function (object) {
+  return (nchains (object$mcmc[[1]]))
+}
+
+nchains.jagr_power_analysis <- function (object) {
+  return (nchains (as.jagr_chains(object)))
+}
+
+nchains_jagr_power_analysis <- function (object) {
+  stopifnot(is.jagr_analysis(object))
+  return (nchains (object))
+}
+
+#' @method nchains jags_analysis
+#' @export
+nchains.jags_analysis <- function (object) {
+  if(is_one_model(object))
+    return (nchains(analysis(object)))
+  
+  analyses <- analyses(object)
+  analyses <- lapply(analyses, nchains_jagr_power_analysis)
+  analyses <- name_object(analyses, "Model")
+  return (analyses) 
+}
+
+nchains_jags_analysis <- function (object) {
+  stopifnot(is.jags_analysis(object))
+  return (nchains (object))
+}
+
+#' @method nchains jags_power_analysis
+#' @export
+nchains.jags_power_analysis <- function (object) {
+  
+  lapply_nchains_jags_analysis <- function (object) {    
+    return (lapply(object, nchains_jags_analysis))
+  }
+  
+  nchains <- lapply(object$analyses, lapply_nchains_jags_analysis)
+  nchains <- delist(nchains)
+  nchains <- arrayicise(nchains)
+  rownames(nchains) <- paste0("value",1:nrow(nchains))
+  colnames(nchains) <- paste0("replicate",1:ncol(nchains))
+  return (nchains)
+}

@@ -131,15 +131,17 @@
   \code{predict} function.
 }
 \examples{
-mod <- jags_model("
+model <- jags_model("
 model {
  bLambda ~ dlnorm(0,10^-2)
- for (i in 1:nrow) {
+ for (i in 1:length(x)) {
    x[i]~dpois(bLambda)
  }
 }")
 
-print(mod)
+print(model)
+nmodel(model)
+model_code(model)
 }
 \references{
   Plummer M (2012) JAGS Version 3.3.0 User Manual

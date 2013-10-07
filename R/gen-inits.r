@@ -1,12 +1,16 @@
 
+#' @export
 gen_inits <- function (object, ...) {
   UseMethod("gen_inits", object)
 }
 
+#' @export
 "gen_inits<-" <- function (object, value, ...) {
   UseMethod("gen_inits<-", object)
 }
 
+#' @method gen_inits jagr_model
+#' @export
 gen_inits.jagr_model <- function (object, ...) {
   return (object$gen_inits)
 }
@@ -16,38 +20,27 @@ gen_inits_jagr_model <- function (object, ...) {
   return (gen_inits(object, ...))
 }
 
+#' @method gen_inits jags_model
+#' @export
 gen_inits.jags_model <- function (object, ...) {
   
-  object <- as.jagr_model(object)
+  if(is_one_model(object))
+    return (gen_inits(model(object),...))
   
-  if(is.jagr_model(object))
-    return (gen_inits(object, ...))
-  
-  object <- lapply(object, gen_inits_jagr_model, ...)
-  
-  object <- delist(object)
-  if (length(object) == 0)
-    return (NULL)
-  return (object)  
+  models <- models(object)
+  models <- lapply(models, gen_inits_jagr_model, ...)
+  models <- name_object(models, "Model")
+  return (models)  
 }
 
-gen_inits.jags_data_model <- function (object, ...) {
-  return (gen_inits(as.jags_model(object), ...))
-}
-
-gen_inits.jagr_analysis <- function (object, ...) {
-  return (gen_inits(as.jagr_model(object, ...)))
-}
-
-gen_inits_jagr_analysis <- function (object, ...) {
-  stopifnot(is.jagr_analysis(object))
-  return (gen_inits(object, ...))
-}
-
+#' @method gen_inits jags_analysis
+#' @export
 gen_inits.jags_analysis <- function (object, ...) {
   return (gen_inits(as.jags_model(object), ...))
 }
 
+#' @method gen_inits<- jagr_model
+#' @export
 "gen_inits<-.jagr_model" <- function (object, value, ...) {
   
   if (!is.null(value)) {
@@ -65,18 +58,31 @@ gen_inits.jags_analysis <- function (object, ...) {
   return (object)
 }
 
+#' @method gen_inits<- jags_model
+#' @export
 "gen_inits<-.jags_model" <- function (object, value, ...) {
   
-  for (i in 1:nmodels(object))
-    gen_inits(object$models[[i]], ...) <- value
+  if(is.list(value) && length(value) != nmodels(object))
+    stop("if value is a list it must be the same length as the number of models in object")
   
+  if(is.list(value))
+    names(value) <- NULL
+  
+  models <- models(object)
+  
+  for (i in 1:length(models)) {
+    if(!is.list(value)) {
+      gen_inits(models[[i]]) <- value
+    } else
+      gen_inits(models[[i]]) <- value[[i]]
+  }
+  
+  models(object) <- models
   return (object)
 }
 
-"gen_inits<-.jags_data_model" <- function (object, value, ...) {
-  
-  for (i in 1:nmodels(object))
-    gen_inits(object$models[[i]], ...) <- value
-  
-  return (object)
-}
+#' @method gen_inits<- jagr_analysis
+#' @export
+"gen_inits<-.jagr_analysis" <- function (object, value, ...)
+  stop("cannot replace gen_inits in a jagr_analysis object")
+

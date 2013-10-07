@@ -20,11 +20,7 @@ translate_data <- function (select, data, dat = NULL)
     stop(paste(vars[bol],"in select but not variable names in data"))
   }
 
-  reserved <- c("row","all","fixed","random","deviance")
-  
-  if (is.data.frame(data)) {
-    reserved <- c(reserved,"nrow")
-  }
+  reserved <- c("all","fixed","random","deviance")
   
   bol <- reserved %in% names_data(data)
   
@@ -80,12 +76,6 @@ translate_data <- function (select, data, dat = NULL)
       }
     }
   }
-  
-  if (is.data.frame(dat)) {
-    nrow <- nrow(dat)
-  } else {
-    nrow <- NULL
-  }
 
   facs <- list()
   for (name in names_data(dat)) {
@@ -96,7 +86,7 @@ translate_data <- function (select, data, dat = NULL)
 
   data <- convert_data (data, centre = centre, standardise = standardise, dat = dat)
   
-  data <- c(as.list(data), facs, nrow = nrow)
+  data <- c(as.list(data), facs)
   
   return (data)
 }
