@@ -3,7 +3,8 @@
 \title{Perform a JAGS power analysis}
 \usage{
   jags_power_analysis(model, data_model, values,
-    nreps = 100, niters = 10^3, mode = "current")
+    nreps = 100, niters = 10^3, parm = c(fixed = 0),
+    mode = "current")
 }
 \arguments{
   \item{model}{a \code{jags_model}.}

@@ -9,11 +9,13 @@
 #' @return a data.frame or list(s) of the data
 #' @seealso \code{\link{data_jags.jags_data_model}}  
 #' @export
-data_jags <- function (object, ...)
+data_jags <- function (object, ...) {
   UseMethod("data_jags", object)
+}
 
-"data_jags<-" <- function (object, ...)
+"data_jags<-" <- function (object, ...) {
   UseMethod("data_jags<-", object)
+}
 
 #' @title Get dataset from a JAGS data model
 #'

@@ -125,3 +125,6 @@ Collate:
     'data-model.r'
     'values.r'
     'clist.r'
+    'power-jags.r'
+    'conf-level.r'
+    'power.r'

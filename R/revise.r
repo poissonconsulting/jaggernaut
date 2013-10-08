@@ -46,3 +46,13 @@ revise.jags_analysis <- function (object, ...) {
   
   return (object)
 }
+
+revise.jags_power_analysis <- function (object, parm, level, ...) {
+    
+  power <- power_jags(object, parm = parm, level = level)
+  
+  power(object) <- power
+  level(object) <- level
+  
+  return (object)
+}

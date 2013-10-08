@@ -32,7 +32,7 @@ coef_matrix <- function(object, level) {
   return (estimates)
 }
 
-coef.jagr_chains <- function (object, parm = "all", level = 0.95, ...) {
+coef.jagr_chains <- function (object, parm, level, ...) {
   stopifnot(is.numeric(level))
   stopifnot(is_scalar(level))
   stopifnot(is_defined(level))
@@ -45,20 +45,37 @@ coef.jagr_chains <- function (object, parm = "all", level = 0.95, ...) {
   return (coef)
 }
 
-coef.jagr_power_analysis <- function (object, parm = "all", level = 0.95, ...) {
-  return (coef(as.jagr_chains(object), parm = parm, level = level, ...))
+coef.jagr_power_analysis <- function (object, model, parm, level, ...) {
+  
+  stopifnot(is.jagr_analysis_model(model))
+  stopifnot(!is.jagr_analysis(model))
+  stopifnot(is.character(parm) && is_length(parm) && is_defined(parm))
+  
+  monitor(model) <- monitor(object)
+  
+  object <- c(model,object)
+  
+  class(object) <- c("jagr_analysis","jagr_analysis_model",
+                     "jagr_model","jagr_power_analysis")
+  
+  return (coef(object, parm = parm, level = level, ...))
 }
 
-coef.jagr_analysis <- function (object, parm = "all", level = 0.95, ...) {
+coef_jagr_power_analysis <- function (object, parm, level, ...) {
+  stopifnot(is.jagr_power_analysis(object))
+  return (coef(object, parm, level, ...))
+}
+
+coef.jagr_analysis <- function (object, parm, level, ...) {
 
   parm <- expand_parm(object, parm = parm)
   
   return (coef(as.jagr_chains(object), parm = parm, level = level, ...))
 }
 
-coef_jagr_analysis <- function (object, ...) {
+coef_jagr_analysis <- function (object, parm, level, ...) {
   stopifnot(is.jagr_analysis(object))
-  return (coef(object, ...))
+  return (coef(object, parm, level, ...))
 }
 
 #' @title Calculate parameter estimates
@@ -109,15 +126,23 @@ coef.jags_analysis <- function (object, parm = "fixed", level = "current", ...) 
 coef.jags_power_analysis <- function (object, parm = "fixed", level = "current", ...) {
   
   lapply_coef_jagr_power_analysis <- function (object, model,
-                                               parm, ...) {    
+                                               parm, level, ...) {    
     return (lapply(object, coef_jagr_power_analysis, 
-                   model = model, parm = parm, ...))
+                   model = model, parm = parm, level = level, ...))
+  }
+  
+  old_opts <- opts_jagr()
+  on.exit(opts_jagr(old_opts))
+  
+  if (!is.numeric(level)) {
+    opts_jagr(mode = level)
+    level <- opts_jagr("level")
   }
   
   analyses <- analyses(object)
   
   coef <- lapply(analyses, lapply_coef_jagr_power_analysis, 
-                 model = model(model(object)), parm = parm, ...)
+                 model = model(model(object)), parm = parm, level = level, ...)
   
   coef <- name_object(coef,c("value","replicate"))
   return (coef)

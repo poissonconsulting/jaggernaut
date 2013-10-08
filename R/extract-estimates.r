@@ -5,7 +5,7 @@ extract_estimates <- function (object, ...) {
 
 extract_estimates.jagr_chains <- function (object, ...) {
   
-  est <- coef(object)
+  est <- coef(object, parm = "all", level = 0.95)
       
   ss <- strsplit(rownames(est),"\\[|,|]")
   ss <- lapply(ss,function (x) return (x[x != ""]))
