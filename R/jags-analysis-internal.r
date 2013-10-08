@@ -35,6 +35,7 @@ jags_analysis_internal <- function (data, file, monitor, inits, n.chain, n.adapt
     model = jags, variable.names = monitor, n.iter = n.sim, thin = n.thin
   )
 
-  mcmc <- jagr_chains(mcmc=mcmc,jags=list(jags))
-  return (mcmc)
+  chains <- jagr_chains(mcmc=mcmc,jags=list(jags))
+    
+  return (chains)
 }

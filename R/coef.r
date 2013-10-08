@@ -104,6 +104,25 @@ coef.jags_analysis <- function (object, parm = "fixed", level = "current", ...) 
   return (analyses) 
 }
 
+#' @method coef jags_power_analysis
+#' @export
+coef.jags_power_analysis <- function (object, parm = "fixed", level = "current", ...) {
+  
+  lapply_coef_jagr_power_analysis <- function (object, model,
+                                               parm, ...) {    
+    return (lapply(object, coef_jagr_power_analysis, 
+                   model = model, parm = parm, ...))
+  }
+  
+  analyses <- analyses(object)
+  
+  coef <- lapply(analyses, lapply_coef_jagr_power_analysis, 
+                 model = model(model(object)), parm = parm, ...)
+  
+  coef <- name_object(coef,c("value","replicate"))
+  return (coef)
+}
+
 #' @title Calculate estimates
 #'
 #' @description

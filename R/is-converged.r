@@ -16,14 +16,25 @@ is_converged_jagr_power_analysis <- function (object, rhat_threshold, ...) {
   return (is_converged(object, rhat_threshold = rhat_threshold, ...))
 }
 
-#' @method rhat jags_analysis
+#' @method is_converged jags_analysis
 #' @export 
 is_converged.jags_analysis <- function (object, ...) {
   return (rhat (object, ...) <= rhat_threshold(object))
 }
 
-#' @method rhat jags_power_analysis
+#' @method is_converged jags_power_analysis
 #' @export 
-is_converged.jags_power_analysis <- function (object, ...) {  
-  return (rhat (object, ...) <= rhat_threshold(object))
+is_converged.jags_power_analysis <- function (object, percent = FALSE, ...) { 
+  rhat <- rhat(object, ...)
+  rhat <- rhat <= rhat_threshold(object)
+  if(!percent) {
+    return (rhat)
+  }
+  
+  percent_fun <- function (x) {
+    return (round(length(x[x]) / length(x) * 100))
+  }
+  
+  rhat <- apply(rhat, 2, percent_fun)
+  return (rhat)
 }

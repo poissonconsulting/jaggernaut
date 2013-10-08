@@ -30,8 +30,8 @@
 #'  for (i in 1:length(y)) { 
 #'    y[i] ~ dpois(bIntercept) 
 #'  } 
-#'}    
-#' ")
+#'} ",
+#'select = c("y"))
 #'
 #' values <- data.frame(ny = c(10, 100), bIntercept = c(10,10))
 #' 
@@ -43,7 +43,7 @@
 #' niters(power)
 #' nsims(power)
 #' rhat(power)
-#' is_converged(power)
+#' is_converged(power, percent = TRUE)
 #' 
 #' @export
 jags_power_analysis <- function (model, data_model, values, nreps = 100, niters = 10^3, mode = "current") {
@@ -77,7 +77,7 @@ jags_power_analysis <- function (model, data_model, values, nreps = 100, niters 
             
       analysis <- jags_analysis(model = model, 
                     data = data_jags(subset_jags(object,value,rep))[[1]][[1]], 
-                    niters = niters)      
+                    niters = niters)  
       
       analyses[[value]][[rep]] <- as.jagr_power_analysis(analysis(analysis))
     }

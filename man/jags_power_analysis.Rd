@@ -42,8 +42,8 @@ bIntercept ~ dunif(0, 100)
  for (i in 1:length(y)) {
    y[i] ~ dpois(bIntercept)
  }
-}
-")
+} ",
+select = c("y"))
 
 values <- data.frame(ny = c(10, 100), bIntercept = c(10,10))
 
@@ -55,7 +55,7 @@ nchains(power)
 niters(power)
 nsims(power)
 rhat(power)
-is_converged(power)
+is_converged(power, percent = TRUE)
 }
 \references{
   Plummer M (2012) JAGS Version 3.3.0 User Manual

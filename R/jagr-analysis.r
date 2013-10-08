@@ -30,7 +30,7 @@ jagr_analysis <- function (model, data, niters) {
                                   niters = niters,
                                   inits = inits, 
                                   monitor = monitor(model))
-  
+    
   monitor(model) <- monitor(analysis) 
   
   object <- c(model,analysis)

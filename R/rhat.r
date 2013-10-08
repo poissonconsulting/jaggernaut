@@ -40,7 +40,7 @@ rhat.jagr_power_analysis <- function (object, model, parm = "all", combine = TRU
   stopifnot(!is.jagr_analysis(model))
   stopifnot(is.character(parm) && is_length(parm) && is_defined(parm))
   stopifnot(is_indicator(combine))
-  
+      
   monitor(model) <- monitor(object)
   
   object <- c(model,object)
@@ -101,8 +101,7 @@ rhat.jags_analysis <- function (object, parm = "all", combine = TRUE, ...) {
 
 #' @method rhat jags_power_analysis
 #' @export 
-rhat.jags_power_analysis <- function (object, parm = "all", combine = TRUE, ...)
-{
+rhat.jags_power_analysis <- function (object, parm = "all", combine = TRUE, ...) {
   lapply_rhat_jagr_power_analysis <- function (object, model,
                                          parm, combine, ...) {    
     return (lapply(object, rhat_jagr_power_analysis, 

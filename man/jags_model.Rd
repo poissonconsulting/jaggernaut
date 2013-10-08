@@ -4,7 +4,8 @@
 \usage{
   jags_model(model_code, monitor = NULL, select = NULL,
     modify_data = NULL, gen_inits = NULL,
-    derived_code = NULL, random_effects = NULL)
+    derived_code = NULL, random_effects = NULL,
+    modify_data_derived = NULL)
 }
 \arguments{
   \item{model_code}{a character element defining the model
