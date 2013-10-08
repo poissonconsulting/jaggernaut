@@ -1,10 +1,8 @@
 
-#' @title Perform a JAGS simulation
+#' @title Perform a JAGS power analysis
 #'
 #' @description 
-#' Performs a JAGS simulation by using a 
-#' \code{jags_data_model} and a data frame of values  
-#' to generate a simulation data frame using JAGS (Plummer 2012). 
+#' Performs a JAGS power analysis. 
 #' 
 #' @param model a \code{jags_model}.
 #' @param data_model a \code{jags_data_model}.
@@ -45,6 +43,7 @@
 #' niters(power)
 #' nsims(power)
 #' rhat(power)
+#' is_converged(power)
 #' 
 #' @export
 jags_power_analysis <- function (model, data_model, values, nreps = 100, niters = 10^3, mode = "current") {

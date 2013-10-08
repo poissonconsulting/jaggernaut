@@ -1,5 +1,4 @@
 
-#' @method plot jagr_analysis
 plot.jagr_chains <- function (x, parm = "all", ...) {
 
   stopifnot(is.character(parm) && is_length(parm))
@@ -20,7 +19,6 @@ plot.jagr_chains <- function (x, parm = "all", ...) {
   return (plot(mcmc,...))
 }
 
-#' @method plot jagr_analysis
 plot.jagr_analysis <- function (x, parm, ...) {
   
   parm <- expand_parm(x, parm = parm)
@@ -44,7 +42,7 @@ plot.jagr_analysis <- function (x, parm, ...) {
 #' @export
 plot.jags_analysis <- function (x, model_number = 1, parm = "fixed", ...) {
 
-  x <- subset_jags(x, model_number)
+  x <- subset_jags(x, model_number = model_number)
   
-  return (plot(as.jagr_analysis(x), parm = parm, ...))
+  return (plot(analysis(x), parm = parm, ...))
 }

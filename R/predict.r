@@ -229,11 +229,11 @@ predict.jags_analysis <- function (object, newdata = NULL,
     newdata <- merge(newdata, dat)
     stopifnot(nrow(newdata) > 0)
   }
-    
+
   pred <- predict_internal(object, parm = parm, 
                            data = newdata, 
                            base = base, level = level, ...)
-    
+      
   rownames(pred) <- NULL
   
   return (pred)

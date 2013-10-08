@@ -107,7 +107,8 @@
 #' @export 
 jags_model <- function (model_code, monitor = NULL, select = NULL, 
                         modify_data = NULL, gen_inits = NULL, 
-                        derived_code = NULL, random_effects = NULL) {  
+                        derived_code = NULL, random_effects = NULL,
+                        modify_data_derived = NULL) {  
 
   model <- jagr_analysis_model(model_code = model_code, 
                       monitor = monitor, 
@@ -115,7 +116,8 @@ jags_model <- function (model_code, monitor = NULL, select = NULL,
                       modify_data = modify_data,
                       gen_inits = gen_inits,
                       derived_code = derived_code,
-                      random_effects = random_effects)
+                      random_effects = random_effects,
+                      modify_data_derived = modify_data_derived)
   
   object <- list(
     models = list(model)

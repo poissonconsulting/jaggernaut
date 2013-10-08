@@ -46,7 +46,7 @@ data_jags.jags_data_model <- function (object, values, ...) {
   
   if (is.function(gen_inits(object))) {
     inits <- list()
-    inits[[i]] <- gen_inits(object)(values)
+    inits[[i]] <- gen_inits(object)(data)
   } else
     inits <- NULL
   
@@ -61,6 +61,8 @@ data_jags.jags_data_model <- function (object, values, ...) {
   )
 
   data <- extract_estimates(chains)[["estimate"]]
+  
+  data <- clist(data,values)
     
   if(is.function(extract_data(object)))
     data <- extract_data(object)(data)

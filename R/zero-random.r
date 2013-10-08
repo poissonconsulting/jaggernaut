@@ -21,7 +21,7 @@ zero_random.jagr_chains <- function (object, random_variable, ...) {
 
 zero_random.jagr_power_analysis <- function (object, data) {
   stopifnot(is.list(data))
-    
+      
   for (name in names_data(data)) {
     var <- data[[name]]
     va <- unique(var)
@@ -41,6 +41,7 @@ zero_random.jagr_power_analysis <- function (object, data) {
   return (chains(object))
 }
 
-zero_random.jags_analysis <- function (object, data, ...)
+zero_random.jags_analysis <- function (object, data, ...) {
+  stopifnot(is_one_model(object))
   return (zero_random (analysis(object), data, ...))
-
+}

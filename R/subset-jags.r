@@ -135,16 +135,13 @@ subset_jags.jags_analysis <- function (object, model_number = NULL, ...) {
     
   if(is.null(model_number))
     return (object)
-    
-  x <- object
-  rm(object)
   
   if (is.numeric(model_number)) {
     if (length(model_number) != 1) {
       stop("model_number must be a single value")
     }
-    if (model_number < 0 || model_number > nmodels(x)) {
-      stop(paste("model_number must lie between 0 and the number of models (in this case",nmodels(x),")"))
+    if (model_number < 0 || model_number > nmodels(object)) {
+      stop(paste("model_number must lie between 0 and the number of models (in this case",nmodels(object),")"))
     }
   } else {
     stop ("model_number must be an integer")
@@ -152,24 +149,17 @@ subset_jags.jags_analysis <- function (object, model_number = NULL, ...) {
   
   model_number <- as.integer(model_number)
   
-  if (nmodels(x) == 1)
-    return (x)
-  
-  newObject <- list()
-  newObject$data <- x$data
-  newObject$analyses <- list()
-  
-  if(model_number == 0)
-    model_number <- as.integer(substr(rownames(x$dic)[1],6,8))
+  if (nmodels(object) == 1)
+    return (object)
 
-  newObject$analyses[[1]] <- x$analyses[[model_number]]
+  if(model_number == 0)
+    model_number <- as.integer(substr(rownames(dic_jags(object))[1],6,8))
   
-  dic <- t(sapply(newObject$analyses,DIC_jagr_analysis))
-  rownames(dic) <- paste0("Model",1:nrow(dic))  
-  newObject$dic <- dic[order(dic[,"DIC",drop=T]),]    
-  newObject$rhat <- x$rhat
+  analyses <- analyses(object)
   
-  class(newObject) <- "jags_analysis"
+  analyses(object) <- analyses[[model_number]]
+
+  object <- revise(object)  
   
   return (newObject)
 }

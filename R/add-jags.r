@@ -155,15 +155,8 @@ add_jags.jags_simulation <- function (object, object2, mode = "current", ...) {
   
   values(object) <- rbind(values(object), values(object2))
 
-  data <- data_jags(object)
-  data2 <- data_jags(object2)
+  data <- clist(data_jags(object), data_jags(object2))
   
-  len_data <- length(data)
-  
-  for (i in 1:length(data2)) {
-    data[[i + len_data]] <- data2[[i]]
-  }
-
   data_jags(object) <- data
   
   args <- list(...)

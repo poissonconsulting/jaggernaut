@@ -11,7 +11,7 @@ get_derived.jags_analysis <- function (object, monitor, data) {
   stopifnot(is.data.frame(data) || is_data_list(data))
 
   dat <- translate_data(select(object), data_jags(object), data) 
-    
+      
   chains <- zero_random (object, dat)
   
   if (is.function(modify_data_derived(object)))

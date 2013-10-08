@@ -11,8 +11,8 @@ predict_internal <- function (object, parm, data, base, level, ...) {
   stopifnot(length(level) == 1)
   stopifnot(level == 0 || (level >= 0.75 && level <= 0.99))
   
-  emcmc <- get_derived (object, monitor=parm, data = data)  
-  
+  emcmc <- get_derived (object, monitor=parm, data = data) 
+    
   if (is.data.frame(base)) {
     
     base <- get_derived (object, monitor = parm, data = base)

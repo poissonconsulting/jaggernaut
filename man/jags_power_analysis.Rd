@@ -1,6 +1,6 @@
 \name{jags_power_analysis}
 \alias{jags_power_analysis}
-\title{Perform a JAGS simulation}
+\title{Perform a JAGS power analysis}
 \usage{
   jags_power_analysis(model, data_model, values,
     nreps = 100, niters = 10^3, mode = "current")
@@ -25,10 +25,7 @@
   a \code{jags_simulation} object
 }
 \description{
-  Performs a JAGS simulation by using a
-  \code{jags_data_model} and a data frame of values to
-  generate a simulation data frame using JAGS (Plummer
-  2012).
+  Performs a JAGS power analysis.
 }
 \examples{
 data_model <- jags_data_model("
@@ -58,6 +55,7 @@ nchains(power)
 niters(power)
 nsims(power)
 rhat(power)
+is_converged(power)
 }
 \references{
   Plummer M (2012) JAGS Version 3.3.0 User Manual
