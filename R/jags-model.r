@@ -89,7 +89,9 @@
 #' @return a \code{jags_model} object
 #' @references  
 #' Plummer M (2012) JAGS Version 3.3.0 User Manual \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
-#' @seealso \code{\link{jags_analysis}} and \code{\link{predict.jags_analysis}}  
+#' @seealso \code{\link{jags_analysis}}, 
+#' \code{\link{jags_power_analysis}} 
+#' and \code{\link{jaggernaut}} 
 #' @examples
 #' 
 #' model <- jags_model("
@@ -101,7 +103,7 @@
 #'}")
 #'
 #' print(model)
-#' nmodel(model)
+#' nmodels(model)
 #' model_code(model)
 #'
 #' @export 

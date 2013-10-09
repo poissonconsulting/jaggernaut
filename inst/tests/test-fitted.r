@@ -7,13 +7,13 @@ test_that("fitted works", {
     sVolume ~ dunif(0, 100)
     bIntercept ~ dnorm (0, 100^-2)
     bGirth ~ dnorm(0, 100^-2)
-    for (i in 1:nrow) {
+    for (i in 1:length(Volume)) {
     eVolume[i] <- bIntercept + bGirth * Girth[i] 
     Volume[i] ~ dnorm(eVolume[i], sVolume^-2) 
     } 
 }",
 derived_code = "model {
-    for (i in 1:nrow) {
+    for (i in 1:length(Volume)) {
     prediction[i] <- bIntercept + bGirth * Girth[i] 
     residual[i] <- (Volume[i] - prediction[i]) / sVolume
     }
@@ -27,13 +27,13 @@ select = c("Volume","Girth")
     bIntercept ~ dnorm (0, 100^-2)
     bGirth ~ dnorm(0, 100^-2)
     bHeight ~ dnorm(0, 100^-2)
-    for (i in 1:nrow) {
+    for (i in 1:length(Volume)) {
     eVolume[i] <- bIntercept + bGirth * Girth[i] + bHeight * Height[i]
     Volume[i] ~ dnorm(eVolume[i], sVolume^-2) 
     } 
     }",
 derived_code = "model {
-    for (i in 1:nrow) {
+    for (i in 1:length(Volume)) {
     prediction[i] <- bIntercept + bGirth * Girth[i] + bHeight * Height[i]
     residual[i] <- (Volume[i] - prediction[i]) / sVolume
     }

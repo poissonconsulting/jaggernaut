@@ -5,14 +5,8 @@ power_jags <- function (object, parm = c(fixed = 0), level = "current") {
   if(!is.jags_power_analysis(object))
     stop("object must be a jags_power_analysis")
   
-  if(!is.numeric(parm) || !(is.character(parm) && is.character(names(parm))))
+  if(!(is.character(parm) || (is.numeric(parm) && is.character(names(parm)))))
     stop("parm must be a character vector or a named numeric vector")
-      
-  if(is.character(parm)) {
-    names <- parm
-    parm <- rep(0, length(names))
-    names(parm) <- names
-  }
     
   old_opts <- opts_jagr()
   on.exit(opts_jagr(old_opts))
@@ -22,19 +16,25 @@ power_jags <- function (object, parm = c(fixed = 0), level = "current") {
     level <- opts_jagr("level")
   }
   
+  if(is.character(parm)) {
+    names <- parm
+    parm <- rep(0, length(names))
+    names(parm) <- names
+  }
+  print(parm)
+  
+  parm <- "all"
+  parm <- expand_parm(object, parm = parm)
+  
+  print(parm)
+  stop()
   if(!is.null(power(object))) {
     stopifnot(is.numeric(level(object)))
     if(level == level(object)) {
       
-      
+      power <- power(object)
       return (power)
     }
-  }
-    && !is.null(leve)level == level(object)) {
-    power <- power(object)
-    # need to check that parm in power
-    if (level == level(object))
-      return (power(object))
   }
   
   quiet <- opts_jagr("quiet")
@@ -43,6 +43,8 @@ power_jags <- function (object, parm = c(fixed = 0), level = "current") {
     cat("\ncalculating coefficients\n")
   
   coef <- coef(object, parm = names(parm), level = level)
+  
+  power <- coef
   
   return (power)
 }

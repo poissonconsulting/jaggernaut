@@ -23,7 +23,7 @@
   the analysis.}
 }
 \value{
-  a \code{jags_simulation} object
+  a \code{jags_power_analysis} object
 }
 \description{
   Performs a JAGS power analysis.
@@ -57,13 +57,15 @@ niters(power)
 nsims(power)
 rhat(power)
 is_converged(power, percent = TRUE)
+
+power_jags(power)
 }
 \references{
   Plummer M (2012) JAGS Version 3.3.0 User Manual
   \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
 }
 \seealso{
-  \code{\link{jags_data_model}} and
-  \code{\link{jaggernaut}}
+  \code{\link{jags_data_model}}, \code{\link{jags_model}}
+  and \code{\link{jaggernaut}}
 }
 

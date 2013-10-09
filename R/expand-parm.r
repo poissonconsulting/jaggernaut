@@ -11,18 +11,36 @@ expand_parm.jagr_analysis <- function (object, parm = "all", ...) {
   
   pars <- monitor(chains(object))
   
-  if("all" %in% parm || all(c("fixed","random") %in% parm))
-    return (pars)
+  all <- NULL
+  fixed <- NULL
+  random <- NULL
   
-  add <- NULL
-  
+  if("all" %in% parm) {
+    all <- pars
+  }
   if ("fixed" %in% parm) {
-    add <- pars[!pars %in% names(random_effects(object))]
-  } else if ("random" %in% parm) {
-    add <- pars[pars %in% names(random_effects(object))]
+    fixed <- pars[!pars %in% names(random_effects(object))]
+  } 
+  if ("random" %in% parm) {
+    random <- pars[pars %in% names(random_effects(object))]
   }
   pars <- pars[pars %in% parm]
-  pars <- unique(c(pars,add))  
+  pars <- unique(c(pars,all,fixed,random))  
   
   return (pars)
+}
+
+expand_parm.jags_power_analysis <- function (object, parm = "all", ...) {
+      
+  model <- model(model(object))
+  analysis <- analyses(object)[[1]][[1]]
+  
+  monitor(model) <- monitor(analysis)
+  
+  object <- c(model,analysis)
+  
+  class(object) <- c("jagr_analysis","jagr_analysis_model",
+                     "jagr_model","jagr_power_analysis")
+  
+  return (expand_parm(object, parm = parm, ...))
 }

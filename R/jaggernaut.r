@@ -43,9 +43,7 @@
 #' @import abind coda rjags foreach
 #' @name jaggernaut
 #' @aliases package-jaggernaut
-#' @seealso \code{\link{jags_model}}, \code{\link{jags_analysis}}, \code{\link{plot.jags_analysis}},
-#' \code{\link{rhat}},
-#' \code{\link{coef.jags_analysis}} and \code{\link{predict.jags_analysis}}.
+#' @seealso \code{\link{jags_model}}, \code{\link{jags_analysis}}, \code{\link{jags_data_model}}, \code{\link{jags_simulation}} and \code{\link{jags_power_analysis}}
 #' @examples
 #' 
 #' mod <- jags_model("

@@ -34,26 +34,13 @@ rhat.jagr_chains <- function (object, parm = "all", combine = TRUE, ...)
   return (rhat)
 }
 
-rhat.jagr_power_analysis <- function (object, model, parm = "all", combine = TRUE, ...) {
-  
-  stopifnot(is.jagr_analysis_model(model))
-  stopifnot(!is.jagr_analysis(model))
-  stopifnot(is.character(parm) && is_length(parm) && is_defined(parm))
-  stopifnot(is_indicator(combine))
-      
-  monitor(model) <- monitor(object)
-  
-  object <- c(model,object)
-  
-  class(object) <- c("jagr_analysis","jagr_analysis_model",
-                     "jagr_model","jagr_power_analysis")
-    
-  return (rhat(object, parm = parm, combine = combine,...))
+rhat.jagr_power_analysis <- function (object, model, parm, combine = TRUE, ...) {
+  return (rhat(chains(object), parm = parm, combine = combine,...))
 }
 
-rhat_jagr_power_analysis <- function (object, model, parm = "all", combine = TRUE, ...) {
+rhat_jagr_power_analysis <- function (object, parm, combine = TRUE, ...) {
   stopifnot(is.jagr_power_analysis(object))
-  return (rhat(object, model = model, parm = parm, combine = combine, ...))
+  return (rhat(object, parm = parm, combine = combine, ...))
 }
 
 rhat.jagr_analysis <- function (object, parm = "all", combine = TRUE, ...) {
@@ -105,14 +92,16 @@ rhat.jags_power_analysis <- function (object, parm = "all", combine = TRUE, ...)
   lapply_rhat_jagr_power_analysis <- function (object, model,
                                          parm, combine, ...) {    
     return (lapply(object, rhat_jagr_power_analysis, 
-                   model = model, parm = parm, 
+                   parm = parm, 
                    combine = combine, ...))
   }
-        
+  
+  parm <- expand_parm(object, parm)
+  
   analyses <- analyses(object)
     
   rhat <- lapply(analyses, lapply_rhat_jagr_power_analysis, 
-                 model = model(model(object)), parm = parm, 
+                 parm = parm, 
                  combine = combine, ...)
 
   if(combine) {

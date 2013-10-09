@@ -45,20 +45,8 @@ coef.jagr_chains <- function (object, parm, level, ...) {
   return (coef)
 }
 
-coef.jagr_power_analysis <- function (object, model, parm, level, ...) {
-  
-  stopifnot(is.jagr_analysis_model(model))
-  stopifnot(!is.jagr_analysis(model))
-  stopifnot(is.character(parm) && is_length(parm) && is_defined(parm))
-  
-  monitor(model) <- monitor(object)
-  
-  object <- c(model,object)
-  
-  class(object) <- c("jagr_analysis","jagr_analysis_model",
-                     "jagr_model","jagr_power_analysis")
-  
-  return (coef(object, parm = parm, level = level, ...))
+coef.jagr_power_analysis <- function (object, parm, level, ...) {
+  return (coef(chains(object), parm = parm, level = level, ...))
 }
 
 coef_jagr_power_analysis <- function (object, parm, level, ...) {
@@ -125,10 +113,10 @@ coef.jags_analysis <- function (object, parm = "fixed", level = "current", ...) 
 #' @export
 coef.jags_power_analysis <- function (object, parm = "fixed", level = "current", ...) {
   
-  lapply_coef_jagr_power_analysis <- function (object, model,
+  lapply_coef_jagr_power_analysis <- function (object,
                                                parm, level, ...) {    
     return (lapply(object, coef_jagr_power_analysis, 
-                   model = model, parm = parm, level = level, ...))
+                   parm = parm, level = level, ...))
   }
   
   old_opts <- opts_jagr()
@@ -139,10 +127,11 @@ coef.jags_power_analysis <- function (object, parm = "fixed", level = "current",
     level <- opts_jagr("level")
   }
   
+  parm <- expand_parm(object, parm = parm)
+  
   analyses <- analyses(object)
   
-  coef <- lapply(analyses, lapply_coef_jagr_power_analysis, 
-                 model = model(model(object)), parm = parm, level = level, ...)
+  coef <- lapply(analyses, lapply_coef_jagr_power_analysis, parm = parm, level = level, ...)
   
   coef <- name_object(coef,c("value","replicate"))
   return (coef)

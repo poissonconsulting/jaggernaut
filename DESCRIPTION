@@ -126,5 +126,5 @@ Collate:
     'values.r'
     'clist.r'
     'power-jags.r'
-    'conf-level.r'
     'power.r'
+    'level.r'

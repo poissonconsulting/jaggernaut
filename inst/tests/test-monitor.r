@@ -7,7 +7,7 @@ test_that("monitor works", {
   sVolume ~ dunif(0, 100)
   bIntercept ~ dnorm (0, 100^-2)
   bGirth ~ dnorm(0, 100^-2)
-  for (i in 1:nrow) {
+  for (i in 1:length(Volume)) {
     eVolume[i] <- bIntercept + bGirth * Girth[i] 
     Volume[i] ~ dnorm(eVolume[i], sVolume^-2) 
   } 
@@ -21,7 +21,7 @@ select = c("Volume","Girth")
   bIntercept ~ dnorm (0, 100^-2)
   bGirth ~ dnorm(0, 100^-2)
   bHeight ~ dnorm(0, 100^-2)
-  for (i in 1:nrow) {
+  for (i in 1:length(Volume)) {
     eVolume[i] <- bIntercept + bGirth * Girth[i] + bHeight * Height[i]
     Volume[i] ~ dnorm(eVolume[i], sVolume^-2) 
   } 

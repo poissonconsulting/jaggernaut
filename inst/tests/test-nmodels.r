@@ -4,7 +4,7 @@ test_that("nmodels returns object of correct class and length", {
   
   model <- jags_model(" model { 
                       bLambda ~ dlnorm(0,10^-2) 
-                      for (i in 1:nrow) { 
+                      for (i in 1:length(x)) { 
                       x[i]~dpois(bLambda) 
                       } 
 }")
@@ -20,14 +20,14 @@ test_that("nmodels returns object of correct value", {
   
   mod1 <- jags_model(" model { 
     bLambda ~ dlnorm(0,10^-2) 
-    for (i in 1:nrow) { 
+    for (i in 1:length(x)) { 
       x[i]~dpois(bLambda) 
     } 
   }")
 
   mod2 <- jags_model(" model { 
     bLambda ~ dlnorm(0,2^-2) 
-    for (i in 1:nrow) { 
+    for (i in 1:length(x)) { 
       x[i]~dpois(bLambda) 
     } 
   }")

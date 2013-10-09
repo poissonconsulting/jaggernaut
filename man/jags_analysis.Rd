@@ -73,9 +73,6 @@ rhat(analysis)
   \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
 }
 \seealso{
-  \code{\link{jags_model}}, \code{\link{opts_jagr}},
-  \code{\link{rhat}}, \code{\link{coef.jags_analysis}},
-  \code{\link{predict.jags_analysis}} and
-  \code{\link{jaggernaut}}
+  \code{\link{jags_model}} and \code{\link{jaggernaut}}
 }
 

@@ -141,7 +141,7 @@ model {
 }")
 
 print(model)
-nmodel(model)
+nmodels(model)
 model_code(model)
 }
 \references{
@@ -149,7 +149,8 @@ model_code(model)
   \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
 }
 \seealso{
-  \code{\link{jags_analysis}} and
-  \code{\link{predict.jags_analysis}}
+  \code{\link{jags_analysis}},
+  \code{\link{jags_power_analysis}} and
+  \code{\link{jaggernaut}}
 }
 

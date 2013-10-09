@@ -104,6 +104,8 @@ data_jags(model, values)
   \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
 }
 \seealso{
-  \code{\link{jags_simulation}}
+  \code{\link{jags_simulation}},
+  \code{\link{jags_power_analysis}} and
+  \code{\link{jaggernaut}}
 }
 

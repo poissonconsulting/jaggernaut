@@ -10,10 +10,10 @@
 #' @param nreps an integer element indicating the number of datasets to generate for each set of input values.
 #' @param niters an integer element indicating the number of iterations.
 #' @param mode a character element indicating the mode for the analysis.
-#' @return a \code{jags_simulation} object
+#' @return a \code{jags_power_analysis} object
 #' @references 
 #' Plummer M (2012) JAGS Version 3.3.0 User Manual \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
-#' @seealso \code{\link{jags_data_model}} and \code{\link{jaggernaut}}
+#' @seealso \code{\link{jags_data_model}}, \code{\link{jags_model}} and \code{\link{jaggernaut}}
 #' @examples
 #' 
 #' data_model <- jags_data_model("
@@ -44,6 +44,8 @@
 #' nsims(power)
 #' rhat(power)
 #' is_converged(power, percent = TRUE)
+#' 
+#' power_jags(power)
 #' 
 #' @export
 jags_power_analysis <- function (model, data_model, values, nreps = 100, 
@@ -90,7 +92,7 @@ jags_power_analysis <- function (model, data_model, values, nreps = 100,
   rhat_threshold(object) <- opts_jagr("rhat")
   analyses(object) <- analyses
   
-#  object <- revise(object, parm = parm, level = level)
+  object <- revise(object, parm = parm, level = level)
 
   return (object)
 }
