@@ -3,8 +3,7 @@
 \title{Perform a JAGS power analysis}
 \usage{
   jags_power_analysis(model, data_model, values,
-    nreps = 100, niters = 10^3, parm = c(fixed = 0),
-    mode = "current")
+    nreps = 100, niters = 10^3, mode = "current")
 }
 \arguments{
   \item{model}{a \code{jags_model}.}
@@ -58,7 +57,7 @@ nsims(power)
 rhat(power)
 is_converged(power, percent = TRUE)
 
-power_jags(power)
+# power_jags(power)
 }
 \references{
   Plummer M (2012) JAGS Version 3.3.0 User Manual

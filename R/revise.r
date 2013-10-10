@@ -48,12 +48,9 @@ revise.jags_analysis <- function (object, ...) {
 }
 
 revise.jags_power_analysis <- function (object, parm, level, ...) {
-  
-  power(object) <- NULL
-  power <- power_jags(object, parm = parm, level = level)
-  
-#  power(object) <- power
-#  level(object) <- level
+
+  object$coefs <- NULL
+  object$power <- NULL
   
   return (object)
 }

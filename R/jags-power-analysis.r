@@ -45,11 +45,11 @@
 #' rhat(power)
 #' is_converged(power, percent = TRUE)
 #' 
-#' power_jags(power)
+#' # power_jags(power)
 #' 
 #' @export
 jags_power_analysis <- function (model, data_model, values, nreps = 100, 
-                                 niters = 10^3, parm = c(fixed = 0), mode = "current") {
+                                 niters = 10^3, mode = "current") {
   
   if(!is.jags_model(model) && !is_one_model(model))
     stop("model must be a jags_model with a single model")
@@ -92,7 +92,7 @@ jags_power_analysis <- function (model, data_model, values, nreps = 100,
   rhat_threshold(object) <- opts_jagr("rhat")
   analyses(object) <- analyses
   
-  object <- revise(object, parm = parm, level = level)
+  object <- revise(object)
 
   return (object)
 }

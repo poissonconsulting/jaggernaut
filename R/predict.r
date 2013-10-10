@@ -113,7 +113,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
       stop("if a data.frame values must contain at least one column of data")
     }
   }
-  
+    
   if (identical(base,TRUE)) {
     base <- data_jags(object, base = TRUE)
   } else if (identical(base,FALSE)) {
@@ -177,7 +177,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
         }
       }
     }
-  }
+  }  
   
   if (is.character(parm)) {
     if (length(parm) != 1) {
@@ -229,7 +229,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
     newdata <- merge(newdata, dat)
     stopifnot(nrow(newdata) > 0)
   }
-
+  
   pred <- predict_internal(object, parm = parm, 
                            data = newdata, 
                            base = base, level = level, ...)

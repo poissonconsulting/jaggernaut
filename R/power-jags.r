@@ -1,50 +1,88 @@
                                          
 #' @export
-power_jags <- function (object, parm = c(fixed = 0), level = "current") {
+power_jags <- function (object, parm = list("fixed" = c("p < 0.05")),  power_level = 0.8, coef_level = "current") {
+  
+  coefs_level <- coef_level
+  rm(coef_level)
+
+  powers_level <- power_level
+  rm(power_level)
   
   if(!is.jags_power_analysis(object))
     stop("object must be a jags_power_analysis")
   
-  if(!(is.character(parm) || (is.numeric(parm) && is.character(names(parm)))))
-    stop("parm must be a character vector or a named numeric vector")
-    
+  if(!(is.list(parm) && is_named(parm)))
+    stop("parm must be a named list")
+     
+  if(!all(sapply(parm, is_character)) || !all(sapply(parm, is_scalar)))
+    stop("all the elements in parm must be character scalars")
+     
+  stopifnot(powers_level >= 0.5 && powers_level <= 0.99)
+  
   old_opts <- opts_jagr()
   on.exit(opts_jagr(old_opts))
   
-  if (!is.numeric(level)) {
-    opts_jagr(mode = level)
-    level <- opts_jagr("level")
+  if (!is.numeric(coefs_level)) {
+    opts_jagr(mode = coefs_level)
+    coefs_level <- opts_jagr("level")
   }
-  
-  if(is.character(parm)) {
-    names <- parm
-    parm <- rep(0, length(names))
-    names(parm) <- names
-  }
-  print(parm)
-  
-  parm <- "all"
-  parm <- expand_parm(object, parm = parm)
-  
-  print(parm)
-  stop()
-  if(!is.null(power(object))) {
-    stopifnot(is.numeric(level(object)))
-    if(level == level(object)) {
-      
-      power <- power(object)
-      return (power)
-    }
-  }
-  
+     
   quiet <- opts_jagr("quiet")
+  
+  
+     
+  ## need to expand_parm 
+     
+  if(!is.null(powers(object)) && powers_level == powers_level(object)) {
+    powers <- powers(object)
+  } else {
+    if(!is.null(coefs(object)) && coefs_level == coefs_level(object)) {
+      coefs <- object(coefs)
+    } else {
+      if (!quiet)
+        cat("\ncalculating coefficients\n")
       
-  if (!quiet)
-    cat("\ncalculating coefficients\n")
+      coef <- coef(object, parm = "all", level = coefs_level)
+
+      values <- values(object)
+      values$value <- rownames(values)
+      
+      values <- subset(values, select = c("value",colnames(values(object))))
+
+      statistic <- data.frame(statistic = colnames(coef[[1]][[1]]))
+      
+      coefs <- merge(values, statistic)
+      
+      coefs <- coefs[order(coefs$value),]
+      
+#       lapply_coef <- function (coef, ) {
+#         
+#       }
+#       
+#       rhat <- lapply(coef, lapply_coef)
+      
+      print(coefs)
+      stop()
+      
+      
+      
+      coefs <- coef ## need to generate coefs from coef
+      coefs_level(object) <- coefs_level
+      coefs(object) <- coefs
+    }
   
-  coef <- coef(object, parm = names(parm), level = level)
+    
+    
+    
+    
+    
+    powers <- coefs # need to generate power from coefs
+    
+    powers_level(object) <- powers_level
+    powers(object) <- powers    
+  }       
+
+  ## nned to use parm to query out what need from powers  
   
-  power <- coef
-  
-  return (power)
+  return (powers)
 }

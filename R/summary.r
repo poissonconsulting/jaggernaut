@@ -28,17 +28,11 @@ summary.jagr_analysis <- function (object, level = level, ...)
   
   summ <- list()
   
-  summ[["Generation"]] <- c(iterations = object$iterations,time = round(object$time,2))
-  
   summ[["Dimensions"]] <- c(simulations = nsims(object),chains = nchains(object))
 
-  parm <- expand_parm(object, parm = "all")
-  
-  summ[["Convergence"]] <- rhat(object, parm = parm, summarise = TRUE)
+  summ[["Convergence"]] <- c(rhat = rhat(object, parm = "all", summarise = TRUE))
 
   summ[["Estimates"]] <- coef(object, parm = "fixed", level = level)
-
-  summ[["Deviance Information Criterion"]] <- DIC(object)
   
   class (summ) <- "summary_jagr_analysis"
   
@@ -64,15 +58,15 @@ summary.jags_analysis <- function (object, level = "current", ...)
     }
   } 
   
-  summ <- list()
-    
-  for (i in 1:nmodels(object)) {
-    x <- subset_jags(object,model_number = i)
-    x <- as.jagr_analysis(x)
-    summ[[paste0("Model",i)]] <- summary(x, level = level)
-  }
-  summ[["Model Comparison"]] <- object$dic
+  analyses <- analyses(object)
   
+  summ <- list()
+  
+  for (i in 1:nmodels(object)) {
+    summ[[paste0("Model",i)]] <- summary(analyses[[i]], level = level)
+  }
+  summ[["Model Comparison"]] <- dic_jags(object)
+
   class (summ) <- "summary_jags_analysis"
   
   return (summ)  

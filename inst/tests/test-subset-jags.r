@@ -4,7 +4,7 @@ test_that("subset_jags.jags_analysis returns object of correct class", {
   
   model <- jags_model(" model { 
                       bLambda ~ dlnorm(0,10^-2) 
-                      for (i in 1:nrow) { 
+                      for (i in 1:length(x)) { 
                       x[i]~dpois(bLambda) 
                       } 
 }")
@@ -18,14 +18,14 @@ test_that("subset.jags_analysis subsets", {
   
   mod1 <- jags_model(" model { 
                       bLambda ~ dlnorm(0,10^-2) 
-                      for (i in 1:nrow) { 
+                      for (i in 1:length(x)) { 
                       x[i]~dpois(bLambda) 
                       } 
 }")
 
   mod2 <- jags_model(" model { 
                       bLambda ~ dlnorm(0,2^-2) 
-                      for (i in 1:nrow) { 
+                      for (i in 1:length(x)) { 
                       x[i]~dpois(bLambda) 
                       } 
 }")

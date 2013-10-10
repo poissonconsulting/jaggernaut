@@ -41,10 +41,8 @@ model {
   data <- data_jags(analysis)
     
   expect_that(data, is_a("data.frame"))
-  expect_that(datab, is_a("data.frame"))
   expect_that(nrow(data), equals(100))
   expect_that(colnames(data), is_identical_to("x"))
-  expect_that(colnames(datab), is_identical_to("x"))
 })
 
 test_that("data_jags.jags_simulation", {

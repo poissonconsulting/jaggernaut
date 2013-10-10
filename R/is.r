@@ -8,6 +8,9 @@ is_vector <- function (x)
 is_length <- function (x)
   is_scalar(x) || is_vector(x)
 
+is_character <- function (x)
+  is.character(x)
+
 is_no_missing <- function (x)
   !any(is.na(x))
 

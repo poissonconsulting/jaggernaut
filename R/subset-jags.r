@@ -157,11 +157,11 @@ subset_jags.jags_analysis <- function (object, model_number = NULL, ...) {
   
   analyses <- analyses(object)
   
-  analyses(object) <- analyses[[model_number]]
+  analyses(object) <- analyses[model_number]
 
   object <- revise(object)  
   
-  return (newObject)
+  return (object)
 }
 
 #' @title Subset a JAGS simulation
