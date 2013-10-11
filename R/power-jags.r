@@ -28,11 +28,7 @@ power_jags <- function (object, parm = list("fixed" = c("p < 0.05")),  power_lev
   }
      
   quiet <- opts_jagr("quiet")
-  
-  
-     
-  ## need to expand_parm 
-     
+            
   if(!is.null(powers(object)) && powers_level == powers_level(object)) {
     powers <- powers(object)
   } else {
@@ -50,18 +46,27 @@ power_jags <- function (object, parm = list("fixed" = c("p < 0.05")),  power_lev
       values <- subset(values, select = c("value",colnames(values(object))))
 
       statistic <- data.frame(statistic = colnames(coef[[1]][[1]]))
+      parameter <- data.frame(parameter = rownames(coef[[1]][[1]]))
       
       coefs <- merge(values, statistic)
-      
+            
       coefs <- coefs[order(coefs$value),]
       
-#       lapply_coef <- function (coef, ) {
-#         
-#       }
-#       
-#       rhat <- lapply(coef, lapply_coef)
+      coefs <- merge(coefs, parameter)
+            
+      melt_coef <- function (coef) {
+        coef$parameter <- rownames(coef) 
+        coef <- reshape2::melt(coef, id.vars = c("parameter"), variable.name = "statistic", value.name = "number")
+        return (coef)
+      }
       
-      print(coefs)
+      lapply_melt_coef <- function (coef) {   
+        return (lapply(coef,melt_coef))
+      }
+    
+      coef <- coef(power)
+      coef <- lapply(coef, lapply_melt_coef) 
+      print(coef)
       stop()
       
       
@@ -70,12 +75,7 @@ power_jags <- function (object, parm = list("fixed" = c("p < 0.05")),  power_lev
       coefs_level(object) <- coefs_level
       coefs(object) <- coefs
     }
-  
-    
-    
-    
-    
-    
+
     powers <- coefs # need to generate power from coefs
     
     powers_level(object) <- powers_level
