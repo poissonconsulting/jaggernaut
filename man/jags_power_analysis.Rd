@@ -57,7 +57,7 @@ nsims(power)
 rhat(power)
 is_converged(power, percent = TRUE)
 
-# power_jags(power)
+power_jags(power)
 }
 \references{
   Plummer M (2012) JAGS Version 3.3.0 User Manual
