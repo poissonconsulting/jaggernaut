@@ -25,7 +25,8 @@ expand_parm.jagr_analysis <- function (object, parm = "all", ...) {
     random <- pars[pars %in% names(random_effects(object))]
   }
   pars <- pars[pars %in% parm]
-  pars <- unique(c(pars,all,fixed,random))  
+  pars <- sort(unique(c(all,fixed,random,pars)))
+  pars <- pars[!pars %in% "deviance"]
   
   return (pars)
 }
