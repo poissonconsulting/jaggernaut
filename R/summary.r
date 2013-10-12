@@ -30,7 +30,7 @@ summary.jagr_analysis <- function (object, level = level, ...)
   
   summ[["Dimensions"]] <- c(simulations = nsims(object),chains = nchains(object))
 
-  summ[["Convergence"]] <- c(rhat = rhat(object, parm = "all", summarise = TRUE))
+  summ[["Convergence"]] <- c(rhat = rhat(object, parm = "all", combine = TRUE))
 
   summ[["Estimates"]] <- coef(object, parm = "fixed", level = level)
   
