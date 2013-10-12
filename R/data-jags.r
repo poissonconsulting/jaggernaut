@@ -43,8 +43,10 @@ data_jags.jags_data_model <- function (object, values, ...) {
   
   values <- translate_data(select(object), values)
   
+  data <- values
+  
   if (is.function(modify_data(object))) 
-    values <- modify_data(object)(values)
+    data <- modify_data(object)(data)
   
   if (is.function(gen_inits(object))) {
     inits <- list()
@@ -56,18 +58,23 @@ data_jags.jags_data_model <- function (object, values, ...) {
   cat(paste(model_code(object),"model { deviance <- 1}"), file=file)
     
   chains <- jags_analysis_internal (
-    data = values, file = file, monitor = monitor(object), 
+    data = data, file = file, monitor = monitor(object), 
     inits = inits, n.chain = 1, 
     n.adapt = 0, n.burnin = 0, n.sim = 1, n.thin = 1, 
     quiet = TRUE
   )
 
-  data <- extract_estimates(chains)[["estimate"]]
+  est <- extract_estimates(chains)[["estimate"]]
   
-  data$deviance <- NULL
+  est$deviance <- NULL
     
-  data <- clist(data,values)
-    
+  data <- clist(data, est)
+  
+  values <- values[!names(values) %in% names(data)]
+  
+  if (length(values))
+    data <- clist(values, data)
+  
   if(is.function(extract_data(object)))
     data <- extract_data(object)(data)
   
