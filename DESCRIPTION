@@ -97,7 +97,6 @@ Collate:
     'get-base-value.r'
     'jagr-model.r'
     'predict-internal.r'
-    'arrayicise.r'
     'name-object.r'
     'cat-convergence.r'
     'jagr-analysis-model.r'
@@ -131,3 +130,5 @@ Collate:
     'coefs.r'
     'powers-level.r'
     'powers.r'
+    'matrixise.r'
+    'binomjags.r'
