@@ -20,13 +20,13 @@ expand_parm.jagr_analysis <- function (object, parm = "all", ...) {
   }
   if ("fixed" %in% parm) {
     fixed <- pars[!pars %in% names(random_effects(object))]
+    fixed <- fixed[fixed != "deviance"]
   } 
   if ("random" %in% parm) {
     random <- pars[pars %in% names(random_effects(object))]
   }
   pars <- pars[pars %in% parm]
   pars <- sort(unique(c(all,fixed,random,pars)))
-  pars <- pars[!pars %in% "deviance"]
   
   return (pars)
 }

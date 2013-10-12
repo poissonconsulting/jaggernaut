@@ -64,6 +64,8 @@ data_jags.jags_data_model <- function (object, values, ...) {
 
   data <- extract_estimates(chains)[["estimate"]]
   
+  data$deviance <- NULL
+    
   data <- clist(data,values)
     
   if(is.function(extract_data(object)))

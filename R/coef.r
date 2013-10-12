@@ -39,9 +39,7 @@ coef.jagr_chains <- function (object, parm, level, ...) {
   stopifnot(level > 0.5 & level < 1.0)
   
   coef <- coef_matrix (as.matrix(object, parm), level = level)
-  
-  coef <- coef[rownames(coef) != "deviance",]
-    
+      
   return (coef)
 }
 

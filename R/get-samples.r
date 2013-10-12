@@ -9,7 +9,6 @@ get_samples <- function (model, data, file) {
   )
 
   monitor <- monitor(model)
-  monitor <- monitor[monitor != "deviance"]
   samples <- jags.samples(
     model = jags, variable.names = monitor, n.iter = 1
   )
