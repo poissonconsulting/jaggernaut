@@ -39,12 +39,12 @@
   level = 0.95,
   mode = "demo",
   nchains = 2,
-  nresample = 2,
+  nresample = 1,
   nsims = 500,
   parallel_chains = .Platform$OS.type!="windows", 
   parallel_models = FALSE,
   quiet = FALSE,
-  rhat = 1.5
+  rhat = 1.1
 )
 
 .opts_jagr_report <- list(
