@@ -35,8 +35,9 @@
 #'
 #' values <- data.frame(ny = c(10, 100), bIntercept = c(10,10))
 #' 
-#' power <- jags_power_analysis (model = model, data_model = data_model, 
+#' power <- jags_power_analysis (model = model, data_model = data_model,
 #'                              values = values, nreps = 10, mode = "demo")
+#'                              
 #' nvalues(power)
 #' nreps(power)
 #' nchains(power)
@@ -45,7 +46,7 @@
 #' rhat(power)
 #' is_converged(power, percent = TRUE)
 #' 
-#' # power_jags(power)
+#' power_jags(power)
 #' 
 #' @export
 jags_power_analysis <- function (model, data_model, values, nreps = 100, 
