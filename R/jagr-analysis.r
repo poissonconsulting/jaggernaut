@@ -53,7 +53,10 @@ jagr_analysis <- function (model, data, niters) {
     if (is_converged (object, rhat_threshold = rhat_threshold)) {
       cat ('Analysis converged')
       cat_convergence (object)
-    } 
+    }  else {
+      cat ('Analysis failed to converge')
+      cat_convergence (object)      
+    }
   }
     
   return (object)
