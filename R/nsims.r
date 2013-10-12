@@ -65,7 +65,7 @@ nsims.jags_power_analysis <- function (object) {
   
   nsims <- lapply(analyses, lapply_nsims_jagr_power_analysis)
   
-  nsims <- arrayicise(nsims)
+  nsims <- matrixise(nsims)
   nsims <- name_object(t(nsims),c("replicate","value"))
   return (nsims)
 }

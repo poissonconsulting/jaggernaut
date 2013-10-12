@@ -54,7 +54,7 @@ niters.jags_power_analysis <- function (object) {
   
   niters <- lapply(analyses, lapply_niters_jagr_power_analysis)
 
-  niters <- arrayicise(niters)
+  niters <- matrixise(niters)
   niters <- name_object(t(niters),c("replicate","value"))
   return (niters)
 }

@@ -60,10 +60,10 @@ nchains.jags_power_analysis <- function (object) {
   }
   
   analyses <- analyses(object)
-  
+    
   nchains <- lapply(analyses, lapply_nchains_jagr_power_analysis)
-  
-  nchains <- arrayicise(nchains)
+    
+  nchains <- matrixise(nchains)
   
   stopifnot(all(nchains == nchains[1,1]))
   
