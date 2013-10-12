@@ -2,7 +2,7 @@
 \alias{rhat}
 \title{Get R-hat value(s)}
 \usage{
-  rhat(object, ...)
+  rhat(object, parm, combine)
 }
 \arguments{
   \item{object}{a JAGS object}
