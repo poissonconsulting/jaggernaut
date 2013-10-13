@@ -57,7 +57,7 @@ jags_simulation <- function (data_model, values, nreps = 100, mode = "current") 
   on.exit(opts_jagr(old_opts))
   
   if(opts_jagr("mode") == "debug")
-    nreps <- 1
+    nreps <- min(2,nreps)
   
   quiet <- opts_jagr("quiet")
   
@@ -86,7 +86,23 @@ jags_simulation <- function (data_model, values, nreps = 100, mode = "current") 
       if (!quiet)
         cat(paste0("value: ",value," of ",nvalues(object),"  rep: ", rep," of ",nreps,"\n"))
       
-      data[[value]][[rep]] <- data_jags(data_model, values(object)[value,,drop = FALSE])
+      dat <- try(data_jags(data_model, values(object)[value,,drop = FALSE]))
+      
+      retries <- 2
+      while (inherits(dat, "try-error")) {
+        message(paste("retrying failed data simulation for value",value,
+                      "and rep",rep))
+
+        if(retries == 0)
+          stop(paste("data simulation for value",value,
+                     "and rep",rep,"failed three times"))
+        
+        retries <- retries - 1 
+        
+        dat <- try(data_jags(data_model, values(object)[value,,drop = FALSE]))
+      }
+      
+      data[[value]][[rep]] <- dat
     }
   }
 

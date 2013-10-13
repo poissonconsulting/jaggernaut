@@ -59,7 +59,7 @@ jags_power_analysis <- function (model, data_model, values, nreps = 100,
   on.exit(opts_jagr(old_opts))
   
   if(opts_jagr("mode") == "debug")
-    nreps <- 1
+    nreps <- min(2,nreps)
   
   quiet <- opts_jagr("quiet")
   
