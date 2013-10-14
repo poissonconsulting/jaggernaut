@@ -15,28 +15,49 @@
 #' Plummer M (2012) JAGS Version 3.3.0 User Manual \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
 #' @seealso \code{\link{jags_data_model}}, \code{\link{jags_model}} and \code{\link{jaggernaut}}
 #' @examples
-#' 
-#' data_model <- jags_data_model("
-#' data { 
-#'  for (i in 1:ny) { 
-#'    y[i] ~ dpois(bIntercept) 
-#'  } 
-#'}    
-#' ")
-#' 
-#' model <- jags_model("
-#' model { 
-#' bIntercept ~ dunif(0, 100)
-#'  for (i in 1:length(y)) { 
-#'    y[i] ~ dpois(bIntercept) 
-#'  } 
-#'} ",
-#'select = c("y"))
+#'  
+#' data_model <- jags_data_model("data {
+#'  for (gp in 1:nGroup) {
+#'   bGroup[gp] ~ dnorm(0, sGroup^-2)
+#'   for (i in 1:nSample) {
+#'     z[gp, i] ~ dbern(bProp)
+#'     y[gp, i] ~ dnorm(bGroup[gp] + bEffect * z[gp, i],sSample^-2)
+#'   }
+#'  }
+#' } ",
+#'  extract_data = function (data) {
+#'  data$bGroup <- NULL
+#'  data$sGroup <- NULL
+#'  data$sSample <- NULL
+#'  data$bEffect <- NULL
+#'  data$bProp <- NULL
+#'  return (data)
+#' })
 #'
-#' values <- data.frame(ny = c(10, 100), bIntercept = c(10,10))
+#' values <- expand.grid(nGroup = 10,
+#' sGroup = 0.1,
+#' nSample = 10,
+#' sSample = 0.1,
+#' bEffect = c(0,0.01),
+#' bProp = 0.5)
+#'
+#' model <- jags_model("model {
+#'  
+#' sGroup ~ dunif(0,1)
+#' sSample ~ dunif(0,1)
+#' bEffect ~ dnorm(0, 1^-2)
+#' bProp ~ dunif(0, 1)
+  
+#' for (gp in 1:nGroup) {
+#'  bGroup[gp] ~ dnorm(0, sGroup^-2)
+#'  for (i in 1:nSample) {
+#'    z[gp, i] ~ dbern(bProp)
+#'    y[gp, i] ~ dnorm(bGroup[gp] + bEffect * z[gp, i],sSample^-2)
+#'  }
+#'}
+#'}")
 #' 
-#' power <- jags_power_analysis (model = model, data_model = data_model,
-#'                              values = values, nreps = 10, mode = "demo")
+#' power <- jags_power_analysis(model, data_model, values, nreps = 5, niters = 10^2 mode = "demo") 
 #'
 #' print(power)                              
 #' nvalues(power)
@@ -47,7 +68,16 @@
 #' rhat(power)
 #' is_converged(power, percent = TRUE)
 #' 
-#' power_jags(power)
+#' values$bEffect <- c(0.025,0.05)
+#' 
+#' power <- update_jags(power, nreps = 10, values = values)
+#' rhat(power)
+#' opts <- opts_jagr()
+#' opts_jagr(rhat = 1.05)
+#' power <- update_jags(power, mode = "current")
+#' opts_jagr(opts)
+#' rhat(power) 
+#' power_jags(power, parm = list(bEffect = c("significance < 0.05")))
 #' 
 #' @export
 jags_power_analysis <- function (model, data_model, values, nreps = 100, 
