@@ -57,7 +57,7 @@
 #'}
 #'}")
 #' 
-#' power <- jags_power_analysis(model, data_model, values, nreps = 5, niters = 10^2 mode = "demo") 
+#' power <- jags_power_analysis(model, data_model, values, nreps = 5, mode = "demo") 
 #'
 #' print(power)                              
 #' nvalues(power)
