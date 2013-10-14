@@ -22,7 +22,9 @@
 #' 
 #' values <- data.frame(nx = c(2,10))
 #' simulation <- jags_simulation (model, values, nreps = 5, mode = "demo")
+#' 
 #' print(simulation)
+#' 
 #' nreps(simulation)
 #' nvalues(simulation)
 #' 
@@ -35,6 +37,11 @@
 #' 
 #' simulation2 <- subset_jags(simulation, value = 2, rep = 1)
 #' simulation <- add_jags(simulation1, simulation2)
+#' nreps(simulation)
+#' values(simulation)
+#' nvalues(simulation)
+#' 
+#' simulation <- update_jags(simulation1, nreps = 2, values = data.frame(nx = c(25)))
 #' nreps(simulation)
 #' values(simulation)
 #' nvalues(simulation)
