@@ -91,7 +91,7 @@ opts_jagr(opts)
 rhat(power)
 power_jags(power, parm = list(bEffect = c("significance < 0.05")))
 
-coef(power, combine = TRUE)
+# coef(power, parm = "bEffect", combine = TRUE)
 }
 \references{
   Plummer M (2012) JAGS Version 3.3.0 User Manual
