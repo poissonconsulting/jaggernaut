@@ -96,7 +96,7 @@ power_jags <- function (object, parm = list("fixed" = c("significance < 0.05")),
   
   for(i in 1:nrow(power)) {
     vec <- power[i,substr(colnames(power),1,9) == "replicate"]
-    power$converged[i] <- round(length(vec[!is.na(vec)]) / length(vec),3)
+    power$converged[i] <- round(length(vec[!is.na(vec)]) / length(vec),2)
     power$nreps[i] <- length(vec[!is.na(vec)])
     cmd <- paste("power$estimate[i] <- length(vec[!is.na(vec) & vec",power$comparison[i],power$bound[i],"])")
     eval(parse(text = cmd))
