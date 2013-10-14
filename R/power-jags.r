@@ -28,7 +28,7 @@ power_jags <- function (object, parm = list("fixed" = c("significance < 0.05")),
   
   for (i in seq_along(parm)) {
     df <- data.frame(parameter = expand_parm(object, names(parm)[i]))
-                     
+                         
     str <- strsplit(parm[[1]]," ", fixed =TRUE)[[1]]
     
     if(length(str) != 3)
@@ -50,7 +50,7 @@ power_jags <- function (object, parm = list("fixed" = c("significance < 0.05")),
     
     parms <- rbind(parms, df)
   }
-              
+                
   rhat_threshold <- rhat_threshold(object)
   analyses <- analyses(object)
   
@@ -70,10 +70,10 @@ power_jags <- function (object, parm = list("fixed" = c("significance < 0.05")),
   }
   
   ldply_analyses <- function (x, parm, level, rhat_threshold) {
-    return (ldply(x, melt_coef, parm, level, rhat_threshold))
+    return (plyr::ldply(x, melt_coef, parm, level, rhat_threshold))
   }
       
-  coef <- ldply(analyses, ldply_analyses, parm = parms$parameter, level = level, rhat_threshold = rhat_threshold)
+  coef <- plyr::ldply(analyses, ldply_analyses, parm = parms$parameter, level = level, rhat_threshold = rhat_threshold)
   
   coef$replicate <- paste0("replicate",as.integer(substr(coef$.id,10,15)))
   coef$value <- paste0("value",rep(1:nvalues(object), each = nrow(coef)/nvalues(object)))
