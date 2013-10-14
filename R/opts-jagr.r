@@ -1,6 +1,7 @@
 
 .opts_jagr_debug <- list(
   level = 0.80,
+  power_level = 0.80,
   mode = "debug",
   nchains = 2,
   nresample = 0,
@@ -13,6 +14,7 @@
 
 .opts_jagr_explore<- list(
   level = 0.95,
+  power_level = 0.80,
   mode = "explore",
   nchains = 3,
   nresample = 2,
@@ -25,6 +27,7 @@
 
 .opts_jagr_test<- list(
   level = 0.95,
+  power_level = 0.80,
   mode = "test",
   nchains = 2,
   nresample = 2,
@@ -37,6 +40,7 @@
 
 .opts_jagr_demo<- list(
   level = 0.95,
+  power_level = 0.80,
   mode = "demo",
   nchains = 2,
   nresample = 1,
@@ -49,6 +53,7 @@
 
 .opts_jagr_report <- list(
   level = 0.95,
+  power_level = 0.80,
   mode = "report",
   nchains = 3,
   nresample = 3,
@@ -61,6 +66,7 @@
 
 .opts_jagr_paper <- list(
   level = 0.95,
+  power_level = 0.80,
   mode = "paper",
   nchains = 4,
   nresample = 4,
@@ -116,6 +122,7 @@ opts_jagr_set <- .opts_jagr$set
 #' Available options are
 #' \describe{
 #' \item{level}{the credible interval level (default = 0.95)}
+#' \item{power_level}{the power analysis level (default = 0.80)}
 #' \item{nchains}{the number of MCMC chains (default = 3)}
 #' \item{nresample}{the number of times to resample 
 #' until convergence is achieved (default = 3)}
@@ -256,6 +263,9 @@ assign_opts_jagr <- function (opts) {
   if (length(opts$level) != 1) {
     stop("option level must be length 1")
   }
+  if (length(opts$power_level) != 1) {
+    stop("option power_level must be length 1")
+  }
   if (length(opts$nchains) != 1) {
     stop("option nchains must be length 1")
   }
@@ -282,8 +292,11 @@ assign_opts_jagr <- function (opts) {
   opts$nresample <- as.integer(opts$nresample)
   opts$nsims <- as.integer(opts$nsims)
    
-  if (!(opts$level >= 0.8 && opts$level <= 0.99)) {
-    stop("option level must lie between 0.8 and 0.99")
+  if (!(opts$level >= 0.75 && opts$level <= 0.99)) {
+    stop("option level must lie between 0.75 and 0.99")
+  }  
+  if (!(opts$power_level >= 0.5 && opts$power_level <= 0.95)) {
+    stop("option power_level must lie between 0.5 and 0.95")
   }  
   if (!opts$nchains %in% 2:6) {
     stop("option nchains must lie between 2 and 6")
