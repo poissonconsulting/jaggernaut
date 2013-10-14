@@ -80,7 +80,7 @@
 #' rhat(power) 
 #' power_jags(power, parm = list(bEffect = c("significance < 0.05")))
 #' 
-#' coef(power, combine = TRUE)
+#' # coef(power, parm = "bEffect", combine = TRUE)
 #' 
 #' @export
 jags_power_analysis <- function (model, data_model, values, nreps = 100, 
