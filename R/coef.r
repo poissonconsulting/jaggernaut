@@ -109,7 +109,7 @@ coef.jags_analysis <- function (object, parm = "fixed", level = "current", ...) 
 
 #' @method coef jags_power_analysis
 #' @export
-coef.jags_power_analysis <- function (object, parm = "fixed", combine = FALSE, level = "current", ...) {
+coef.jags_power_analysis <- function (object, parm = "fixed", combine = TRUE, level = "current", ...) {
   
   lapply_coef_jagr_power_analysis <- function (object,
                                                parm, level, ...) {    

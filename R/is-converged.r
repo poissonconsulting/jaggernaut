@@ -17,7 +17,7 @@ is_converged.jags_analysis <- function (object, ...) {
 
 #' @method is_converged jags_power_analysis
 #' @export 
-is_converged.jags_power_analysis <- function (object, combine = FALSE, ...) { 
+is_converged.jags_power_analysis <- function (object, combine = TRUE, ...) { 
   rhat <- rhat(object, parm = "all", combine = TRUE)
   rhat <- rhat <= rhat_threshold(object)
   if(!combine) {
