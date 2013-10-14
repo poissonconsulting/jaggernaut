@@ -55,7 +55,8 @@
 #'    y[gp, i] ~ dnorm(bGroup[gp] + bEffect * z[gp, i],sSample^-2)
 #'  }
 #'}
-#'}")
+#'}",
+#'random_effects = list(bGroup = NULL))
 #' 
 #' power <- jags_power_analysis(model, data_model, values, nreps = 5, mode = "demo") 
 #'
@@ -78,6 +79,8 @@
 #' opts_jagr(opts)
 #' rhat(power) 
 #' power_jags(power, parm = list(bEffect = c("significance < 0.05")))
+#' 
+#' coef(power, combine = TRUE)
 #' 
 #' @export
 jags_power_analysis <- function (model, data_model, values, nreps = 100, 
