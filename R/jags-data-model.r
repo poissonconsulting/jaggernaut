@@ -72,6 +72,7 @@
 #'  } 
 #' }")
 #' 
+#' print(model)
 #' values <- data.frame(nx = 10)
 #' data_jags(model, values)
 #'

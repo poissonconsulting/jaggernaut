@@ -37,7 +37,8 @@
 #' 
 #' power <- jags_power_analysis (model = model, data_model = data_model,
 #'                              values = values, nreps = 10, mode = "demo")
-#'                              
+#'
+#' print(power)                              
 #' nvalues(power)
 #' nreps(power)
 #' nchains(power)

@@ -47,6 +47,7 @@
 #' data <- data.frame(x = rpois(100,1))
 #' 
 #' analysis <- jags_analysis (model, data, mode = "demo")
+#' print(analysis)
 #' 
 #' analysis <- update_jags(analysis, mode = "demo")
 #' 
