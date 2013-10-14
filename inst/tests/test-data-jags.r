@@ -19,7 +19,7 @@ data {
   data <- data_jags(data_model, values)
     
   expect_that(data, is_a("list"))
-  expect_that(names(data), is_identical_to(c("x","y","z","nx","bIntercept")))
+  expect_that(names(data), is_identical_to(c("bIntercept","nx","x","y","z")))
   expect_that(length(data$x), equals(10))
   expect_that(dim(data$y), equals(c(10,10)))
 })
@@ -73,6 +73,5 @@ data4 <- data_jags(subset_jags(simulation, value = NULL, rep = NULL))
   expect_that(data3, is_a("list"))
   expect_that(data4, is_a("list"))
   
-  expect_that(names(data1[[1]][[1]]), is_identical_to(c("x","y","z","nx","bIntercept")))
+  expect_that(names(data1[[1]][[1]]), is_identical_to(c("bIntercept","nx","x","y","z")))
 })
-
