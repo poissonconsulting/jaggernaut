@@ -34,6 +34,7 @@ data {
 
 values <- data.frame(nx = c(2,10))
 simulation <- jags_simulation (model, values, nreps = 5, mode = "demo")
+print(simulation)
 nreps(simulation)
 nvalues(simulation)
 
