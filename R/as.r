@@ -103,7 +103,7 @@ as.jagr_model.jags_data_model <- function (x, ...) {
   x$extract_data <- NULL
   
   class(x) <- "jagr_model"
-  return (return (model))
+  return (return (x))
 }
 
 as.jagr_model.jagr_analysis_model <- function (x, ...) {
