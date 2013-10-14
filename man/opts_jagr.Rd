@@ -43,15 +43,16 @@
 
   Available options are \describe{ \item{level}{the
   credible interval level (default = 0.95)}
-  \item{nchains}{the number of MCMC chains (default = 3)}
-  \item{nresample}{the number of times to resample until
-  convergence is achieved (default = 3)} \item{nsims}{the
-  total number of MCMC samples to thin from the second
-  halves of the MCMC chains (default = 1000)}
-  \item{parallel_chains}{whether the chains should be run
-  on separate processes (default is platform dependennt)}
-  \item{parallel_models}{whether the models should be run
-  on separate processes (default = FALSE)}
+  \item{power_level}{the power analysis level (default =
+  0.80)} \item{nchains}{the number of MCMC chains (default
+  = 3)} \item{nresample}{the number of times to resample
+  until convergence is achieved (default = 3)}
+  \item{nsims}{the total number of MCMC samples to thin
+  from the second halves of the MCMC chains (default =
+  1000)} \item{parallel_chains}{whether the chains should
+  be run on separate processes (default is platform
+  dependennt)} \item{parallel_models}{whether the models
+  should be run on separate processes (default = FALSE)}
   \item{quiet}{whether to suppress messages (default =
   FALSE)} \item{rhat}{the R-hat threshold for convergence
   (default = 1.1)} }

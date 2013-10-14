@@ -66,9 +66,10 @@ for (gp in 1:nGroup) {
    y[gp, i] ~ dnorm(bGroup[gp] + bEffect * z[gp, i],sSample^-2)
  }
 }
-}")
+}",
+random_effects = list(bGroup = NULL))
 
-power <- jags_power_analysis(model, data_model, values, nreps = 5, niters = 10^2 mode = "demo")
+power <- jags_power_analysis(model, data_model, values, nreps = 5, mode = "demo")
 
 print(power)
 nvalues(power)
@@ -89,6 +90,8 @@ power <- update_jags(power, mode = "current")
 opts_jagr(opts)
 rhat(power)
 power_jags(power, parm = list(bEffect = c("significance < 0.05")))
+
+coef(power, combine = TRUE)
 }
 \references{
   Plummer M (2012) JAGS Version 3.3.0 User Manual
