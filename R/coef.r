@@ -109,7 +109,7 @@ coef.jags_analysis <- function (object, parm = "fixed", level = "current", ...) 
 
 #' @method coef jags_power_analysis
 #' @export
-coef.jags_power_analysis <- function (object, parm = "fixed", level = "current", ...) {
+coef.jags_power_analysis <- function (object, parm = "fixed", combine = FALSE, level = "current", ...) {
   
   lapply_coef_jagr_power_analysis <- function (object,
                                                parm, level, ...) {    
@@ -125,6 +125,8 @@ coef.jags_power_analysis <- function (object, parm = "fixed", level = "current",
     level <- opts_jagr("level")
   }
   
+  power_level <- opts_jagr("power_level")
+  
   parm <- expand_parm(object, parm = parm)
   
   analyses <- analyses(object)
@@ -132,6 +134,65 @@ coef.jags_power_analysis <- function (object, parm = "fixed", level = "current",
   coef <- lapply(analyses, lapply_coef_jagr_power_analysis, parm = parm, level = level, ...)
   
   coef <- name_object(coef,c("value","replicate"))
+  
+  if(!combine)
+    return (coef)
+  
+  melt_coef <- function (object) {
+        
+    object <- subset(object,select = c("estimate","lower","upper"))
+    object$parameter <- rownames(object) 
+    object <- reshape2::melt(object, id.vars = c("parameter"), variable.name = "statistic", value.name = "number")
+    
+    return (object)
+  }
+  
+  ldply_analyses <- function (x, parm) {
+    return (plyr::ldply(x, melt_coef))
+  }
+  
+  coef <- plyr::ldply(coef, ldply_analyses)
+  
+  coef$replicate <- paste0("replicate",as.integer(substr(coef$.id,10,15)))
+  coef$value <- paste0("value",rep(1:nvalues(object), each = nrow(coef)/nvalues(object)))
+  coef$.id <- NULL
+  
+  coef <- reshape2::dcast(coef,value + parameter + statistic ~ replicate,
+                          value.var = "number")
+  
+  get_estimates <- function (d, power_level) {
+  
+    estimate <- median(unlist(d[d$statistic == "estimate",
+                         substr(colnames(d),1,9) == "replicate",drop = TRUE]))
+    
+    lower <- quantile(unlist(d[d$statistic == "lower",
+                         substr(colnames(d),1,9) == "replicate",drop = TRUE]),
+                      probs = (1 - power_level) / 2)   
+    
+    upper <- quantile(unlist(d[d$statistic == "upper",
+                        substr(colnames(d),1,9) == "replicate",drop = TRUE]),
+                      probs = power_level + ((1 - power_level) / 2))
+    
+    p <- t(d[d$statistic %in% c("lower","upper"),
+                        substr(colnames(d),1,9) == "replicate"])
+            
+    p <- (p[,1,drop=TRUE] > 0 & p[,2,drop=TRUE] > 0) | (p[,1,drop=TRUE] < 0 & p[,2,drop=TRUE] < 0)
+        
+    significance <-  length(p[!p]) / length(p)
+        
+    significance <- round(significance, 4)
+            
+    return (data.frame(estimate = estimate, lower = lower, upper = upper,
+                       significance = significance))
+  }
+  
+  coef <- ddply(coef, .(value,parameter), get_estimates, power_level = power_level)
+  
+  values <- values(object)
+  values <- cbind(data.frame(value = row.names(values)),values)
+  
+  coef <- merge(values, coef)
+  
   return (coef)
 }
 
