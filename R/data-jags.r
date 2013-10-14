@@ -78,6 +78,8 @@ data_jags.jags_data_model <- function (object, values, ...) {
   if(is.function(extract_data(object)))
     data <- extract_data(object)(data)
   
+  data <- data[order(names(data))]
+  
   return (data)
 }
 
