@@ -147,8 +147,7 @@ add_jags.jags_simulation <- function (object, object2, mode = "current", ...) {
       object2 <- update_jags(object2, 
                              nreps = nreps(object) - nreps(object2), 
                              mode = mode)
-    }
-    if (nreps(object2) > nreps(object))
+    } else if (nreps(object2) > nreps(object))
       object <- update_jags(object, 
                              nreps = nreps(object2) - nreps(object), 
                              mode = mode)
@@ -168,3 +167,40 @@ add_jags.jags_simulation <- function (object, object2, mode = "current", ...) {
   }
   return (object)
 }
+
+#' @method add_jags jags_power_analysis
+#' @export 
+add_jags.jags_power_analysis <- function (object, object2, mode = "current", ...) {
+  if(!is.jags_simulation(object2))
+    stop("object2 should be of class jags_power_analysis")
+  
+  if(!identical(data_model(object),data_model(object2)))
+    stop("objects must have identical data_models")
+
+  if(!identical(model(object),model(object2)))
+    stop("objects must have identical analysis models")
+    
+  if (nreps(object) > nreps(object2)) {
+    object2 <- update_jags(object2, 
+                           nreps = nreps(object) - nreps(object2), 
+                           mode = mode)
+  } else if (nreps(object2) > nreps(object))
+    object <- update_jags(object, 
+                          nreps = nreps(object2) - nreps(object), 
+                          mode = mode)
+  
+  values(object) <- rbind(values(object), values(object2))
+  
+  data <- clist(data_jags(object), data_jags(object2))
+  
+  data_jags(object) <- data
+  
+  analyses <- clist(analyses(object), analyses(object2))
+
+  analyses(object) <- analyses
+  
+  rhat_threshold(object) <- min(rhat_threshold(object), rhat_threshold(object2))
+
+  return (object)
+}
+  
