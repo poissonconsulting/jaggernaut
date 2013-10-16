@@ -46,11 +46,3 @@ revise.jags_analysis <- function (object, ...) {
   
   return (object)
 }
-
-revise.jags_power_analysis <- function (object, parm, level, ...) {
-
-  object$coefs <- NULL
-  object$power <- NULL
-  
-  return (object)
-}
