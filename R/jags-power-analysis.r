@@ -78,9 +78,11 @@
 #' power <- update_jags(power, mode = "current")
 #' opts_jagr(opts)
 #' rhat(power) 
-#' power_jags(power, parm = list(bEffect = c("significance < 0.05")))
 #' 
-#' # coef(power, parm = "bEffect", combine = TRUE)
+#' coef(power, parm = "bEffect", combine = TRUE)
+#' 
+#' power_jags(power, parm = c(bGroup = 0))
+#' power_jags(power, parm = c(bEffect = 0))
 #' 
 #' @export
 jags_power_analysis <- function (model, data_model, values, nreps = 100, 
