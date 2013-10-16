@@ -126,8 +126,6 @@ Collate:
     'clist.r'
     'power-jags.r'
     'level.r'
-    'coefs-level.r'
-    'coefs.r'
     'powers-level.r'
     'powers.r'
     'matrixise.r'
