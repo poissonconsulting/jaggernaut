@@ -3,6 +3,14 @@ expand_parm <- function (object, ...) {
   UseMethod("expand_parm", object)
 }
 
+expand_parm.jagr_chains <- function (x, parm = "all", ...) {
+  
+  if ("all" %in% parm)
+    return (x$vars)
+  
+  return (x$vars[x$svars %in% parm])
+}
+
 expand_parm.jagr_analysis <- function (object, parm = "all", ...) {
 
   stopifnot(is.character(parm) && is_length(parm) && is_defined(parm))
@@ -31,8 +39,8 @@ expand_parm.jagr_analysis <- function (object, parm = "all", ...) {
   return (pars)
 }
 
-expand_parm.jags_power_analysis <- function (object, parm = "all", ...) {
-      
+expand_parm.jags_power_analysis <- function (object, parm = "all", indices = FALSE, ...) {
+    
   model <- model(model(object))
   analysis <- analyses(object)[[1]][[1]]
   
@@ -43,5 +51,12 @@ expand_parm.jags_power_analysis <- function (object, parm = "all", ...) {
   class(object) <- c("jagr_analysis","jagr_analysis_model",
                      "jagr_model","jagr_power_analysis")
   
-  return (expand_parm(object, parm = parm, ...))
+  parm <- expand_parm(object, parm = parm, ...)
+  
+  if(!indices)
+    return (parm)
+  
+  parm <- expand_parm(chains(analysis), parm = parm, ...)
+  
+  return (parm)
 }
