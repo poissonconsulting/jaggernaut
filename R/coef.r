@@ -186,7 +186,7 @@ coef.jags_power_analysis <- function (object, parm = "fixed", combine = TRUE, le
                        significance = significance))
   }
   
-  coef <- plyr::ddply(coef, .(value,parameter), get_estimates, power_level = power_level)
+  coef <- plyr::ddply(coef, plyr::.(value,parameter), get_estimates, power_level = power_level)
   
   values <- values(object)
   values <- cbind(data.frame(value = row.names(values)),values)
