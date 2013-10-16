@@ -89,9 +89,11 @@ opts_jagr(rhat = 1.05)
 power <- update_jags(power, mode = "current")
 opts_jagr(opts)
 rhat(power)
-power_jags(power, parm = list(bEffect = c("significance < 0.05")))
 
-# coef(power, parm = "bEffect", combine = TRUE)
+coef(power, parm = "bEffect", combine = TRUE)
+
+power_jags(power, parm = c(bGroup = 0))
+power_jags(power, parm = c(bEffect = 0))
 }
 \references{
   Plummer M (2012) JAGS Version 3.3.0 User Manual
