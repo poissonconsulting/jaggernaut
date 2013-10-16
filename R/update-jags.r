@@ -270,7 +270,5 @@ update_jags.jags_power_analysis <- function (object, nreps = 0, values = NULL, m
   analyses(object) <- analyses
   rhat_threshold(object) <- rhat_threshold
 
-  object <- revise(object)
-
   return (object)  
 }
