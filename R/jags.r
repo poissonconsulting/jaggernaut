@@ -15,7 +15,6 @@ jags.jagr_chains <- function (object) {
   
   stopifnot(is.list_jags(value) || all.equal(value,list(NULL)))
   
-  rhat(object) <- NULL
   object$jags <- value
   
   return (object)
