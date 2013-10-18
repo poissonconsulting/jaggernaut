@@ -23,8 +23,10 @@ power_jags <- function (object, parm = c(fixed = 0), level = "current") {
   parms <- data.frame(parameter = NA, statistic = NA, comparison = NA, bound = NA)
   parms <- parms[-1,]
   
+  chains <- chains(analyses(object)[[1]][[1]])
+  
   for (i in seq_along(parm)) {
-    df <- data.frame(parameter = expand_parm(object, names(parm)[i], indices = TRUE))
+    df <- data.frame(parameter = expand_parm(chains, names(parm)[i], indices = TRUE))
     
     df$bound <- parm[i]
     
@@ -53,7 +55,7 @@ power_jags <- function (object, parm = c(fixed = 0), level = "current") {
     return (plyr::ldply(x, melt_coef, parm, level, rhat_threshold))
   }
         
-  coef <- plyr::ldply(analyses, ldply_analyses, parm = expand_parm(object, names(parm)), level = level, rhat_threshold = rhat_threshold)
+  coef <- plyr::ldply(analyses, ldply_analyses, parm = names(parm), level = level, rhat_threshold = rhat_threshold)
   
   coef$replicate <- paste0("replicate",as.integer(substr(coef$.id,10,15)))
   coef$value <- paste0("value",rep(1:nvalues(object), each = nrow(coef)/nvalues(object)))

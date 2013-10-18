@@ -11,10 +11,13 @@ zero_random.mcarray <- function (object, ...) {
 zero_random.jagr_chains <- function (object, random_variable, ...) {
   stopifnot(is.character(random_variable))
   
-  random_variable <- random_variable[random_variable %in% names(object$mcmc)]
+  random_variable <- random_variable[random_variable %in% names(samples(object))]
   
+  samples <- samples(object)
   for (variable in random_variable)
-    object$mcmc[[variable]] <- zero_random(object$mcmc[[variable]], ...)
+    samples[[variable]] <- zero_random(samples[[variable]], ...)
+  
+  samples(object) <- samples
   
   return (object)
 }

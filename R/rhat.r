@@ -12,43 +12,55 @@ rhat <- function (object, parm, combine) {
   UseMethod("rhat", object)
 }
 
-rhat.jagr_chains <- function (object, parm = "all", combine = TRUE) { 
+"rhat<-" <- function (object, value) {
+  UseMethod("rhat<-", object)
+}
+
+
+rhat.jagr_chains <- function (object, parm = "all", combine = TRUE) {
+  
   stopifnot(is.character(parm) && is_length(parm) && is_defined(parm))
   stopifnot(is_indicator(combine))
   
   parm <- unique(parm)
   
-  if("all" %in% parm) {
+  mcmc <- as.mcmc.list (object)
+  
+  vars <- coda::varnames(mcmc)
+  
+  vars <- sort(vars)
+  
+  if (is.null(object$rhat)) {
+    if(nchains(object) > 1) {
+      rhat <- numeric()
+      for (i in seq(along = vars)) {
+        rhat[i] <- coda::gelman.diag(mcmc[,vars[i]])$psrf[1]
+      }
+    } else {
+      rhat <- rep(NA,length(vars))
+    }
+    rhat <- data.frame(rhat = rhat, row.names = vars)
+    rhat(object) <- rhat
+  } else
     rhat <- object$rhat
-  } else {
-    stopifnot(all(parm %in% object$svars))
-    rhat <- object$rhat[object$svars %in% parm]
-    vars <- object$vars[object$svars %in% parm]
-  }
+  
+  parm <- expand_parm(object, parm)
+  
+  rhat <- rhat[row.names(rhat) %in% parm,,drop = FALSE]
   
   if (combine)
-    return (max(rhat, na.rm = TRUE))
+    return (max(rhat$rhat, na.rm = TRUE))
   
-  rhat <- data.frame(rhat = rhat, row.names = vars)
   return (rhat)
 }
 
 rhat.jagr_power_analysis <- function (object, parm = "all", combine = TRUE) {
-  return (rhat(chains(object), parm = parm, combine = combine))
+  return (rhat(as.jagr_chains(object), parm = parm, combine = combine))
 }
 
 rhat_jagr_power_analysis <- function (object, parm = "all", combine = TRUE) {
   stopifnot(is.jagr_power_analysis(object))
   return (rhat(object, parm = parm, combine = combine))
-}
-
-rhat.jagr_analysis <- function (object, parm = "all", combine = TRUE) {
-  stopifnot(is.character(parm) && is_length(parm) && is_defined(parm))
-  stopifnot(is_indicator(combine))
-  
-  parm <- expand_parm(object, parm = parm)
-  
-  return (rhat(as.jagr_chains(object), parm = parm, combine = combine))
 }
 
 rhat_jagr_analysis <- function (object, parm = "all", combine = TRUE) {
@@ -94,9 +106,7 @@ rhat.jags_power_analysis <- function (object, parm = "all", combine = TRUE) {
                    parm = parm, 
                    combine = combine))
   }
-  
-  parm <- expand_parm(object, parm)
-  
+    
   analyses <- analyses(object)
     
   rhat <- lapply(analyses, lapply_rhat_jagr_power_analysis, 
@@ -109,4 +119,11 @@ rhat.jags_power_analysis <- function (object, parm = "all", combine = TRUE) {
   } else
     rhat <- name_object(rhat,c("value","replicate"))
   return (rhat)
+}
+
+"rhat<-.jagr_chains" <-  function (object, value) {
+  stopifnot(is.null(value) || is.data.frame(value))
+  
+  object$rhat <- value
+  return (object)
 }

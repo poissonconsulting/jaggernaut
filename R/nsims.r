@@ -24,7 +24,7 @@ nsims.mcmc.list <- function (object) {
 }
 
 nsims.jagr_chains <- function (object) {
-  return (nsims(object$mcmc[[1]]))
+  return (nsims(samples(object)[[1]]))
 }
 
 nsims.jagr_power_analysis <- function (object) {

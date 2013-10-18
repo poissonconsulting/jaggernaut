@@ -10,7 +10,7 @@ monitor <- function (object, ...) {
 }
 
 monitor.jagr_chains <- function (object, ...) {
-  return (names(object$mcmc))
+  return (names(samples(object)))
 }
 
 #' @method monitor jagr_model

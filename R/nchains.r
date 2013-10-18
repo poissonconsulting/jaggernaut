@@ -22,7 +22,7 @@ nchains.mcmc.list <- function (object) {
 }
 
 nchains.jagr_chains <- function (object) {
-  return (nchains (object$mcmc[[1]]))
+  return (nchains (samples(object)[[1]]))
 }
 
 nchains.jagr_power_analysis <- function (object) {

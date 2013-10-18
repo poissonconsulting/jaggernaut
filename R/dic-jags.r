@@ -8,8 +8,11 @@ dic_jags <- function (object, ...) {
 }
 
 dic_jags.jagr_chains <- function (object, ...) {
+  
+  mat <- as.matrix(object)
+  
+  deviance <- mat[,colnames(mat)  == "deviance"]
 
-  deviance <- as.matrix(object,"deviance")
   deviance <- as.vector(deviance)
   pD <- var(deviance) / 2
   Dbar <- mean(deviance)
