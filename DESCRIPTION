@@ -104,7 +104,6 @@ Collate:
     'model.r'
     'extract-data.r'
     'analyses.r'
-    'revise.r'
     'chains.r'
     'niters.r'
     'nmodels.r'
