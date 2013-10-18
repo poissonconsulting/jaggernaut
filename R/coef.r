@@ -38,25 +38,22 @@ coef.jagr_chains <- function (object, parm, level, ...) {
   stopifnot(is_defined(level))
   stopifnot(level > 0.5 & level < 1.0)
   
-  coef <- coef_matrix (as.matrix(object, parm), level = level)
-      
-  return (coef)
+  mat <- as.matrix(object)
+
+  parm <- expand_parm(object, parm = parm)
+  
+  mat <- mat[,colnames(mat) %in% parm,drop = FALSE]
+    
+  return (coef_matrix (mat, level = level))
 }
 
 coef.jagr_power_analysis <- function (object, parm, level, ...) {
-  return (coef(chains(object), parm = parm, level = level, ...))
+  return (coef(as.jagr_chains(object), parm = parm, level = level, ...))
 }
 
 coef_jagr_power_analysis <- function (object, parm, level, ...) {
   stopifnot(is.jagr_power_analysis(object))
   return (coef(object, parm, level, ...))
-}
-
-coef.jagr_analysis <- function (object, parm, level, ...) {
-
-  parm <- expand_parm(object, parm = parm)
-  
-  return (coef(as.jagr_chains(object), parm = parm, level = level, ...))
 }
 
 coef_jagr_analysis <- function (object, parm, level, ...) {
@@ -126,9 +123,7 @@ coef.jags_power_analysis <- function (object, parm = "fixed", combine = TRUE, le
   }
   
   power_level <- opts_jagr("power_level")
-  
-  parm <- expand_parm(object, parm = parm)
-  
+    
   analyses <- analyses(object)
   
   coef <- lapply(analyses, lapply_coef_jagr_power_analysis, parm = parm, level = level, ...)

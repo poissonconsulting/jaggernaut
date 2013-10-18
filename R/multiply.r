@@ -30,7 +30,7 @@ multiply_mcarray <- function (object, times = 1) {
 
 multiply.jagr_chains <- function (object, times = 1, ...) {
 
-  object$mcmc <- lapply (object$mcmc,multiply_mcarray,times)
+  samples(object) <- lapply (samples(object),multiply_mcarray,times)
   
   return (object)
 }

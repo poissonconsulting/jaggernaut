@@ -13,12 +13,14 @@ update_jags.jagr_power_analysis <- function (object, ...) {
     if (recompile)
       jags$recompile()
     
-    mcmc <- jags.samples(
+    samples <- jags.samples(
       model = jags, variable.names = monitor, n.iter = n.sim, thin = n.thin
     )
-    
-    mcmc <- jagr_chains(mcmc=mcmc,jags=list(jags))
-    return (mcmc)
+    object <- list()
+    class(object) <- "jagr_chains"
+    samples(object) <- samples
+    jags(object) <- list(jags)
+    return (object)
   }
   
   if(!"basemod" %in% list.modules())
@@ -35,7 +37,7 @@ update_jags.jagr_power_analysis <- function (object, ...) {
   n.thin <- max(1, floor(n.chain * n.sim / nsims(object)))
   
   monitor <- monitor(object)  
-  jags <- chains(object)$jags
+  jags <- jags(chains(object))
   
   parallel <- length(jags) > 1
   
@@ -45,19 +47,19 @@ update_jags.jagr_power_analysis <- function (object, ...) {
     
     doMC::registerDoMC(cores=n.chain)   
     i <- 1 # hack to prevent warning on package check
-    mcmc <- foreach::foreach(i = 1:n.chain, .combine = add_jags_jagr_chains) %dopar% {
+    chains <- foreach::foreach(i = 1:n.chain, .combine = add_jags_jagr_chains) %dopar% {
       fun2(
         jags = jags[[i]], monitor = monitor, n.sim = n.sim, n.thin = n.thin, 
         recompile = T
       )
     }
   } else {    
-    mcmc <- fun2 (
+    chains <- fun2 (
       jags = jags[[1]], monitor = monitor, n.sim = n.sim, n.thin = n.thin, 
       recompile = F
     )
   }
-  chains(object) <- mcmc
+  chains(object) <- chains
   niters(object) <- niters(object) * 2
   time_interval(object) <- object$time + ((proc.time () - ptm)[3]) / (60 * 60)
   

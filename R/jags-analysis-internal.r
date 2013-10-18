@@ -1,5 +1,5 @@
 
-jags_analysis_internal <- function (data, file, monitor, inits, n.chain, n.adapt, n.burnin, n.sim, n.thin, quiet) {
+jags_analysis_internal <- function (data, file, monitor, inits, n.chain, n.adapt, n.burnin, n.sim, n.thin, quiet, random = NULL) {
   stopifnot(is.null(monitor) || is.character(monitor))
   stopifnot(is.list(data))
   stopifnot(is.null(inits) || is.list(inits))
@@ -31,11 +31,16 @@ jags_analysis_internal <- function (data, file, monitor, inits, n.chain, n.adapt
   monitor <- c(monitor, "deviance")
   monitor <- sort(unique(monitor))
   
-  mcmc <- jags.samples(
+  samples <- jags.samples(
     model = jags, variable.names = monitor, n.iter = n.sim, thin = n.thin
   )
-
-  chains <- jagr_chains(mcmc=mcmc,jags=list(jags))
-    
-  return (chains)
+  
+  object <- list()
+  class(object) <- "jagr_chains"
+  
+  samples(object) <- samples
+  jags(object) <- list(jags)
+  random(object) <- random
+      
+  return (object)
 }

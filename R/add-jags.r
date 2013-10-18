@@ -96,12 +96,9 @@ add_jags.list <- function (object, object2, ..., by = "sims") {
 
 add_jags.jagr_chains <- function (object, object2, ...) {
   
-  object$jags <- c(object$jags, object2$jags)
-  
-  object$mcmc <- add_jags (object$mcmc, object2$mcmc, by = "chains")
-  
-  object <- revise(object)
-  
+  jags(object) <- c(jags(object), jags(object2))  
+  samples(object) <- add_jags (samples(object), samples(object2), by = "chains")
+    
   args <- list(...)
   nargs <- length(args)
   if (nargs > 0) {

@@ -11,9 +11,9 @@ summary.jagr_chains <- function (object, ...) {
   dim <- c(chains = nchains(object), simulations = nsims(object))
   print(dim)
   
-  for (i in seq_along(object$mcmc)) {
-    print(names(object$mcmc)[i])
-    summary(object$mcmc[[i]])
+  for (i in seq_along(samples(object))) {
+    print(names(samples(object))[i])
+    summary(samples(object)[[i]])
   }
   return (NULL)  
 }

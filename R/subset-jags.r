@@ -73,12 +73,10 @@ subset_jags_mcarray <- function (object, sim = NULL, chain = NULL, ...) {
   
 subset_jags.jagr_chains <- function (object, sim = NULL, chain = NULL) {
 
-  object$mcmc <- lapply(object$mcmc, FUN = subset_jags_mcarray, sim=sim, chain=chain)
+  samples(object) <- lapply(samples(object), FUN = subset_jags_mcarray, sim=sim, chain=chain)
   
-  object$jags <- object$jags[chain]
-  
-  object <- revise(object)
-  
+  jags(object) <- jags(object)[chain]
+    
   return (object)
 }
 

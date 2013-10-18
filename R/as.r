@@ -43,13 +43,8 @@ as.array.mcarray <- function (x, ...) {
   return (x)
 }
 
-as.matrix.jagr_chains <- function (x, parm = "all", ...) {
-  mat <- as.matrix(as.mcmc.list(x, ...), ...)
-  
-  if (identical(parm,"all"))
-    return (mat)
-  
-  return (mat[,x$svars %in% parm,drop=F])
+as.matrix.jagr_chains <- function (x, ...) {
+  return (as.matrix(as.mcmc.list(x, ...), ...))
 }
 
 as.data.frame.jagr_chains <- function (x, ...) {
@@ -57,10 +52,10 @@ as.data.frame.jagr_chains <- function (x, ...) {
 }
 
 as.list.jagr_chains <- function (x, ...) {  
-  mcmc <- x$mcmc
+  samples <- samples(x)
   list <- list()
-  for (name in names(mcmc))
-    list[[name]] <- as.array(mcmc[[name]])
+  for (name in names(samples))
+    list[[name]] <- as.array(samples[[name]])
   
   return (list)
 }
@@ -69,16 +64,16 @@ as.mcmc.list.jagr_chains <- function (x, ...) {
   
   ans <- list()
   for (ch in 1:nchains(x)) {
-    ans.ch <- vector("list", length(x$mcmc))
+    ans.ch <- vector("list", length(samples(x)))
     vnames.ch <- NULL
-    for (i in seq(along = x$mcmc)) {
-      varname <- names(x$mcmc)[[i]]
-      d <- dim(x$mcmc[[i]])
+    for (i in seq(along = samples(x))) {
+      varname <- names(samples(x))[[i]]
+      d <- dim(samples(x)[[i]])
       vardim <- d[1:(length(d) - 2)]
       nvar <- prod(vardim)
       niters <- d[length(d) - 1]
       nchains <- d[length(d)]
-      values <- as.vector(x$mcmc[[i]])
+      values <- as.vector(samples(x)[[i]])
       var.i <- matrix(NA, nrow = niters, ncol = nvar)
       for (j in 1:nvar) {
         var.i[, j] <- values[j + (0:(niters - 1)) * nvar + 

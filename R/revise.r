@@ -3,37 +3,6 @@ revise <- function (object, ...) {
   UseMethod("revise", object)
 }
 
-revise.jagr_chains <- function (object, ...) {
-  
-  mcmc <- as.mcmc.list (object)
-  
-  vars<-coda::varnames(mcmc)
-  
-  vars <- sort(vars)
-  
-  if(nchains(object) > 1) {
-    rhat <- numeric()
-    for (i in seq(along = vars)) {
-      rhat[i] <- coda::gelman.diag(mcmc[,vars[i]])$psrf[1]
-    }
-  } else {
-    rhat <- rep(NA,length(vars))
-  }
-  
-  object$vars <- vars
-  
-  svars <- function (x) {
-    x <- strsplit(x, split = "[", fixed = T)
-    x <- delist(x)[1]
-    return (x)
-  }
-  
-  object$svars <- sapply(vars,svars)
-  object$rhat <- round(rhat,2)
-  
-  return (object)
-}
-
 revise.jags_analysis <- function (object, ...) {
   
   analyses <- analyses(object)

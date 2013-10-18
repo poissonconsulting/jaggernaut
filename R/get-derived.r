@@ -44,8 +44,13 @@ get_derived.jags_analysis <- function (object, monitor, data) {
     for (j in 2:nchains)
       samples <- add_jags (samples, list[[j]], by = "chains")
   }
-    
-  chains <- jagr_chains(samples, jags = list(NULL))
   
-  return (chains)
+  newobject <- list()
+  class(newobject) <- "jagr_chains"
+  
+  samples(newobject) <- samples
+  jags(newobject) <- list(NULL)
+  random(newobject) <- names(random_effects(object))
+  
+  return (newobject)
 }

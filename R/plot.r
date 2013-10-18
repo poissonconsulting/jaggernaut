@@ -4,25 +4,15 @@ plot.jagr_chains <- function (x, parm = "all", ...) {
   stopifnot(is.character(parm) && is_length(parm))
   stopifnot(length(parm) > 0)
   
-  parm <- unique(parm)
-  
-  if("all" %in% parm) {
-    vars <- x$vars
-  } else {
-    stopifnot(all(parm %in% x$svar))
-    vars <- x$vars[x$svar %in% parm]
-  }
-  
+  parm <- expand_parm(x, parm = parm)
+    
   mcmc <- as.mcmc.list (x)
-  mcmc <- mcmc[,vars, drop = FALSE]
+  mcmc <- mcmc[,coda::varnames(mcmc) %in% parm, drop = FALSE]
     
   return (plot(mcmc,...))
 }
 
-plot.jagr_analysis <- function (x, parm, ...) {
-  
-  parm <- expand_parm(x, parm = parm)
-  
+plot.jagr_analysis <- function (x, parm, ...) {  
   return (plot(as.jagr_chains(x), parm = parm, ...))
 }
 

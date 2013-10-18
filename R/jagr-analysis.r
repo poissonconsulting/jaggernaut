@@ -29,7 +29,8 @@ jagr_analysis <- function (model, data, niters) {
                                   data = data, 
                                   niters = niters,
                                   inits = inits, 
-                                  monitor = monitor(model))
+                                  monitor = monitor(model),
+                                  random = names(random_effects(model)))
     
   monitor(model) <- monitor(analysis) 
   
