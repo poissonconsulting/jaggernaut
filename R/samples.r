@@ -15,7 +15,7 @@ samples.jagr_chains <- function (object) {
   
   stopifnot(is.list_mcarray(value))
   
-  rhat(object) <- NULL  
+  object$rhat <- NULL  
   object$samples <- value
   
   return (object)
