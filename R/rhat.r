@@ -16,7 +16,6 @@ rhat <- function (object, parm, combine) {
   UseMethod("rhat<-", object)
 }
 
-
 rhat.jagr_chains <- function (object, parm = "all", combine = TRUE) {
   
   stopifnot(is.character(parm) && is_length(parm) && is_defined(parm))
@@ -40,7 +39,7 @@ rhat.jagr_chains <- function (object, parm = "all", combine = TRUE) {
       rhat <- rep(NA,length(vars))
     }
     rhat <- data.frame(rhat = rhat, row.names = vars)
-    rhat(object) <- rhat
+    rhat$rhat <- rhat
   } else
     rhat <- object$rhat
   
@@ -119,11 +118,4 @@ rhat.jags_power_analysis <- function (object, parm = "all", combine = TRUE) {
   } else
     rhat <- name_object(rhat,c("value","replicate"))
   return (rhat)
-}
-
-"rhat<-.jagr_chains" <-  function (object, value) {
-  stopifnot(is.null(value) || is.data.frame(value))
-  
-  object$rhat <- value
-  return (object)
 }
