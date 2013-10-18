@@ -92,5 +92,6 @@ monitor.jags_analysis <- function (object, ...) {
 
 #' @method monitor<- jagr_analysis
 #' @export
-"monitor<-.jagr_analysis" <- function (object, value, ...)
+"monitor<-.jagr_analysis" <- function (object, value, ...) {
   stop("cannot replace monitor in a jagr_analysis object")
+}
