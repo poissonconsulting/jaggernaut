@@ -34,7 +34,7 @@ rhat.jagr_chains <- function (object, parm = "all", combine = TRUE) {
     if(nchains(object) > 1) {
       rhat <- numeric()
       for (i in seq(along = vars)) {
-        rhat[i] <- coda::gelman.diag(mcmc[,vars[i]])$psrf[1]
+        rhat[i] <- round(coda::gelman.diag(mcmc[,vars[i]])$psrf[1],2)
       }
     } else {
       rhat <- rep(NA,length(vars))
@@ -47,7 +47,7 @@ rhat.jagr_chains <- function (object, parm = "all", combine = TRUE) {
   parm <- expand_parm(object, parm)
   
   rhat <- rhat[row.names(rhat) %in% parm,,drop = FALSE]
-  
+    
   if (combine)
     return (max(rhat$rhat, na.rm = TRUE))
   
