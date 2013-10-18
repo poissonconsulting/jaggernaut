@@ -126,9 +126,7 @@ update_jags.jags_analysis <- function (object, mode = "current", ...) {
   
   analyses(object) <- analyses
   rhat_threshold(object) <- rhat_threshold
-  
-  object <- revise(object)
-  
+    
   return (object)
 }
 

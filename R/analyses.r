@@ -23,7 +23,9 @@ analyses.jags_power_analysis <- function (object, ...) {
   stopifnot(is.list(value))
   stopifnot(all(unlist(lapply(value, is.jagr_analysis))))
   
+  object$dic <- NULL
   object$analyses <- value
+  
   return (object)
 }
 

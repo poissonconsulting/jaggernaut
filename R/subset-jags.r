@@ -156,8 +156,6 @@ subset_jags.jags_analysis <- function (object, model_number = NULL, ...) {
   analyses <- analyses(object)
   
   analyses(object) <- analyses[model_number]
-
-  object <- revise(object)  
   
   return (object)
 }

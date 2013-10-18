@@ -128,8 +128,6 @@ jags_analysis <- function (model, data, niters = 10^3, mode = "current") {
   
   analyses(object) <- analyses
   rhat_threshold(object) <- opts_jagr("rhat")
-    
-  object <- revise(object)
-  
+      
   return (object)
 }
