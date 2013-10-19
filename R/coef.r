@@ -143,10 +143,10 @@ coef.jags_power_analysis <- function (object, parm = "fixed", combine = TRUE, le
   }
   
   ldply_analyses <- function (x, parm) {
-    return (plyr::ldply(x, melt_coef))
+    return (ldply_jg(x, melt_coef))
   }
   
-  coef <- plyr::ldply(coef, ldply_analyses)
+  coef <- ldply_jg(coef, ldply_analyses)
   
   coef$replicate <- paste0("replicate",as.integer(substr(coef$.id,10,15)))
   coef$value <- paste0("value",rep(1:nvalues(object), each = nrow(coef)/nvalues(object)))
@@ -181,7 +181,7 @@ coef.jags_power_analysis <- function (object, parm = "fixed", combine = TRUE, le
                        significance = significance))
   }
   
-  coef <- plyr::ddply(coef, plyr::.(value,parameter), get_estimates, power_level = power_level)
+  coef <- ddply_jg(coef, plyr::.(value,parameter), get_estimates, power_level = power_level)
   
   values <- values(object)
   values <- cbind(data.frame(value = row.names(values)),values)

@@ -9,7 +9,9 @@ get_derived.jags_analysis <- function (object, monitor, data) {
   stopifnot(is.character(monitor))
   stopifnot(length(monitor) > 0)
   stopifnot(is.data.frame(data) || is_data_list(data))
-
+  
+  options(jags.pb = "none")
+  
   dat <- translate_data(select(object), data_jags(object), data) 
       
   chains <- zero_random (object, dat)
@@ -18,7 +20,6 @@ get_derived.jags_analysis <- function (object, monitor, data) {
     dat <- modify_data_derived(object)(dat)
   
   model <- jags_model (derived_code(object), monitor = monitor)
-  options(jags.pb = "none")
   file <- tempfile(fileext=".bug")
   cat(model_code(model), file=file)
     

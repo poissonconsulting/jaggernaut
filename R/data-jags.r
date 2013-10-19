@@ -36,10 +36,10 @@ data_jags.jags_data_model <- function (object, values, ...) {
   options(jags.pb = "none")
   
   if(!"basemod" %in% list.modules())
-    load.module("basemod")  
+    rjags::load.module("basemod")  
   
   if(!"bugs" %in% list.modules())
-    load.module("bugs")
+    rjags::load.module("bugs")
   
   values <- translate_data(select(object), values)
   
@@ -59,9 +59,7 @@ data_jags.jags_data_model <- function (object, values, ...) {
     
   chains <- jags_analysis_internal (
     data = data, file = file, monitor = monitor(object), 
-    inits = inits, n.chain = 1, 
-    n.adapt = 0, n.burnin = 0, n.sim = 1, n.thin = 1, 
-    quiet = TRUE
+    inits = inits
   )
 
   est <- extract_estimates(chains)[["estimate"]]

@@ -18,7 +18,7 @@ ply_jags_sample <- function (object, by, fun = sum) {
     return (apply(x, MARGIN = 2, FUN = fun))
   }
   
-  object <- plyr::ddply(object, .variables = by, fun_vs, fun = fun)
+  object <- ddply_jg(object, .variables = by, fun_vs, fun = fun)
   class(object) <- c("data.frame","jags_sample")
   return (object)
 }

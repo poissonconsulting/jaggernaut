@@ -79,42 +79,32 @@ jags_analysis <- function (model, data, niters = 10^3, mode = "current") {
     
   old_opts <- opts_jagr(mode = mode)
   on.exit(opts_jagr(old_opts))
-    
-  parallel <- opts_jagr("parallel")
+  
   quiet <- opts_jagr("quiet")
   
   if (quiet) {
-    options(jags.pb = "none")
+    options(jags.pb = "none") 
   } else {
-    options(jags.pb = "text")
+    options(jags.pb = "text") 
   }
-  
+      
   if (opts_jagr("mode") == "debug") {
     niters <- 100
   } 
-    
-  nmodels <- nmodels(model)
-  
-  if(nmodels == 1)
-    parallel <- FALSE
   
   if(!"basemod" %in% list.modules())
-    load.module("basemod")  
+    rjags::load.module("basemod")  
   
   if(!"bugs" %in% list.modules())
-    load.module("bugs")
+    rjags::load.module("bugs")
   
   if(!"dic" %in% list.modules())
-    load.module("dic")
+    rjags::load.module("dic")
   
   analyses <- list()
-  
-  if(!quiet)
-    cat("Analysing Models")
-  
-  analyses <- plyr::llply(.data = models(model), .fun = jagr_analysis, 
-                             data = data, niters = niters,
-                             .parallel = parallel)
+    
+  analyses <- llply_jg(.data = models(model), .fun = jagr_analysis, 
+                             data = data, niters = niters)
   
   analyses(object) <- analyses
   rhat_threshold(object) <- opts_jagr("rhat")

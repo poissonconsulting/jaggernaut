@@ -1,5 +1,7 @@
 
-jags_analysis_internal <- function (inits, data, file, monitor, n.chain = 1, n.adapt, n.burnin, n.sim, n.thin, quiet = TRUE, random = NULL) {
+jags_analysis_internal <- function (inits, data, file, monitor, n.chain = 1, 
+                                    n.adapt = 0, n.burnin = 0, n.sim = 1, 
+                                    n.thin = 1, random = NULL) {
   stopifnot(is.null(monitor) || is.character(monitor))
   stopifnot(is.list(data))
   stopifnot(is.null(inits) || is.list(inits))
@@ -9,16 +11,18 @@ jags_analysis_internal <- function (inits, data, file, monitor, n.chain = 1, n.a
   n.sim <- as.integer(n.sim)
   n.chain <- as.integer(n.chain)
   
-  jags_model_internal <- function (..., inits) {
+  jags.model_jg <- function (..., inits) {
+    quiet <- opts_jagr("mode") != "debug"
+    
     if (!length(inits)) {
-      return (jags.model (...))
+      return (rjags::jags.model (..., quiet = quiet))
     }
-    return (jags.model (..., inits = inits))
+    return (rjags::jags.model (..., inits = inits, quiet = quiet))
   }
   
-  jags <- jags_model_internal (file = file, data = data, inits = inits, 
-                               n.chains = n.chain, n.adapt = n.adapt, quiet = quiet)
-  if (n.burnin) 
+  jags <- jags.model_jg (file = file, data = data, inits = inits, 
+                               n.chains = n.chain, n.adapt = n.adapt)
+  if (n.burnin > 0) 
     update(jags, n.iter = n.burnin)
   
   if(is.null(monitor)) {
@@ -31,7 +35,7 @@ jags_analysis_internal <- function (inits, data, file, monitor, n.chain = 1, n.a
   monitor <- c(monitor, "deviance")
   monitor <- sort(unique(monitor))
   
-  samples <- jags.samples(
+  samples <- rjags::jags.samples(
     model = jags, variable.names = monitor, n.iter = n.sim, thin = n.thin
   )
   

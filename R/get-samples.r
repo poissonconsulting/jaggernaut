@@ -4,12 +4,12 @@ get_samples <- function (model, data, file) {
   warn <- options('warn')
   options(warn = -1)
       
-  jags <- jags.model (file = file, data = data, 
-                      n.chains = 1, n.adapt = 0, quiet = T
+  jags <- rjags::jags.model (file = file, data = data, 
+                      n.chains = 1, n.adapt = 0, quiet = TRUE
   )
 
   monitor <- monitor(model)
-  samples <- jags.samples(
+  samples <- rjags::jags.samples(
     model = jags, variable.names = monitor, n.iter = 1
   )
   options (warn)

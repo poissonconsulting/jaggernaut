@@ -52,10 +52,10 @@ power_jags <- function (object, parm = c(fixed = 0), level = "current") {
   }
   
   ldply_analyses <- function (x, parm, level, rhat_threshold) {
-    return (plyr::ldply(x, melt_coef, parm, level, rhat_threshold))
+    return (ldply_jg(x, melt_coef, parm, level, rhat_threshold))
   }
         
-  coef <- plyr::ldply(analyses, ldply_analyses, parm = names(parm), level = level, rhat_threshold = rhat_threshold)
+  coef <- ldply_jg(analyses, ldply_analyses, parm = names(parm), level = level, rhat_threshold = rhat_threshold)
   
   coef$replicate <- paste0("replicate",as.integer(substr(coef$.id,10,15)))
   coef$value <- paste0("value",rep(1:nvalues(object), each = nrow(coef)/nvalues(object)))
@@ -82,7 +82,7 @@ power_jags <- function (object, parm = c(fixed = 0), level = "current") {
     out <- length(bol[bol])
     return (data.frame(bound = bound, converged = converged, samples = samples, out = out))
   }
-  power <- plyr::ddply(power,plyr::.(value,parameter,bound), get_power)
+  power <- ddply_jg(power,plyr::.(value,parameter,bound), get_power)
   power$power <- NA
   power$lower <- NA
   power$upper <- NA

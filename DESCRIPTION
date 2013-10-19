@@ -126,3 +126,4 @@ Collate:
     'jags.r'
     'random.r'
     'samples.r'
+    'plyr.r'

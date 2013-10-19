@@ -6,16 +6,30 @@ update_jags <- function (object, ...) {
 
 update_jags.jagr_power_analysis <- function (object, ...) {  
   
-  fun2 <- function (jags, monitor, n.sim, n.thin, recompile) {
+  update_jg <- function (jags, monitor, n.sim, n.thin, recompile) {
+    
+    stopifnot(is.jags(jags))
+    
     n.sim <- as.integer(n.sim)
     n.thin <- as.integer(n.thin)
-
-    if (recompile)
-      jags$recompile()
     
-    samples <- jags.samples(
-      model = jags, variable.names = monitor, n.iter = n.sim, thin = n.thin
-    )
+    quiet <- opts_jagr("quiet")
+    
+    if (recompile) {
+      if (opts_jagr("mode") != "debug") {
+        capture.output(jags$recompile())
+      } else
+        jags$recompile()
+    }
+    if (opts_jagr("mode") != "debug") {
+      capture.output(samples <- rjags::jags.samples(
+        model = jags, variable.names = monitor, n.iter = n.sim, thin = n.thin
+      ))
+    } else {
+      samples <- rjags::jags.samples(
+        model = jags, variable.names = monitor, n.iter = n.sim, thin = n.thin
+      )      
+    }
     object <- list()
     class(object) <- "jagr_chains"
     samples(object) <- samples
@@ -24,13 +38,13 @@ update_jags.jagr_power_analysis <- function (object, ...) {
   }
   
   if(!"basemod" %in% list.modules())
-    load.module("basemod")  
+    rjags::load.module("basemod")  
   
   if(!"bugs" %in% list.modules())
-    load.module("bugs")
+    rjags::load.module("bugs")
   
   if(!"dic" %in% list.modules())
-    load.module("dic")
+    rjags::load.module("dic")
   
   n.chain <- nchains(object)
   n.sim <- niters(object)
@@ -38,26 +52,33 @@ update_jags.jagr_power_analysis <- function (object, ...) {
   
   monitor <- monitor(object)  
   jags <- jags(chains(object))
-  
-  parallel <- opts_jagr("parallel")
-  
+    
   ptm <- proc.time()
   
-  chains_list <- plyr::llply(.data = jags, .fun = fun2, 
-                             monitor = monitor, n.sim = n.sim, n.thin = n.thin, 
-                             recompile = TRUE,
-                             .parallel = parallel)
-  
-  chains <- chains_list[[1]]
-  for (i in 1:length(chains_list)) {
-    chains <- add_jags(chains, chains_list[[i]])
-  } 
+  if (length(jags) > 1) {
+    chains_list <- llply_jg(.data = jags, .fun = update_jg, 
+                            monitor = monitor, n.sim = n.sim, n.thin = n.thin, 
+                            recompile = TRUE)
+    
+    chains <- chains_list[[1]]
+    for (i in 2:length(chains_list)) {
+      chains <- add_jags(chains, chains_list[[i]])
+    } 
+  } else {
+    chains <- update_jg (jags = jags[[1]], monitor = monitor, n.sim = n.sim, 
+                         n.thin = n.thin, quiet = quiet, recompile = FALSE)
+  }
   
   chains(object) <- chains
   niters(object) <- niters(object) * 2
   time_interval(object) <- object$time + ((proc.time () - ptm)[3]) / (60 * 60)
   
   return (object)
+}
+
+update_jags_jagr_power_analysis <- function (object, ...) {
+  stopifnot(is.jagr_power_analysis(object))
+  return (update_jags(object, ...))
 }
 
 #' @method update_jags jags_analysis
@@ -70,51 +91,24 @@ update_jags.jags_analysis <- function (object, mode = "current", ...) {
   quiet <- opts_jagr("quiet")
   parallel <- opts_jagr("parallel")
   
+  
   if (quiet) {
-    options(jags.pb = "none")
+    options(jags.pb = "none") 
   } else {
-    options(jags.pb = "text")
-  }   
-    
-  nmodel <- nmodels(object)
+    options(jags.pb = "text") 
+  }    
   
-  if(nmodel == 1) {
-    parallel <- FALSE
-  }
+  analyses <- llply_jg(analyses(object), update_jags_jagr_power_analysis)
   
-  analyses <- list()
-  if(parallel) {
-    
-    doMC::registerDoMC(cores=nmodel)
-    
-    analyses <- foreach::foreach(i = 1:nmodel) %dopar% { 
-      update_jags(object$analyses[[i]],...)
-    }
-    if(!quiet) {
-      for (i in 1:nmodel) {
-        
-        cat(paste("\n\nModel",i,"of",nmodel,"\n\n"))
-        
-        if (is_converged (analyses[[i]], rhat_threshold = rhat_threshold)) {
-          cat ("Analysis converged")
-        } else 
-          cat ("Analysis failed to converge")
-        cat_convergence (analyses[[i]])
-      }
-    }
-  } else {
-    for (i in 1:nmodel) {
-      if (!quiet)
-        cat(paste("\n\nModel",i,"of",nmodel,"\n\n"))
-      analyses[[i]] <- update_jags(object$analyses[[i]], ...)
+  if(!quiet) {
+    for (i in 1:nmodels(object)) {
+      cat(paste("\n\nModel",i,"of",nmodels(object),"\n\n"))
       
-      if(!quiet) {
-        if (is_converged (analyses[[i]], rhat_threshold = rhat_threshold)) {
-          cat ("Analysis converged")
-        } else 
-          cat ("Analysis failed to converge")
-        cat_convergence (analyses[[i]])
-      }
+      if (is_converged (analyses[[i]], rhat_threshold = rhat_threshold)) {
+        cat ("Analysis converged")
+      } else 
+        cat ("Analysis failed to converge")
+      cat_convergence (analyses[[i]])
     }
   }
   

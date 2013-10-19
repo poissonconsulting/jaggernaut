@@ -78,13 +78,13 @@ jags_simulation <- function (data_model, values, nreps = 100, mode = "current") 
   values(object) <- values
   
   if(!"basemod" %in% list.modules())
-    load.module("basemod")  
+    rjags::load.module("basemod")  
   
   if(!"bugs" %in% list.modules())
-    load.module("bugs")
+    rjags::load.module("bugs")
   
   if(!"dic" %in% list.modules())
-    load.module("dic")
+    rjags::load.module("dic")
   
   data <- list()
           
