@@ -50,12 +50,8 @@ power_jags <- function (object, parm = c(fixed = 0), level = "current") {
     
     return (coef)
   }
-  
-  ldply_analyses <- function (x, parm, level, rhat_threshold) {
-    return (ldply_jg(x, melt_coef, parm, level, rhat_threshold))
-  }
         
-  coef <- ldply_jg(analyses, ldply_analyses, parm = names(parm), level = level, rhat_threshold = rhat_threshold)
+  coef <- ldply_jg(analyses, melt_coef, parm = names(parm), level = level, rhat_threshold = rhat_threshold, .recursive = 2)
   
   coef$replicate <- paste0("replicate",as.integer(substr(coef$.id,10,15)))
   coef$value <- paste0("value",rep(1:nvalues(object), each = nrow(coef)/nvalues(object)))
