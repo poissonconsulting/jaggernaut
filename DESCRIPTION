@@ -127,4 +127,4 @@ Collate:
     'random.r'
     'samples.r'
     'plyr.r'
-    'options.r'
+    'header.r'

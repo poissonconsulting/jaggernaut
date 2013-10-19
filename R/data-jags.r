@@ -39,12 +39,6 @@ data_jags.jags_data_model <- function (object, values, ...) {
     on.exit(options("jags.pb" = jags.pb))
   }
   
-  if(!"basemod" %in% list.modules())
-    rjags::load.module("basemod")  
-  
-  if(!"bugs" %in% list.modules())
-    rjags::load.module("bugs")
-  
   values <- translate_data(select(object), values)
   
   data <- values

@@ -79,15 +79,6 @@ jags_simulation <- function (data_model, values, nreps = 100, mode = "current") 
   data_model(object) <- data_model
   values(object) <- values
   
-  if(!"basemod" %in% list.modules())
-    rjags::load.module("basemod")  
-  
-  if(!"bugs" %in% list.modules())
-    rjags::load.module("bugs")
-  
-  if(!"dic" %in% list.modules())
-    rjags::load.module("dic")
-  
   try_data_jags <- function (data_model, values) {
     
     data <- try(data_jags(data_model, values))

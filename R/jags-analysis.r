@@ -94,15 +94,6 @@ jags_analysis <- function (model, data, niters = 10^3, mode = "current") {
     niters <- 100
   } 
   
-  if(!"basemod" %in% list.modules())
-    rjags::load.module("basemod")  
-  
-  if(!"bugs" %in% list.modules())
-    rjags::load.module("bugs")
-  
-  if(!"dic" %in% list.modules())
-    rjags::load.module("dic")
-  
   analyses <- list()
     
   analyses <- llply_jg(.data = models(model), .fun = jagr_analysis, 

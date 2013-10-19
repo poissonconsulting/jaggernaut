@@ -37,15 +37,6 @@ update_jags.jagr_power_analysis <- function (object, ...) {
     return (object)
   }
   
-  if(!"basemod" %in% list.modules())
-    rjags::load.module("basemod")  
-  
-  if(!"bugs" %in% list.modules())
-    rjags::load.module("bugs")
-  
-  if(!"dic" %in% list.modules())
-    rjags::load.module("dic")
-  
   n.chain <- nchains(object)
   n.sim <- niters(object)
   n.thin <- max(1, floor(n.chain * n.sim / nsims(object)))
