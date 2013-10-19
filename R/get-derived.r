@@ -10,7 +10,11 @@ get_derived.jags_analysis <- function (object, monitor, data) {
   stopifnot(length(monitor) > 0)
   stopifnot(is.data.frame(data) || is_data_list(data))
   
-  options(jags.pb = "none")
+  if (options()$jags.pb != "none") {
+    jags.pb <- options()$jags.pb
+    options(jags.pb = "none")
+    on.exit(options("jags.pb" = jags.pb))
+  }
   
   dat <- translate_data(select(object), data_jags(object), data) 
       

@@ -1,0 +1,2 @@
+
+options(jags.pb = "none")

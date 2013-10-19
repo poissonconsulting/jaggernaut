@@ -90,16 +90,15 @@ update_jags.jags_analysis <- function (object, mode = "current", ...) {
     on.exit(opts_jagr(old_opts))
   }
   
-  rhat_threshold <- opts_jagr("rhat")
   quiet <- opts_jagr("quiet")
-  parallel <- opts_jagr("parallel")
   
+  if (quiet && options()$jags.pb != "none") {
+    jags.pb <- options()$jags.pb
+    options(jags.pb = "none")
+    on.exit(options("jags.pb" = jags.pb), add = TRUE)
+  }
   
-  if (quiet) {
-    options(jags.pb = "none") 
-  } else {
-    options(jags.pb = "text") 
-  }    
+  rhat_threshold <- opts_jagr("rhat")
   
   analyses <- llply_jg(analyses(object), update_jags_jagr_power_analysis)
   

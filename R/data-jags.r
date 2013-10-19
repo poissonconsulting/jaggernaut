@@ -33,7 +33,11 @@ data_jags.jags_data_model <- function (object, values, ...) {
   if (!is.data.frame(values) || nrow(values) != 1)
     stop("values must be a data.frame with a single row")
 
-  options(jags.pb = "none")
+  if (options()$jags.pb != "none") {
+    jags.pb <- options()$jags.pb
+    options(jags.pb = "none")
+    on.exit(options("jags.pb" = jags.pb))
+  }
   
   if(!"basemod" %in% list.modules())
     rjags::load.module("basemod")  
