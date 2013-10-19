@@ -88,32 +88,37 @@ jags_simulation <- function (data_model, values, nreps = 100, mode = "current") 
   if(!"dic" %in% list.modules())
     rjags::load.module("dic")
   
+  try_data_jags <- function (data_model, values) {
+    
+    data <- try(data_jags(data_model, values))
+                
+    onetwothree <- c("one","two","three")
+    
+    retries <- 2
+    while (inherits(data, "try-error")) {
+      
+      if(retries == 0)
+        stop(paste("data simulation failed three times"))
+
+      message(paste("data simulation failed",onetwothree[3-retries],"times"))
+      
+      retries <- retries - 1 
+      
+      data <- try(data_jags(data_model, values))
+    }
+    return (data)
+  }
+  
   data <- list()
           
   for (value in 1:nvalues(object)) {
     data[[value]] <- list()
     for (rep in 1:nreps) {
-      if (!quiet)
-        cat(paste0("value: ",value," of ",nvalues(object),"  rep: ", rep," of ",nreps,"\n"))
-      
-      dat <- try(data_jags(data_model, values(object)[value,,drop = FALSE]))
-      
-      retries <- 2
-      while (inherits(dat, "try-error")) {
-        message(paste("retrying failed data simulation for value",value,
-                      "and rep",rep))
-
-        if(retries == 0)
-          stop(paste("data simulation for value",value,
-                     "and rep",rep,"failed three times"))
-        
-        retries <- retries - 1 
-        
-        dat <- try(data_jags(data_model, values(object)[value,,drop = FALSE]))
-      }
-      
-      data[[value]][[rep]] <- dat
+      data[[value]][[rep]] <- data_model
     }
+    data[[value]] <- llply_jg(data[[value]], 
+                              try_data_jags, 
+                              values = values(object)[value,,drop = FALSE])
   }
 
   data_jags(object) <- data
