@@ -3,7 +3,7 @@ jagr_power_analysis <- function (model_code, data, niters, inits, monitor = NULL
                                  random = NULL) {      
   nchains <- opts_jagr("nchains")
   nsims <- opts_jagr("nsims")  
-  parallelChains <- opts_jagr("parallel_chains")
+  parallel <- opts_jagr("parallel")
   quiet <- opts_jagr("quiet")
   
   niters <- ceiling(max(niters, nsims * 2 / nchains))
@@ -14,41 +14,31 @@ jagr_power_analysis <- function (model_code, data, niters, inits, monitor = NULL
   nsims <- as.integer(niters /2)
   
   ptm <- proc.time()
+            
+  rngs<-parallel.seeds("base::BaseRNG", nchains)
   
-  if (parallelChains) {
-          
-    rngs<-parallel.seeds("base::BaseRNG", nchains)
-    
-    if (!is.null (inits)) {
-      for (i in 1:nchains)
-        inits[[i]] <- c(inits[[i]],rngs[[i]])
-    } else
-      inits <- rngs
-    
-    doMC::registerDoMC(cores=nchains)
-    
-    chains <- foreach::foreach(i = 1:nchains, .combine = add_jags_jagr_chains) %dopar% { 
-      file <- tempfile(fileext=".bug")
-      cat(model_code, file=file)
-      
-      jags_analysis_internal (
-        data = data, file=file, monitor = monitor, 
-        inits = inits[i], n.chain = 1, 
-        n.adapt = n.adapt, n.burnin = n.burnin, 
-        n.sim = nsims, n.thin = n.thin, quiet = quiet, random = random
-      )
-    }
-  } else {    
-    file <- tempfile(fileext=".bug")
-    cat(model_code, file=file)
-    
-    chains <- jags_analysis_internal (
-      data = data, file=file, monitor = monitor, 
-      inits = inits, n.chain = nchains, 
-      n.adapt = n.adapt, n.burnin = n.burnin, 
-      n.sim = nsims, n.thin = n.thin, quiet = quiet, random = random
-    )
-  }
+  if (!is.null (inits)) {
+    for (i in 1:nchains)
+      inits[[i]] <- c(inits[[i]],rngs[[i]])
+  } else
+    inits <- rngs
+  
+  file <- tempfile(fileext=".bug")
+  cat(model_code, file=file)
+  
+  if(!quiet)
+    cat("Analysing Chains")
+  
+  chains_list <- plyr::llply(.data = inits, .fun = jags_analysis_internal, 
+                             data = data, file=file, monitor = monitor, 
+                             n.adapt = n.adapt, n.burnin = n.burnin, 
+                             n.sim = nsims, n.thin = n.thin, random = random,
+                             .parallel = parallel)
+  
+  chains <- chains_list[[1]]
+  for (i in 1:length(chains_list)) {
+    chains <- add_jags(chains, chains_list[[i]])
+  } 
   
   object <- list()
   

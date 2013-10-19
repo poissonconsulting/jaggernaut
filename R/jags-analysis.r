@@ -80,7 +80,7 @@ jags_analysis <- function (model, data, niters = 10^3, mode = "current") {
   old_opts <- opts_jagr(mode = mode)
   on.exit(opts_jagr(old_opts))
     
-  parallelModels <- opts_jagr("parallel_models")
+  parallel <- opts_jagr("parallel")
   quiet <- opts_jagr("quiet")
   
   if (quiet) {
@@ -96,7 +96,7 @@ jags_analysis <- function (model, data, niters = 10^3, mode = "current") {
   nmodels <- nmodels(model)
   
   if(nmodels == 1)
-    parallelModels <- FALSE
+    parallel <- FALSE
   
   if(!"basemod" %in% list.modules())
     load.module("basemod")  
@@ -108,23 +108,13 @@ jags_analysis <- function (model, data, niters = 10^3, mode = "current") {
     load.module("dic")
   
   analyses <- list()
-      
-  if(parallelModels) {
-    
-    doMC::registerDoMC(cores=nmodels)
-    
-    analyses <- foreach::foreach(i = 1:nmodels) %dopar% { 
-      jagr_analysis(model(subset_jags(model,i)), data, niters = niters)
-    }
-  } else {
-    for (i in 1:nmodels) {
-      
-      if (!quiet)
-        cat(paste("\n\nModel",i,"of",nmodels,"\n\n"))
-      
-      analyses[[i]] <- jagr_analysis(model(subset_jags(model,i)), data, niters = niters)
-    }
-  }
+  
+  if(!quiet)
+    cat("Analysing Models")
+  
+  analyses <- plyr::llply(.data = models(model), .fun = jagr_analysis, 
+                             data = data, niters = niters,
+                             .parallel = parallel)
   
   analyses(object) <- analyses
   rhat_threshold(object) <- opts_jagr("rhat")

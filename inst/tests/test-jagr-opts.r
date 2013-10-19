@@ -63,3 +63,8 @@ test_that("default mode is report", {
   
   expect_that(def,is_identical_to(rep))
 })
+
+test_that("cannot set parallel unless registered doPar backend", {
+  
+  expect_that(opts_jagr(parallel = TRUE),throws_error())
+})

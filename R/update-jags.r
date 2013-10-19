@@ -39,26 +39,20 @@ update_jags.jagr_power_analysis <- function (object, ...) {
   monitor <- monitor(object)  
   jags <- jags(chains(object))
   
-  parallel <- length(jags) > 1
+  parallel <- opts_jagr("parallel")
   
   ptm <- proc.time()
   
-  if (parallel) {
-    
-    doMC::registerDoMC(cores=n.chain)   
-    i <- 1 # hack to prevent warning on package check
-    chains <- foreach::foreach(i = 1:n.chain, .combine = add_jags_jagr_chains) %dopar% {
-      fun2(
-        jags = jags[[i]], monitor = monitor, n.sim = n.sim, n.thin = n.thin, 
-        recompile = T
-      )
-    }
-  } else {    
-    chains <- fun2 (
-      jags = jags[[1]], monitor = monitor, n.sim = n.sim, n.thin = n.thin, 
-      recompile = F
-    )
-  }
+  chains_list <- plyr::llply(.data = jags, .fun = fun2, 
+                             monitor = monitor, n.sim = n.sim, n.thin = n.thin, 
+                             recompile = TRUE,
+                             .parallel = parallel)
+  
+  chains <- chains_list[[1]]
+  for (i in 1:length(chains_list)) {
+    chains <- add_jags(chains, chains_list[[i]])
+  } 
+  
   chains(object) <- chains
   niters(object) <- niters(object) * 2
   time_interval(object) <- object$time + ((proc.time () - ptm)[3]) / (60 * 60)
@@ -74,7 +68,7 @@ update_jags.jags_analysis <- function (object, mode = "current", ...) {
   
   rhat_threshold <- opts_jagr("rhat")
   quiet <- opts_jagr("quiet")
-  parallelModels <- opts_jagr("parallel_models")
+  parallel <- opts_jagr("parallel")
   
   if (quiet) {
     options(jags.pb = "none")
@@ -85,11 +79,11 @@ update_jags.jags_analysis <- function (object, mode = "current", ...) {
   nmodel <- nmodels(object)
   
   if(nmodel == 1) {
-    parallelModels <- FALSE
+    parallel <- FALSE
   }
   
   analyses <- list()
-  if(parallelModels) {
+  if(parallel) {
     
     doMC::registerDoMC(cores=nmodel)
     

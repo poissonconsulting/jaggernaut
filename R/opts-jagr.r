@@ -6,8 +6,7 @@
   nchains = 2,
   nresample = 0,
   nsims = 100,
-  parallel_chains = FALSE, 
-  parallel_models = FALSE,
+  parallel = FALSE, 
   quiet = FALSE,
   rhat = 2
 )
@@ -19,8 +18,7 @@
   nchains = 3,
   nresample = 2,
   nsims = 500,
-  parallel_chains = .Platform$OS.type!="windows", 
-  parallel_models = FALSE,
+  parallel = FALSE, 
   quiet = FALSE,
   rhat = 1.5
 )
@@ -32,8 +30,7 @@
   nchains = 2,
   nresample = 2,
   nsims = 500,
-  parallel_chains = FALSE, 
-  parallel_models = FALSE,
+  parallel = FALSE, 
   quiet = TRUE,
   rhat = 1.5
 )
@@ -45,8 +42,7 @@
   nchains = 2,
   nresample = 1,
   nsims = 500,
-  parallel_chains = .Platform$OS.type!="windows", 
-  parallel_models = FALSE,
+  parallel = FALSE, 
   quiet = FALSE,
   rhat = 1.1
 )
@@ -58,8 +54,7 @@
   nchains = 3,
   nresample = 3,
   nsims = 1000,
-  parallel_chains = .Platform$OS.type!="windows", 
-  parallel_models = FALSE,
+  parallel = FALSE, 
   quiet = FALSE,
   rhat = 1.1
 )
@@ -71,8 +66,7 @@
   nchains = 4,
   nresample = 4,
   nsims = 2000,
-  parallel_chains = .Platform$OS.type!="windows", 
-  parallel_models = FALSE,
+  parallel = FALSE, 
   quiet = FALSE,
   rhat = 1.05
 )
@@ -127,9 +121,7 @@ opts_jagr_set <- .opts_jagr$set
 #' \item{nresample}{the number of times to resample 
 #' until convergence is achieved (default = 3)}
 #' \item{nsims}{the total number of MCMC samples to thin from the second halves of the MCMC chains (default = 1000)}
-#' \item{parallel_chains}{whether the chains should
-#' be run on separate processes (default is platform dependennt)}
-#' \item{parallel_models}{whether the models should
+#' \item{parallel}{whether chains and analyses should
 #' be run on separate processes (default = FALSE)}
 #' \item{quiet}{whether to suppress messages (default = FALSE)}
 #' \item{rhat}{the R-hat threshold for convergence (default = 1.1)}
@@ -207,6 +199,7 @@ opts_jagr <- function (...) {
   }
   old <- opts
   if ("mode" %in% names(args)) {
+    parallel <- opts$parallel
     if (args$mode == "debug") {
       opts <- .opts_jagr_debug
     } else if (args$mode == "explore") {
@@ -224,6 +217,7 @@ opts_jagr <- function (...) {
     }else if (!args$mode %in% c("current","custom")) {
       stop(paste("mode",args$mode,"not recognized"))
     }
+    opts$parallel <- parallel
   }
   names_args <- names(args)
   names_args <- names_args[names_args != "mode"]
@@ -275,12 +269,9 @@ assign_opts_jagr <- function (opts) {
   if (length(opts$nsims) != 1) {
     stop("option nsims must be length 1")
   }
-  if (length(opts$parallel_chains) != 1) {
-    stop("option n_chains must be length 1")
-  }  
-  if (length(opts$parallel_models) != 1) {
-    stop("option n_chains must be length 1")
-  }  
+  if (length(opts$parallel) != 1) {
+    stop("option parallel must be length 1")
+  }   
   if (length(opts$quiet) != 1) {
     stop("option quiet must be length 1")
   }  
@@ -307,39 +298,35 @@ assign_opts_jagr <- function (opts) {
   if (!(opts$nsims >= 100 &&  opts$nsims <= 2000)) {
     stop("option nsims must lie between 100 and 2000")
   } 
-  if (opts$parallel_chains && .Platform$OS.type=="windows") {
-    stop("option parallel_chains == TRUE not yet implemented for windows")
-  } 
-  if (opts$parallel_models && .Platform$OS.type=="windows") {
-    stop("option parallel_models == TRUE not yet implemented for windows")
+  if (opts$parallel && getDoParWorkers() == 1) {
+    stop("option parallel can only be TRUE when there is a registered doPar backend")
   } 
   if (!(opts$rhat >= 1 &&  opts$rhat <= 2)) {
     stop("option rhat must lie between 1 and 2")
   } 
   
-  topts <- opts[names(opts) != "mode"]
+  topts <- opts[!names(opts) %in% c("mode","parallel")]
   
   if (isTRUE(all.equal(topts, 
-               .opts_jagr_debug[names(.opts_jagr_debug) != "mode"]))) {
+               .opts_jagr_debug[!names(.opts_jagr_debug) %in% c("mode","parallel")]))) {
     opts$mode <- "debug"
   } else if(isTRUE(all.equal(topts, 
-                       .opts_jagr_explore[names(.opts_jagr_explore) != "mode"]))) {
+                       .opts_jagr_explore[!names(.opts_jagr_debug) %in% c("mode","parallel")]))) {
     opts$mode <- "explore"
   } else if(isTRUE(all.equal(topts, 
-                             .opts_jagr_test[names(.opts_jagr_test) != "mode"]))) {
+                             .opts_jagr_test[!names(.opts_jagr_debug) %in% c("mode","parallel")]))) {
     opts$mode <- "test"
   } else if(isTRUE(all.equal(topts, 
-                             .opts_jagr_demo[names(.opts_jagr_demo) != "mode"]))) {
+                             .opts_jagr_demo[!names(.opts_jagr_debug) %in% c("mode","parallel")]))) {
     opts$mode <- "demo"
   } else if(isTRUE(all.equal(topts, 
-                     .opts_jagr_paper[names(.opts_jagr_paper) != "mode"]))) {
+                     .opts_jagr_paper[!names(.opts_jagr_debug) %in% c("mode","parallel")]))) {
     opts$mode <- "paper"
   } else if(isTRUE(all.equal(topts, 
-                     .opts_jagr_report[names(.opts_jagr_report) != "mode"]))) {
+                     .opts_jagr_report[!names(.opts_jagr_debug) %in% c("mode","parallel")]))) {
     opts$mode <- "report"
   }
   
   opts_jagr_set(opts)
   invisible(opts)
 }
-

@@ -14,20 +14,15 @@ Description: jaggernaut is an R package to facilitate Bayesian analyses using
     converged analyses.
 Depends:
     R (>= 3.0.0),
-    stats,
-    methods,
-    iterators,
-    parallel
 Imports:
     abind,
+    plyr,
+    reshape2,
     coda,
     rjags,
     foreach,
-    plyr
+    iterators
 Suggests:
-    multicore,
-    doMC,
-    reshape2,
     ggplot2,
     scales,
     testthat

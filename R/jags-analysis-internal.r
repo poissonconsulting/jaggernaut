@@ -1,9 +1,9 @@
 
-jags_analysis_internal <- function (data, file, monitor, inits, n.chain, n.adapt, n.burnin, n.sim, n.thin, quiet, random = NULL) {
+jags_analysis_internal <- function (inits, data, file, monitor, n.chain = 1, n.adapt, n.burnin, n.sim, n.thin, quiet = TRUE, random = NULL) {
   stopifnot(is.null(monitor) || is.character(monitor))
   stopifnot(is.list(data))
   stopifnot(is.null(inits) || is.list(inits))
-    
+  
   n.adapt <- as.integer(n.adapt)
   n.burnin <- as.integer(n.burnin)
   n.sim <- as.integer(n.sim)
@@ -15,12 +15,12 @@ jags_analysis_internal <- function (data, file, monitor, inits, n.chain, n.adapt
     }
     return (jags.model (..., inits = inits))
   }
-    
+  
   jags <- jags_model_internal (file = file, data = data, inits = inits, 
-                      n.chains = n.chain, n.adapt = n.adapt, quiet = quiet)
+                               n.chains = n.chain, n.adapt = n.adapt, quiet = quiet)
   if (n.burnin) 
     update(jags, n.iter = n.burnin)
-
+  
   if(is.null(monitor)) {
     monitor <- variable.names(jags)
     monitor <- monitor[!monitor %in% names(data)]
@@ -41,6 +41,7 @@ jags_analysis_internal <- function (data, file, monitor, inits, n.chain, n.adapt
   samples(object) <- samples
   jags(object) <- list(jags)
   random(object) <- random
-      
+  
   return (object)
 }
+

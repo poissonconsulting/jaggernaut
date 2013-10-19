@@ -49,10 +49,8 @@
   until convergence is achieved (default = 3)}
   \item{nsims}{the total number of MCMC samples to thin
   from the second halves of the MCMC chains (default =
-  1000)} \item{parallel_chains}{whether the chains should
-  be run on separate processes (default is platform
-  dependennt)} \item{parallel_models}{whether the models
-  should be run on separate processes (default = FALSE)}
+  1000)} \item{parallel}{whether chains and analyses should
+  be run on separate processes (default = FALSE)}
   \item{quiet}{whether to suppress messages (default =
   FALSE)} \item{rhat}{the R-hat threshold for convergence
   (default = 1.1)} }
