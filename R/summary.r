@@ -43,16 +43,14 @@ summary.jagr_analysis <- function (object, level = level, ...)
 #' @export
 summary.jags_analysis <- function (object, level = "current", ...)
 {
-  old_opts <- opts_jagr()
-  on.exit(opts_jagr(old_opts))
   
   if (!is.numeric(level)) {
-      opts_jagr(mode = level)
-      level <- opts_jagr("level")
+    if (level != "current") {
+      old_opts <- opts_jagr(mode = level)
+      on.exit(opts_jagr(old_opts))
+    }
+    level <- opts_jagr("level")
   } else {
-    if (length(level) != 1) {
-      stop("level must be length 1")
-    } 
     if (level < 0.75 || level > 0.99) {
       stop("level must lie between 0.75 and 0.99")
     }

@@ -187,21 +187,20 @@ predict.jags_analysis <- function (object, newdata = NULL,
     stop("parm must be a character vector")
   }
   
-  old_opts <- opts_jagr()
-  on.exit(opts_jagr(old_opts))
-  
   if (!is.numeric(level)) {
+    if (!level %in% c("current","no")) {
+      old_opts <- opts_jagr(mode = level)
+      on.exit(opts_jagr(old_opts))
+    }
     if (level == "no") {
       level <- 0
-    } else {
-      opts_jagr(mode = level)
+    } else
       level <- opts_jagr("level")
-    }
   } else {
     if (level < 0.75 || level > 0.99) {
       stop("level must lie between 0.75 and 0.99")
     }
-  } 
+  }
   
   object <- subset_jags(object, model_number = model_number)
   

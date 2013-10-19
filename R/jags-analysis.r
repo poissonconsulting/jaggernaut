@@ -76,9 +76,11 @@ jags_analysis <- function (model, data, niters = 10^3, mode = "current") {
   data_jags(object) <- data
   
   niters <- as.integer(niters)
-    
-  old_opts <- opts_jagr(mode = mode)
-  on.exit(opts_jagr(old_opts))
+  
+  if (mode != "current") {
+    old_opts <- opts_jagr(mode = mode)
+    on.exit(opts_jagr(old_opts))
+  }
   
   quiet <- opts_jagr("quiet")
   
@@ -110,4 +112,9 @@ jags_analysis <- function (model, data, niters = 10^3, mode = "current") {
   rhat_threshold(object) <- opts_jagr("rhat")
       
   return (object)
+}
+
+jags_analysis_datafirst <- function (data = data, model = model, niters = niters, 
+                                  mode = "current") {
+  return (jags_analysis(model = model, data = data, niters = niters, mode = mode))
 }

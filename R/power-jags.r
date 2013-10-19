@@ -10,11 +10,11 @@ power_jags <- function (object, parm = c(fixed = 0), level = "current") {
   if(length(parm) == 0)
     stop("parm must contain at least one element")
        
-  old_opts <- opts_jagr()
-  on.exit(opts_jagr(old_opts))
-  
   if (!is.numeric(level)) {
-    opts_jagr(mode = level)
+    if (level != "current") {
+      old_opts <- opts_jagr(mode = level)
+      on.exit(opts_jagr(old_opts))
+    }
     level <- opts_jagr("level")
   }
      

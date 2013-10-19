@@ -61,8 +61,10 @@ jags_simulation <- function (data_model, values, nreps = 100, mode = "current") 
   if(nreps < 1)
     stop("nreps must be positive")
   
-  old_opts <- opts_jagr(mode = mode)
-  on.exit(opts_jagr(old_opts))
+  if (mode != "current") {
+    old_opts <- opts_jagr(mode = mode)
+    on.exit(opts_jagr(old_opts))
+  }
   
   if(opts_jagr("mode") == "debug")
     nreps <- min(2,nreps)

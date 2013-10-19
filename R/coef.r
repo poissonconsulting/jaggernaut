@@ -86,11 +86,12 @@ coef.jags_analysis <- function (object, parm = "fixed", level = "current", ...) 
   if(!is_defined(parm))
     stop("parm must not contain missing values")
   
-  old_opts <- opts_jagr()
-  on.exit(opts_jagr(old_opts))
+  if (!is.numeric(level) && level != "current") {
+    old_opts <- opts_jagr(mode = level)
+    on.exit(opts_jagr(old_opts))
+  }
   
   if (!is.numeric(level)) {
-    opts_jagr(mode = level)
     level <- opts_jagr("level")
   }
   
@@ -114,11 +115,12 @@ coef.jags_power_analysis <- function (object, parm = "fixed", combine = TRUE, le
                    parm = parm, level = level, ...))
   }
   
-  old_opts <- opts_jagr()
-  on.exit(opts_jagr(old_opts))
+  if (!is.numeric(level) && level != "current") {
+    old_opts <- opts_jagr(mode = level)
+    on.exit(opts_jagr(old_opts))
+  }
   
   if (!is.numeric(level)) {
-    opts_jagr(mode = level)
     level <- opts_jagr("level")
   }
   
@@ -142,7 +144,7 @@ coef.jags_power_analysis <- function (object, parm = "fixed", combine = TRUE, le
     return (object)
   }
   
-  ldply_analyses <- function (x, parm) {
+  ldply_analyses <- function (x) {
     return (ldply_jg(x, melt_coef))
   }
   
@@ -206,17 +208,17 @@ coef.jags_power_analysis <- function (object, parm = "fixed", combine = TRUE, le
 calc_estimates_jags_sample <- function (object, level = "current") {
   if (!inherits(object,"jags_sample"))
     stop("object must be class jags_sample")
-  
-  old_opts <- opts_jagr()
-  on.exit(opts_jagr(old_opts))
-  
+    
   if (!is.numeric(level)) {
-    opts_jagr(mode = level)
-    level <- opts_jagr("level")
-  } else {
-    if (level < 0.75 || level > 0.99) {
-      stop("level must lie between 0.75 and 0.99")
+    if (level != "current") {
+      old_opts <- opts_jagr(mode = level)
+      on.exit(opts_jagr(old_opts))
     }
+    level <- opts_jagr("level")
+  }
+  
+  if (level < 0.75 || level > 0.99) {
+    stop("level must lie between 0.75 and 0.99")
   } 
   
   mat <- as.matrix(object[,grep("V[[:digit:]]", colnames(object))])

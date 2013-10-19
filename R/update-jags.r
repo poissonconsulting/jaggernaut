@@ -84,8 +84,11 @@ update_jags_jagr_power_analysis <- function (object, ...) {
 #' @method update_jags jags_analysis
 #' @export 
 update_jags.jags_analysis <- function (object, mode = "current", ...) {
-  old_opts <- opts_jagr(mode = mode)
-  on.exit(opts_jagr(old_opts))
+
+  if (mode != "current") {
+    old_opts <- opts_jagr(mode = mode)
+    on.exit(opts_jagr(old_opts))
+  }
   
   rhat_threshold <- opts_jagr("rhat")
   quiet <- opts_jagr("quiet")
@@ -131,8 +134,10 @@ update_jags.jags_simulation <- function (object, nreps, values = NULL, mode = "c
   if(nreps < 0)
     stop("nreps must not be negative")
 
-  old_opts <- opts_jagr(mode = mode)
-  on.exit(opts_jagr(old_opts))
+  if (mode != "current") {
+    old_opts <- opts_jagr(mode = mode)
+    on.exit(opts_jagr(old_opts))
+  }
   
   quiet <- opts_jagr("quiet")
   
@@ -180,8 +185,10 @@ update_jags.jags_simulation <- function (object, nreps, values = NULL, mode = "c
 #' @export 
 update_jags.jags_power_analysis <- function (object, nreps = 0, values = NULL, mode = "current", ...) {
   
-  old_opts <- opts_jagr(mode = mode)
-  on.exit(opts_jagr(old_opts))
+  if (mode != "current") {
+    old_opts <- opts_jagr(mode = mode)
+    on.exit(opts_jagr(old_opts))
+  }
   
   quiet <- opts_jagr("quiet")
   rhat_threshold <- opts_jagr("rhat")
