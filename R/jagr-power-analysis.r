@@ -7,8 +7,8 @@ jagr_power_analysis <- function (model_code, data, niters, inits, monitor = NULL
   
   niters <- ceiling(max(niters, nsims * 2 / nchains))
 
-  n.adapt <- as.integer(niters /4)
-  n.burnin <- as.integer(niters /4)
+  n.adapt <- 100
+  n.burnin <- as.integer(niters / 2)
   n.thin <- max(1, floor(nchains * n.burnin / nsims))
   nsims <- as.integer(niters /2)
   
