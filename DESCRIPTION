@@ -126,5 +126,6 @@ Collate:
     'random.r'
     'samples.r'
     'plyr.r'
-    'header.r'
     'update.r'
+    'check-modules.r'
+    'options.r'

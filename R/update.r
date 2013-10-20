@@ -71,6 +71,8 @@ update_jagr_power_analysis <- function (object, ...) {
 #' @export 
 update.jags_analysis <- function (object, mode = "current", ...) {
 
+  check_modules()
+  
   if (mode != "current") {
     old_opts <- opts_jagr(mode = mode)
     on.exit(opts_jagr(old_opts))
@@ -109,7 +111,8 @@ update.jags_analysis <- function (object, mode = "current", ...) {
 #' @method update jags_simulation
 #' @export 
 update.jags_simulation <- function (object, nreps, values = NULL, mode = "current", ...) {
-    
+  check_modules()
+  
   nreps <- as.integer(nreps)
   
   if(!is.numeric(nreps))
@@ -161,6 +164,8 @@ update.jags_simulation <- function (object, nreps, values = NULL, mode = "curren
 #' @method update jags_power_analysis
 #' @export 
 update.jags_power_analysis <- function (object, nreps = 0, values = NULL, mode = "current", ...) {
+  
+  check_modules()
   
   if (mode != "current") {
     old_opts <- opts_jagr(mode = mode)

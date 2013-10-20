@@ -39,6 +39,8 @@ data_jags.jags_data_model <- function (object, values, ...) {
     on.exit(options("jags.pb" = jags.pb))
   }
   
+  check_modules()
+  
   values <- translate_data(select(object), values)
   
   data <- values

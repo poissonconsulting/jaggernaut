@@ -69,6 +69,8 @@ jags_analysis <- function (model, data, niters = 10^3, mode = "current") {
   } else
     stop("niters must be numeric")
   
+  check_modules()
+  
   object <- list()
   
   class(object) <- "jags_analysis"
