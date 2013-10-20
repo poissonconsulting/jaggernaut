@@ -139,22 +139,21 @@ add_jags.jags_simulation <- function (object, object2, mode = "current", ...) {
   
   if(!identical(data_model(object),data_model(object2)))
     stop("objects must have identical data_models")
-    
-    if (nreps(object) > nreps(object2)) {
-      object2 <- update_jags(object2, 
-                             nreps = nreps(object) - nreps(object2), 
-                             mode = mode)
-    } else if (nreps(object2) > nreps(object))
-      object <- update_jags(object, 
-                             nreps = nreps(object2) - nreps(object), 
-                             mode = mode)
+  
+  if (mode != "current") {
+    old_opts <- opts_jagr(mode = mode)
+    on.exit(opts_jagr(old_opts))
+  }
+  
+  if (nreps(object) > nreps(object2)) {
+    object2 <- update_jags(object2, nreps = nreps(object) - nreps(object2))
+  } else if (nreps(object2) > nreps(object))
+    object <- update_jags(object, nreps = nreps(object2) - nreps(object))
   
   values(object) <- rbind(values(object), values(object2))
 
-  data <- clist(data_jags(object), data_jags(object2))
-  
-  data_jags(object) <- data
-  
+  data_jags(object)  <- clist(data_jags(object), data_jags(object2))
+    
   args <- list(...)
   nargs <- length(args)
   if (nargs > 0) {
@@ -176,25 +175,22 @@ add_jags.jags_power_analysis <- function (object, object2, mode = "current", ...
 
   if(!identical(model(object),model(object2)))
     stop("objects must have identical analysis models")
-    
+  
+  if (mode != "current") {
+    old_opts <- opts_jagr(mode = mode)
+    on.exit(opts_jagr(old_opts))
+  }
+  
   if (nreps(object) > nreps(object2)) {
-    object2 <- update_jags(object2, 
-                           nreps = nreps(object) - nreps(object2), 
-                           mode = mode)
+    object2 <- update_jags(object2, nreps = nreps(object) - nreps(object2))
   } else if (nreps(object2) > nreps(object))
-    object <- update_jags(object, 
-                          nreps = nreps(object2) - nreps(object), 
-                          mode = mode)
+    object <- update_jags(object, nreps = nreps(object2) - nreps(object))
   
   values(object) <- rbind(values(object), values(object2))
-  
-  data <- clist(data_jags(object), data_jags(object2))
-  
-  data_jags(object) <- data
-  
-  analyses <- clist(analyses(object), analyses(object2))
 
-  analyses(object) <- analyses
+  data_jags(object) <- clist(data_jags(object), data_jags(object2))
+    
+  analyses(object) <- clist(analyses(object), analyses(object2))
   
   rhat_threshold(object) <- min(rhat_threshold(object), rhat_threshold(object2))
 

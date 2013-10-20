@@ -115,6 +115,8 @@ update_jags.jags_analysis <- function (object, mode = "current", ...) {
 #' @export 
 update_jags.jags_simulation <- function (object, nreps, values = NULL, mode = "current", ...) {
     
+  nreps <- as.integer(nreps)
+  
   if(!is.numeric(nreps))
     stop("nreps must be class integer")
   
@@ -130,44 +132,34 @@ update_jags.jags_simulation <- function (object, nreps, values = NULL, mode = "c
   }
   
   quiet <- opts_jagr("quiet")
+      
+  data_model <- data_model(object)
   
-  nreps <- as.integer(nreps)
-  
-  old_nvalues <- nvalues(object)
-  old_nreps <- nreps(object)
-  new_nreps <- old_nreps + nreps
-  
-  data <- data_jags(object)
-  
-  values(object) <- rbind(values(object), values)
-  
-  if (!is.null(values)) {      
-    for (value in (old_nvalues + 1):nvalues(object)) {
-      data[[value]] <- list()
+  if (!is.null(values)) {
+    if(!quiet)
+      cat("\nUpdating Values...\n")
     
-      for (rep in 1:old_nreps) {
-        if (!quiet)
-          cat(paste0("value: ",value," of ",nvalues(object),"  replicate: ", rep," of ",new_nreps,"\n"))
-        
-          data[[value]][[rep]] <- data_jags(data_model(object), values(object)[value,,drop = FALSE])
-      }
-    }
+    simulation <- jags_simulation(data_model, values, nrep = nreps(object))
+
+    if(!quiet)
+      cat("\nValues Updated\n")
+
+    object <- add_jags(object, simulation)
   }
-  
-  if (nreps > 0) {      
-    for (value in 1:nvalues(object)) {
-      for (rep in (old_nreps + 1):(new_nreps)) {
-        if (!quiet)
-          cat(paste0("value: ",value," of ",nvalues(object),"  replicate: ", rep," of ",new_nreps,"\n"))
-        
-        data[[value]][[rep]] <- data_jags(data_model(object), values(object)[value,,drop = FALSE])
-      }
-    }
+    
+  if (nreps > 0) {
+    if(!quiet)
+      cat("\nUpdating Replicates...\n")   
+    
+    simulation <- jags_simulation(data_model, values = values(object), nreps = nreps)
+
+    if(!quiet)
+      cat("\nReplicates Updated\n")   
+
+    data_jags(object) <- clist(data_jags(object), data_jags(simulation), 
+                               recursive = 2)
   }
-  
-  
-  data_jags(object) <- data
-  
+
   return (object)
 }
 
@@ -186,74 +178,61 @@ update_jags.jags_power_analysis <- function (object, nreps = 0, values = NULL, m
   if(opts_jagr("mode") == "debug")
     nreps <- min(2,nreps)
   
-  old_nvalues <- nvalues(object)
-  old_nreps <- nreps(object)
-  
-  if(nreps > 0 || !is.null(values)) {
-    
-    if(!quiet)
-      cat("\nupdating data\n")
-    
-    class(object) <- c("jags_simulation")
-    
-    object <- update_jags(object, nreps = nreps, values = values, ...)
-    
-    class(object) <- c("jags_power_analysis","jags_simulation")
-  }
-    
-  if (!quiet)
-    cat("\nanalysing data\n")
-  
+  data_model <- data_model(object)
+  model <- model(object)
   niters <- min(niters(object))
   
-  analyses <- analyses(object)
-  
-  for (value in 1:old_nvalues) {
-    for (rep in 1:old_nreps) {
-      if(!quiet)
-        cat(paste0("value: ",value," of ",nvalues(object),"  replicate: ", rep," of ",nreps(object),"\n"))
-      if (!is_converged(analyses[[value]][[rep]], rhat_threshold = rhat_threshold))
-        analyses[[value]][[rep]] <- update_jags(analyses[[value]][[rep]])
-    }
-  }
-    
-  data <- data_jags(object)
-  
   if (!is.null(values)) {
-    for (value in (old_nvalues + 1):nvalues(object)) {
-      print(value)
-      print(length(data))
-      analyses[[value]] <- list()
-      for (rep in 1:old_nreps) {
-        if(!quiet)
-          cat(paste0("value: ",value," of ",nvalues(object),"  replicate: ", rep," of ",nreps(object),"\n"))
-
-        analysis <- jags_analysis(model = model(object), 
-                                  data = data[[value]][[rep]], 
-                                  niters = niters)  
-        
-        analyses[[value]][[rep]] <- as.jagr_power_analysis(analysis(analysis))        
-      }
-    }
-  }
+    if(!quiet)
+      cat("\nUpdating Values...\n")
+      
+    power <- jags_power_analysis(model, data_model, values, 
+                                      nreps = nreps(object), niters = niters)
     
-  if (nreps > 0) {
-    for (value in 1:nvalues(object)) {
-      for (rep in (old_nreps+1):nreps(object)) {
-        if(!quiet)
-          cat(paste0("value: ",value," of ",nvalues(object),"  replicate: ", rep," of ",nreps(object),"\n"))
-        
-        analysis <- jags_analysis(model = model(object), 
-                                  data = data[[value]][[rep]], 
-                                  niters = niters)  
-        
-        analyses[[value]][[rep]] <- as.jagr_power_analysis(analysis(analysis))        
-      }
-    }
-  }  
+    if(!quiet)
+      cat("\nValues Updated\n")
+    
+    object <- add_jags(object, power)
+  }
   
-  analyses(object) <- analyses
-  rhat_threshold(object) <- rhat_threshold
+  if (nreps > 0) {
+    if(!quiet)
+      cat("\nUpdating Replicates...\n")   
+    
+    power <- jags_power_analysis(model, data_model, values(object), 
+                                    nreps = nreps, niters = niters)
+    
+    if(!quiet)
+      cat("\nReplicates Updated\n")   
 
+    data_jags(object) <- clist(data_jags(object), data_jags(power), 
+                               recursive = 2)
+    analyses(object) <- clist(analyses(object), analyses(power), 
+                              recursive = 2)
+  }
+
+  
+  if(nreps == 0 && is.null(values)) {
+      
+    fun <- function (object, rhat_threshold) {
+      stopifnot(is.jagr_power_analysis(object))
+      
+      if (!is_converged(object, rhat_threshold = rhat_threshold))
+        object <- update_jags(object)
+  
+      return (object)
+    }
+    
+    cat("\nUpdating Analyses...\n")   
+    
+    analyses <- llply_jg(analyses(object), fun, rhat_threshold = rhat_threshold,
+                         .recursive = 2)
+
+    cat("\nAnalyses Updated\n")   
+    
+    analyses(object) <- analyses 
+                              
+    rhat_threshold(object) <- rhat_threshold
+  }
   return (object)  
 }

@@ -132,7 +132,7 @@ data_jags.jags_simulation <- function (object, ...) {
 "data_jags<-.jags_simulation" <- function (object, value, ...) {  
   if (!is.list(value) || !is.list(value)[[1]])
       stop("value must be a list of lists")
-  
+    
   stopifnot(is_scalar(unique(sapply(value,length))))
   stopifnot(length(value) == nvalues(object))
   
