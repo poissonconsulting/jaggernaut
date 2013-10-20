@@ -1,23 +1,4 @@
 
-summary.mcarray <- function (object, ...) {
-  dim <- dim (object)
-  print(dim)
-  
-  return (NULL)
-}
-
-summary.jagr_chains <- function (object, ...) {
-  cat("\nDimensions:\n")
-  dim <- c(chains = nchains(object), simulations = nsims(object))
-  print(dim)
-  
-  for (i in seq_along(samples(object))) {
-    print(names(samples(object))[i])
-    summary(samples(object)[[i]])
-  }
-  return (NULL)  
-}
-
 summary.jagr_analysis <- function (object, level = level, ...)
 {
   stopifnot(is.jagr_analysis(object))
