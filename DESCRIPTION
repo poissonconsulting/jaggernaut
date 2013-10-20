@@ -73,7 +73,6 @@ Collate:
     'jags-data-model.r'
     'add-jags.r'
     'subset-jags.r'
-    'update-jags.r'
     'data-jags.r'
     'imported.r'
     'jags-power-analysis.r'
@@ -128,3 +127,4 @@ Collate:
     'samples.r'
     'plyr.r'
     'header.r'
+    'update.r'
