@@ -146,9 +146,9 @@ add_jags.jags_simulation <- function (object, object2, mode = "current", ...) {
   }
   
   if (nreps(object) > nreps(object2)) {
-    object2 <- update_jags(object2, nreps = nreps(object) - nreps(object2))
+    object2 <- update(object2, nreps = nreps(object) - nreps(object2))
   } else if (nreps(object2) > nreps(object))
-    object <- update_jags(object, nreps = nreps(object2) - nreps(object))
+    object <- update(object, nreps = nreps(object2) - nreps(object))
   
   values(object) <- rbind(values(object), values(object2))
 
@@ -182,9 +182,9 @@ add_jags.jags_power_analysis <- function (object, object2, mode = "current", ...
   }
   
   if (nreps(object) > nreps(object2)) {
-    object2 <- update_jags(object2, nreps = nreps(object) - nreps(object2))
+    object2 <- update(object2, nreps = nreps(object) - nreps(object2))
   } else if (nreps(object2) > nreps(object))
-    object <- update_jags(object, nreps = nreps(object2) - nreps(object))
+    object <- update(object, nreps = nreps(object2) - nreps(object))
   
   values(object) <- rbind(values(object), values(object2))
 

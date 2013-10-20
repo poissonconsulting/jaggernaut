@@ -32,7 +32,7 @@
 #' data_jags(simulation1)
 #'  
 #' nreps(simulation1)
-#' simulation1 <- update_jags(simulation1, nreps = 2)
+#' simulation1 <- update(simulation1, nreps = 2)
 #' nreps(simulation1)
 #' 
 #' simulation2 <- subset_jags(simulation, value = 2, rep = 1)
@@ -41,7 +41,7 @@
 #' values(simulation)
 #' nvalues(simulation)
 #' 
-#' simulation <- update_jags(simulation1, nreps = 2, values = data.frame(nx = c(25)))
+#' simulation <- update(simulation1, nreps = 2, values = data.frame(nx = c(25)))
 #' nreps(simulation)
 #' values(simulation)
 #' nvalues(simulation)

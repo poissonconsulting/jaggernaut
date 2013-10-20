@@ -82,11 +82,11 @@ is_converged(power, percent = TRUE)
 
 values$bEffect <- c(0.025,0.05)
 
-power <- update_jags(power, nreps = 10, values = values)
+power <- update(power, nreps = 10, values = values)
 rhat(power)
 opts <- opts_jagr()
 opts_jagr(rhat = 1.05)
-power <- update_jags(power, mode = "current")
+power <- update(power, mode = "current")
 opts_jagr(opts)
 rhat(power)
 

@@ -47,7 +47,7 @@ jagr_analysis <- function (model, data, niters) {
     
     resample <- resample - 1
     
-    object <- update_jags(object)
+    object <- update(object)
   }
   
   if(!quiet) {

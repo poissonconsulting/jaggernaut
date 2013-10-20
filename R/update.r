@@ -1,10 +1,5 @@
 
-#' @export
-update_jags <- function (object, ...) {
-  UseMethod("update_jags", object)
-}
-
-update_jags.jagr_power_analysis <- function (object, ...) {  
+update.jagr_power_analysis <- function (object, ...) {  
   
   update_jg <- function (jags, monitor, n.sim, n.thin, recompile) {
     
@@ -67,14 +62,14 @@ update_jags.jagr_power_analysis <- function (object, ...) {
   return (object)
 }
 
-update_jags_jagr_power_analysis <- function (object, ...) {
+update_jagr_power_analysis <- function (object, ...) {
   stopifnot(is.jagr_power_analysis(object))
-  return (update_jags(object, ...))
+  return (update(object, ...))
 }
 
-#' @method update_jags jags_analysis
+#' @method update jags_analysis
 #' @export 
-update_jags.jags_analysis <- function (object, mode = "current", ...) {
+update.jags_analysis <- function (object, mode = "current", ...) {
 
   if (mode != "current") {
     old_opts <- opts_jagr(mode = mode)
@@ -91,7 +86,7 @@ update_jags.jags_analysis <- function (object, mode = "current", ...) {
   
   rhat_threshold <- opts_jagr("rhat")
   
-  analyses <- llply_jg(analyses(object), update_jags_jagr_power_analysis)
+  analyses <- llply_jg(analyses(object), update_jagr_power_analysis)
   
   if(!quiet) {
     for (i in 1:nmodels(object)) {
@@ -111,9 +106,9 @@ update_jags.jags_analysis <- function (object, mode = "current", ...) {
   return (object)
 }
 
-#' @method update_jags jags_simulation
+#' @method update jags_simulation
 #' @export 
-update_jags.jags_simulation <- function (object, nreps, values = NULL, mode = "current", ...) {
+update.jags_simulation <- function (object, nreps, values = NULL, mode = "current", ...) {
     
   nreps <- as.integer(nreps)
   
@@ -163,9 +158,9 @@ update_jags.jags_simulation <- function (object, nreps, values = NULL, mode = "c
   return (object)
 }
 
-#' @method update_jags jags_power_analysis
+#' @method update jags_power_analysis
 #' @export 
-update_jags.jags_power_analysis <- function (object, nreps = 0, values = NULL, mode = "current", ...) {
+update.jags_power_analysis <- function (object, nreps = 0, values = NULL, mode = "current", ...) {
   
   if (mode != "current") {
     old_opts <- opts_jagr(mode = mode)
@@ -218,7 +213,7 @@ update_jags.jags_power_analysis <- function (object, nreps = 0, values = NULL, m
       stopifnot(is.jagr_power_analysis(object))
       
       if (!is_converged(object, rhat_threshold = rhat_threshold))
-        object <- update_jags(object)
+        object <- update(object)
   
       return (object)
     }
