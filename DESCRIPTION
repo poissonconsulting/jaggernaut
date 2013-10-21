@@ -21,9 +21,6 @@ Imports:
     coda,
     rjags
 Suggests:
-    foreach,
-    iterators,
-    doMC,
     ggplot2,
     scales,
     testthat
