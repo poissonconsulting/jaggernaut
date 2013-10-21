@@ -41,7 +41,7 @@ add_jags.mcarray <- function (object, object2, ..., by = "sims") {
   
   class(object)<-"array"
   class(object2)<-"array"
-  object <- abind (object,object2,along=length(dimobj))
+  object <- abind::abind (object,object2,along=length(dimobj))
   
   names(dim(object)) <- dnames
   class(object)<-"mcarray"
@@ -63,7 +63,7 @@ add_jags.mcarray <- function (object, object2, ..., by = "sims") {
     
     class(object)<-"array"
     class(object2)<-"array"
-    object <- abind (object,object2,along=length(dimobj)-1)
+    object <- abind::abind (object,object2,along=length(dimobj)-1)
     
     names(dim(object)) <- dnames
     class(object)<-"mcarray"

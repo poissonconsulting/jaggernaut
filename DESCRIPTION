@@ -16,8 +16,8 @@ Depends:
     R (>= 3.0.0)
 Imports:
     abind,
-    plyr,
     reshape2,
+    plyr,
     coda,
     rjags
 Suggests:
