@@ -34,6 +34,9 @@ is_data_list <- function (data) {
     return (FALSE)
   }
   
+  if(length(data) == 0)
+    return (TRUE)
+  
   names <- names(data)
   if(is.null(names)) {
     return (FALSE)
