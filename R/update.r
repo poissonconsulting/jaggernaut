@@ -80,7 +80,7 @@ update.jags_analysis <- function (object, mode = "current", ...) {
   
   quiet <- opts_jagr("quiet")
   
-  if (quiet && options()$jags.pb != "none") {
+  if (options()$jags.pb != "none") {
     jags.pb <- options()$jags.pb
     options(jags.pb = "none")
     on.exit(options("jags.pb" = jags.pb), add = TRUE)
