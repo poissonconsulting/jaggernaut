@@ -1,2 +1,0 @@
-
-options(jags.pb = "none")
