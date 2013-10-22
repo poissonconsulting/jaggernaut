@@ -83,8 +83,9 @@ data_jags.jags_data_model <- function (object, values, ...) {
 
 #' @method data_jags jags_analysis
 #' @export
-data_jags.jags_analysis <- function (object, ...) 
+data_jags.jags_analysis <- function (object, ...) {
   object$data
+}
 
 #' @method data_jags jags_simulation
 #' @export
