@@ -8,13 +8,13 @@ zero_random.mcarray <- function (object, ...) {
   return (object)
 }
 
-zero_random.jagr_chains <- function (object, random_variable, ...) {
-  stopifnot(is.character(random_variable))
+zero_random.jagr_chains <- function (object, names_random, ...) {
+  stopifnot(is.character(names_random))
   
-  random_variable <- random_variable[random_variable %in% names(samples(object))]
+  names_random <- names_random[names_random %in% names(samples(object))]
   
   samples <- samples(object)
-  for (variable in random_variable)
+  for (variable in names_random)
     samples[[variable]] <- zero_random(samples[[variable]], ...)
   
   samples(object) <- samples
@@ -39,7 +39,7 @@ zero_random.jagr_power_analysis <- function (object, data) {
   for (ran in names(random_effects))
     if (!any(random_effects[[ran]] %in% names_data(data)))
       random_effects[[ran]] <- NULL
-  
+    
   if (length(random_effects))
     return (zero_random (chains(object), names_random = names(random_effects)))
 
