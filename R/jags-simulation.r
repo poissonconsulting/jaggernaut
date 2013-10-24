@@ -97,6 +97,7 @@ jags_simulation <- function (data_model, values, nreps = 100, mode = "current") 
       
       data <- try(data_jags(data_model, values))
     }
+    ntries(data) <- 3 - retries
     return (data)
   }
   

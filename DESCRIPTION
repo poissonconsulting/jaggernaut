@@ -126,3 +126,6 @@ Collate:
     'plyr.r'
     'update.r'
     'check-modules.r'
+    'jags-data-frame.r'
+    'jags-data-list.r'
+    'ntries.r'
