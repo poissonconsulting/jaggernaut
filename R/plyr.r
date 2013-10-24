@@ -1,10 +1,10 @@
 
-ddply_jg <- function (.data, .variables, .fun, ..., .drop = TRUE) {
+ddply_jg <- function (.data, .variables, .fun, ..., .drop = TRUE, .parallel = FALSE) {
   
   stopifnot(is.list(.data) && length(.data) > 0)
   stopifnot(is.function(.fun))
   
-  parallel <- opts_jagr("parallel") && opts_jagr("mode") != "debug" && length(.data) > 1
+  parallel <- .parallel && opts_jagr("parallel") && opts_jagr("mode") != "debug" && length(.data) > 1
   
   x <- plyr::ddply(.data = .data, .variables = .variables, 
                    .fun = .fun, ..., .drop = .drop, .parallel = parallel)
@@ -12,7 +12,7 @@ ddply_jg <- function (.data, .variables, .fun, ..., .drop = TRUE) {
   return (x)
 }
 
-ldply_jg <- function (.data, .fun = NULL, ..., .recursive = 1) {
+ldply_jg <- function (.data, .fun = NULL, ..., .recursive = 1, .parallel = FALSE) {
   
   .recursive <- as.integer(.recursive)
   
@@ -20,7 +20,7 @@ ldply_jg <- function (.data, .fun = NULL, ..., .recursive = 1) {
   stopifnot(is.function(.fun))
   stopifnot(is.integer(.recursive) && .recursive >= 1)
   
-  parallel <- opts_jagr("parallel") && opts_jagr("mode") != "debug" && length(.data) > 1
+  parallel <- .parallel && opts_jagr("parallel") && opts_jagr("mode") != "debug" && length(.data) > 1
   
   if (.recursive == 1) {
     x <- plyr::ldply(.data = .data, .fun = .fun, ..., .parallel = parallel)
@@ -34,7 +34,7 @@ ldply_jg <- function (.data, .fun = NULL, ..., .recursive = 1) {
   return (x)
 }
 
-llply_jg <- function (.data, .fun, ..., .recursive = 1) {
+llply_jg <- function (.data, .fun, ..., .recursive = 1, .parallel = FALSE) {
   
   .recursive <- as.integer(.recursive)
   
@@ -42,7 +42,7 @@ llply_jg <- function (.data, .fun, ..., .recursive = 1) {
   stopifnot(is.function(.fun))
   stopifnot(is.integer(.recursive) && .recursive >= 1)
   
-  parallel <- opts_jagr("parallel") && opts_jagr("mode") != "debug" && length(.data) > 1
+  parallel <- .parallel && opts_jagr("parallel") && opts_jagr("mode") != "debug" && length(.data) > 1
   
   if (.recursive == 1) {
     x <- plyr::llply(.data = .data, .fun = .fun, ..., .parallel = parallel)

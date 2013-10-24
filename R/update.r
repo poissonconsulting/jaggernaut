@@ -44,7 +44,7 @@ update.jagr_power_analysis <- function (object, ...) {
   if (length(jags) > 1) {
     chains_list <- llply_jg(.data = jags, .fun = update_jg, 
                             monitor = monitor, n.sim = n.sim, n.thin = n.thin, 
-                            recompile = TRUE)
+                            recompile = TRUE, .parallel = TRUE)
     
     chains <- chains_list[[1]]
     for (i in 2:length(chains_list)) {
@@ -88,7 +88,7 @@ update.jags_analysis <- function (object, mode = "current", ...) {
   
   rhat_threshold <- opts_jagr("rhat")
   
-  analyses <- llply_jg(analyses(object), update_jagr_power_analysis)
+  analyses <- llply_jg(analyses(object), update_jagr_power_analysis, .parallel = TRUE)
   
   if(!quiet) {
     for (i in 1:nmodels(object)) {

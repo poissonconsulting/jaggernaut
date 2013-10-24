@@ -30,7 +30,8 @@ jagr_power_analysis <- function (model_code, data, niters, inits, monitor = NULL
     chains_list <- llply_jg(.data = inits, .fun = jags_analysis_internal, 
                                data = data, file=file, monitor = monitor, 
                                n.adapt = n.adapt, n.burnin = n.burnin, 
-                               n.sim = nsims, n.thin = n.thin, random = random)  
+                               n.sim = nsims, n.thin = n.thin, random = random,
+                            .parallel = TRUE)  
     
     chains <- chains_list[[1]]
     for (i in 2:length(chains_list)) {

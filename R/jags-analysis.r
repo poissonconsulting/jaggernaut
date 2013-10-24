@@ -99,7 +99,7 @@ jags_analysis <- function (model, data, niters = 10^3, mode = "current") {
   analyses <- list()
     
   analyses <- llply_jg(.data = models(model), .fun = jagr_analysis, 
-                             data = data, niters = niters)
+                             data = data, niters = niters, .parallel = TRUE)
   
   analyses(object) <- analyses
   rhat_threshold(object) <- opts_jagr("rhat")
