@@ -72,11 +72,12 @@ power_jags <- function (object, parm = c(fixed = 0), level = "current") {
     bound <- d$bound[1]
     lower <- d[d$statistic == "lower",substr(colnames(d),1,9) == "replicate"]
     upper <- d[d$statistic == "upper",substr(colnames(d),1,9) == "replicate"]
+    niters <- length(lower)
     converged <- round(length(lower[!is.na(lower)]) / length(lower),2)
     samples <- length(lower[!is.na(lower)])
     bol <- !is.na(lower) & (lower > bound | upper < bound)
     out <- length(bol[bol])
-    return (data.frame(bound = bound, converged = converged, samples = samples, out = out))
+    return (data.frame(bound = bound, niters = niters, converged = converged, samples = samples, out = out))
   }
   power <- ddply_jg(power,plyr::.(value,parameter,bound), get_power)
   power$power <- NA
@@ -87,7 +88,9 @@ power_jags <- function (object, parm = c(fixed = 0), level = "current") {
   
   power <- merge(values, power, by = "value")
   
-  power <- subset(power,select = c(colnames(values),"parameter","bound","converged","samples","out","power","lower","upper"))
+  power <- subset(power,select = c(colnames(values),"parameter","bound","niters",
+                                   "converged","samples","out","power","lower",
+                                   "upper"))
   
   return (power)
 }

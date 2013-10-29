@@ -25,13 +25,13 @@ ldply_jg <- function (.data, .fun = NULL, ..., .recursive = 1, .parallel = FALSE
   if (.recursive == 1) {
     x <- plyr::ldply(.data = .data, .fun = .fun, ..., .parallel = parallel)
   } else {
-    fun1 <- function (.data, fun2, ..., recursive, .parallel) {
-      return (ldply_jg(.data = .data, .fun = fun2, ..., .recursive = .recursive,
-                       .parallel = .parallel))      
+    fun1 <- function (.data, fun2, ..., recursive, parallel) {
+      return (ldply_jg(.data = .data, .fun = fun2, ..., .recursive = recursive,
+                       .parallel = parallel))      
     }
     .recursive <- .recursive - 1
     x <- ldply_jg(.data = .data, .fun = fun1, fun2 = .fun, ..., 
-                  .recursive = .recursive, .parallel = .parallel)
+                  recursive = .recursive, parallel = .parallel)
   }
   return (x)
 }
@@ -49,12 +49,12 @@ llply_jg <- function (.data, .fun, ..., .recursive = 1, .parallel = FALSE) {
   if (.recursive == 1) {
     x <- plyr::llply(.data = .data, .fun = .fun, ..., .parallel = parallel)
   } else {
-    fun1 <- function (.data, fun2, ..., recursive, .parallel) {
-      return (llply_jg(.data = .data, .fun = fun2, ..., .recursive = .recursive,
-                       .parallel = .parallel))      
+    fun1 <- function (.data, fun2, ..., recursive, parallel) {
+      return (llply_jg(.data = .data, .fun = fun2, ..., .recursive = recursive,
+                       .parallel = parallel))      
     }
     .recursive <- .recursive - 1
-    x <- llply_jg(.data = .data, .fun = fun1, fun2 = .fun, ..., .recursive = .recursive, .parallel = .parallel)
+    x <- llply_jg(.data = .data, .fun = fun1, fun2 = .fun, ..., recursive = .recursive, parallel = .parallel)
   }
   return (x)
 }

@@ -20,10 +20,9 @@ coef_matrix <- function(object, level) {
     est <- quantile(x,c(0.5,lower,upper),na.rm=T)
     names (est) <- c("estimate","lower","upper") 
     
-    pre <-round((est["upper"]-est["lower"]) / 2 / est["estimate"] * 100)
-    pre <- abs(round(pre, 0))
+    pre <- (est["upper"]-est["lower"]) / 2 / est["estimate"]
     
-    return (c(est, signif(sd(x),3), pre, p(x)))
+    return (c(est, signif(sd(x),5), signif(pre,5), p(x)))
   }
   
   estimates<-data.frame(t(apply(object,MARGIN=2,FUN = est, level = level)))
@@ -107,13 +106,7 @@ coef.jags_analysis <- function (object, parm = "fixed", level = "current", ...) 
 
 #' @method coef jags_power_analysis
 #' @export
-coef.jags_power_analysis <- function (object, parm = "fixed", combine = TRUE, level = "current", ...) {
-  
-  lapply_coef_jagr_power_analysis <- function (object,
-                                               parm, level, ...) {    
-    return (lapply(object, coef_jagr_power_analysis, 
-                   parm = parm, level = level, ...))
-  }
+coef.jags_power_analysis <- function (object, parm = "fixed", combine = TRUE, converged = TRUE, level = "current", ...) {
   
   if (!is.numeric(level) && level != "current") {
     old_opts <- opts_jagr(mode = level)
@@ -125,10 +118,24 @@ coef.jags_power_analysis <- function (object, parm = "fixed", combine = TRUE, le
   }
   
   power_level <- opts_jagr("power_level")
+  rhat_threshold <- rhat_threshold(object)
+  
+  coef_jagr_power_analysis_converged <- function (object, parm, level, rhat_threshold, converged, ...) {
+    stopifnot(is.jagr_power_analysis(object))
     
+    coef <- coef(object, parm, level, ...)
+        
+    attr(coef,"converged") <- !converged ||
+      is_converged(object, rhat_threshold = rhat_threshold)
+      
+    return (coef)
+  }
+      
   analyses <- analyses(object)
   
-  coef <- lapply(analyses, lapply_coef_jagr_power_analysis, parm = parm, level = level, ...)
+  coef <- llply_jg(analyses, coef_jagr_power_analysis_converged, parm = parm, 
+                   level = level, rhat_threshold = rhat_threshold, 
+                   converged = converged, ..., .recursive = 2)
   
   coef <- name_object(coef,c("value","replicate"))
   
@@ -136,19 +143,20 @@ coef.jags_power_analysis <- function (object, parm = "fixed", combine = TRUE, le
     return (coef)
   
   melt_coef <- function (object) {
-        
-    object <- subset(object,select = c("estimate","lower","upper"))
-    object$parameter <- rownames(object) 
-    object <- reshape2::melt(object, id.vars = c("parameter"), variable.name = "statistic", value.name = "number")
     
-    return (object)
+    converged <- attr(object,"converged")
+        
+    object <- subset(object,select = c("estimate","lower","upper","error"))
+    object$parameter <- rownames(object) 
+    melt <- reshape2::melt(object, id.vars = c("parameter"), variable.name = "statistic", value.name = "number")
+    
+    if(!converged)
+      is.na(melt$number) <- TRUE
+    
+    return (melt)
   }
   
-  ldply_analyses <- function (x) {
-    return (ldply_jg(x, melt_coef))
-  }
-  
-  coef <- ldply_jg(coef, ldply_analyses)
+  coef <- ldply_jg(coef, melt_coef, .recursive = 2)
   
   coef$replicate <- paste0("replicate",as.integer(substr(coef$.id,10,15)))
   coef$value <- paste0("value",rep(1:nvalues(object), each = nrow(coef)/nvalues(object)))
@@ -157,21 +165,47 @@ coef.jags_power_analysis <- function (object, parm = "fixed", combine = TRUE, le
   coef <- reshape2::dcast(coef,value + parameter + statistic ~ replicate,
                           value.var = "number")
   
-  get_estimates <- function (d, power_level) {
-  
+  get_estimates <- function (d, power_level, level, converged) {
+        
+    estimate <- d[d$statistic == "estimate",substr(colnames(d),1,9) == "replicate",drop=TRUE]
+    
+    niters <- length(estimate)
+    conv <- round(length(estimate[!is.na(estimate)]) / length(estimate),2)
+    if (!converged)
+      is.na(conv) <- TRUE
+    samples <- length(estimate[!is.na(estimate)])
+      
     estimate <- median(unlist(d[d$statistic == "estimate",
-                         substr(colnames(d),1,9) == "replicate",drop = TRUE]))
+                         substr(colnames(d),1,9) == "replicate",drop = TRUE]),
+                       na.rm = TRUE)
     
     lower <- quantile(unlist(d[d$statistic == "lower",
                          substr(colnames(d),1,9) == "replicate",drop = TRUE]),
-                      probs = (1 - power_level) / 2)   
+                      probs = (1 - power_level) / 2, na.rm = TRUE)   
     
     upper <- quantile(unlist(d[d$statistic == "upper",
                         substr(colnames(d),1,9) == "replicate",drop = TRUE]),
-                      probs = power_level + ((1 - power_level) / 2))
+                      probs = power_level + ((1 - power_level) / 2), na.rm = TRUE)
+    
+    error <- (unlist(d[d$statistic == "upper",
+                      substr(colnames(d),1,9) == "replicate",drop = TRUE]) -
+      unlist(d[d$statistic == "lower",
+               substr(colnames(d),1,9) == "replicate",drop = TRUE])) / 2 /
+     unlist(d[d$statistic == "lower",
+               substr(colnames(d),1,9) == "replicate",drop = TRUE])    
+
+    error <- quantile(error,
+                      probs = c((1 - level) / 2, 0.5, 
+                                level + ((1 - level) / 2)), na.rm = TRUE)
+        
+    error.lower <- error[1]
+    error.upper <- error[3]
+    error <- error[2]
     
     p <- t(d[d$statistic %in% c("lower","upper"),
                         substr(colnames(d),1,9) == "replicate"])
+    
+    p <- na.omit(p)
             
     p <- (p[,1,drop=TRUE] > 0 & p[,2,drop=TRUE] > 0) | (p[,1,drop=TRUE] < 0 & p[,2,drop=TRUE] < 0)
         
@@ -179,11 +213,16 @@ coef.jags_power_analysis <- function (object, parm = "fixed", combine = TRUE, le
         
     significance <- round(significance, 4)
             
-    return (data.frame(estimate = estimate, lower = lower, upper = upper,
-                       significance = significance))
+    data <- data.frame(niters = niters, converged = conv, samples = samples, 
+                       estimate = estimate, lower = lower, upper = upper, 
+                       error = error, error.lower = error.lower, 
+                       error.upper = error.upper,
+                       significance = significance)
+
+    return (data)
   }
   
-  coef <- ddply_jg(coef, plyr::.(value,parameter), get_estimates, power_level = power_level)
+  coef <- ddply_jg(coef, plyr::.(value,parameter), get_estimates, power_level = power_level, level = level, converged = converged)
   
   values <- values(object)
   values <- cbind(data.frame(value = row.names(values)),values)
@@ -227,4 +266,3 @@ calc_estimates_jags_sample <- function (object, level = "current") {
   est <- cbind(data, est)
   return (est)
 }
-
