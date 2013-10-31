@@ -20,7 +20,7 @@ coef_matrix <- function(object, level) {
     est <- quantile(x,c(0.5,lower,upper),na.rm=T)
     names (est) <- c("estimate","lower","upper") 
     
-    pre <- (est["upper"]-est["lower"]) / 2 / est["estimate"]
+    pre <- (est["upper"]-est["lower"]) / 2 / abs(est["estimate"])
     
     return (c(est, signif(sd(x),5), signif(pre,5), p(x)))
   }
@@ -191,12 +191,12 @@ coef.jags_power_analysis <- function (object, parm = "fixed", combine = TRUE, co
                       substr(colnames(d),1,9) == "replicate",drop = TRUE]) -
       unlist(d[d$statistic == "lower",
                substr(colnames(d),1,9) == "replicate",drop = TRUE])) / 2 /
-     unlist(d[d$statistic == "lower",
-               substr(colnames(d),1,9) == "replicate",drop = TRUE])    
+     abs(unlist(d[d$statistic == "estimate",
+               substr(colnames(d),1,9) == "replicate",drop = TRUE]))    
 
     error <- quantile(error,
-                      probs = c((1 - level) / 2, 0.5, 
-                                level + ((1 - level) / 2)), na.rm = TRUE)
+                      probs = c((1 - power_level) / 2, 0.5, 
+                                power_level + ((1 - power_level) / 2)), na.rm = TRUE)
         
     error.lower <- error[1]
     error.upper <- error[3]
