@@ -226,7 +226,7 @@ update.jags_power_analysis <- function (object, nreps = 0, values = NULL, mode =
     cat("\nUpdating Analyses...\n")   
     
     analyses <- llply_jg(analyses(object), fun, rhat_threshold = rhat_threshold,
-                         .recursive = 2)
+                         .parallel = TRUE, .recursive = 2)
 
     cat("\nAnalyses Updated\n")   
     

@@ -54,7 +54,7 @@ llply_jg <- function (.data, .fun, ..., .recursive = 1, .parallel = FALSE) {
                        .parallel = parallel))      
     }
     .recursive <- .recursive - 1
-    x <- llply_jg(.data = .data, .fun = fun1, fun2 = .fun, ..., recursive = .recursive, parallel = .parallel)
+    x <- llply_jg(.data = .data, .fun = fun1, fun2 = .fun, ..., .recursive = .recursive, .parallel = .parallel, recursive = .recursive, parallel = .parallel)
   }
   return (x)
 }
