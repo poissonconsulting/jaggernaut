@@ -115,11 +115,11 @@ predict.jags_analysis <- function (object, newdata = NULL,
   }
     
   if (identical(base,TRUE)) {
-    base <- data_jags(object, base = TRUE)
+    base <- generate_data(data_jags(object))
   } else if (identical(base,FALSE)) {
     base <- NULL
   }
-  
+    
   if (is.data.frame (newdata)) {
     if (is_data_list(dataset)) {
       stop("if original data is a data list newdata must not be a data.frame")
@@ -147,7 +147,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
     }
     newdata <- newdata[names(dataset)]
   } else {
-    dat <- data_jags(object, base = TRUE)
+    dat <- generate_data(data_jags(object))
     bol <- !names_data(dat) %in% names_data(newdata)
     if (any(bol)) {
       dat <- dat[bol]
@@ -155,7 +155,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
     }
     newdata <- newdata[names(dataset)]
     if (is.data.frame(base)) {
-      dat <- data_jags(object, base = TRUE)
+      dat <- generate_data(data_jags(object))
       bol <- !names_data(dat) %in% names_data(base)
       if (any(bol)) {
         dat <- dat[bol]
@@ -164,7 +164,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
       base <- base[names(dataset)]
     }
     if (is.data.frame(values)) {
-      dat <- data_jags(object, base = TRUE)
+      dat <- generate_data(data_jags(object))
       for (name in names_data(values)) {
         if (name %in% names_data(newdata)) {
           x <- newdata[[name]]
