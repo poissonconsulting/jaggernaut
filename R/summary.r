@@ -1,19 +1,20 @@
 
-summary.jagr_analysis <- function (object, level = level, ...)
-{
+summary.jagr_analysis <- function (object, level, estimate, ...) {
   stopifnot(is.jagr_analysis(object))
   stopifnot(is.numeric(level))
   stopifnot(length(level) == 1)
   stopifnot(level >= 0.75)
   stopifnot(level <= 0.99)
+  stopifnot(estimate %in% c("mean","median"))
   
   summ <- list()
   
-  summ[["Dimensions"]] <- c(simulations = nsims(object),chains = nchains(object))
+  summ[["Dimensions"]] <- c(simulations = nsims(object), chains = nchains(object))
 
   summ[["Convergence"]] <- c(rhat = rhat(object, parm = "all", combine = TRUE))
 
-  summ[["Estimates"]] <- coef(object, parm = "fixed", level = level)
+  summ[["Estimates"]] <- coef(object, parm = "fixed", level = level, 
+                              estimate = estimate)
   
   class (summ) <- "summary_jagr_analysis"
   
@@ -22,8 +23,8 @@ summary.jagr_analysis <- function (object, level = level, ...)
 
 #' @method summary jags_analysis
 #' @export
-summary.jags_analysis <- function (object, level = "current", ...)
-{
+summary.jags_analysis <- function (object, level = "current", 
+                                   estimate = "current", ...) {
   
   if (!is.numeric(level)) {
     if (level != "current") {
@@ -37,12 +38,23 @@ summary.jags_analysis <- function (object, level = "current", ...)
     }
   } 
   
+  if(!estimate %in% c("mean","median") && estimate != "current") {
+    old_opts <- opts_jagr(mode = level)
+    if(is.null(sys.on.exit()))
+      on.exit(opts_jagr(old_opts))
+  }
+  
+  if (!estimate %in% c("mean","median")) {
+    estimate <- opts_jagr("estimate")
+  }
+  
   analyses <- analyses(object)
   
   summ <- list()
   
   for (i in 1:nmodels(object)) {
-    summ[[paste0("Model",i)]] <- summary(analyses[[i]], level = level)
+    summ[[paste0("Model",i)]] <- summary(analyses[[i]], level = level, 
+                                         estimate = estimate)
   }
   summ[["Model Comparison"]] <- dic_jags(object)
 

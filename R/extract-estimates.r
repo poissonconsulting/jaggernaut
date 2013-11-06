@@ -3,9 +3,28 @@ extract_estimates <- function (object, ...) {
   UseMethod("extract_estimates", object)
 }
 
-extract_estimates.jagr_chains <- function (object, ...) {
+extract_estimates.jagr_chains <- function (object, level = "current", estimate = "current", ...) {
   
-  est <- coef(object, parm = "all", level = 0.95)
+  if (!is.numeric(level) && level != "current") {
+    old_opts <- opts_jagr(mode = level)
+    on.exit(opts_jagr(old_opts))
+  }
+  
+  if (!is.numeric(level)) {
+    level <- opts_jagr("level")
+  }
+  
+  if(!estimate %in% c("mean","median") && estimate != "current") {
+    old_opts <- opts_jagr(mode = level)
+    if(is.null(sys.on.exit()))
+      on.exit(opts_jagr(old_opts))
+  }
+  
+  if (!estimate %in% c("mean","median")) {
+    estimate <- opts_jagr("estimate")
+  }
+  
+  est <- coef(object, parm = "all", level = level, estimate = estimate)
   
   ss <- strsplit(rownames(est),"\\[|,|]")
   ss <- lapply(ss,function (x) return (x[x != ""]))

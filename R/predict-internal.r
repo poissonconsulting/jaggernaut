@@ -1,5 +1,5 @@
 
-predict_internal <- function (object, parm, data, base, level, ...) {
+predict_internal <- function (object, parm, data, base, level, estimate, ...) {
   
   stopifnot(is.jags_analysis(object))
   stopifnot(nmodels(object) == 1)
@@ -10,6 +10,7 @@ predict_internal <- function (object, parm, data, base, level, ...) {
   stopifnot(is.numeric(level))
   stopifnot(length(level) == 1)
   stopifnot(level == 0 || (level >= 0.75 && level <= 0.99))
+  stopifnot(estimate %in% c("mean","median"))
   
   emcmc <- get_derived (object, monitor=parm, data = data) 
     
@@ -22,7 +23,7 @@ predict_internal <- function (object, parm, data, base, level, ...) {
   }
   
   if(level != 0) {
-    emcmc <- coef (emcmc, parm = parm, level = level)
+    emcmc <- coef (emcmc, parm = parm, level = level, estimate = estimate)
   } else {
     emcmc <- as.data.frame(t(as.matrix (emcmc, parm)))
   }

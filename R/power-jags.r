@@ -1,6 +1,7 @@
                                          
 #' @export
-power_jags <- function (object, parm = c(fixed = 0), level = "current") {
+power_jags <- function (object, parm = c(fixed = 0), level = "current", 
+                        estimate = "current") {
   if(!is.jags_power_analysis(object))
     stop("object must be a jags_power_analysis")
   
@@ -17,6 +18,16 @@ power_jags <- function (object, parm = c(fixed = 0), level = "current") {
     }
     level <- opts_jagr("level")
   }
+  
+  if(!estimate %in% c("mean","median") && estimate != "current") {
+    old_opts <- opts_jagr(mode = level)
+    if(is.null(sys.on.exit()))
+      on.exit(opts_jagr(old_opts))
+  }
+  
+  if (!estimate %in% c("mean","median")) {
+    estimate <- opts_jagr("estimate")
+  }  
      
   quiet <- opts_jagr("quiet")
   
@@ -37,10 +48,10 @@ power_jags <- function (object, parm = c(fixed = 0), level = "current") {
   analyses <- analyses(object)
   
   
-  melt_coef <- function (object, parm, level, rhat_threshold) {
+  melt_coef <- function (object, parm, level, estimate, rhat_threshold) {
     stopifnot(is.jagr_power_analysis(object))
         
-    coef <- coef(object, parm = parm, level = level)
+    coef <- coef(object, parm = parm, level = level, estimate = estimate)
         
     coef$parameter <- rownames(coef) 
     coef <- reshape2::melt(coef, id.vars = c("parameter"), variable.name = "statistic", value.name = "number")
@@ -51,7 +62,7 @@ power_jags <- function (object, parm = c(fixed = 0), level = "current") {
     return (coef)
   }
         
-  coef <- ldply_jg(analyses, melt_coef, parm = names(parm), level = level, rhat_threshold = rhat_threshold, .recursive = 2)
+  coef <- ldply_jg(analyses, melt_coef, parm = names(parm), level = level, estimate = estimate, rhat_threshold = rhat_threshold, .recursive = 2)
   
   coef$replicate <- paste0("replicate",as.integer(substr(coef$.id,10,15)))
   coef$value <- paste0("value",rep(1:nvalues(object), each = nrow(coef)/nvalues(object)))

@@ -45,7 +45,7 @@
 #' values in base but only replaces the corresponding values in newdata if they
 #' are unaltered, i.e., as they are in data_jags(object,base = TRUE).
 #' 
-#' @return a data frame with the median estimates and credibility intervals for
+#' @return a data frame with the estimates and credibility intervals for
 #' the derived parameter of interest or if level = "no" an object of 
 #' class jags_samples
 #' @seealso \code{\link{jags_model}}, \code{\link{jags_analysis}}
@@ -57,7 +57,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
                                    values = NULL, model_number = 1,
                                    modify_data_derived = NULL,
                                    derived_code = NULL, random_effects = NULL, 
-                                   level = "current", length_out = 50, 
+                                   level = "current", estimate = "current", length_out = 50, 
                                    obs_by = NULL, ...) {
   
   if (is.numeric(length_out)) {
@@ -202,6 +202,16 @@ predict.jags_analysis <- function (object, newdata = NULL,
     }
   }
   
+  if(!estimate %in% c("mean","median") && estimate != "current") {
+    old_opts <- opts_jagr(mode = level)
+    if(is.null(sys.on.exit()))
+      on.exit(opts_jagr(old_opts))
+  }
+  
+  if (!estimate %in% c("mean","median")) {
+    estimate <- opts_jagr("estimate")
+  }
+  
   object <- subset_jags(object, model_number = model_number)
   
   if(!is.null(modify_data_derived)) {
@@ -231,7 +241,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
   
   pred <- predict_internal(object, parm = parm, 
                            data = newdata, 
-                           base = base, level = level, ...)
+                           base = base, level = level, estimate = estimate, ...)
       
   rownames(pred) <- NULL
   
