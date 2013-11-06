@@ -5,7 +5,8 @@
   \method{fitted}{jags_analysis} (object,
     parm = "prediction", model_number = 1,
     derived_code = NULL, random_effects = NULL,
-    level = "current", data = NULL, ...)
+    level = "current", estimate = "current", data = NULL,
+    ...)
 }
 \arguments{
   \item{object}{a jags_analysis object.}

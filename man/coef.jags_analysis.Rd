@@ -3,7 +3,7 @@
 \title{Calculate parameter estimates}
 \usage{
   \method{coef}{jags_analysis} (object, parm = "fixed",
-    level = "current", ...)
+    level = "current", estimate = "current", ...)
 }
 \arguments{
   \item{object}{a \code{jags_analysis} object}

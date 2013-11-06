@@ -6,7 +6,8 @@
     parm = "prediction", base = FALSE, values = NULL,
     model_number = 1, modify_data_derived = NULL,
     derived_code = NULL, random_effects = NULL,
-    level = "current", length_out = 50, obs_by = NULL, ...)
+    level = "current", estimate = "current",
+    length_out = 50, obs_by = NULL, ...)
 }
 \arguments{
   \item{object}{a jags_analysis.}
@@ -63,9 +64,9 @@
   methods.}
 }
 \value{
-  a data frame with the median estimates and credibility
-  intervals for the derived parameter of interest or if
-  level = "no" an object of class jags_samples
+  a data frame with the estimates and credibility intervals
+  for the derived parameter of interest or if level = "no"
+  an object of class jags_samples
 }
 \description{
   Calculate predictions with estimates for derived
