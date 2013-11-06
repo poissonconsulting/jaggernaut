@@ -21,8 +21,9 @@ coef_matrix <- function(object, level) {
     names (est) <- c("estimate","lower","upper") 
     
     pre <- (est["upper"]-est["lower"]) / 2 / abs(est["estimate"])
+    pre <- pre * 100
     
-    return (c(est, signif(sd(x),5), signif(pre,5), p(x)))
+    return (c(est, signif(sd(x),5), round(pre), p(x)))
   }
   
   estimates<-data.frame(t(apply(object,MARGIN=2,FUN = est, level = level)))
@@ -192,7 +193,9 @@ coef.jags_power_analysis <- function (object, parm = "fixed", combine = TRUE, co
       unlist(d[d$statistic == "lower",
                substr(colnames(d),1,9) == "replicate",drop = TRUE])) / 2 /
      abs(unlist(d[d$statistic == "estimate",
-               substr(colnames(d),1,9) == "replicate",drop = TRUE]))    
+               substr(colnames(d),1,9) == "replicate",drop = TRUE]))
+    
+    error <- error * 100
 
     error <- quantile(error,
                       probs = c((1 - power_level) / 2, 0.5, 
