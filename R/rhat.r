@@ -93,7 +93,7 @@ rhat.jags_analysis <- function (object, parm = "all", combine = TRUE) {
                      parm = parm, 
                      combine = combine)  
   analyses <- name_object(analyses, "model")
-  return (models) 
+  return (analyses) 
 }
 
 #' @method rhat jags_power_analysis

@@ -1,49 +1,47 @@
 
-update.jagr_power_analysis <- function (object, ...) {  
+update_jags <- function (jags, monitor, n.sim, n.thin, recompile) {
   
-  update_jg <- function (jags, monitor, n.sim, n.thin, recompile) {
-    
-    stopifnot(is.jags(jags))
-    
-    n.sim <- as.integer(n.sim)
-    n.thin <- as.integer(n.thin)
-    
-    quiet <- opts_jagr("quiet")
-    
-    if (recompile) {
-      if (opts_jagr("mode") != "debug") {
-        capture.output(jags$recompile())
-      } else
-        jags$recompile()
-    }
+  stopifnot(is.jags(jags))
+  
+  n.sim <- as.integer(n.sim)
+  n.thin <- as.integer(n.thin)
+  
+  quiet <- opts_jagr("quiet")
+  
+  if (recompile) {
     if (opts_jagr("mode") != "debug") {
-      capture.output(samples <- rjags::jags.samples(
-        model = jags, variable.names = monitor, n.iter = n.sim, thin = n.thin
-      ))
-    } else {
-      samples <- rjags::jags.samples(
-        model = jags, variable.names = monitor, n.iter = n.sim, thin = n.thin
-      )      
-    }
-    object <- list()
-    class(object) <- "jagr_chains"
-    samples(object) <- samples
-    jags(object) <- list(jags)
-    return (object)
+      capture.output(jags$recompile())
+    } else
+      jags$recompile()
   }
+  if (opts_jagr("mode") != "debug") {
+    capture.output(samples <- rjags::jags.samples(
+      model = jags, variable.names = monitor, n.iter = n.sim, thin = n.thin
+    ))
+  } else {
+    samples <- rjags::jags.samples(
+      model = jags, variable.names = monitor, n.iter = n.sim, thin = n.thin
+    )      
+  }
+  object <- list()
+  class(object) <- "jagr_chains"
+  samples(object) <- samples
+  jags(object) <- list(jags)
+  return (object)
+}
+
+update.jagr_chains <- function (object, niters, ...) {
+
+  n.thin <- max(1, floor(nchains(object) * niters / nsims(object)))
   
-  n.chain <- nchains(object)
-  n.sim <- niters(object)
-  n.thin <- max(1, floor(n.chain * n.sim / nsims(object)))
-  
-  monitor <- monitor(object)  
-  jags <- jags(chains(object))
-    
-  ptm <- proc.time()
-  
+  monitor <- monitor(object)
+
+  jags <- jags(object)
+
   if (length(jags) > 1) {
-    chains_list <- llply_jg(.data = jags, .fun = update_jg, 
-                            monitor = monitor, n.sim = n.sim, n.thin = n.thin, 
+    chains_list <- llply_jg(.data = jags, .fun = update_jags, 
+                            monitor = monitor, n.sim = niters, 
+                            n.thin = n.thin, 
                             recompile = TRUE, .parallel = TRUE)
     
     chains <- chains_list[[1]]
@@ -51,12 +49,22 @@ update.jagr_power_analysis <- function (object, ...) {
       chains <- add_jags(chains, chains_list[[i]])
     } 
   } else {
-    chains <- update_jg (jags = jags[[1]], monitor = monitor, n.sim = n.sim, 
-                         n.thin = n.thin, quiet = quiet, recompile = FALSE)
+    chains <- update_jags (jags = jags[[1]], monitor = monitor, 
+                           n.sim = n.sim, 
+                           n.thin = n.thin, quiet = quiet, 
+                           recompile = FALSE)
   }
+  random(chains) <- random(object)
+  return (chains)
+}
+
+update.jagr_power_analysis <- function (object, ...) {  
+    
+  niters <- niters(object)
+  ptm <- proc.time()
   
-  chains(object) <- chains
-  niters(object) <- niters(object) * 2
+  chains(object) <- update(chains(object), niters = niters)
+  niters(object) <- niters * 2
   time_interval(object) <- object$time + ((proc.time () - ptm)[3]) / (60 * 60)
   
   return (object)

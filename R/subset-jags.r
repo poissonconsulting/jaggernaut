@@ -129,7 +129,7 @@ subset_jags.jags_model <- function (object, model_number, ...) {
 #' @seealso \code{\link{subset_jags}} and \code{\link{jags_analysis}} 
 #' @method subset_jags jags_analysis
 #' @export 
-subset_jags.jags_analysis <- function (object, model_number = NULL, ...) {   
+subset_jags.jags_analysis <- function (object, model_number = 0, ...) {   
     
   if(is.null(model_number))
     return (object)

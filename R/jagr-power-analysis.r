@@ -1,5 +1,6 @@
 
-jagr_power_analysis <- function (model_code, data, niters, inits, monitor = NULL,
+jagr_power_analysis <- function (model_code, data, niters, inits, 
+                                 monitor = NULL,
                                  random = NULL) {      
   nchains <- opts_jagr("nchains")
   nsims <- opts_jagr("nsims")  
