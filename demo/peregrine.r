@@ -12,7 +12,7 @@ model <- jags_model("
              beta2 ~ dunif(-10, 10)
              beta3 ~ dunif(-10, 10)
              
-             for (i in 1:length(C)) {
+             for (i in 1:length(Year)) {
              log(eC[i]) <- alpha + beta1 * Year[i] 
                 + beta2 * Year[i]^2 + beta3 * Year[i]^3
              C[i] ~ dpois(eC[i])
@@ -69,7 +69,7 @@ print(gp)
 # Binomial GLM analysis of peregrine reproductive success (Kery & Schaub 2011 p.67-71)
 
 # GLM_Binomial (Kery & Schaub 2011 p.68-69)
-mod <- jags_model("
+model <- jags_model("
              model {
              alpha ~ dnorm(0, 10^-2)
              beta1 ~ dnorm(0, 10^-2)
