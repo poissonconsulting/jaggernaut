@@ -23,9 +23,8 @@ get_derived.jags_analysis <- function (object, monitor, data) {
   if (is.function(modify_data_derived(object)))
     dat <- modify_data_derived(object)(dat)
   
-  model <- jags_model (derived_code(object), monitor = monitor)
   file <- tempfile(fileext=".bug")
-  cat(model_code(model), file=file)
+  cat(derived_code(object), file=file)
     
   nchains <- nchains (chains)
   nsims <- nsims (chains) / nchains
@@ -33,11 +32,11 @@ get_derived.jags_analysis <- function (object, monitor, data) {
   list <- list ()
   for (j in 1:nchains) {
     
-    list[[j]] <- get_samples (model,data = c(dat,as.list(subset_jags(chains, sim = 1, chain = j))),file = file)    
+    list[[j]] <- get_samples (monitor,data = c(dat,as.list(subset_jags(chains, sim = 1, chain = j))),file = file)    
     
     if (nsims > 1) {
       for (i in 2:nsims) {
-        samples <- get_samples (model,data = c(dat,as.list(subset_jags(chains, sim = i, chain = j))), file = file)
+        samples <- get_samples (monitor,data = c(dat,as.list(subset_jags(chains, sim = i, chain = j))), file = file)
         
         list[[j]] <- add_jags (list[[j]], samples, by = "sims")
       }

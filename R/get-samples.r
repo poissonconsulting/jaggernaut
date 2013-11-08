@@ -1,5 +1,5 @@
 
-get_samples <- function (model, data, file) {
+get_samples <- function (monitor, data, file) {
   # could remove unnecessary data so not need to suppress warning messages...
   warn <- options('warn')
   options(warn = -1)
@@ -8,7 +8,6 @@ get_samples <- function (model, data, file) {
                       n.chains = 1, n.adapt = 0, quiet = TRUE
   )
 
-  monitor <- monitor(model)
   samples <- rjags::jags.samples(
     model = jags, variable.names = monitor, n.iter = 1
   )
