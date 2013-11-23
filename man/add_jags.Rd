@@ -2,12 +2,10 @@
 \alias{add_jags}
 \title{Add JAGS objects}
 \usage{
-  add_jags(object, object2, ...)
+  add_jags(object, ...)
 }
 \arguments{
   \item{object}{a JAGS object.}
-
-  \item{object2}{a second JAGS object to add to object.}
 
   \item{...}{additional JAGS objects to add to object.}
 }

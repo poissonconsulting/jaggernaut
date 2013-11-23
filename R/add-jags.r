@@ -5,15 +5,22 @@
 #' Adds two or more JAGS object of the same class.  
 #' 
 #' @param object a JAGS object.
-#' @param object2 a second JAGS object to add to object.
 #' @param ... additional JAGS objects to add to object.
 #' @return a JAGS object of the original class
 #' @export
-add_jags <- function (object, object2, ...) {
+add_jags <- function (object, ...) {
   UseMethod("add_jags", object)
 }
 
-add_jags.mcarray <- function (object, object2, ..., by = "sims") {
+add_jags.mcarray <- function (object, ..., by = "sims") {
+
+  args <- list(...)
+  
+  if (length(args) == 0)
+    return (object)
+  
+  object2 <- args[[1]]
+  args <- args[-1]
   
   if(!inherits(by,"character"))
     stop("by must be class character")
@@ -28,16 +35,16 @@ add_jags.mcarray <- function (object, object2, ..., by = "sims") {
   if(by == "chains") {
 
   if (!inherits (object2, "mcarray"))
-    stop ("object2 should be class mcarray")
+    stop ("objects should be class mcarray")
   if (nsims (object) / nchains(object) != nsims(object2) / nchains(object2))
-    stop ("object and object2 should have the same number of sims")
+    stop ("objects should have the same number of sims")
   
   dimobj <- dim (object)
   dimobject2 <- dim (object2)
   dnames <- names(dim (object))
   
   if (!identical(dimobj[-length(dimobj)],dimobject2[-length(dimobject2)]))
-    stop ("object and object2 should have the same dimensions (except chains)")
+    stop ("objects should have the same dimensions (except chains)")
   
   class(object)<-"array"
   class(object2)<-"array"
@@ -48,11 +55,11 @@ add_jags.mcarray <- function (object, object2, ..., by = "sims") {
   } else if(by == "sims") {
     
     if (!inherits (object, "mcarray"))
-      stop ("object should be class mcarray")
+      stop ("objects should be class mcarray")
     if (!inherits (object2, "mcarray"))
-      stop ("object2 should be class mcarray")
+      stop ("objects should be class mcarray")
     if (nchains (object) != nchains (object2))
-      stop ("object and object2 should have the same number of chains")
+      stop ("objects should have the same number of chains")
     
     dimobj <- dim (object)
     dimiter <- dim (object2)
@@ -69,7 +76,6 @@ add_jags.mcarray <- function (object, object2, ..., by = "sims") {
     class(object)<-"mcarray"
   }
   
-  args <- list(...)
   nargs <- length(args)
   if (nargs > 0) {
     for (i in 1:nargs) {
@@ -79,12 +85,19 @@ add_jags.mcarray <- function (object, object2, ..., by = "sims") {
   return (object)
 }
 
-add_jags.list <- function (object, object2, ..., by = "sims") {
- 
+add_jags.list <- function (object, ..., by = "sims") {
+
+  args <- list(...)
+
+  if (length(args) == 0)
+    return (object)
+  
+  object2 <- args[[1]]
+  args <- args[-1] 
+  
   for (i in seq(along = object))
     object[[i]] <- add_jags(object[[i]], object2[[i]], by = by)
   
-  args <- list(...)
   nargs <- length(args)
   if (nargs > 0) {
     for (i in 1:nargs) {
@@ -94,12 +107,19 @@ add_jags.list <- function (object, object2, ..., by = "sims") {
   return (object)
 }
 
-add_jags.jagr_chains <- function (object, object2, ...) {
+add_jags.jagr_chains <- function (object, ...) {
+  
+  args <- list(...)
+  
+  if (length(args) == 0)
+    return (object)
+  
+  object2 <- args[[1]]
+  args <- args[-1]
   
   jags(object) <- c(jags(object), jags(object2))  
   samples(object) <- add_jags (samples(object), samples(object2), by = "chains")
     
-  args <- list(...)
   nargs <- length(args)
   if (nargs > 0) {
     for (i in 1:nargs) {
@@ -109,18 +129,24 @@ add_jags.jagr_chains <- function (object, object2, ...) {
   return (object)
 }
 
-add_jags_jagr_chains <- function (object, object2) {
+add_jags_jagr_chains <- function (object, ...) {
   stopifnot(is.jagr_chains(object))
-  return (add_jags(object, object2))
+  return (add_jags(object, ...))
 }
 
 #' @method add_jags jags_model
 #' @export 
-add_jags.jags_model <- function (object, object2, ...)
-{
+add_jags.jags_model <- function (object, ...) {
+  args <- list(...)
+  
+  if (length(args) == 0)
+    return (object)
+  
+  object2 <- args[[1]]
+  args <- args[-1]
+  
   object$models <- c(object$models,object2$models) 
   
-  args <- list(...)
   nargs <- length(args)
   if (nargs > 0) {
     for (i in 1:nargs) {
@@ -132,10 +158,18 @@ add_jags.jags_model <- function (object, object2, ...)
     
 #' @method add_jags jags_simulation
 #' @export 
-add_jags.jags_simulation <- function (object, object2, mode = "current", ...) {
+add_jags.jags_simulation <- function (object, ..., mode = "current") {
+  
+  args <- list(...)
+  
+  if (length(args) == 0)
+    return (object)
+  
+  object2 <- args[[1]]
+  args <- args[-1]
 
   if(!is.jags_simulation(object2))
-    stop("object2 should be of class jags_simulation")
+    stop("objects should be of class jags_simulation")
   
   if(!identical(data_model(object),data_model(object2)))
     stop("objects must have identical data_models")
@@ -154,7 +188,6 @@ add_jags.jags_simulation <- function (object, object2, mode = "current", ...) {
 
   data_jags(object)  <- clist(data_jags(object), data_jags(object2))
     
-  args <- list(...)
   nargs <- length(args)
   if (nargs > 0) {
     for (i in 1:nargs) {
@@ -166,9 +199,18 @@ add_jags.jags_simulation <- function (object, object2, mode = "current", ...) {
 
 #' @method add_jags jags_power_analysis
 #' @export 
-add_jags.jags_power_analysis <- function (object, object2, mode = "current", ...) {
+add_jags.jags_power_analysis <- function (object, ..., mode = "current") {
+
+  args <- list(...)
+  
+  if (length(args) == 0)
+    return (object)
+  
+  object2 <- args[[1]]
+  args <- args[-1]
+  
   if(!is.jags_simulation(object2))
-    stop("object2 should be of class jags_power_analysis")
+    stop("objects should be of class jags_power_analysis")
   
   if(!identical(data_model(object),data_model(object2)))
     stop("objects must have identical data_models")
@@ -194,6 +236,12 @@ add_jags.jags_power_analysis <- function (object, object2, mode = "current", ...
   
   rhat_threshold(object) <- min(rhat_threshold(object), rhat_threshold(object2))
 
+  nargs <- length(args)
+  if (nargs > 0) {
+    for (i in 1:nargs) {
+      object[[i]] <- add_jags(object, args[[i]])
+    }
+  }
   return (object)
 }
   
