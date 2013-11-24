@@ -101,35 +101,11 @@ data_jags.jags_simulation <- function (object, ...) {
 
 "data_jags<-.jags_analysis" <- function (object, value, ...) {
 
-  if (!is.data.frame (value)) {
-    if (!is.list(value)) {
-      stop("value must be a data.frame or a data list")
-    }
-    names <- names(value)
-    if(is.null(names)) {
-      stop("variables in value must be named")
-    }
-    classes <- c("logical","integer","numeric","factor",
-                 "Date","POSIXt","matrix","array")
-    bol <- sapply(value, inherits,classes[1])
-    for (class in classes[-1]) {
-      bol <- bol | sapply(value,inherits,class)
-    }
-    if (!all(bol)) {
-      stop(paste("variables in data list must be class",classes))
-    }
-    if (!is_data_list (value)) {
-      stop("value must be a data.frame or a data list")
-    }
-  } else {
-    if (!nrow(value)) {
-      stop("value must include at least one row")
-    }
-    if (!ncol(value)) {
-      stop("value must include at least one column")
-    }
-  }
-  
+  if(is.data.frame(value)) {
+    value <- jags_data_frame(value)
+  } else
+    value <- jags_data_list(value)
+    
   object$data <- value
   
   return (object)
