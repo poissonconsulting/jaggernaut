@@ -6,33 +6,40 @@
 #' in a JAGS analysis or if level = "no" returns an object of class jags_samples
 #' 
 #' @param object a jags_analysis.
-#' @param newdata a data.frame or data list of the data values over which to calculate the
+#' @param newdata a data.frame or data list of the data values over which to
+#' calculate the
 #' estimates of the derived parameter or a character vector specify the variable
 #' or variable combination
 #' for which to calculate the estimates of the derived parameter.
-#' If NULL (the default) the derived parameter is calculated for each row in the original data set.
+#' If NULL (the default) the derived parameter is calculated for each row in the
+#' original data set.
 #' @param parm a character element naming the derived parameter for which 
-#' the estimates should be calculated.
+#' the estimates should be calculated by default = "prediction"
 #' @param base a boolean element indicating whether or not to express 
 #' the expected value as a percent change of a base level or a data frame 
 #' defining the base level.
 #' @param values a data frame with a single row that defines the value of particular
-#' variables. The variables in the arguments newdata and base are replaced by the corresponding values.
-#' @param model_number an integer vector specifying the model to select. 
+#' variables. The variables in the arguments newdata and base are replaced by the
+#' corresponding values.
+#' @param model_number an integer vector specifying the jags model to select. 
 #' If model_number = 0 then it selects the model with the lowest DIC.
 #' @param derived_code a character element defining a block in the JAGS dialect of 
-#' the BUGS language that defines one or more derived parameters 
-#' for each row of data. 
-#' If NULL derived_code is as defined by the JAGS model for which the JAGS analysis was performed. 
+#' the BUGS language that defines one or more derived parameters for each row 
+#' of data. If NULL then derived_code is as defined by the JAGS model for which 
+#' the JAGS analysis was performed. 
 #' @param random_effects a named list which specifies which parameters to treat 
-#' as random variables in the derived code. If NULL random_effects is as defined by the JAGS model for which the JAGS analysis was performed. 
+#' as random variables in the derived code. If NULL random_effects is as defined 
+#' by the JAGS model for which the JAGS analysis was performed. 
 #' @param level a numeric scalar specifying the significance level or a character
 #' scalar specifying which mode the level should be taken from. By default the
 #' level is as currently specified by \code{opts_jagr} in the global options.
-#' @param length_out an integer element indicating the number of values when 
-#' creating a sequence of values across the range of a continuous variable.
+#' @param estimate a character scalar indicating whether the point estimate 
+#' should be the "mean"or the "median". By default the estimate is as 
+#' currently by \code{opts_jagr} in the global options.
 #' @param obs_by a character vector indicating which factors to only predict 
 #' for their observed factor combinations.
+#' @param length_out an integer element indicating the number of values when 
+#' creating a sequence of values across the range of a continuous variable.
 #' @param ... further arguments passed to or from other methods.
 #' @details
 #' Its important to realise that if the original data set was a data list then 
@@ -45,11 +52,10 @@
 #' values in base but only replaces the corresponding values in newdata if they
 #' are unaltered, i.e., as they are in data_jags(object,base = TRUE).
 #' 
-#' @return a data frame with the estimates and credibility intervals for
-#' the derived parameter of interest or if level = "no" an object of 
-#' class jags_samples
-#' @seealso \code{\link{jags_model}}, \code{\link{jags_analysis}}
-#' and \code{\link{jaggernaut}}
+#' @return the \code{coef} table for the derived parameter of interest 
+#' or if level = "no" an object of class jags_samples
+#' @seealso \code{\link{jags_model}}, \code{\link{jags_analysis}},
+#' \code{\link{coef.jags_analysis}} and \code{\link{jaggernaut}}
 #' @method predict jags_analysis
 #' @export 
 predict.jags_analysis <- function (object, newdata = NULL, 
@@ -57,8 +63,8 @@ predict.jags_analysis <- function (object, newdata = NULL,
                                    values = NULL, model_number = 1,
                                    modify_data_derived = NULL,
                                    derived_code = NULL, random_effects = NULL, 
-                                   level = "current", estimate = "current", length_out = 50, 
-                                   obs_by = NULL, ...) {
+                                   level = "current", estimate = "current", 
+                                   obs_by = NULL, length_out = 50, ...) {
   
   if (is.numeric(length_out)) {
     if (length(length_out)  != 1) {

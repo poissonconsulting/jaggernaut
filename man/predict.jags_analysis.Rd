@@ -6,8 +6,8 @@
     parm = "prediction", base = FALSE, values = NULL,
     model_number = 1, modify_data_derived = NULL,
     derived_code = NULL, random_effects = NULL,
-    level = "current", estimate = "current",
-    length_out = 50, obs_by = NULL, ...)
+    level = "current", estimate = "current", obs_by = NULL,
+    length_out = 50, ...)
 }
 \arguments{
   \item{object}{a jags_analysis.}
@@ -21,7 +21,8 @@
   in the original data set.}
 
   \item{parm}{a character element naming the derived
-  parameter for which the estimates should be calculated.}
+  parameter for which the estimates should be calculated by
+  default = "prediction"}
 
   \item{base}{a boolean element indicating whether or not
   to express the expected value as a percent change of a
@@ -32,15 +33,15 @@
   arguments newdata and base are replaced by the
   corresponding values.}
 
-  \item{model_number}{an integer vector specifying the
+  \item{model_number}{an integer vector specifying the jags
   model to select. If model_number = 0 then it selects the
   model with the lowest DIC.}
 
   \item{derived_code}{a character element defining a block
   in the JAGS dialect of the BUGS language that defines one
   or more derived parameters for each row of data. If NULL
-  derived_code is as defined by the JAGS model for which
-  the JAGS analysis was performed.}
+  then derived_code is as defined by the JAGS model for
+  which the JAGS analysis was performed.}
 
   \item{random_effects}{a named list which specifies which
   parameters to treat as random variables in the derived
@@ -53,20 +54,25 @@
   currently specified by \code{opts_jagr} in the global
   options.}
 
-  \item{length_out}{an integer element indicating the
-  number of values when creating a sequence of values
-  across the range of a continuous variable.}
+  \item{estimate}{a character scalar indicating whether the
+  point estimate should be the "mean"or the "median". By
+  default the estimate is as currently by \code{opts_jagr}
+  in the global options.}
 
   \item{obs_by}{a character vector indicating which factors
   to only predict for their observed factor combinations.}
+
+  \item{length_out}{an integer element indicating the
+  number of values when creating a sequence of values
+  across the range of a continuous variable.}
 
   \item{...}{further arguments passed to or from other
   methods.}
 }
 \value{
-  a data frame with the estimates and credibility intervals
-  for the derived parameter of interest or if level = "no"
-  an object of class jags_samples
+  the \code{coef} table for the derived parameter of
+  interest or if level = "no" an object of class
+  jags_samples
 }
 \description{
   Calculate predictions with estimates for derived
@@ -88,7 +94,8 @@
   i.e., as they are in data_jags(object,base = TRUE).
 }
 \seealso{
-  \code{\link{jags_model}}, \code{\link{jags_analysis}} and
+  \code{\link{jags_model}}, \code{\link{jags_analysis}},
+  \code{\link{coef.jags_analysis}} and
   \code{\link{jaggernaut}}
 }
 
