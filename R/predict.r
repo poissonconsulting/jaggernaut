@@ -77,19 +77,19 @@ predict.jags_analysis <- function (object, newdata = NULL,
     stop("length_out must be an integer")
   }
 
-  dataset <- data_jags(object)
+  data <- data_jags(object)
     
   if(!is.null(obs_by)) {
     if(!is.character(obs_by))
       stop("obs_by must be NULL or a character vector")
-    if (!is.data.frame(dataset))
+    if (!is.jags_data_frame(data))
       stop("obs_by is only available when the original data is a data.frame")
   }
   
   if (is.null(newdata)) {
-    newdata <- dataset
+    newdata <- data
   } else if (is.character(newdata)) {
-    newdata <- generate_data (dataset, range = newdata, length_out = length_out)
+    newdata <- generate_data (data, range = newdata, length_out = length_out)
   }
   
   if(is.logical(base)) {
@@ -127,14 +127,14 @@ predict.jags_analysis <- function (object, newdata = NULL,
   }
     
   if (is.data.frame (newdata)) {
-    if (is_data_list(dataset)) {
+    if (is_data_list(data)) {
       stop("if original data is a data list newdata must not be a data.frame")
     }
   } else {
     if (!is_data_list(newdata)) {
       stop("newdata must be NULL, character, data.frame or a data list")
     }
-    if (is.data.frame(dataset)) {
+    if (is.data.frame(data)) {
       stop("if original data is a data.frame newdata must not be a data list")
     }
     if (is.data.frame(base)) {
@@ -145,13 +145,13 @@ predict.jags_analysis <- function (object, newdata = NULL,
     } 
   }
   
-  if (is_data_list(dataset)) {
-    bol <- !names_data(dataset) %in% names_data(newdata)
+  if (is_data_list(data)) {
+    bol <- !names_data(data) %in% names_data(newdata)
     if (any(bol)) {
-      dat <- dataset[bol]
+      dat <- data[bol]
       newdata <- c(newdata,dat)
     }
-    newdata <- newdata[names(dataset)]
+    newdata <- newdata[names(data)]
   } else {
     dat <- generate_data(data_jags(object))
     bol <- !names_data(dat) %in% names_data(newdata)
@@ -159,7 +159,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
       dat <- dat[bol]
       newdata <- merge(newdata,dat)
     }
-    newdata <- newdata[names(dataset)]
+    newdata <- newdata[names(data)]
     if (is.data.frame(base)) {
       dat <- generate_data(data_jags(object))
       bol <- !names_data(dat) %in% names_data(base)
@@ -167,7 +167,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
         dat <- dat[bol]
         base <- cbind(base,dat)
       }
-      base <- base[names(dataset)]
+      base <- base[names(data)]
     }
     if (is.data.frame(values)) {
       dat <- generate_data(data_jags(object))
@@ -240,7 +240,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
   }
   
   if(!is.null(obs_by)) {
-    dat <- unique(subset(dataset,select = obs_by))
+    dat <- unique(subset(data,select = obs_by))
     newdata <- merge(newdata, dat)
     stopifnot(nrow(newdata) > 0)
   }

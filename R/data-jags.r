@@ -101,12 +101,7 @@ data_jags.jags_simulation <- function (object, ...) {
 
 "data_jags<-.jags_analysis" <- function (object, value, ...) {
 
-  if(is.data.frame(value)) {
-    value <- jags_data_frame(value)
-  } else
-    value <- jags_data_list(value)
-    
-  object$data <- value
+  object$data <- jags_data(value)
   
   return (object)
 }

@@ -1,6 +1,7 @@
 
 jagr_analysis <- function (model, data, niters) {    
   stopifnot(is.jagr_analysis_model(model))
+  
   stopifnot(niters >= 100)
   
   resample <- opts_jagr("nresample")
