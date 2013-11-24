@@ -1,12 +1,17 @@
 
 #' @export
-as.jags_data_list<- function (x, ...) {
-  UseMethod("as.jags_data_list", x)
+as.jagr_data<- function (x, ...) {
+  UseMethod("as.jagr_data", x)
 }
 
 #' @export
-as.jags_data_frame<- function (x, ...) {
-  UseMethod("as.jags_data_frame", x)
+as.jagr_data_list<- function (x, ...) {
+  UseMethod("as.jagr_data_list", x)
+}
+
+#' @export
+as.jagr_data_frame<- function (x, ...) {
+  UseMethod("as.jagr_data_frame", x)
 }
 
 as.jagr_chains<- function (x, ...) {
@@ -99,20 +104,36 @@ as.mcmc.list.jagr_chains <- function (x, ...) {
   return (coda::mcmc.list(ans))
 }
 
-as.jags_data_list.list <- function (x, ...) {
-  return (jags_data_list(x))
+as.jagr_data.list <- function (x, ...) {
+  return (jagr_data_list(x))
 }
 
-as.jags_data_list.data.frame <- function (x, ...) {
-  return (jags_data_list(as.list(x)))
+as.jagr_data.data.frame <- function (x, ...) {
+  return (jagr_data_frame(x))
 }
 
-as.jags_data_frame.list <- function (x, ...) {
-  return (jags_data_frame(as.data.frame(x)))
+as.jagr_data.jagr_data_list <- function (x, ...) {
+  return (x)
 }
 
-as.jags_data_frame.data.frame <- function (x, ...) {
-  return (jags_data_frame(x))
+as.jagr_data.jagr_data_frame <- function (x, ...) {
+  return (x)
+}
+
+as.jagr_data_list.list <- function (x, ...) {
+  return (jagr_data_list(x))
+}
+
+as.jagr_data_list.data.frame <- function (x, ...) {
+  return (jagr_data_list(x))
+}
+
+as.jagr_data_frame.list <- function (x, ...) {
+  return (jagr_data_frame(as.data.frame(x)))
+}
+
+as.jagr_data_frame.data.frame <- function (x, ...) {
+  return (jagr_data_frame(x))
 }
 
 as.jagr_chains.jagr_power_analysis <- function (x, ...) {

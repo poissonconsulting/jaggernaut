@@ -82,7 +82,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
   if(!is.null(obs_by)) {
     if(!is.character(obs_by))
       stop("obs_by must be NULL or a character vector")
-    if (!is.jags_data_frame(data))
+    if (!is.jagr_data_frame(data))
       stop("obs_by is only available when the original data is a data.frame")
   }
   

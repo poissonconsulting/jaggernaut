@@ -15,12 +15,16 @@ is.list_jags <- function (object) {
   return (is.list(object) && all(unlist(lapply(object, is.jags))))
 }
 
-is.jags_data_list <- function (object) {
-  return (inherits(object, "jags_data_list"))
+is.jagr_data <- function (object) {
+  return (is.jagr_data_list(object))
 }
 
-is.jags_data_frame <- function (object) {
-  return (inherits(object, "jags_data_frame"))
+is.jagr_data_list <- function (object) {
+  return (inherits(object, "jagr_data_list"))
+}
+
+is.jagr_data_frame <- function (object) {
+  return (inherits(object, "jagr_data_frame"))
 }
 
 is.jagr_chains <- function (object) {

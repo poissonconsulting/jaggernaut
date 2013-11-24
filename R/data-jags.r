@@ -78,10 +78,7 @@ data_jags.jags_data_model <- function (object, values, ...) {
   
   data <- data[order(names(data))]
   
-  if(is.data.frame(data))
-    return (as.jags_data_frame(data))
-  
-  return (as.jags_data_list(data))
+  return (as.jagr_data(data))
 }
 
 #' @method data_jags jags_analysis
@@ -101,7 +98,7 @@ data_jags.jags_simulation <- function (object, ...) {
 
 "data_jags<-.jags_analysis" <- function (object, value, ...) {
 
-  object$data <- jags_data(value)
+  object$data <- as.jagr_data(value)
   
   return (object)
 }

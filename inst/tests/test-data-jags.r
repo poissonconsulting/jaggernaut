@@ -18,7 +18,7 @@ data {
   
   data <- data_jags(data_model, values)
     
-  expect_that(data, is_a("jags_data_list"))
+  expect_that(data, is_a("jagr_data_list"))
   expect_that(names(data), is_identical_to(c("bIntercept","nx","x","y","z")))
   expect_that(length(data$x), equals(10))
   expect_that(dim(data$y), equals(c(10,10)))
