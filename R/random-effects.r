@@ -1,40 +1,59 @@
 
+#' @title Get random effects
+#'
+#' @description
+#' Get the random_effects component of a JAGS object.  
+#' 
+#' @param object a JAGS object.
+#' @param ... further arguments passed to or from other methods.
+#' @return The random_effects component of a JAGS object.
+#' @seealso \code{\link{jaggernaut}}  
 #' @export
-random_effects <- function (object) {
+random_effects <- function (object, ...) {
   UseMethod("random_effects", object)
 }
 
+#' @title Set random effects
+#'
+#' @description
+#' Set the random_effects component of a JAGS object.  
+#' 
+#' @usage
+#' random_effects(object) <- value
+#' @param object a JAGS object.
+#' @param value a named list vector of the random effects or NULL.
+#' @seealso \code{\link{jaggernaut}}  
 #' @export
 "random_effects<-" <- function (object, value) {
   UseMethod("random_effects<-", object)
 }
 
-random_effects.jagr_analysis_model <- function (object) {
+random_effects.jagr_analysis_model <- function (object, ...) {
   return (object$random_effects)
 }
 
-random_effects_jagr_analysis_model <- function (object) {
+random_effects_jagr_analysis_model <- function (object, ...) {
   stopifnot(is.jagr_analysis_model(object))
-  return (random_effects(object))
+  return (random_effects(object, ...))
 }
 
 #' @method random_effects jags_model
 #' @export
-random_effects.jags_model <- function (object) {
+random_effects.jags_model <- function (object, ...) {
   
   if(is_one_model(object))
-    return (random_effects(model(object)))
+    return (random_effects(model(object), ...))
   
   models <- models(object)
-  models <- lapply(models, random_effects_jagr_analysis_model)
+  models <- lapply(models, random_effects_jagr_analysis_model, ...)
   models <- name_object(models, "Model")
   return (models) 
 }
 
 #' @method random_effects jags_analysis
 #' @export
-random_effects.jags_analysis <- function (object) {
-  return (random_effects(as.jags_model(object)))
+random_effects.jags_analysis <- function (object, ...) {
+  return (random_effects(as.jags_model(object), ...))
 }
 
 "random_effects<-.jagr_analysis_model" <- function (object, value) {

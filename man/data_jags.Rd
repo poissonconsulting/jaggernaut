@@ -5,12 +5,14 @@
   data_jags(object, ...)
 }
 \arguments{
-  \item{object}{a object.}
+  \item{object}{a JAGS object.}
 
-  \item{...}{other arguments.}
+  \item{...}{further arguments passed to or from other
+  methods.}
 }
 \value{
-  a data.frame or list(s) of the data
+  a data.frame, object of type \code{jags_data} or list(s)
+  of the data
 }
 \description{
   Gets the dataset(s) from a JAGS object.

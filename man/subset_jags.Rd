@@ -16,8 +16,6 @@
   Subsets a JAGS object.
 }
 \seealso{
-  \code{\link{subset_jags.jags_analysis}},
-  \code{\link{subset_jags.jags_simulation}} and
-  \code{\link{subset_jags.jags_power_analysis}}
+  \code{\link{jaggernaut}}
 }
 

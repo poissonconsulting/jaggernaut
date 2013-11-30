@@ -23,6 +23,8 @@
 #' corresponding values.
 #' @param model_number an integer vector specifying the jags model to select. 
 #' If model_number = 0 then it selects the model with the lowest DIC.
+#' @param modify_data_derived a function to modify the derived data set 
+#' (after it has been converted to list form)
 #' @param derived_code a character element defining a block in the JAGS dialect of 
 #' the BUGS language that defines one or more derived parameters for each row 
 #' of data. If NULL then derived_code is as defined by the JAGS model for which 

@@ -22,6 +22,8 @@
 #'  of the BUGS language that specifies derived parameters
 #' @param random_effects a named list of parameters to be treated as random effects with the
 #' related data as values
+#' @param modify_data_derived a function to modify the derived data set 
+#' (after it has been converted to list form)
 #' @details 
 #' The \code{jags_model} function defines a JAGS model that can then be passed to the 
 #' \code{jags_analysis} function together with a data frame to perform a Bayesian analysis.

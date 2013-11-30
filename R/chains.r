@@ -1,5 +1,4 @@
 
-#' @export
 chains <- function (object) {
   UseMethod("chains", object)
 }

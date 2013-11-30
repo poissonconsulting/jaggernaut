@@ -1,5 +1,4 @@
 
-#' @export
 time_interval <- function (object, ...) {
   UseMethod("time_interval", object)
 }

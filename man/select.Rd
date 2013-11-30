@@ -1,0 +1,22 @@
+\name{select}
+\alias{select}
+\title{Get select}
+\usage{
+  select(object, ...)
+}
+\arguments{
+  \item{object}{a JAGS object.}
+
+  \item{...}{further arguments passed to or from other
+  methods.}
+}
+\value{
+  The select component of a JAGS object.
+}
+\description{
+  Get the select component of a JAGS object.
+}
+\seealso{
+  \code{\link{jaggernaut}}
+}
+

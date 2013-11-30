@@ -19,7 +19,10 @@
 #' @param level a numeric scalar specifying the significance level or a character
 #' scalar specifying which mode the level should be taken from. By default the
 #' level is as currently specified by \code{opts_jagr} in the global options.
-#' @param ndata the dataset for which to calculate the residuals. By default data is NULL as the residuals are typically calculated on the original dataset.
+#' @param estimate a character scalar specifying whether the point estimate should
+#' be the "mean" or the "median" or a character scalar which mode the level should be #' taken from. By default the
+#' estimate is as currently specified by \code{opts_jagr} in the global options.
+#' @param data the dataset for which to calculate the residuals. By default data is NULL as the residuals are typically calculated on the original dataset.
 #' @param ... further arguments passed to or from other methods.
 #' @return the original data frame with the median estimate and credibility intervals for the derived parameter of interest
 #' @seealso \code{\link{jags_model}}, \code{\link{jags_analysis}}

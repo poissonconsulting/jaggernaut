@@ -1,55 +1,70 @@
 
+#' @title Get select
+#'
+#' @description
+#' Get the select component of a JAGS object.  
+#' 
+#' @param object a JAGS object.
+#' @param ... further arguments passed to or from other methods.
+#' @return The select component of a JAGS object.
+#' @seealso \code{\link{jaggernaut}}  
 #' @export
-select <- function (object) {
+select <- function (object, ...) {
   UseMethod("select", object)
 }
 
+#' @title Set select
+#'
+#' @description
+#' Set the select component of a JAGS object.  
+#' 
+#' @usage
+#' select(object) <- value
+#' @param object a JAGS object.
+#' @param value a character vector of the variables to select or NULL.
+#' @seealso \code{\link{jaggernaut}}  
 #' @export
 "select<-" <- function (object, value) {
   UseMethod("select<-", object)
 }
 
-#' @method select jagr_model
-#' @export
-select.jagr_model <- function (object) {
+select.jagr_model <- function (object, ...) {
   return (object$select)
 }
 
-select_jagr_model <- function (object) {
+select_jagr_model <- function (object, ...) {
   stopifnot(is.jagr_model(object))
-  return (select(object))
+  return (select(object, ...))
 }
 
 #' @method select jags_model
 #' @export
-select.jags_model <- function (object) {
+select.jags_model <- function (object, ...) {
   
   if(is_one_model(object))
-    return (select(model(object)))
+    return (select(model(object, ...)))
   
   models <- models(object)
-  models <- lapply(models, select_jagr_model)
+  models <- lapply(models, select_jagr_model, ...)
   models <- name_object(models, "Model")
   return (models)   
 }
 
-select.jagr_analysis <- function (object) {
-  return (select(as.jagr_model(object)))
+select.jagr_analysis <- function (object, ...) {
+  return (select(as.jagr_model(object), ...))
 }
 
-select_jagr_analysis <- function (object) {
+select_jagr_analysis <- function (object, ...) {
   stopifnot(is.jagr_analysis(object))
-  return (select(object))
+  return (select(object, ...))
 }
 
 #' @method select jags_analysis
 #' @export
-select.jags_analysis <- function (object) {
-  return (select(as.jags_model(object)))
+select.jags_analysis <- function (object, ...) {
+  return (select(as.jags_model(object), ...))
 }
 
-#' @method select<- jagr_model
-#' @export
 "select<-.jagr_model" <- function (object, value) {
   
   if (!is.null(value)) {
@@ -93,8 +108,6 @@ select.jags_analysis <- function (object) {
   return (object)
 }
 
-#' @method select<- jagr_analysis
-#' @export
-"select<-.jagr_analysis" <- function (object, value)
-  stop("cannot replace select in a jagr_analysis object")
-
+"select<-.jagr_analysis" <- function (object, value) {
+  stop()
+}

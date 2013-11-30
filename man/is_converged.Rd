@@ -1,0 +1,23 @@
+\name{is_converged}
+\alias{is_converged}
+\title{Test convergence}
+\usage{
+  is_converged(object, ...)
+}
+\arguments{
+  \item{object}{a JAGS object.}
+
+  \item{...}{further arguments passed to or from other
+  methods.}
+}
+\value{
+  A logical element, vector or list indicating whether or
+  not the object has converged.
+}
+\description{
+  Tests the convergence of a JAGS object.
+}
+\seealso{
+  \code{\link{jaggernaut}}
+}
+

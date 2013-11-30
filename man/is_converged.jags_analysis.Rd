@@ -1,0 +1,23 @@
+\name{is_converged.jags_analysis}
+\alias{is_converged.jags_analysis}
+\title{Test convergence}
+\usage{
+  \method{is_converged}{jags_analysis} (object, ...)
+}
+\arguments{
+  \item{object}{a \code{jags_analysis} object.}
+
+  \item{...}{further arguments passed to or from other
+  methods.}
+}
+\value{
+  A logical element or vector whether or not analysis or
+  analyses have converged.
+}
+\description{
+  Tests the convergence of a JAGS analysis.
+}
+\seealso{
+  \code{\link{rhat_threshold}} and \code{\link{jaggernaut}}
+}
+

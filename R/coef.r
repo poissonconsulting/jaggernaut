@@ -79,14 +79,18 @@ coef_jagr_analysis <- function (object, parm, level, estimate, ...) {
 #' @param level a numeric scalar specifying the significance level or a character
 #' scalar specifying which mode the level should be taken from. By default the
 #' level is as currently specified by \code{opts_jagr} in the global options.
+#' @param estimate a character scalar specifying whether the point estimate should
+#' be the "mean" or the "median" or a character scalar which mode the level should be #' taken from. By default the
+#' estimate is as currently specified by \code{opts_jagr} in the global options.
 #' @param ... further arguments passed to or from other methods.
-#' @return a data.frame of the parameter estimates with the median estimate and 
-#' lower and upper credible limits as well as the percent relative error 
-#' and significance 
-#' @seealso \code{\link{jags_analysis}} and \code{\link{jaggernaut}}
+#' @return a data.frame of the parameter estimates with the point estimate and 
+#' lower and upper credible limits as well as the standard deviation, percent
+#' relative error and significance 
+#' @seealso \code{\link{jags_analysis}}, \code{\link{opts_jagr}} and \code{\link{jaggernaut}}
 #' @method coef jags_analysis
 #' @export
-coef.jags_analysis <- function (object, parm = "fixed", level = "current", estimate = "current", ...) {
+coef.jags_analysis <- function (object, parm = "fixed", level = "current", 
+                                estimate = "current", ...) {
   if (!is.character(parm)) 
     stop ("parm must be character vector")
   if(!is_length(parm))
@@ -313,7 +317,7 @@ calc_estimates_jags_sample <- function (object, level = "current") {
   } 
   
   mat <- as.matrix(object[,grep("V[[:digit:]]", colnames(object))])
-  est <- calc_estimates (t(mat), level = opts_jagr("level"))
+  est <- coef (t(mat), level = opts_jagr("level"))
   data <- object[,-grep("V[[:digit:]]", colnames(object)), drop=FALSE]
   est <- cbind(data, est)
   return (est)

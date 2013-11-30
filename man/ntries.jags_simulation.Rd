@@ -1,0 +1,27 @@
+\name{ntries.jags_simulation}
+\alias{ntries.jags_simulation}
+\title{Get number of tries}
+\usage{
+  \method{ntries}{jags_simulation} (object,
+    combine = FALSE, ...)
+}
+\arguments{
+  \item{object}{a JAGS object.}
+
+  \item{combine}{a logical element indicating whether or
+  not to calculate the maximum number of tries convergence
+  by \code{jags_power_analysis} values.}
+
+  \item{...}{further arguments passed to or from other
+  methods.}
+}
+\value{
+  A matrix of the ntries component of a JAGS object.
+}
+\description{
+  Get the ntries of a JAGS object.
+}
+\seealso{
+  \code{\link{jaggernaut}}
+}
+

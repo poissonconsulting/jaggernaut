@@ -36,7 +36,13 @@
   currently specified by \code{opts_jagr} in the global
   options.}
 
-  \item{ndata}{the dataset for which to calculate the
+  \item{estimate}{a character scalar specifying whether the
+  point estimate should be the "mean" or the "median" or a
+  character scalar which mode the level should be #' taken
+  from. By default the estimate is as currently specified
+  by \code{opts_jagr} in the global options.}
+
+  \item{data}{the dataset for which to calculate the
   residuals. By default data is NULL as the residuals are
   typically calculated on the original dataset.}
 

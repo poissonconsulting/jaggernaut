@@ -1,0 +1,22 @@
+\name{modify_data}
+\alias{modify_data}
+\title{Get modify data}
+\usage{
+  modify_data(object, ...)
+}
+\arguments{
+  \item{object}{a JAGS object.}
+
+  \item{...}{further arguments passed to or from other
+  methods.}
+}
+\value{
+  The modify_data component of a JAGS object.
+}
+\description{
+  Get the modify_data component of a JAGS object.
+}
+\seealso{
+  \code{\link{jaggernaut}}
+}
+

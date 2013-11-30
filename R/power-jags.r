@@ -1,4 +1,24 @@
                                          
+
+#' @title JAGS power
+#'
+#' @description 
+#' Extracts the power estimates from a \code{jags_power_analysis} object
+#' 
+#' @param object a \code{jags_power_analysis} object. 
+#' for which to calculate the power.
+#' @param parm a named list of the parameters and the value 
+#' for which to calculate the power.
+#' @param level a numeric scalar specifying the significance level or a character
+#' scalar specifying which mode the level should be taken from. By default the
+#' level is as currently specified by \code{opts_jagr} in the global options.
+#' @param estimate a character scalar specifying whether the point estimate should
+#' be the "mean" or the "median" or a character scalar which mode the level should be #' taken from. By default the
+#' estimate is as currently specified by \code{opts_jagr} in the global options.
+#' @return A \code{data.frame} of the power estimates.
+#' @seealso
+#' \code{\link{jags_power_analysis}} 
+#' and \code{\link{jaggernaut}} 
 #' @export
 power_jags <- function (object, parm = c(fixed = 0), level = "current", 
                         estimate = "current") {

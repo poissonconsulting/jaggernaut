@@ -1,0 +1,31 @@
+\name{is_converged.jags_power_analysis}
+\alias{is_converged.jags_power_analysis}
+\title{Test convergence}
+\usage{
+  \method{is_converged}{jags_power_analysis} (object,
+    combine = TRUE, ...)
+}
+\arguments{
+  \item{object}{a \code{jags_power_analysis} object.}
+
+  \item{combine}{a logical element indicating whether or
+  not to calculate the percent convergence by
+  \code{jags_power_analysis} values.}
+
+  \item{...}{further arguments passed to or from other
+  methods.}
+}
+\value{
+  A logical matrix indicating or not each analysis has
+  converged or a data.frame indicating the percent
+  convergence rate.
+}
+\description{
+  Tests the convergence of a JAGS power analysis.
+}
+\seealso{
+  \code{\link{rhat_threshold}},
+  \code{\link{jags_power_analysis}} and
+  \code{\link{jaggernaut}}
+}
+

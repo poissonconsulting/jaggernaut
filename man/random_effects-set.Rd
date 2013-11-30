@@ -1,0 +1,19 @@
+\name{random_effects<-}
+\alias{random_effects<-}
+\title{Set random effects}
+\usage{
+  random_effects(object) <- value
+}
+\arguments{
+  \item{object}{a JAGS object.}
+
+  \item{value}{a named list vector of the random effects or
+  NULL.}
+}
+\description{
+  Set the random_effects component of a JAGS object.
+}
+\seealso{
+  \code{\link{jaggernaut}}
+}
+

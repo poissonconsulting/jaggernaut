@@ -4,9 +4,9 @@
 #' @description
 #' Gets the dataset(s) from a JAGS object.  
 #' 
-#' @param object a object.
-#' @param ... other arguments.
-#' @return a data.frame or list(s) of the data
+#' @param object a JAGS object.
+#' @param ... further arguments passed to or from other methods.
+#' @return a data.frame, object of type \code{jags_data} or list(s) of the data
 #' @seealso \code{\link{data_jags.jags_data_model}}  
 #' @export
 data_jags <- function (object, ...) {
@@ -20,11 +20,12 @@ data_jags <- function (object, ...) {
 #' @title Get dataset from a JAGS data model
 #'
 #' @description
-#' Simulates a dataset from a JAGS data model.  
+#' Simulates a dataset from a \code{jags_data_model} object.  
 #' 
-#' @param object a JAGS data model.
-#' @param values a data.frame with a single row of data indicating the values for the simulation.
-#' @param ... other arguments passed to generic function.
+#' @param object a \code{jags_data_model} object.
+#' @param values a data.frame with a single row of data indicating the values 
+#' for the simulation.
+#' @param ... further arguments passed to or from other methods.
 #' @return the simulated dataset in list form (unless modified by extract_data function).
 #' @seealso \code{\link{data_jags}} and \code{\link{jags_data_model}}
 #' @method data_jags jags_data_model
@@ -81,12 +82,31 @@ data_jags.jags_data_model <- function (object, values, ...) {
   return (as.jags_data(data))
 }
 
+#' @title Get dataset from a JAGS analysis object
+#'
+#' @description
+#' Returns the original dataset from a \code{jags_analysis} object.  
+#' 
+#' @param object a \code{jags_analysis} object.
+#' @param ... further arguments passed to or from other methods.
+#' @return The original dataset as type \code{jags_data}.
+#' @seealso \code{\link{data_jags}}, \code{\link{jags_analysis}},
+#' \code{\link{jags_data}} and \code{\link{jaggernaut}}
 #' @method data_jags jags_analysis
 #' @export
 data_jags.jags_analysis <- function (object, ...) {
   object$data
 }
 
+#' @title Get datasets from a JAGS simulation
+#'
+#' @description
+#' Extracts datasets from a \code{jags_simulation} object.  
+#' 
+#' @param object a \code{jags_simulation} object.
+#' @param ... further arguments passed to or from other methods.
+#' @return The datasets as a list of lists.
+#' @seealso \code{\link{data_jags}} and \code{\link{jags_simulation}}
 #' @method data_jags jags_simulation
 #' @export
 data_jags.jags_simulation <- function (object, ...) {  

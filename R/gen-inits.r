@@ -1,46 +1,61 @@
 
+#' @title Get generate initial values
+#'
+#' @description
+#' Gets the gen_inits component of of a JAGS object.  
+#' 
+#' @param object a JAGS object.
+#' @param ... further arguments passed to or from other methods.
+#' @return The gen_inits component of object.
+#' @seealso \code{\link{jaggernaut}}  
 #' @export
-gen_inits <- function (object) {
+gen_inits <- function (object, ...) {
   UseMethod("gen_inits", object)
 }
 
+#' @title Set generate initial values
+#'
+#' @description
+#' Sets the gen_inits component of a JAGS object.  
+#' 
+#' @usage
+#' gen_inits(object) <- value
+#' @param object a JAGS object.
+#' @param value a function or NULL.
+#' @seealso \code{\link{gen_inits}} and \code{\link{jaggernaut}}  
 #' @export
 "gen_inits<-" <- function (object, value) {
   UseMethod("gen_inits<-", object)
 }
 
-#' @method gen_inits jagr_model
-#' @export
-gen_inits.jagr_model <- function (object) {
+gen_inits.jagr_model <- function (object, ...) {
   return (object$gen_inits)
 }
 
-gen_inits_jagr_model <- function (object) {
+gen_inits_jagr_model <- function (object, ...) {
   stopifnot(is.jagr_model(object))
-  return (gen_inits(object))
+  return (gen_inits(object, ...))
 }
 
 #' @method gen_inits jags_model
 #' @export
-gen_inits.jags_model <- function (object) {
+gen_inits.jags_model <- function (object, ...) {
   
   if(is_one_model(object))
-    return (gen_inits(model(object)))
+    return (gen_inits(model(object), ...))
   
   models <- models(object)
-  models <- lapply(models, gen_inits_jagr_model)
+  models <- lapply(models, gen_inits_jagr_model, ...)
   models <- name_object(models, "Model")
   return (models)  
 }
 
 #' @method gen_inits jags_analysis
 #' @export
-gen_inits.jags_analysis <- function (object) {
-  return (gen_inits(as.jags_model(object)))
+gen_inits.jags_analysis <- function (object, ...) {
+  return (gen_inits(as.jags_model(object), ...))
 }
 
-#' @method gen_inits<- jagr_model
-#' @export
 "gen_inits<-.jagr_model" <- function (object, value) {
   
   if (!is.null(value)) {
@@ -81,8 +96,6 @@ gen_inits.jags_analysis <- function (object) {
   return (object)
 }
 
-#' @method gen_inits<- jagr_analysis
-#' @export
 "gen_inits<-.jagr_analysis" <- function (object, value) {
   stop("cannot replace gen_inits in a jagr_analysis object")
 }

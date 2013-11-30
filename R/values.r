@@ -1,4 +1,13 @@
 
+#' @title Get values
+#'
+#' @description
+#' Get the values component of a JAGS object.  
+#' 
+#' @param object a JAGS object.
+#' @param ... further arguments passed to or from other methods.
+#' @return The values component of a JAGS object.
+#' @seealso \code{\link{jaggernaut}}  
 #' @export
 values <- function (object, ...) {
   UseMethod("values", object)

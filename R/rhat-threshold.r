@@ -1,4 +1,13 @@
 
+#' @title R-hat threshold
+#'
+#' @description
+#' Gets the R-hat threshold of a JAGS object.  
+#' 
+#' @param object a JAGS object.
+#' @param ... further arguments passed to or from other methods.
+#' @return The R-hat threshold.
+#' @seealso \code{\link{jaggernaut}}  
 #' @export
 rhat_threshold <- function (object, ...) {
   UseMethod("rhat_threshold", object)

@@ -7,8 +7,7 @@
 #' @param object a JAGS object.
 #' @param ... other arguments.
 #' @return an object of the same JAGS class.
-#' @seealso \code{\link{subset_jags.jags_analysis}},
-#' \code{\link{subset_jags.jags_simulation}} and \code{\link{subset_jags.jags_power_analysis}}
+#' @seealso \code{\link{jaggernaut}}
 #' @export
 subset_jags <- function (object, ...) {
   UseMethod("subset_jags", object)

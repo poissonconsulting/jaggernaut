@@ -1,55 +1,70 @@
 
+#' @title Get modify data
+#'
+#' @description
+#' Get the modify_data component of a JAGS object.  
+#' 
+#' @param object a JAGS object.
+#' @param ... further arguments passed to or from other methods.
+#' @return The modify_data component of a JAGS object.
+#' @seealso \code{\link{jaggernaut}}  
 #' @export
-modify_data <- function (object) {
+modify_data <- function (object, ...) {
   UseMethod("modify_data", object)
 }
 
+#' @title Set modify data
+#'
+#' @description
+#' Set the modify_data component of a JAGS object.  
+#' 
+#' @usage
+#' modify_data(object) <- value
+#' @param object a JAGS object.
+#' @param value a function or NULL to replace the modify data fnction.
+#' @seealso \code{\link{jaggernaut}}  
 #' @export
 "modify_data<-" <- function (object, value) {
   UseMethod("modify_data<-", object)
 }
 
-#' @method modify_data jagr_model
-#' @export
-modify_data.jagr_model <- function (object) {
+modify_data.jagr_model <- function (object, ...) {
   return (object$modify_data)
 }
 
-modify_data_jagr_model <- function (object) {
+modify_data_jagr_model <- function (object, ...) {
   stopifnot(is.jagr_model(object))
-  return (modify_data(object))
+  return (modify_data(object, ...))
 }
 
 #' @method modify_data jags_model
 #' @export
-modify_data.jags_model <- function (object) {
+modify_data.jags_model <- function (object, ...) {
   
   if(is_one_model(object))
-    return (modify_data(model(object)))
+    return (modify_data(model(object), ...))
   
   models <- models(object)
-  models <- lapply(models, modify_data_jagr_model)
+  models <- lapply(models, modify_data_jagr_model, ...)
   models <- name_object(models, "Model")
   return (models)   
 }
 
-modify_data.jagr_analysis <- function (object) {
-  return (modify_data(as.jagr_model(object)))
+modify_data.jagr_analysis <- function (object, ...) {
+  return (modify_data(as.jagr_model(object), ...))
 }
 
-modify_data_jagr_analysis <- function (object) {
+modify_data_jagr_analysis <- function (object, ...) {
   stopifnot(is.jagr_analysis(object))
-  return (modify_data(object))
+  return (modify_data(object, ...))
 }
 
 #' @method modify_data jags_analysis
 #' @export
-modify_data.jags_analysis <- function (object) {
-  return (modify_data(as.jags_model(object)))
+modify_data.jags_analysis <- function (object, ...) {
+  return (modify_data(as.jags_model(object), ...))
 }
 
-#' @method modify_data<- jagr_model
-#' @export
 "modify_data<-.jagr_model" <- function (object, value) {
   
   if(!is.null(value)) {
@@ -89,8 +104,6 @@ modify_data.jags_analysis <- function (object) {
   return (object)
 }
 
-#' @method modify_data<- jagr_analysis
-#' @export
-"modify_data<-.jagr_analysis" <- function (object, value)
-  stop("cannot replace modify_data in a jagr_analysis object")
-
+"modify_data<-.jagr_analysis" <- function (object, value) {
+  stop()
+}

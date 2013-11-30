@@ -1,4 +1,13 @@
 
+#' @title DIC values
+#'
+#' @description
+#' Gets Deviance Information Criterion values from a JAGS object.  
+#' 
+#' @param object a JAGS object.
+#' @param ... further arguments passed to or from other methods.
+#' @return The DIC values as a data.frame.
+#' @seealso \code{\link{jaggernaut}}  
 #' @export
 dic_jags <- function (object, ...) {
   UseMethod("dic_jags", object)
@@ -27,6 +36,15 @@ dic_jags_jagr_power_analysis <- function (object, ...) {
   return (dic_jags(object, ...))
 }
 
+#' @title DIC values
+#'
+#' @description
+#' Gets Deviance Information Criterion (DIC) values from a JAGS analysis.  
+#' 
+#' @param object a \code{jags_analysis}.
+#' @param ... further arguments passed to or from other methods.
+#' @return The DIC values as a data.frame.
+#' @seealso \code{\link{jaggernaut}}  
 #' @method dic_jags jags_analysis
 #' @export 
 dic_jags.jags_analysis <- function (object, ...) {

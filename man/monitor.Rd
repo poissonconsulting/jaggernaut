@@ -1,0 +1,22 @@
+\name{monitor}
+\alias{monitor}
+\title{Get monitor}
+\usage{
+  monitor(object, ...)
+}
+\arguments{
+  \item{object}{a JAGS object.}
+
+  \item{...}{further arguments passed to or from other
+  methods.}
+}
+\value{
+  The monitor component of a JAGS object.
+}
+\description{
+  Get the monitor component of a JAGS object.
+}
+\seealso{
+  \code{\link{jaggernaut}}
+}
+

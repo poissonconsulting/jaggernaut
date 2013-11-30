@@ -19,6 +19,7 @@
 #' (after it has been converted to list form)
 #' @param gen_inits a function to generate initial values for an MCMC chain
 #' (it is passed the (modified) data in list form)
+#' @param extract_data a function to manipulate the generated dummy data.
 #' @details 
 #' The \code{jags_data_model} function defines a JAGS data model that can then be passed to the 
 #' \code{jags_simulation} function together with a data frame of values to perform a simulation.

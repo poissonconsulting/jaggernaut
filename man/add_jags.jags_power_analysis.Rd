@@ -1,0 +1,34 @@
+\name{add_jags.jags_power_analysis}
+\alias{add_jags.jags_power_analysis}
+\title{Add JAGS power analysis objects}
+\usage{
+  \method{add_jags}{jags_power_analysis} (object, ...,
+    mode = "current")
+}
+\arguments{
+  \item{object}{a \code{jags_power_analysis} object.}
+
+  \item{...}{additional \code{jags_power_analysis} objects
+  to add to \code{object}.}
+
+  \item{mode}{a character element specifying the mode to
+  use if generating replicates. See \code{opts_jagr} for
+  further information}
+}
+\value{
+  a \code{jags_power_analysis} object
+}
+\description{
+  Adds two or more \code{jags_power_analysis} objects with
+  the same \code{jags_data_model} object. If the objects
+  have different numbers of replicates then extra
+  replicates are generated until all the objects have the
+  same number.
+}
+\seealso{
+  \code{\link{add_jags}},
+  \code{\link{jags_power_analysis}},
+  \code{\link{jags_data_model}}, \code{\link{opts_jagr}}
+  and \code{\link{jaggernaut}}.
+}
+

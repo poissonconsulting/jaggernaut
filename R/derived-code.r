@@ -1,40 +1,60 @@
 
+#' @title Get derived code from a JAGS object
+#'
+#' @description
+#' Gets the derived_code component of a JAGS object.  
+#' 
+#' @param object a JAGS object.
+#' @param ... further arguments passed to or from other methods.
+#' @return The derived_code component of object.
+#' @seealso \code{\link{jaggernaut}}  
 #' @export
-derived_code <- function (object) {
+derived_code <- function (object, ...) {
   UseMethod("derived_code", object)
 }
 
+#' @title Set derived code in a JAGS object
+#'
+#' @description
+#' Sets the derived_code component of a JAGS object.  
+#' 
+#' @usage
+#' derived_code(object) <- value
+#' @param object a JAGS object.
+#' @param value a character element or NULL.
+#' @return The replacement method changes the derived_code component of the object.
+#' @seealso \code{\link{derived_code}} and \code{\link{jaggernaut}}  
 #' @export
 "derived_code<-" <- function (object, value) {
   UseMethod("derived_code<-", object)
 }
 
-derived_code.jagr_analysis_model <- function (object) {
+derived_code.jagr_analysis_model <- function (object, ...) {
   return (object$derived_code)
 }
 
-derived_code_jagr_analysis_model <- function (object) {
+derived_code_jagr_analysis_model <- function (object, ...) {
   stopifnot(is.jagr_analysis_model(object))
-  return (derived_code(object))
+  return (derived_code(object, ...))
 }
 
 #' @method derived_code jags_model
 #' @export
-derived_code.jags_model <- function (object) {
+derived_code.jags_model <- function (object, ...) {
   
   if(is_one_model(object))
-    return (derived_code(model(object)))
+    return (derived_code(model(object), ...))
   
   models <- models(object)
-  models <- lapply(models, derived_code_jagr_analysis_model)
+  models <- lapply(models, derived_code_jagr_analysis_model, ...)
   models <- name_object(models, "Model")
   return (models) 
 }
-
+  
 #' @method derived_code jags_analysis
 #' @export
-derived_code.jags_analysis <- function (object) {
-  return (derived_code(as.jags_model(object)))
+derived_code.jags_analysis <- function (object, ...) {
+  return (derived_code(as.jags_model(object), ...))
 }  
 
 "derived_code<-.jagr_analysis_model" <- function (object, value) {

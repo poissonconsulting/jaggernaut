@@ -1,0 +1,19 @@
+\name{model_code<-}
+\alias{model_code<-}
+\title{Set model code}
+\usage{
+  model_code(object) <- value
+}
+\arguments{
+  \item{object}{a JAGS object.}
+
+  \item{value}{a character element defining the model code
+  in the JAGS dialect of the BUGS language.}
+}
+\description{
+  Set the model_code component of a JAGS object.
+}
+\seealso{
+  \code{\link{jaggernaut}}
+}
+

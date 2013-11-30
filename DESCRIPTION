@@ -1,22 +1,25 @@
 Package: jaggernaut
 Type: Package
 Title: A package to facilitate Bayesian analyses using JAGS.
-Version: 1.1.5
-Date: 2013-11-24
+Version: 1.2.0
+Date: 2013-11-30
 Author: Joe Thorley <joe@poissonconsulting.ca>
 Maintainer: Joe Thorley <joe@poissonconsulting.ca>
 URL: https://github.com/joethorley/jaggernaut
 Description: jaggernaut is an R package to facilitate Bayesian analyses using
-    JAGS (Just Another Gibbs Sampler). Key features include reasonable default
-    values; specification of the analysis data set in the form of a data frame;
-    ability to automatically increase the length of the MCMC chains; parallel
-    processing and the ability to extract derived values from previously
-    converged analyses.
+    JAGS (Just Another Gibbs Sampler). Key features include the conversion of a
+    data frame into a suitable format for input into JAGS; the option to
+    automatically update a model (increase the length of the MCMC chains) until
+    convergence is achieved; the option to run MCMC chains on separate
+    processes; the ability to extract derived parameters from an existing model
+    using BUGS code without additional MCMC sampling; the ability to use BUGS
+    code to generate dummy data sets and perform power analyses.
 Depends:
     R (>= 3.0.2)
 Imports:
     abind,
     reshape2,
+    foreach,
     plyr,
     coda,
     rjags
@@ -127,5 +130,7 @@ Collate:
     'update.r'
     'check-modules.r'
     'ntries.r'
-    'jagr-data-frame.r'
-    'jagr-data-list.r'
+    'jags-data-frame.r'
+    'jags-data-list.r'
+    'jags-data.r'
+    'jags-sample.r'

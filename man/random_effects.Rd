@@ -1,0 +1,22 @@
+\name{random_effects}
+\alias{random_effects}
+\title{Get random effects}
+\usage{
+  random_effects(object, ...)
+}
+\arguments{
+  \item{object}{a JAGS object.}
+
+  \item{...}{further arguments passed to or from other
+  methods.}
+}
+\value{
+  The random_effects component of a JAGS object.
+}
+\description{
+  Get the random_effects component of a JAGS object.
+}
+\seealso{
+  \code{\link{jaggernaut}}
+}
+

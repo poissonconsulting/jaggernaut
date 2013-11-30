@@ -7,6 +7,9 @@
 #' @param object a JAGS object.
 #' @param ... additional JAGS objects to add to object.
 #' @return a JAGS object of the original class
+#' @seealso \code{\link{add_jags.jags_model}}, 
+#' \code{\link{add_jags.jags_simulation}} and 
+#' \code{\link{add_jags.jags_power_analysis}}.
 #' @export
 add_jags <- function (object, ...) {
   UseMethod("add_jags", object)
@@ -134,6 +137,16 @@ add_jags_jagr_chains <- function (object, ...) {
   return (add_jags(object, ...))
 }
 
+#' @title Add JAGS model objects
+#'
+#' @description
+#' Adds two or more \code{jags_model} objects.  
+#' 
+#' @param object a \code{jags_model} object.
+#' @param ... additional \code{jags_model} objects to add to \code{object}.
+#' @return a \code{jags_model} object with multiple models
+#' @seealso \code{\link{add_jags}}, \code{\link{jags_model}}
+#' and \code{\link{jaggernaut}}.
 #' @method add_jags jags_model
 #' @export 
 add_jags.jags_model <- function (object, ...) {
@@ -155,7 +168,21 @@ add_jags.jags_model <- function (object, ...) {
   }
   return (object)
 }
-    
+
+#' @title Add JAGS simulation objects
+#'
+#' @description
+#' Adds two or more \code{jags_simulation} objects. If the objects have
+#' different numbers of replicates then extra replicates are generated until all the
+#' objects have the same number.   
+#' 
+#' @param object a \code{jags_simulation} object.
+#' @param ... additional \code{jags_simulation} objects to add to \code{object}.
+#' @param mode a character element specifying the mode to use if generating 
+#' replicates. See \code{opts_jagr} for further information 
+#' @return a \code{jags_simulation} object
+#' @seealso \code{\link{add_jags}}, \code{\link{jags_simulation}},
+#' \code{\link{opts_jagr}} and \code{\link{jaggernaut}}.
 #' @method add_jags jags_simulation
 #' @export 
 add_jags.jags_simulation <- function (object, ..., mode = "current") {
@@ -197,6 +224,22 @@ add_jags.jags_simulation <- function (object, ..., mode = "current") {
   return (object)
 }
 
+#' @title Add JAGS power analysis objects
+#'
+#' @description
+#' Adds two or more \code{jags_power_analysis} objects with the same 
+#' \code{jags_data_model} object. If the objects have
+#' different numbers of replicates then extra replicates are generated until all the
+#' objects have the same number.   
+#' 
+#' @param object a \code{jags_power_analysis} object.
+#' @param ... additional \code{jags_power_analysis} objects to add to \code{object}.
+#' @param mode a character element specifying the mode to use if generating 
+#' replicates. See \code{opts_jagr} for further information 
+#' @return a \code{jags_power_analysis} object
+#' @seealso \code{\link{add_jags}}, \code{\link{jags_power_analysis}},
+#' \code{\link{jags_data_model}},
+#' \code{\link{opts_jagr}} and \code{\link{jaggernaut}}.
 #' @method add_jags jags_power_analysis
 #' @export 
 add_jags.jags_power_analysis <- function (object, ..., mode = "current") {

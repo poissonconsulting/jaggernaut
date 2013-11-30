@@ -1,5 +1,4 @@
 
-#' @export
 init_values <- function (object, ...) {
   UseMethod("init_values", object)
 }

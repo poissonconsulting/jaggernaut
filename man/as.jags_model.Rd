@@ -1,0 +1,23 @@
+\name{as.jags_model}
+\alias{as.jags_model}
+\title{Coerce to a JAGS model object}
+\usage{
+  as.jags_model(x, ...)
+}
+\arguments{
+  \item{x}{object to coerce.}
+
+  \item{...}{further arguments passed to or from other
+  methods.}
+}
+\value{
+  If successful an object of class \code{jags_model}
+  otherwise NA.
+}
+\description{
+  Coerces to an object of class \code{jags_model}.
+}
+\seealso{
+  \code{\link{jags_model}} and \code{\link{jaggernaut}}.
+}
+

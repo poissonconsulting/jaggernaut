@@ -1,5 +1,17 @@
 
-jags_data_list <- function (data) {
+#' @title JAGS data list
+#'
+#' @description 
+#' Creates an object of class \code{jags_data_list}.
+#' 
+#' @param x a list from which to generate a \code{jags_data_list} object.
+#' @return A \code{jags_data_list} object.
+#' @seealso \code{\link{jags_data}},
+#' \code{\link{jags_data_frame}} and \code{\link{jaggernaut}}.
+#' @export
+jags_data_list <- function (x) {
+  
+  data <- x
   
   if (!is.list(data))
     stop("data must be a list")

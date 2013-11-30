@@ -1,40 +1,59 @@
 
+#' @title Get modify data derived
+#'
+#' @description
+#' Get the modify_data_derived component of a JAGS object.  
+#' 
+#' @param object a JAGS object.
+#' @param ... further arguments passed to or from other methods.
+#' @return The modify_data_derived component of a JAGS object.
+#' @seealso \code{\link{jaggernaut}}  
 #' @export
-modify_data_derived <- function (object) {
+modify_data_derived <- function (object, ...) {
   UseMethod("modify_data_derived", object)
 }
 
+#' @title Set modify data derived
+#'
+#' @description
+#' Set the modify_data_derived component of a JAGS object.  
+#' 
+#' @usage
+#' modify_data_derived(object) <- value
+#' @param object a JAGS object.
+#' @param value a function or NULL to replace the modify data derived fnction.
+#' @seealso \code{\link{jaggernaut}}  
 #' @export
 "modify_data_derived<-" <- function (object, value) {
   UseMethod("modify_data_derived<-", object)
 }
 
-modify_data_derived.jagr_analysis_model <- function (object) {
+modify_data_derived.jagr_analysis_model <- function (object, ...) {
   return (object$modify_data_derived)
 }
 
-modify_data_derived_jagr_analysis_model <- function (object) {
+modify_data_derived_jagr_analysis_model <- function (object, ...) {
   stopifnot(is.jagr_analysis_model(object))
-  return (modify_data_derived(object))
+  return (modify_data_derived(object, ...))
 }
 
 #' @method modify_data_derived jags_model
 #' @export
-modify_data_derived.jags_model <- function (object) {
+modify_data_derived.jags_model <- function (object, ...) {
   
   if(is_one_model(object))
-    return (modify_data_derived(model(object)))
+    return (modify_data_derived(model(object), ...))
   
   models <- models(object)
-  models <- lapply(models, modify_data_derived_jagr_analysis_model)
+  models <- lapply(models, modify_data_derived_jagr_analysis_model, ...)
   models <- name_object(models, "Model")
   return (models) 
 }
 
 #' @method modify_data_derived jags_analysis
 #' @export
-modify_data_derived.jags_analysis <- function (object) {
-  return (modify_data_derived(as.jags_model(object)))
+modify_data_derived.jags_analysis <- function (object, ...) {
+  return (modify_data_derived(as.jags_model(object), ...))
 }  
 
 "modify_data_derived<-.jagr_analysis_model" <- function (object, value) {

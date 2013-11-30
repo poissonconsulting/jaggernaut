@@ -22,6 +22,9 @@
   \item{gen_inits}{a function to generate initial values
   for an MCMC chain (it is passed the (modified) data in
   list form)}
+
+  \item{extract_data}{a function to manipulate the
+  generated dummy data.}
 }
 \value{
   a \code{jags_data_model} object

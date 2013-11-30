@@ -1,34 +1,52 @@
 
+#' @title Get model code
+#'
+#' @description
+#' Get the model_code component of a JAGS object.  
+#' 
+#' @param object a JAGS object.
+#' @param ... further arguments passed to or from other methods.
+#' @return The model_code component of a JAGS object.
+#' @seealso \code{\link{jaggernaut}}  
 #' @export
-model_code <- function (object) {
+model_code <- function (object, ...) {
   UseMethod("model_code", object)
 }
 
+#' @title Set model code
+#'
+#' @description
+#' Set the model_code component of a JAGS object.  
+#' 
+#' @usage
+#' model_code(object) <- value
+#' @param object a JAGS object.
+#' @param value a character element defining the model code in the JAGS dialect
+#' of the BUGS language.
+#' @seealso \code{\link{jaggernaut}}  
 #' @export
 "model_code<-" <- function (object, value) {
   UseMethod("model_code<-", object)
 }
 
-#' @method model_code jagr_model
-#' @export
-model_code.jagr_model <- function (object) {
+model_code.jagr_model <- function (object, ...) {
   return (object$model_code)
 }
 
-model_code_jagr_model <- function (object) {
+model_code_jagr_model <- function (object, ...) {
   stopifnot(is.jagr_model(object))
-  return (model_code(object))
+  return (model_code(object, ...))
 }
 
 #' @method model_code jags_model
 #' @export
-model_code.jags_model <- function (object) {
+model_code.jags_model <- function (object, ...) {
   
   if(is_one_model(object))
-    return (model_code(model(object)))
+    return (model_code(model(object), ...))
   
   models <- models(object)
-  models <- lapply(models, model_code_jagr_model)
+  models <- lapply(models, model_code_jagr_model, ...)
   models <- name_object(models, "Model")
   return (models)  
 }
@@ -44,12 +62,10 @@ model_code_jagr_analysis <- function (object) {
 
 #' @method model_code jags_analysis
 #' @export
-model_code.jags_analysis <- function (object) {
-  return (model_code(as.jags_model(object)))
+model_code.jags_analysis <- function (object, ...) {
+  return (model_code(as.jags_model(object), ...))
 }
 
-#' @method model_code<- jagr_model
-#' @export
 "model_code<-.jagr_model" <- function (object, value) {
   
   if (is.character (value)) {
@@ -88,7 +104,6 @@ model_code.jags_analysis <- function (object) {
   return (object)
 }
 
-#' @method model_code<- jagr_analysis
-#' @export
-"model_code<-.jagr_analysis" <- function (object, value)
-  stop("cannot replace model code in a jagr_analysis object")
+"model_code<-.jagr_analysis" <- function (object, value) {
+  stop()
+}

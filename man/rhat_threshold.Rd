@@ -1,0 +1,22 @@
+\name{rhat_threshold}
+\alias{rhat_threshold}
+\title{R-hat threshold}
+\usage{
+  rhat_threshold(object, ...)
+}
+\arguments{
+  \item{object}{a JAGS object.}
+
+  \item{...}{further arguments passed to or from other
+  methods.}
+}
+\value{
+  The R-hat threshold.
+}
+\description{
+  Gets the R-hat threshold of a JAGS object.
+}
+\seealso{
+  \code{\link{jaggernaut}}
+}
+

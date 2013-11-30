@@ -1,14 +1,44 @@
 
+#' @title Coerce to type JAGS data
+#'
+#' @description
+#' Coerces to an object of type \code{jags_data}.
+#' 
+#' @param x object to coerce.
+#' @param ... further arguments passed to or from other methods.
+#' @return If successful an object of class \code{jags_data} otherwise NA.
+#' @seealso \code{\link{jags_data}} and 
+#' \code{\link{jaggernaut}}.
 #' @export
 as.jags_data<- function (x, ...) {
   UseMethod("as.jags_data", x)
 }
 
+#' @title Coerce to a JAGS data list object
+#'
+#' @description
+#' Coerces to an object of class \code{jags_data_list}.
+#' 
+#' @param x object to coerce.
+#' @param ... further arguments passed to or from other methods.
+#' @return If successful an object of class \code{jags_data_list} otherwise NA.
+#' @seealso \code{\link{jags_data_list}} and 
+#' \code{\link{jaggernaut}}.
 #' @export
 as.jags_data_list<- function (x, ...) {
   UseMethod("as.jags_data_list", x)
 }
 
+#' @title Coerce to a JAGS data frame object
+#'
+#' @description
+#' Coerces to an object of class \code{jags_data_frame}.
+#' 
+#' @param x object to coerce.
+#' @param ... further arguments passed to or from other methods.
+#' @return If successful an object of class \code{jags_data_frame} otherwise NA.
+#' @seealso \code{\link{jags_data_frame}} and 
+#' \code{\link{jaggernaut}}.
 #' @export
 as.jags_data_frame<- function (x, ...) {
   UseMethod("as.jags_data_frame", x)
@@ -22,6 +52,16 @@ as.jagr_model<- function (x, ...) {
   UseMethod("as.jagr_model", x)
 }
 
+#' @title Coerce to a JAGS data model object
+#'
+#' @description
+#' Coerces to an object of class \code{jags_data_model}.
+#' 
+#' @param x object to coerce.
+#' @param ... further arguments passed to or from other methods.
+#' @return If successful an object of class \code{jags_data_model} otherwise NA.
+#' @seealso \code{\link{jags_data_model}} and 
+#' \code{\link{jaggernaut}}.
 #' @export
 as.jags_data_model<- function (x, ...) {
   UseMethod("as.jags_data_model", x)
@@ -31,6 +71,16 @@ as.jagr_analysis_model<- function (x, ...) {
   UseMethod("as.jagr_analysis_model", x)
 }
 
+#' @title Coerce to a JAGS model object
+#'
+#' @description
+#' Coerces to an object of class \code{jags_model}.
+#' 
+#' @param x object to coerce.
+#' @param ... further arguments passed to or from other methods.
+#' @return If successful an object of class \code{jags_model} otherwise NA.
+#' @seealso \code{\link{jags_model}} and 
+#' \code{\link{jaggernaut}}.
 #' @export
 as.jags_model <- function (x, ...) {
   UseMethod("as.jags_model", x)
@@ -40,6 +90,16 @@ as.jagr_power_analysis <- function (x, ...) {
   UseMethod("as.jagr_power_analysis", x)
 }
 
+#' @title Coerce to a JAGS simulation object
+#'
+#' @description
+#' Coerces to an object of class \code{jags_simulation}.
+#' 
+#' @param x object to coerce.
+#' @param ... further arguments passed to or from other methods.
+#' @return If successful an object of class \code{jags_simulation} otherwise NA.
+#' @seealso \code{\link{jags_simulation}} and 
+#' \code{\link{jaggernaut}}.
 #' @export
 as.jags_simulation <- function (x, ...) {
   UseMethod("as.jags_simulation", x)
@@ -104,10 +164,14 @@ as.mcmc.list.jagr_chains <- function (x, ...) {
   return (coda::mcmc.list(ans))
 }
 
+#' @method as.jags_data list
+#' @export
 as.jags_data.list <- function (x, ...) {
   return (jags_data_list(x))
 }
 
+#' @method as.jags_data data.frame
+#' @export
 as.jags_data.data.frame <- function (x, ...) {
   return (jags_data_frame(x))
 }
@@ -120,18 +184,26 @@ as.jags_data.jags_data_frame <- function (x, ...) {
   return (x)
 }
 
+#' @method as.jags_data_list list
+#' @export
 as.jags_data_list.list <- function (x, ...) {
   return (jags_data_list(x))
 }
 
+#' @method as.jags_data_list data.frame
+#' @export
 as.jags_data_list.data.frame <- function (x, ...) {
   return (jags_data_list(x))
 }
 
+#' @method as.jags_data_frame list
+#' @export
 as.jags_data_frame.list <- function (x, ...) {
   return (jags_data_frame(as.data.frame(x)))
 }
 
+#' @method as.jags_data_frame data.frame
+#' @export
 as.jags_data_frame.data.frame <- function (x, ...) {
   return (jags_data_frame(x))
 }
@@ -165,6 +237,8 @@ as.jagr_model.jagr_analysis <- function (x, ...) {
   return (as.jagr_model(x, ...))
 }
 
+#' @method as.jags_data_model jags_simulation
+#' @export
 as.jags_data_model.jags_simulation <- function (x, ...) {
   return (data_model(x))
 }
@@ -229,6 +303,8 @@ as.jagr_power_analysis.jagr_analysis <- function (x, ...) {
   return (x)
 }
 
+#' @method as.jags_simulation jags_power_analysis
+#' @export
 as.jags_simulation.jags_power_analysis <- function (x, ...) {
   
   x$analysis_model <- NULL

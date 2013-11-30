@@ -33,6 +33,10 @@
   \item{random_effects}{a named list of parameters to be
   treated as random effects with the related data as
   values}
+
+  \item{modify_data_derived}{a function to modify the
+  derived data set (after it has been converted to list
+  form)}
 }
 \value{
   a \code{jags_model} object
