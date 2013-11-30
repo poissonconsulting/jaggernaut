@@ -1,5 +1,5 @@
 
-jagr_data_list <- function (data) {
+jags_data_list <- function (data) {
   
   if (!is.list(data))
     stop("data must be a list")
@@ -25,7 +25,7 @@ jagr_data_list <- function (data) {
          POSIXt, matrix or array")
   
   object <- data
-  class(object) <- c("jagr_data_list")
+  class(object) <- c("jags_data_list")
   ntries(object) <- 1
   
   return (object)

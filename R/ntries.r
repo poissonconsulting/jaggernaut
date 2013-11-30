@@ -8,14 +8,14 @@ ntries <- function (object, ...) {
   UseMethod("ntries<-", object)
 }
 
-#' @method ntries jagr_data_list
+#' @method ntries jags_data_list
 #' @export 
-ntries.jagr_data_list <- function (object, ...) {
+ntries.jags_data_list <- function (object, ...) {
   return (attr(object, "ntries"))
 }
 
-ntries_jagr_data_list <- function (object, ...) {
-  stopifnot(is.jagr_data_list(object))
+ntries_jags_data_list <- function (object, ...) {
+  stopifnot(is.jags_data_list(object))
   return (return (ntries(object, ...)))
 }
 
@@ -23,13 +23,13 @@ ntries_jagr_data_list <- function (object, ...) {
 #' @export
 ntries.jags_simulation <- function (object, combine = FALSE, ...) {
   
-  lapply_ntries_jagr_data_list <- function (object) {    
-    return (lapply(object, ntries_jagr_data_list))
+  lapply_ntries_jags_data_list <- function (object) {    
+    return (lapply(object, ntries_jags_data_list))
   }
   
   data <- data_jags(object)
   
-  ntries <- lapply(data, lapply_ntries_jagr_data_list)
+  ntries <- lapply(data, lapply_ntries_jags_data_list)
   
   ntries <- matrixise(ntries)
   ntries <- name_object(t(ntries),c("replicate","value"))
@@ -39,7 +39,7 @@ ntries.jags_simulation <- function (object, combine = FALSE, ...) {
   return (apply(ntries, MARGIN = 2, FUN = mean))
 }
 
-"ntries<-.jagr_data_list" <- function (object, value, ...) {
+"ntries<-.jags_data_list" <- function (object, value, ...) {
   stopifnot(is.numeric(value) && length(value) == 1)
   
   value <- as.integer(value)
