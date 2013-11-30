@@ -13,7 +13,7 @@ data_jags <- function (object, ...) {
   UseMethod("data_jags", object)
 }
 
-"data_jags<-" <- function (object, ...) {
+"data_jags<-" <- function (object, value) {
   UseMethod("data_jags<-", object)
 }
 
@@ -96,14 +96,14 @@ data_jags.jags_simulation <- function (object, ...) {
   return (data)
 }
 
-"data_jags<-.jags_analysis" <- function (object, value, ...) {
+"data_jags<-.jags_analysis" <- function (object, value) {
 
   object$data <- as.jags_data(value)
   
   return (object)
 }
 
-"data_jags<-.jags_simulation" <- function (object, value, ...) {  
+"data_jags<-.jags_simulation" <- function (object, value) {  
   if (!is.list(value) || !is.list(value)[[1]])
       stop("value must be a list of lists")
     

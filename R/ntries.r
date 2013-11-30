@@ -4,7 +4,7 @@ ntries <- function (object, ...) {
   UseMethod("ntries", object)
 }
 
-"ntries<-" <- function (object, value, ...) {
+"ntries<-" <- function (object, value) {
   UseMethod("ntries<-", object)
 }
 
@@ -39,7 +39,7 @@ ntries.jags_simulation <- function (object, combine = FALSE, ...) {
   return (apply(ntries, MARGIN = 2, FUN = mean))
 }
 
-"ntries<-.jags_data_list" <- function (object, value, ...) {
+"ntries<-.jags_data_list" <- function (object, value) {
   stopifnot(is.numeric(value) && length(value) == 1)
   
   value <- as.integer(value)

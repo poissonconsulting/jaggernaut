@@ -1,43 +1,43 @@
 
 #' @export
-modify_data_derived <- function (object, ...) {
+modify_data_derived <- function (object) {
   UseMethod("modify_data_derived", object)
 }
 
 #' @export
-"modify_data_derived<-" <- function (object, value, ...) {
+"modify_data_derived<-" <- function (object, value) {
   UseMethod("modify_data_derived<-", object)
 }
 
-modify_data_derived.jagr_analysis_model <- function (object, ...) {
+modify_data_derived.jagr_analysis_model <- function (object) {
   return (object$modify_data_derived)
 }
 
-modify_data_derived_jagr_analysis_model <- function (object, ...) {
+modify_data_derived_jagr_analysis_model <- function (object) {
   stopifnot(is.jagr_analysis_model(object))
-  return (modify_data_derived(object, ...))
+  return (modify_data_derived(object))
 }
 
 #' @method modify_data_derived jags_model
 #' @export
-modify_data_derived.jags_model <- function (object, ...) {
+modify_data_derived.jags_model <- function (object) {
   
   if(is_one_model(object))
-    return (modify_data_derived(model(object),...))
+    return (modify_data_derived(model(object)))
   
   models <- models(object)
-  models <- lapply(models, modify_data_derived_jagr_analysis_model, ...)
+  models <- lapply(models, modify_data_derived_jagr_analysis_model)
   models <- name_object(models, "Model")
   return (models) 
 }
 
 #' @method modify_data_derived jags_analysis
 #' @export
-modify_data_derived.jags_analysis <- function (object, ...) {
-  return (modify_data_derived(as.jags_model(object), ...))
+modify_data_derived.jags_analysis <- function (object) {
+  return (modify_data_derived(as.jags_model(object)))
 }  
 
-"modify_data_derived<-.jagr_analysis_model" <- function (object, value, ...) {
+"modify_data_derived<-.jagr_analysis_model" <- function (object, value) {
   
   if(!is.null(value)) {
     if (!is.function(value)) {
@@ -56,7 +56,7 @@ modify_data_derived.jags_analysis <- function (object, ...) {
 
 #' @method modify_data_derived<- jags_model
 #' @export
-"modify_data_derived<-.jags_model" <- function (object, value, ...) {
+"modify_data_derived<-.jags_model" <- function (object, value) {
   
   if(is.list(value) && length(value) != nmodels(object))
     stop("if value is a list it must be the same length as the number of models in object")
@@ -79,7 +79,7 @@ modify_data_derived.jags_analysis <- function (object, ...) {
 
 #' @method modify_data_derived<- jags_analysis
 #' @export
-"modify_data_derived<-.jags_analysis" <- function (object, value, ...) {
+"modify_data_derived<-.jags_analysis" <- function (object, value) {
   
   if (!is.null (value)) {
     if(!is.character(value)) {

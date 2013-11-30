@@ -4,7 +4,7 @@ values <- function (object, ...) {
   UseMethod("values", object)
 }
 
-"values<-" <- function (object, ...) {
+"values<-" <- function (object, value) {
   UseMethod("values<-", object)
 }
 
@@ -16,7 +16,7 @@ values.jags_simulation <- function (object, ...) {
   return (values)
 }
 
-"values<-.jags_simulation" <- function (object, value, ...) {
+"values<-.jags_simulation" <- function (object, value) {
   
   if(!is.data.frame(value))
     stop ("value must be a data frame")

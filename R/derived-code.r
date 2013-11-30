@@ -1,43 +1,43 @@
 
 #' @export
-derived_code <- function (object, ...) {
+derived_code <- function (object) {
   UseMethod("derived_code", object)
 }
 
 #' @export
-"derived_code<-" <- function (object, value, ...) {
+"derived_code<-" <- function (object, value) {
   UseMethod("derived_code<-", object)
 }
 
-derived_code.jagr_analysis_model <- function (object, ...) {
+derived_code.jagr_analysis_model <- function (object) {
   return (object$derived_code)
 }
 
-derived_code_jagr_analysis_model <- function (object, ...) {
+derived_code_jagr_analysis_model <- function (object) {
   stopifnot(is.jagr_analysis_model(object))
-  return (derived_code(object, ...))
+  return (derived_code(object))
 }
 
 #' @method derived_code jags_model
 #' @export
-derived_code.jags_model <- function (object, ...) {
+derived_code.jags_model <- function (object) {
   
   if(is_one_model(object))
-    return (derived_code(model(object),...))
+    return (derived_code(model(object)))
   
   models <- models(object)
-  models <- lapply(models, derived_code_jagr_analysis_model, ...)
+  models <- lapply(models, derived_code_jagr_analysis_model)
   models <- name_object(models, "Model")
   return (models) 
 }
 
 #' @method derived_code jags_analysis
 #' @export
-derived_code.jags_analysis <- function (object, ...) {
-  return (derived_code(as.jags_model(object), ...))
+derived_code.jags_analysis <- function (object) {
+  return (derived_code(as.jags_model(object)))
 }  
 
-"derived_code<-.jagr_analysis_model" <- function (object, value, ...) {
+"derived_code<-.jagr_analysis_model" <- function (object, value) {
   
   if (!is.null (value)) {
     if(!is.character(value)) {
@@ -55,7 +55,7 @@ derived_code.jags_analysis <- function (object, ...) {
 
 #' @method derived_code<- jags_model
 #' @export
-"derived_code<-.jags_model" <- function (object, value, ...) {
+"derived_code<-.jags_model" <- function (object, value) {
   
   if(is.list(value) && length(value) != nmodels(object))
     stop("if value is a list it must be the same length as the number of models in object")
@@ -78,7 +78,7 @@ derived_code.jags_analysis <- function (object, ...) {
 
 #' @method derived_code<- jags_analysis
 #' @export
-"derived_code<-.jags_analysis" <- function (object, value, ...) {
+"derived_code<-.jags_analysis" <- function (object, value) {
   
   if (!is.null (value)) {
     if(!is.character(value)) {

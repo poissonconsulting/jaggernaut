@@ -1,56 +1,56 @@
 
 #' @export
-select <- function (object, ...) {
+select <- function (object) {
   UseMethod("select", object)
 }
 
 #' @export
-"select<-" <- function (object, value, ...) {
+"select<-" <- function (object, value) {
   UseMethod("select<-", object)
 }
 
 #' @method select jagr_model
 #' @export
-select.jagr_model <- function (object, ...) {
+select.jagr_model <- function (object) {
   return (object$select)
 }
 
-select_jagr_model <- function (object, ...) {
+select_jagr_model <- function (object) {
   stopifnot(is.jagr_model(object))
-  return (select(object, ...))
+  return (select(object))
 }
 
 #' @method select jags_model
 #' @export
-select.jags_model <- function (object, ...) {
+select.jags_model <- function (object) {
   
   if(is_one_model(object))
-    return (select(model(object),...))
+    return (select(model(object)))
   
   models <- models(object)
-  models <- lapply(models, select_jagr_model, ...)
+  models <- lapply(models, select_jagr_model)
   models <- name_object(models, "Model")
   return (models)   
 }
 
-select.jagr_analysis <- function (object, ...) {
-  return (select(as.jagr_model(object, ...)))
+select.jagr_analysis <- function (object) {
+  return (select(as.jagr_model(object)))
 }
 
-select_jagr_analysis <- function (object, ...) {
+select_jagr_analysis <- function (object) {
   stopifnot(is.jagr_analysis(object))
-  return (select(object, ...))
+  return (select(object))
 }
 
 #' @method select jags_analysis
 #' @export
-select.jags_analysis <- function (object, ...) {
-  return (select(as.jags_model(object), ...))
+select.jags_analysis <- function (object) {
+  return (select(as.jags_model(object)))
 }
 
 #' @method select<- jagr_model
 #' @export
-"select<-.jagr_model" <- function (object, value, ...) {
+"select<-.jagr_model" <- function (object, value) {
   
   if (!is.null(value)) {
     if (!is.character(value)) {
@@ -72,7 +72,7 @@ select.jags_analysis <- function (object, ...) {
 
 #' @method select<- jags_model
 #' @export
-"select<-.jags_model" <- function (object, value, ...) {
+"select<-.jags_model" <- function (object, value) {
   
   if(is.list(value) && length(value) != nmodels(object))
     stop("if value is a list it must be the same length as the number of models in object")
@@ -95,6 +95,6 @@ select.jags_analysis <- function (object, ...) {
 
 #' @method select<- jagr_analysis
 #' @export
-"select<-.jagr_analysis" <- function (object, value, ...)
+"select<-.jagr_analysis" <- function (object, value)
   stop("cannot replace select in a jagr_analysis object")
 

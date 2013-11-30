@@ -5,7 +5,7 @@ model <- function (object, ...) {
 }
 
 #' @export
-"model<-" <- function (object, ...) {
+"model<-" <- function (object, value) {
   UseMethod("model<-", object)
 }
 
@@ -20,7 +20,7 @@ model.jags_power_analysis <- function (object, ...) {
   return (object$model)
 }
 
-"model<-.jags_power_analysis" <- function (object, value, ...) {
+"model<-.jags_power_analysis" <- function (object, value) {
   stopifnot(is.jags_model(value))
   object$model <- value
   return (object)
