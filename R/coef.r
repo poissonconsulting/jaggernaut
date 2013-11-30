@@ -203,6 +203,8 @@ coef.jags_power_analysis <- function (object, parm = "fixed", combine = TRUE, co
   coef$value <- paste0("value",rep(1:nvalues(object), each = nrow(coef)/nvalues(object)))
   coef$.id <- NULL
   
+  value <- parameter <- statistic <- replicate <- NULL
+  
   coef <- reshape2::dcast(coef,value + parameter + statistic ~ replicate,
                           value.var = "number")
   
@@ -295,7 +297,7 @@ coef.jags_power_analysis <- function (object, parm = "fixed", combine = TRUE, co
 #' the derived parameter of interest
 #' @seealso \code{\link{predict.jags_analysis}}
 calc_estimates_jags_sample <- function (object, level = "current") {
-  if (!inherits(object,"jags_sample"))
+  if (!is.jags_sample(object))
     stop("object must be class jags_sample")
     
   if (!is.numeric(level)) {

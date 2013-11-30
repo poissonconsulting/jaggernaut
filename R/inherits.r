@@ -66,3 +66,7 @@ is.jags_simulation <- function (object) {
 is.jags_power_analysis <- function (object) {
   return (inherits(object, "jags_power_analysis"))
 }
+
+is.jags_sample <- function (object) {
+  return (inherits(object, "jags_sample"))
+}

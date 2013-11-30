@@ -50,8 +50,8 @@ update.jagr_chains <- function (object, niters, ...) {
     } 
   } else {
     chains <- update_jags (jags = jags[[1]], monitor = monitor, 
-                           n.sim = n.sim, 
-                           n.thin = n.thin, quiet = quiet, 
+                           n.sim = niters, 
+                           n.thin = n.thin, 
                            recompile = FALSE)
   }
   random(chains) <- random(object)
@@ -145,7 +145,7 @@ update.jags_simulation <- function (object, nreps, values = NULL, mode = "curren
     if(!quiet)
       cat("\nUpdating Values...\n")
     
-    simulation <- jags_simulation(data_model, values, nrep = nreps(object))
+    simulation <- jags_simulation(data_model, values, nreps = nreps(object))
 
     if(!quiet)
       cat("\nValues Updated\n")

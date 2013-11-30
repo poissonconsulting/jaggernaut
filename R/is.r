@@ -11,6 +11,9 @@ is_length <- function (x)
 is_character <- function (x)
   is.character(x)
 
+is_numeric <- function (x)
+  is.numeric(x)
+
 is_no_missing <- function (x)
   !any(is.na(x))
 

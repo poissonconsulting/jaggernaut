@@ -311,7 +311,7 @@ assign_opts_jagr <- function (opts) {
   if (!(opts$nsims >= 100 &&  opts$nsims <= 2000)) {
     stop("option nsims must lie between 100 and 2000")
   } 
-  if (opts$parallel && getDoParWorkers() == 1) {
+  if (opts$parallel && foreach::getDoParWorkers() == 1) {
     stop("option parallel can only be TRUE when there is a registered doPar backend")
   } 
   if (!(opts$rhat >= 1 &&  opts$rhat <= 2)) {

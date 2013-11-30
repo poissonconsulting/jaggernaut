@@ -50,7 +50,7 @@ data_jags.jags_data_model <- function (object, values, ...) {
   
   if (is.function(gen_inits(object))) {
     inits <- list()
-    inits[[i]] <- gen_inits(object)(data)
+    inits[[1]] <- gen_inits(object)(data)
   } else
     inits <- NULL
   
