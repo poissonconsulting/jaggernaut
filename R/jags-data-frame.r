@@ -1,3 +1,4 @@
+
 #' @title JAGS data frame
 #'
 #' @description 
@@ -7,19 +8,18 @@
 #' @return A \code{jags_data_frame} object.
 #' @seealso \code{\link{jags_data}},
 #' \code{\link{jags_data_list}} and \code{\link{jaggernaut}}.
-#' @export
 jags_data_frame <- function (x) {
   
-  data <- x
+  x <- as.data.frame(x)
   
-  if (!is.data.frame(data))
-    stop("data must be a data.frame")
+  if(!is.data.frame(x) || !is_data_list(as.list(x))) {
+    stop("x must be a data.frame with all variables of class integer, numeric, 
+          factor, Date or POSIXt")
+  }
   
-  object <- data
+  object <- x
   class(object) <- c("jags_data_frame", "data.frame", "jags_data_list")
   ntries(object) <- 1
-  
-  jags_data_list(data)
-  
+    
   return (object)
 }

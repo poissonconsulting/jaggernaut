@@ -12,7 +12,7 @@ test_that("inputs", {
   colnames(x) <- c("x","x")
   expect_that(jags_data_frame(x), throws_error())
 
-  expect_that(jags_data_frame(as.list(data.frame(x = 1))), throws_error())
+  expect_that(jags_data_frame(as.list(data.frame(x = 1))), is_a("jags_data_frame"))
   
   expect_that(jags_data_frame(data.frame(x = 1)), is_a("jags_data_frame"))
 })

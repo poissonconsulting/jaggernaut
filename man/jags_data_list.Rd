@@ -5,8 +5,7 @@
   jags_data_list(x)
 }
 \arguments{
-  \item{x}{a list from which to generate a
-  \code{jags_data_list} object.}
+  \item{x}{a named list.}
 }
 \value{
   A \code{jags_data_list} object.

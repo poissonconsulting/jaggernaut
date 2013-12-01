@@ -1,6 +1,10 @@
 
+is_null <- function (x) {
+  return (is.null(x))
+}
+
 is_all_informative <- function (x) {
-  return (!is.null(x) && !any(is.na(x)) && !any(x == ""))
+  return (!is_null(x) && !any(is.na(x)) && !any(x == ""))
 }
 
 is_scalar <- function (x) {
@@ -70,36 +74,39 @@ is_bounded <- function (x, min = -Inf, max = Inf) {
 }
 
 is_named <- function (x) {
-  return (!is.null(names(x)))
+  return (!is_null(names(x)))
 }
 
 is_one_model <- function (x) {
   return (nmodels(x) == 1)
 }
 
-is_data_list <- function (data) {
-  if (!is.list(data)) {
-    return (FALSE)
-  }
-  if(is.data.frame(data)) {
+is_unique <- function (x) {
+  return (!any(duplicated(x)))
+}
+
+is_list <- function (x) {
+  return (is.list(x))
+}
+
+is_data_frame <- function (x) {
+  return (is.data.frame(x))
+}
+
+is_data_list <- function (x) {
+  
+  if (!is.list(x) || is.data.frame(x) || length(x) == 0) {
     return (FALSE)
   }
   
-  if(length(data) == 0)
-    return (TRUE)
-  
-  names <- names(data)
-  if(is.null(names)) {
-    return (FALSE)
-  }
-  if (any(names == "")) {
+  if(!is_named(x) || !is_all_informative(names(x)) || !is_unique(names(x))) {
     return (FALSE)
   }
   
-  bol <- sapply(data,inherits,"logical")
+  bol <- sapply(x,inherits,"logical")
   
   for (class in c("integer","numeric","factor","Date","POSIXt","matrix","array")) {
-    bol <- bol | sapply(data,inherits,class)
+    bol <- bol | sapply(x,inherits,class)
   }
   return (all(bol))
 }

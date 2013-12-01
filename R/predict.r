@@ -68,18 +68,15 @@ predict.jags_analysis <- function (object, newdata = NULL,
                                    level = "current", estimate = "current", 
                                    obs_by = NULL, length_out = 50, ...) {
   
-  if (is.numeric(length_out)) {
-    if (length(length_out)  != 1) {
-      stop("length_out must be length one")
-    }
-    if (length_out < 10 || length_out > 100) {
-      stop("length_out must lie between 10 and 100")
-    }
-  } else {
-    stop("length_out must be an integer")
-  }
+  if(!is_informative_integer_scalar(length_out) || !is_bounded(length_out, 10, 100))
+    stop("length_out must be a integer between 10 and 100")
 
+  if(!is.null(obs_by) || is_all_informative_character_vector(obs_by))
+    stop("obs_by must be NULL or a character vector")
+  
   data <- data_jags(object)
+  
+
     
   if(!is.null(obs_by)) {
     if(!is.character(obs_by))

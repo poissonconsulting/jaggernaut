@@ -4,39 +4,20 @@
 #' @description 
 #' Creates an object of class \code{jags_data_list}.
 #' 
-#' @param x a list from which to generate a \code{jags_data_list} object.
+#' @param x a named list.
 #' @return A \code{jags_data_list} object.
 #' @seealso \code{\link{jags_data}},
 #' \code{\link{jags_data_frame}} and \code{\link{jaggernaut}}.
-#' @export
 jags_data_list <- function (x) {
   
-  data <- x
+  x <- as.list(x)
   
-  if (!is.list(data))
-    stop("data must be a list")
+  if(!is_data_list(x)) {
+    stop("x must be a uniquely named list with all elements of class integer, numeric, 
+          factor, Date, POSIXt, matrix or array")
+  }
   
-  data <- as.list(data)
-  
-  if (length(data) == 0)
-    stop("data must be a list with at least one element")
-  
-  if (is.null(names(data)) || any(names(data) == "" | duplicated(names(data))))
-    stop("data must be a list of uniquely named elements")
-    
-  if (any(is.null(data)))
-    stop("data must not contain NULL elements")
-  
-  bol <- sapply(data, inherits, "logical")
-  
-  for (class in c("integer","numeric","factor","Date","POSIXt","matrix","array"))
-    bol <- bol | sapply(data, inherits, class)
-  
-  if(!all(bol))
-    stop("elements in data must be class integer, numeric, factor, Date, 
-         POSIXt, matrix or array")
-  
-  object <- data
+  object <- x
   class(object) <- c("jags_data_list")
   ntries(object) <- 1
   

@@ -1,45 +1,12 @@
 
-#' @title Coerce to type JAGS data
-#'
-#' @description
-#' Coerces to an object of type \code{jags_data}.
-#' 
-#' @param x object to coerce.
-#' @param ... further arguments passed to or from other methods.
-#' @return If successful an object of class \code{jags_data} otherwise NA.
-#' @seealso \code{\link{jags_data}} and 
-#' \code{\link{jaggernaut}}.
-#' @export
 as.jags_data<- function (x, ...) {
   UseMethod("as.jags_data", x)
 }
 
-#' @title Coerce to a JAGS data list object
-#'
-#' @description
-#' Coerces to an object of class \code{jags_data_list}.
-#' 
-#' @param x object to coerce.
-#' @param ... further arguments passed to or from other methods.
-#' @return If successful an object of class \code{jags_data_list} otherwise NA.
-#' @seealso \code{\link{jags_data_list}} and 
-#' \code{\link{jaggernaut}}.
-#' @export
 as.jags_data_list<- function (x, ...) {
   UseMethod("as.jags_data_list", x)
 }
 
-#' @title Coerce to a JAGS data frame object
-#'
-#' @description
-#' Coerces to an object of class \code{jags_data_frame}.
-#' 
-#' @param x object to coerce.
-#' @param ... further arguments passed to or from other methods.
-#' @return If successful an object of class \code{jags_data_frame} otherwise NA.
-#' @seealso \code{\link{jags_data_frame}} and 
-#' \code{\link{jaggernaut}}.
-#' @export
 as.jags_data_frame<- function (x, ...) {
   UseMethod("as.jags_data_frame", x)
 }
