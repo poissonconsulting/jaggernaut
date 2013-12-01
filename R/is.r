@@ -1,7 +1,7 @@
 
-is_scalar <- function (x) 
+is_scalar <- function (x) {
   is.vector(x) && length(x) == 1
-
+}
 
 is_vector <- function (x) {
   is.vector(x) && length(x) > 1
