@@ -18,8 +18,8 @@ rhat <- function (object, parm, combine, ...) {
 
 rhat.jagr_chains <- function (object, parm = "all", combine = TRUE, ...) {
   
-  stopifnot(is_all_informative_character_vector(parm))
-  stopifnot(is_informative_logical_scalar(combine))
+  stopifnot(is_character_vector(parm))
+  stopifnot(is_logical_scalar(combine))
   
   parm <- unique(parm)
   
@@ -71,10 +71,10 @@ rhat_jagr_analysis <- function (object, parm = "all", combine = TRUE, ...) {
 #' @export 
 rhat.jags_analysis <- function (object, parm = "all", combine = TRUE, ...) {
   
-  if(!is_all_informative_character_vector(parm))
+  if(!is_character_vector(parm))
     stop("parm must be a character vector with no missing values")
   
-  if(!is_informative_logical_scalar(combine))
+  if(!is_logical_scalar(combine))
     stop("combine must be TRUE or FALSE")
   
   if(is_one_model(object))

@@ -9,9 +9,7 @@
 #' @seealso \code{\link{jags_data}},
 #' \code{\link{jags_data_list}} and \code{\link{jaggernaut}}.
 jags_data_frame <- function (x) {
-  
-  x <- as.data.frame(x)
-  
+    
   if(!is.data.frame(x) || !is_data_list(as.list(x))) {
     stop("x must be a data.frame with all variables of class integer, numeric, 
           factor, Date or POSIXt")

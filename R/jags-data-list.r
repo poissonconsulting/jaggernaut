@@ -9,9 +9,7 @@
 #' @seealso \code{\link{jags_data}},
 #' \code{\link{jags_data_frame}} and \code{\link{jaggernaut}}.
 jags_data_list <- function (x) {
-  
-  x <- as.list(x)
-  
+    
   if(!is_data_list(x)) {
     stop("x must be a uniquely named list with all elements of class integer, numeric, 
           factor, Date, POSIXt, matrix or array")

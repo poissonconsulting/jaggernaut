@@ -68,16 +68,42 @@ predict.jags_analysis <- function (object, newdata = NULL,
                                    level = "current", estimate = "current", 
                                    obs_by = NULL, length_out = 50, ...) {
   
-  if(!is_informative_integer_scalar(length_out) || !is_bounded(length_out, 10, 100))
+  if(!is_null(newdata) && !is_data_frame(newdata) && !is_data_list(newdata) &&
+       !identical(newdata, "") && !is_character_vector(newdata))
+    stop("newdata must be NULL or a data.frame or list of data or a character vector")
+
+  if(!is_character_scalar(parm))
+    stop("parm must be a character scalar")
+
+  if(!is_logical_scalar(base) && !is_data_frame(base))
+    stop("base must be an logical scalar or a data.frame")
+
+  if(!is_null(values) && !is_data_frame(values))
+    stop("base must be NULL or a data.frame")
+
+  if(!is_integer_scalar(model_number) && !is_bounded(model_number,0))
+    stop("base must be an integer scalar of 0 or greater")
+
+  if(!is_null(modify_data_derived) && !is_function(modify_data_derived))
+    stop("modify_data_derived must be NULL or a function")
+  
+  if(!is_null(derived_code) && !is_character_scalar(derived_code))
+    stop("derived_code must be NULL or a character scalar")
+
+  if(!is_null(random_effects) && !is_named_list(random_effects))
+    stop("random_effects must be NULL or a named list")
+
+  if(!is_character_scalar(level) && !is_named_list(random_effects))
+    stop("random_effects must be NULL or a named list")
+  
+  if(!is_integer_scalar(length_out) || !is_bounded(length_out, 10, 100))
     stop("length_out must be a integer between 10 and 100")
 
-  if(!is.null(obs_by) || is_all_informative_character_vector(obs_by))
+  if(!is.null(obs_by) || is_character_vector(obs_by))
     stop("obs_by must be NULL or a character vector")
   
   data <- data_jags(object)
   
-
-    
   if(!is.null(obs_by)) {
     if(!is.character(obs_by))
       stop("obs_by must be NULL or a character vector")

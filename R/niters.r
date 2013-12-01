@@ -61,7 +61,7 @@ niters.jags_power_analysis <- function (object) {
 
 "niters<-.jagr_power_analysis" <- function (object, value) {
   
-  stopifnot(is_informative_integer_scalar(value))
+  stopifnot(is_integer_scalar(value))
   stopifnot(is_bounded(value, min = 1))
 
   value <- as.integer(value)
