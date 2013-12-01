@@ -30,8 +30,8 @@ rhat_threshold.jags_power_analysis <- function (object, ...) {
 }
 
 "rhat_threshold<-.jags_analysis" <- function (object, value) {
-  stopifnot(is.numeric(value) && is_scalar(value) && is_no_missing(value))
-  stopifnot(value >= 1.0 && value <= 2.0)
+  stopifnot(is_informative_numeric_scalar(value))
+  stopifnot(is_bounded(value, 1.0, 2.0))
   
   object$rhat_threshold <- value
   
@@ -39,8 +39,8 @@ rhat_threshold.jags_power_analysis <- function (object, ...) {
 }
 
 "rhat_threshold<-.jags_power_analysis" <- function (object, value) {
-  stopifnot(is.numeric(value) && is_scalar(value) && is_no_missing(value))
-  stopifnot(value >= 1.0 && value <= 2.0)
+  stopifnot(is_informative_numeric_scalar(value))
+  stopifnot(is_bounded(value, 1.0, 2.0))
   
   object$rhat_threshold <- value
   

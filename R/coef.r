@@ -4,7 +4,7 @@ coef_matrix <- function(object, level, estimate) {
   stopifnot(is.matrix(object))
   stopifnot(is.numeric(level))
   stopifnot(is_scalar(level))
-  stopifnot(is_defined(level))
+  stopifnot(is_all_informative(level))
   stopifnot(level > 0.5 & level < 1.0)
   stopifnot(estimate %in% c("mean","median"))
   
@@ -42,7 +42,7 @@ coef_matrix <- function(object, level, estimate) {
 coef.jagr_chains <- function (object, parm, level, estimate, ...) {
   stopifnot(is.numeric(level))
   stopifnot(is_scalar(level))
-  stopifnot(is_defined(level))
+  stopifnot(is_all_informative(level))
   stopifnot(level > 0.5 & level < 1.0)
   
   mat <- as.matrix(object)
@@ -93,9 +93,9 @@ coef.jags_analysis <- function (object, parm = "fixed", level = "current",
                                 estimate = "current", ...) {
   if (!is.character(parm)) 
     stop ("parm must be character vector")
-  if(!is_length(parm))
+  if(!is_vector(parm))
     stop("parm must be at least length one")
-  if(!is_defined(parm))
+  if(!is_all_informative(parm))
     stop("parm must not contain missing values")
   
   if (!is.numeric(level) && level != "current") {

@@ -1,42 +1,80 @@
 
+is_all_informative <- function (x) {
+  return (!is.null(x) && !any(is.na(x)) && !any(x == ""))
+}
+
 is_scalar <- function (x) {
-  is.vector(x) && length(x) == 1
+  return (is.vector(x) && length(x) == 1)
 }
 
 is_vector <- function (x) {
-  is.vector(x) && length(x) > 1
+  return (is.vector(x) && length(x) >= 1)
 }
 
-is_length <- function (x) {
-  is_scalar(x) || is_vector(x)
+is_logical <- function (x) {
+  return (is.logical(x))
 }
 
-is_character <- function (x) {
-  is.character(x)
+is_integer <- function (x) {
+  return (is.integer(x) || all.equal(x, as.integer(x)) == TRUE)
 }
 
 is_numeric <- function (x) {
-  is.numeric(x)
+  return (is.numeric(x) || is.integer(x))
 }
 
-is_no_missing <- function (x) {
-  !any(is.na(x))
+is_character <- function (x) {
+  return (is.character(x))
 }
 
-is_defined <- function (x) {
-  is_no_missing(x)
+is_factor <- function (x) {
+  return (is.factor(x))
 }
 
-is_indicator <- function (x) {
- is.logical(x) & is_scalar(x) & is_defined(x)
+is_informative_logical_scalar <- function (x) {
+  return (is_all_informative(x) && is_logical(x) && is_scalar(x))
+}
+
+is_informative_integer_scalar <- function (x) {
+  return (is_all_informative(x) && is_integer(x) && is_scalar(x))
+}
+
+is_informative_numeric_scalar <- function (x) {
+  return (is_all_informative(x) && is_numeric(x) && is_scalar(x))
+}
+
+is_informative_character_scalar <- function (x) {
+  return (is_all_informative(x) && is_character(x) && is_vector(x))
+}
+
+is_all_informative_logical_vector <- function (x) {
+  return (is_all_informative(x) && is_logical(x) && is_vector(x))
+}
+
+is_all_informative_integer_vector <- function (x) {
+  return (is_all_informative(x) && is_integer(x) && is_vector(x))
+}
+
+is_all_informative_numeric_vector <- function (x) {
+  return (is_all_informative(x) && is_numeric(x) && is_vector(x))
+}
+
+is_all_informative_character_vector <- function (x) {
+  return (is_all_informative(x) && is_character(x) && is_vector(x))
+}
+
+is_bounded <- function (x, min = -Inf, max = Inf) {
+  stopifnot(is_informative_numeric_scalar(min))
+  stopifnot(is_informative_numeric_scalar(max))
+  return (all(x >= min & x <= max))
 }
 
 is_named <- function (x) {
-  !is.null(names(x)) 
+  return (!is.null(names(x)))
 }
 
 is_one_model <- function (x) {
-  nmodels(x) == 1
+  return (nmodels(x) == 1)
 }
 
 is_data_list <- function (data) {

@@ -1,7 +1,7 @@
 
 plot.jagr_chains <- function (x, parm = "all", ...) {
 
-  stopifnot(is.character(parm) && is_length(parm))
+  stopifnot(is.character(parm) && is_vector(parm))
   stopifnot(length(parm) > 0)
   
   parm <- expand_parm(x, parm = parm)
