@@ -43,10 +43,6 @@ is_list <- function (x) {
   return (is.list(x))
 }
 
-is_data_frame <- function (x) {
-  return (is.data.frame(x))
-}
-
 is_function <- function (x) {
   return (is.function (x))
 }
@@ -83,6 +79,14 @@ is_character_vector <- function (x) {
   return (!is_any_missing(x) && is_character(x) && is_vector(x))
 }
 
+is_FALSE <- function (x) {
+  return (is_logical_scalar(x) && identical(x, FALSE))
+}
+
+is_TRUE <- function (x) {
+  return (is_logical_scalar(x) && identical(x, TRUE))
+}
+
 is_named <- function (x) {
   return (is_character_vector(names(x)) && is_unique(names(x)))
 }
@@ -109,6 +113,14 @@ is_data_list <- function (x) {
     bol <- bol | sapply(x,inherits,class)
   }
   return (all(bol))
+}
+
+is_data_frame <- function (x) {
+  return (is.data.frame(x) && is_data_list(as.list(x)))
+}
+
+is_data <- function (x) {
+  return (is_data_list(x) || is_data_frame(x))
 }
 
 is_one_model <- function (x) {
