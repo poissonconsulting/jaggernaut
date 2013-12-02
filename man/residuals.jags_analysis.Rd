@@ -1,6 +1,6 @@
 \name{residuals.jags_analysis}
 \alias{residuals.jags_analysis}
-\title{JAGS analysis residuals}
+\title{Residuals}
 \usage{
   \method{residuals}{jags_analysis} (object,
     parm = "residual", model_number = 1,
@@ -12,7 +12,8 @@
   \item{object}{a jags_analysis object.}
 
   \item{parm}{a character element naming the derived
-  parameter for which the estimates should be calculated.}
+  parameter for which the estimates should be calculated by
+  default = "residual"}
 
   \item{model_number}{an integer vector specifying the
   model to select. If model_number = 0 then it selects the
@@ -37,7 +38,7 @@
 
   \item{estimate}{a character scalar specifying whether the
   point estimate should be the "mean" or the "median" or a
-  character scalar which mode the level should be #' taken
+  character scalar which mode the level should be taken
   from. By default the estimate is as currently specified
   by \code{opts_jagr} in the global options.}
 
@@ -49,12 +50,12 @@
   methods.}
 }
 \value{
-  the input data frame with the median estimate and
+  the input data frame with the point estimate and
   credibility intervals for the residuals
 }
 \description{
-  Calculate residuals with estimates using derived code in
-  a JAGS analysis
+  Get residuals with estimates using derived code in a JAGS
+  analysis
 }
 \seealso{
   \code{\link{jags_model}} and \code{\link{jags_analysis}}

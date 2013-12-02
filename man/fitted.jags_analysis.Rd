@@ -11,19 +11,19 @@
 \arguments{
   \item{object}{a jags_analysis object.}
 
-  \item{parm}{a character element naming the derived
+  \item{parm}{a character scalar naming the derived
   parameter for which the estimates should be calculated
   (default = "prediction").}
 
-  \item{model_number}{an integer vector specifying the
+  \item{model_number}{an integer scalar specifying the
   model to select. If model_number = 0 then it selects the
   model with the lowest DIC.}
 
-  \item{derived_code}{a character element defining a block
+  \item{derived_code}{a character scalar defining a block
   in the JAGS dialect of the BUGS language that defines one
-  or more derived ' parameters for each row of data. If
-  NULL derived_code is as defined by the JAGS model for
-  which the JAGS analysis was performed.}
+  or more derived parameters for each row of data. If NULL
+  derived_code is as defined by the JAGS model for which
+  the JAGS analysis was performed.}
 
   \item{random_effects}{a named list which specifies which
   parameters to treat as random variables. If NULL random
@@ -38,9 +38,9 @@
 
   \item{estimate}{a character scalar specifying whether the
   point estimate should be the "mean" or the "median" or a
-  character scalar which mode the level should be #' taken
-  from. By default the estimate is as currently specified
-  by \code{opts_jagr} in the global options.}
+  character scalar indicating which mode the level should
+  be taken from. By default the estimate is as currently
+  specified by \code{opts_jagr} in the global options.}
 
   \item{data}{the dataset for which to calculate the
   residuals. By default data is NULL as the residuals are
@@ -50,8 +50,8 @@
   methods.}
 }
 \value{
-  the original data frame with the median estimate and
-  credibility intervals for the derived parameter of
+  the original data frame with the point estimate and lower
+  and upper credibility limits for the derived parameter of
   interest
 }
 \description{
