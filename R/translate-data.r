@@ -1,28 +1,24 @@
 
-translate_data <- function (select, data, dat = NULL)
-{  
-  if (!(is.null(select) || is.character(select)))
-    stop ("select must be NULL or a character vector")
+translate_data <- function (select, data, dat = NULL) {
   
-  if (!(is.data.frame(data) || is_data_list(data)))
-    stop ("data must be a data.frame or data list")
-  
-  if (!(is.null(dat) || (is.data.frame(data) && is.data.frame(dat)) || (is_data_list(data) && is_data_list(dat))))
-    stop("dat should be NULL or a data.frame or a data list")
+  stopifnot(is_null(select) || is_character_vector(select))
+  stopifnot(is.jags_data(data))
+  stopifnot(is_null(dat) || (is.jags_data(dat) &&
+                               is.jags_data_frame(dat) == is.jags_data_frame(data)))
 
   if (is.null(dat)) 
     dat <- data
 
   vars <- names_select(select)
 
-  bol <- !vars %in% names_data(data)
+  bol <- !vars %in% names(data)
   if (any(bol)) {
     stop(paste(vars[bol],"in select but not variable names in data"))
   }
 
   reserved <- c("all","fixed","random","deviance")
   
-  bol <- reserved %in% names_data(data)
+  bol <- reserved %in% names(data)
   
   if (any(bol)) {
     stop(paste(reserved[bol],"must not be variable names in data"))
@@ -60,7 +56,7 @@ translate_data <- function (select, data, dat = NULL)
     centre <- select[centre]
     
     data <- data[select]
-    dat <- dat[select[select %in% names_data(dat)]]
+    dat <- dat[select[select %in% names(dat)]]
         
     for (i in seq_along(select)) {
       var <- select[i]
@@ -69,7 +65,7 @@ translate_data <- function (select, data, dat = NULL)
         cmd <- paste0("data[[var]]<-",transform[[var]],"(data[[var]])")
         eval(parse(text = cmd))  
         
-        if(var %in% names_data(dat)) {
+        if(var %in% names(dat)) {
           cmd <- paste0("dat[[var]]<-",transform[[var]],"(dat[[var]])")
           eval(parse(text = cmd))        
         }
@@ -78,7 +74,7 @@ translate_data <- function (select, data, dat = NULL)
   }
 
   facs <- list()
-  for (name in names_data(dat)) {
+  for (name in names(dat)) {
     if (is.factor(dat[[name]])) {
       facs[[paste0("n",name)]]<-nlevels(dat[[name]])
     }
@@ -87,6 +83,8 @@ translate_data <- function (select, data, dat = NULL)
   data <- convert_data (data, centre = centre, standardise = standardise, dat = dat)
   
   data <- c(as.list(data), facs)
+  
+  class(data) <- "jagr_data"
   
   return (data)
 }

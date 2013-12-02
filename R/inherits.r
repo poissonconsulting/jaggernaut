@@ -15,6 +15,10 @@ is.list_jags <- function (x) {
   return (is.list(x) && all(unlist(lapply(x, is.jags))))
 }
 
+is.jagr_data <- function (x) {
+  return (inherits(x, "jagr_data"))
+}
+
 is.jags_data <- function (x) {
   return (is.jags_data_list(x))
 }

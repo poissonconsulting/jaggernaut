@@ -53,8 +53,8 @@ convert_data <- function (data, numericise = TRUE, centre = FALSE, standardise =
     dat <- data
   }
   
-  names_data <- names_data(data)
-  names_dat <- names_data(dat)
+  names_data <- names(data)
+  names_dat <- names(dat)
   
   if (is.logical(numericise)) {
     if (numericise) {

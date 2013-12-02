@@ -1,14 +1,9 @@
 
-get_derived<- function (object, ...) {
-  UseMethod("get_derived", object)
-}
-
-get_derived.jags_analysis <- function (object, monitor, data) {
+derived <- function (object, parm, data) {
   
-  stopifnot(nmodels(object) == 1)
-  stopifnot(is.character(monitor))
-  stopifnot(length(monitor) > 0)
-  stopifnot(is.data.frame(data) || is_data_list(data))
+  stopifnot(is.jags_analysis(object) && is_one_model(object))
+  stopifnot(is_character_scalar(parm))
+  stopifnot(is.jags_data(data))
   
   if (options()$jags.pb != "none") {
     jags.pb <- options()$jags.pb
@@ -29,14 +24,31 @@ get_derived.jags_analysis <- function (object, monitor, data) {
   nchains <- nchains (chains)
   nsims <- nsims (chains) / nchains
   
+  get_samples <- function (monitor, data, file) {
+    # could remove unnecessary data so not need to suppress warning messages...
+    warn <- options('warn')
+    options(warn = -1)
+    
+    jags <- rjags::jags.model (file = file, data = data, 
+                               n.chains = 1, n.adapt = 0, quiet = TRUE
+    )
+    
+    samples <- rjags::jags.samples(
+      model = jags, variable.names = monitor, n.iter = 1
+    )
+    options (warn)
+    
+    return (samples)
+  }
+  
   list <- list ()
   for (j in 1:nchains) {
     
-    list[[j]] <- get_samples (monitor,data = c(dat,as.list(subset_jags(chains, sim = 1, chain = j))),file = file)    
+    list[[j]] <- get_samples (parm,data = c(dat,as.list(subset_jags(chains, sim = 1, chain = j))),file = file)    
     
     if (nsims > 1) {
       for (i in 2:nsims) {
-        samples <- get_samples (monitor,data = c(dat,as.list(subset_jags(chains, sim = i, chain = j))), file = file)
+        samples <- get_samples (parm,data = c(dat,as.list(subset_jags(chains, sim = i, chain = j))), file = file)
         
         list[[j]] <- add_jags (list[[j]], samples, by = "sims")
       }

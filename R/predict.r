@@ -39,8 +39,10 @@
 #' @param estimate a character scalar indicating whether the point estimate 
 #' should be the "mean" or the "median". By default the estimate is as 
 #' currently defined by \code{opts_jagr} in the global options.
-#' @param obs_by NULL or a character vector indicating which factors to only predict 
-#' for their observed factor combinations.
+#' @param obs_by a logical scalar or a character vector indicating which factors 
+#' to only predict for their observed factor combinations. If obs_by = TRUE then
+#' newdata must be a character vector and the factors are taken to be those 
+#' in newdata.
 #' @param length_out an integer scalar indicating the number of values when 
 #' creating a sequence of values across the range of a continuous variable.
 #' @param ... further arguments passed to or from other methods.
@@ -67,7 +69,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
                                    modify_data_derived = NULL,
                                    derived_code = NULL, random_effects = NULL, 
                                    level = "current", estimate = "current", 
-                                   obs_by = NULL, length_out = 50, ...) {
+                                   obs_by = FALSE, length_out = 50, ...) {
   
   if(!is_null(newdata) && !is_data(newdata) &&
        !identical(newdata, "") && !is_character_vector(newdata))
@@ -103,8 +105,12 @@ predict.jags_analysis <- function (object, newdata = NULL,
   if(!is_integer_scalar(length_out) || !is_bounded(length_out, 10, 100))
     stop("length_out must be a integer between 10 and 100")
 
-  if(!is.null(obs_by) || is_character_vector(obs_by))
-    stop("obs_by must be NULL or a character vector")
+  if(!is_logical_scalar(obs_by) && !is_character_vector(obs_by))
+    stop("obs_by must be a logical scalar or a character vector")
+  
+  if(is_TRUE(obs_by) && !is_character_vector(newdata))
+    stop("if obs_by is TRUE newdata must be a character vector - otherwise
+         specify the factors directly in obs_by")
   
   if (is.null(derived_code(object)) && is_null(derived_code))
     stop("derived_code must be defined if undefined in object")
@@ -142,12 +148,15 @@ predict.jags_analysis <- function (object, newdata = NULL,
   if(!is_null(random_effects))
     random_effects(object) <- random_effects
   
+  if(is_TRUE(obs_by))
+    obs_by <- newdata
+  
   data <- data_jags(object)
   
   if(is.jags_data_frame(data)) {
     if(is_data_list(newdata))
       stop("as original dataset is a data frame newdata must not be a data list")
-    if (!all(obs_by %in% colnames(data)))
+    if (!is_FALSE(obs_by) && !all(obs_by %in% colnames(data)))
       stop("all obs_by must be in data")
   } else {
     if(!is_null(newdata) || !is_data_list(newdata))
@@ -156,10 +165,10 @@ predict.jags_analysis <- function (object, newdata = NULL,
       stop("as original dataset is a data list base must be FALSE")    
     if(!is_null(values))
       stop("as original dataset is a data list values must be NULL") 
-    if(!is_null(obs_by))
-      stop("as original dataset is a data list obs_by must be NULL") 
+    if(!is_FALSE(obs_by))
+      stop("as original dataset is a data list obs_by must be FALSE") 
   }
-    
+  
   if (is.null(newdata)) {
     newdata <- data
   } else if (is_character_vector(newdata))
@@ -171,21 +180,21 @@ predict.jags_analysis <- function (object, newdata = NULL,
     base <- NULL
 
   if (is.jags_data_list(data)) {
-    bol <- !names_data(data) %in% names_data(newdata)
+    bol <- !names(data) %in% names(newdata)
     if (any(bol)) {
       newdata <- c(newdata, data[bol])
     }
     newdata <- newdata[names(data)]
   } else {
     dat <- generate_data(data)
-    bol <- !names_data(dat) %in% names_data(newdata)
+    bol <- !names(dat) %in% names(newdata)
     if (any(bol)) {
       newdata <- merge(newdata, dat[bol])
     }
     newdata <- newdata[names(data)]
     
     if (is_data_frame(base)) {
-      bol <- !names_data(dat) %in% names_data(base)
+      bol <- !names(dat) %in% names(base)
       if (any(bol)) {
         base <- cbind(base, dat[bol])
       }
@@ -193,8 +202,8 @@ predict.jags_analysis <- function (object, newdata = NULL,
     }
     
     if (is_data_frame(values)) {
-      for (name in names_data(values)) {
-        if (name %in% names_data(newdata)) {
+      for (name in names(values)) {
+        if (name %in% names(newdata)) {
           x <- newdata[[name]]
           if (all(x == dat[[name]])) {
             newdata[[name]] <- values[[name]]
@@ -212,7 +221,12 @@ predict.jags_analysis <- function (object, newdata = NULL,
     newdata <- merge(newdata, dat, by = colnames(dat))
   }
   
-  pred <- predict_internal(object, parm = parm, data = newdata, base = base, 
+  newdata <- as.jags_data(newdata)
+  if(!is_null(base))
+    base <- as.jags_data(base)
+  
+  
+  pred <- predict_jagr(object, parm = parm, data = newdata, base = base, 
                            level = level, estimate = estimate, ...)
       
   rownames(pred) <- NULL

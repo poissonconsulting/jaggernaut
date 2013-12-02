@@ -42,6 +42,8 @@ data_jags.jags_data_model <- function (object, values, ...) {
   
   check_modules()
   
+  values <- as.jags_data_frame(values)
+  
   values <- translate_data(select(object), values)
   
   data <- values

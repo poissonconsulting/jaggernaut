@@ -1,7 +1,10 @@
 
 jagr_power_analysis <- function (model_code, data, niters, inits, 
                                  monitor = NULL,
-                                 random = NULL) {      
+                                 random = NULL) { 
+  
+  stopifnot(is.jagr_data(data))
+  
   nchains <- opts_jagr("nchains")
   nsims <- opts_jagr("nsims")  
   parallel <- opts_jagr("parallel")

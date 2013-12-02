@@ -1,8 +1,10 @@
 
 jagr_analysis <- function (model, data, niters) {    
-  stopifnot(is.jagr_analysis_model(model))
   
-  stopifnot(niters >= 100)
+  stopifnot(is.jagr_analysis_model(model))
+  stopifnot(is.jags_data(data))
+  stopifnot(is_integer_scalar(niters))
+  stopifnot(is_bounded(niters, 100))
   
   resample <- opts_jagr("nresample")
   nchains <- opts_jagr("nchains")

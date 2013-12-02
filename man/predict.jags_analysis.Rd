@@ -6,8 +6,8 @@
     parm = "prediction", base = FALSE, values = NULL,
     model_number = 1, modify_data_derived = NULL,
     derived_code = NULL, random_effects = NULL,
-    level = "current", estimate = "current", obs_by = NULL,
-    length_out = 50, ...)
+    level = "current", estimate = "current",
+    obs_by = FALSE, length_out = 50, ...)
 }
 \arguments{
   \item{object}{a jags_analysis object.}
@@ -64,9 +64,11 @@
   default the estimate is as currently defined by
   \code{opts_jagr} in the global options.}
 
-  \item{obs_by}{NULL or a character vector indicating which
-  factors to only predict for their observed factor
-  combinations.}
+  \item{obs_by}{a logical scalar or a character vector
+  indicating which factors to only predict for their
+  observed factor combinations. If obs_by = TRUE then
+  newdata must be a character vector and the factors are
+  taken to be those in newdata.}
 
   \item{length_out}{an integer scalar indicating the number
   of values when creating a sequence of values across the

@@ -22,10 +22,10 @@ zero_random.jagr_chains <- function (object, names_random, ...) {
   return (object)
 }
 
-zero_random.jagr_power_analysis <- function (object, data) {
-  stopifnot(is.list(data))
+zero_random.jagr_power_analysis <- function (object, data, ...) {
+  stopifnot(is.jagr_data(data))
   
-  names_data <- names_data(data)
+  names_data <- names(data)
       
   for (name in names_data) {
     var <- data[[name]]
@@ -37,17 +37,18 @@ zero_random.jagr_power_analysis <- function (object, data) {
   random_effects <- random_effects(object)
     
   for (ran in names(random_effects))
-    if (!any(random_effects[[ran]] %in% names_data(data)))
+    if (!any(random_effects[[ran]] %in% names(data)))
       random_effects[[ran]] <- NULL
     
   if (length(random_effects))
-    return (zero_random (chains(object), names_random = names(random_effects)))
+    return (zero_random (chains(object), names_random = names(random_effects), ...))
 
   return (chains(object))
 }
 
 zero_random.jags_analysis <- function (object, data, ...) {
   stopifnot(is_one_model(object))
+  stopifnot(is.jagr_data(data))
   
   return (zero_random (analysis(object), data, ...))
 }
