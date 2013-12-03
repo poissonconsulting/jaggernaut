@@ -42,7 +42,7 @@ merge_jags_samples <- function (object, by = NULL, fun = sum) {
   merge <- object[[1]][,colnames(object[[1]]) %in% by, drop=FALSE]
   
   for (i in 2:length(object))
-    merge <- merge(merge, object[[1]][,colnames(object[[1]]) %in% by, drop=FALSE])
+    merge <- merge(merge, object[[i]][,colnames(object[[i]]) %in% by, drop=FALSE])
     
   for (i in 1:length(object))
     object[[i]] <- merge(merge, object[[i]])
@@ -55,7 +55,7 @@ merge_jags_samples <- function (object, by = NULL, fun = sum) {
   samples <- apply(array, MARGIN=c(1,2), fun)  
     
   if (!is.null(by)) {
-    data <- subset(object[[1]], select = by)
+    data <- object[[1]][,colnames(object[[1]]) %in% by, drop=FALSE]
   }
   object <- cbind(data, samples)
   class(object) <- c("data.frame","jags_sample")
