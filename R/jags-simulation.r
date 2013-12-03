@@ -52,14 +52,8 @@ jags_simulation <- function (data_model, values, nreps = 100, mode = "current") 
   if (!is.jags_data_model(data_model)) 
     stop("data_model must be class jags_data_model")
      
-  if(!is.numeric(nreps))
-    stop("nreps must be class integer")
-  
-  if(!length(nreps) == 1)
-    stop("nreps must be a single value")
-  
-  if(nreps < 1)
-    stop("nreps must be positive")
+  if(!is_integer_scalar(nreps) || !is_bounded(nreps, 1))
+    stop("nreps must be an positive integer scalar")
   
   if (mode != "current") {
     old_opts <- opts_jagr(mode = mode)

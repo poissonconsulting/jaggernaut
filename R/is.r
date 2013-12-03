@@ -1,4 +1,3 @@
-
 is_null <- function (x) {
   return (is.null(x))
 }
@@ -40,7 +39,7 @@ is_factor <- function (x) {
 }
 
 is_list <- function (x) {
-  return (is.list(x))
+  return (inherits(x, "list"))
 }
 
 is_function <- function (x) {
@@ -96,6 +95,7 @@ is_named_list <- function (x) {
 }
 
 is_bounded <- function (x, min = -Inf, max = Inf) {
+  stopifnot(is_numeric_scalar(x))
   stopifnot(is_numeric_scalar(min))
   stopifnot(is_numeric_scalar(max))
   return (all(x >= min & x <= max))
@@ -103,14 +103,13 @@ is_bounded <- function (x, min = -Inf, max = Inf) {
 
 is_data_list <- function (x) {
   
-  if (!is_list(x) || is_data_frame(x) || length(x) == 0 || !is_named_list(x)) {
+  if (!is_named_list(x))
     return (FALSE)
-  }
   
-  bol <- sapply(x,inherits,"logical")
+  bol <- sapply(x, inherits, "logical")
   
   for (class in c("integer","numeric","factor","Date","POSIXt","matrix","array")) {
-    bol <- bol | sapply(x,inherits,class)
+    bol <- bol | sapply(x, inherits, class)
   }
   return (all(bol))
 }
@@ -120,9 +119,25 @@ is_data_frame <- function (x) {
 }
 
 is_data <- function (x) {
-  return (is_data_list(x) || is_data_frame(x))
+  return (is_data_frame(x) || is_data_list(x))
 }
 
 is_one_model <- function (x) {
   return (nmodels(x) == 1)
+}
+
+is_list_mcarray <- function (x) {
+  return (is.list(x) && all(unlist(lapply(x, is.mcarray))))
+}
+
+is_list_list <- function (x) {
+  return (is_list(x) && all(unlist(lapply(x, is_list))))
+}
+
+is_list_jags <- function (x) {
+  return (is.list(x) && all(unlist(lapply(x, is.jags))))
+}
+
+is_list_jags_sample <- function (x) {
+  return (is.list(x) && all(unlist(lapply(x, is.jags_sample))))
 }

@@ -1,8 +1,8 @@
-\name{ply_jags_sample}
-\alias{ply_jags_sample}
-\title{Ply JAGS sample}
+\name{ddply_jags_sample}
+\alias{ddply_jags_sample}
+\title{ddply JAGS sample}
 \usage{
-  ply_jags_sample(object, by, fun = sum)
+  ddply_jags_sample(object, by, fun = sum)
 }
 \arguments{
   \item{object}{a jags_sample object.}

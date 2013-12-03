@@ -15,7 +15,6 @@
   Creates an object of class \code{jags_data_frame}.
 }
 \seealso{
-  \code{\link{jags_data}}, \code{\link{jags_data_list}} and
-  \code{\link{jaggernaut}}.
+  \code{\link{jags_data}} and \code{\link{jaggernaut}}.
 }
 

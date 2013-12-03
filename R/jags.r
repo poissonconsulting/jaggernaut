@@ -13,7 +13,7 @@ jags.jagr_chains <- function (object) {
 
 "jags<-.jagr_chains" <- function (object, value) {
   
-  stopifnot(is.list_jags(value) || all.equal(value,list(NULL)))
+  stopifnot(is_list_jags(value) || all.equal(value,list(NULL)))
   
   object$jags <- value
   

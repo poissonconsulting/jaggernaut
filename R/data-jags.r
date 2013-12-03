@@ -17,6 +17,20 @@ data_jags <- function (object, ...) {
   UseMethod("data_jags<-", object)
 }
 
+#' @title Get dataset
+#'
+#' @description
+#' Gets the dataset from a \code{jags_sample} object.  
+#' 
+#' @param object a \code{jags_sample} object.
+#' @param ... further arguments passed to or from other methods.
+#' @return The dataset.
+#' @method data_jags jags_sample
+#' @export
+data_jags.jags_sample <- function (object, ...) {
+  return (as.data.frame(object[,-grep("[[:digit:]]", colnames(object))]))
+}
+
 #' @title Get dataset from a JAGS data model
 #'
 #' @description
@@ -97,7 +111,7 @@ data_jags.jags_data_model <- function (object, values, ...) {
 #' @method data_jags jags_analysis
 #' @export
 data_jags.jags_analysis <- function (object, ...) {
-  object$data
+  return (object$data)
 }
 
 #' @title Get datasets from a JAGS simulation
@@ -119,6 +133,7 @@ data_jags.jags_simulation <- function (object, ...) {
 }
 
 "data_jags<-.jags_analysis" <- function (object, value) {
+  stopifnot(is_data(value))
 
   object$data <- as.jags_data(value)
   
@@ -126,9 +141,7 @@ data_jags.jags_simulation <- function (object, ...) {
 }
 
 "data_jags<-.jags_simulation" <- function (object, value) {  
-  if (!is.list(value) || !is.list(value)[[1]])
-      stop("value must be a list of lists")
-    
+  stopifnot(is_list_list(value))
   stopifnot(is_scalar(unique(sapply(value,length))))
   stopifnot(length(value) == nvalues(object))
   

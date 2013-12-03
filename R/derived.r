@@ -9,7 +9,7 @@ derived <- function (object, parm, data) {
     jags.pb <- options()$jags.pb
     options(jags.pb = "none")
     on.exit(options("jags.pb" = jags.pb))
-  }
+  }  
   
   dat <- translate_data(select(object), data_jags(object), data) 
       
@@ -67,6 +67,6 @@ derived <- function (object, parm, data) {
   samples(newobject) <- samples
   jags(newobject) <- list(NULL)
   random(newobject) <- names(random_effects(object))
-  
+    
   return (newobject)
 }

@@ -1,4 +1,3 @@
-
 #' @title JAGS data frame
 #'
 #' @description 
@@ -6,8 +5,7 @@
 #' 
 #' @param x a data.frame from which to generate a \code{jags_data_frame} object.
 #' @return A \code{jags_data_frame} object.
-#' @seealso \code{\link{jags_data}},
-#' \code{\link{jags_data_list}} and \code{\link{jaggernaut}}.
+#' @seealso \code{\link{jags_data}} and \code{\link{jaggernaut}}.
 jags_data_frame <- function (x) {
     
   if(!is.data.frame(x) || !is_data_list(as.list(x))) {
@@ -16,8 +14,7 @@ jags_data_frame <- function (x) {
   }
   
   object <- x
-  class(object) <- c("jags_data_frame", "data.frame", "jags_data_list")
-  ntries(object) <- 1
+  class(object) <- c("jags_data", "data.frame", "jags_data_frame")
     
   return (object)
 }

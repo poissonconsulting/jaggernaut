@@ -14,8 +14,4 @@
 \description{
   Tests for objects of class \code{jags_data_frame}.
 }
-\seealso{
-  \code{\link{as.jags_data_frame}} and
-  \code{\link{jaggernaut}}.
-}
 

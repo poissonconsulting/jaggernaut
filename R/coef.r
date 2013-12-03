@@ -50,6 +50,54 @@ coef.jagr_chains <- function (object, parm, level, estimate, ...) {
   return (coef_matrix (mat, level = level, estimate = estimate))
 }
 
+#' @title Coefficients
+#'
+#' @description
+#' Calculates coefficients for a jags_sample object
+#' 
+#' @param object a jags_sample object from predict(...,level = "no")
+#' @param level a numeric scalar specifying the significance level or a character
+#' scalar specifying which mode the level should be taken from. By default the
+#' level is as currently specified by \code{opts_jagr} in the global options.
+#' @param estimate a character scalar specifying whether the point estimate should
+#' be the "mean" or the "median" or a character scalar which mode the level should be #' taken from. By default the
+#' estimate is as currently specified by \code{opts_jagr} in the global options.
+#' @param ... further arguments passed to or from other methods.
+#' @return a data.frame of the parameter estimates with the point estimate and 
+#' lower and upper credible limits as well as the standard deviation, percent
+#' relative error and significance
+#' @seealso \code{\link{opts_jagr}} 
+#' and \code{\link{jaggernaut}}
+#' @method coef jags_sample
+#' @export
+coef.jags_sample <- function (object, level = "current", estimate = "current", ...) {
+
+  if (!is.numeric(level) && level != "current") {
+    old_opts <- opts_jagr(mode = level)
+    on.exit(opts_jagr(old_opts))
+  }
+  
+  if (!is.numeric(level)) {
+    level <- opts_jagr("level")
+  }
+  
+  if(!estimate %in% c("mean","median") && estimate != "current") {
+    old_opts <- opts_jagr(mode = level)
+    if(is.null(sys.on.exit()))
+      on.exit(opts_jagr(old_opts))
+  }
+  
+  if(!estimate %in% c("mean","median")) {
+    estimate <- opts_jagr("estimate")
+  }
+    
+  coef <- coef_matrix(t(samples(object)), level = level, estimate = estimate)
+  
+  coef <- cbind(data_jags(object), coef)
+  
+  return (coef)
+}
+
 coef.jagr_power_analysis <- function (object, parm, level, estimate, ...) {
   return (coef(as.jagr_chains(object), parm = parm, 
                level = level, estimate = estimate, ...))
@@ -278,39 +326,4 @@ coef.jags_power_analysis <- function (object, parm = "fixed", combine = TRUE, co
   coef <- merge(values, coef)
   
   return (coef)
-}
-
-#' @title Calculate estimates
-#'
-#' @description
-#' Calculates estimates for a jags_sample object
-#' 
-#' @param object a data.frame or list of data.frames from predict(...,level = "no")
-#' @param level a numeric scalar specifying the significance level or a character
-#' scalar specifying which mode the level should be taken from. By default the
-#' level is as currently specified by \code{opts_jagr} in the global options.
-#' @return a data frame with the median estimates and credibility intervals for
-#' the derived parameter of interest
-#' @seealso \code{\link{predict.jags_analysis}}
-calc_estimates_jags_sample <- function (object, level = "current") {
-  if (!is.jags_sample(object))
-    stop("object must be class jags_sample")
-    
-  if (!is.numeric(level)) {
-    if (level != "current") {
-      old_opts <- opts_jagr(mode = level)
-      on.exit(opts_jagr(old_opts))
-    }
-    level <- opts_jagr("level")
-  }
-  
-  if (level < 0.75 || level > 0.99) {
-    stop("level must lie between 0.75 and 0.99")
-  } 
-  
-  mat <- as.matrix(object[,grep("V[[:digit:]]", colnames(object))])
-  est <- coef (t(mat), level = opts_jagr("level"))
-  data <- object[,-grep("V[[:digit:]]", colnames(object)), drop=FALSE]
-  est <- cbind(data, est)
-  return (est)
 }

@@ -1,4 +1,3 @@
-
 #' @title JAGS data list
 #'
 #' @description 
@@ -16,8 +15,7 @@ jags_data_list <- function (x) {
   }
   
   object <- x
-  class(object) <- c("jags_data_list")
-  ntries(object) <- 1
+  class(object) <- c("jags_data","list","jags_data_list")
   
   return (object)
 }

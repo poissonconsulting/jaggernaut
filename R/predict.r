@@ -1,4 +1,3 @@
-
 #' @title Predict
 #'
 #' @description
@@ -78,10 +77,10 @@ predict.jags_analysis <- function (object, newdata = NULL,
   if(!is_character_scalar(parm))
     stop("parm must be a character scalar")
 
-  if(!is_logical_scalar(base) && !is_data_frame(base))
-    stop("base must be an logical scalar or a data.frame")
+  if(!is_logical_scalar(base) && !(is_data_frame(base) && nrow(base) == 1))
+    stop("base must be an logical scalar or a data.frame with one row")
 
-  if(!is_null(values) && !is_data_frame(values) && nrow(values) != 1)
+  if(!is_null(values) && !(is_data_frame(values) && nrow(values) == 1))
     stop("values must be NULL or a data.frame with a single row of data")
 
   if(!is_integer_scalar(model_number) && !is_bounded(model_number,0))
@@ -159,7 +158,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
     if (!is_FALSE(obs_by) && !all(obs_by %in% colnames(data)))
       stop("all obs_by must be in data")
   } else {
-    if(!is_null(newdata) || !is_data_list(newdata))
+    if(!is_null(newdata) && !is_data_list(newdata))
       stop("as original dataset is a data list newdata must be NULL or a data list")
     if(!is_FALSE(base))
       stop("as original dataset is a data list base must be FALSE")    
@@ -178,7 +177,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
     base <- generate_data(data)
   } else if(is_FALSE(base))
     base <- NULL
-
+  
   if (is.jags_data_list(data)) {
     bol <- !names(data) %in% names(newdata)
     if (any(bol)) {
@@ -224,7 +223,6 @@ predict.jags_analysis <- function (object, newdata = NULL,
   newdata <- as.jags_data(newdata)
   if(!is_null(base))
     base <- as.jags_data(base)
-  
   
   pred <- predict_jagr(object, parm = parm, data = newdata, base = base, 
                            level = level, estimate = estimate, ...)

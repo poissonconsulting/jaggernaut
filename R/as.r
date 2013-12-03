@@ -86,11 +86,7 @@ as.array.mcarray <- function (x, ...) {
 }
 
 as.matrix.jagr_chains <- function (x, ...) {
-  return (as.matrix(as.mcmc.list(x, ...), ...))
-}
-
-as.data.frame.jagr_chains <- function (x, ...) {
-  return (as.data.frame(as.matrix(x, ...), ...))
+  return (as.matrix(as.mcmc.list(x), ...))
 }
 
 as.list.jagr_chains <- function (x, ...) {  
@@ -141,14 +137,6 @@ as.jags_data.list <- function (x, ...) {
 #' @export
 as.jags_data.data.frame <- function (x, ...) {
   return (jags_data_frame(x))
-}
-
-as.jags_data.jags_data_list <- function (x, ...) {
-  return (x)
-}
-
-as.jags_data.jags_data_frame <- function (x, ...) {
-  return (x)
 }
 
 #' @method as.jags_data_list list

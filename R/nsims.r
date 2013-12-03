@@ -27,6 +27,10 @@ nsims.jagr_chains <- function (object) {
   return (nsims(samples(object)[[1]]))
 }
 
+nsims.jags_samples <- function (object) {
+  return (ncol(object))
+}
+
 nsims.jagr_power_analysis <- function (object) {
   return (nsims(chains(object)))
 }
