@@ -28,7 +28,8 @@ data_jags <- function (object, ...) {
 #' @method data_jags jags_sample
 #' @export
 data_jags.jags_sample <- function (object, ...) {
-  return (as.data.frame(object[,-grep("[[:digit:]]", colnames(object))]))
+  object <- object[,-grep("[[:digit:]]", colnames(object)), drop = FALSE]
+  return (object)
 }
 
 #' @title Get dataset from a JAGS data model
