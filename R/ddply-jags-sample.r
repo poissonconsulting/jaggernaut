@@ -14,6 +14,7 @@ ddply_jags_sample <- function (object, by, fun = sum) {
     stop("object must be class jags_sample")
 
   fun_vs <- function (x, fun) {
+    class(x) <- c("data.frame", "jags_sample")
     samples <- samples(x)
     return (apply(samples, MARGIN = 2, FUN = fun))
   }
