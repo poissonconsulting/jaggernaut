@@ -1,11 +1,10 @@
 Package: jaggernaut
-Type: Package
-Title: A package to facilitate Bayesian analyses using JAGS.
 Version: 1.4
 Date: 2013-12-03
+Title: A package to facilitate Bayesian analyses using JAGS
 Author: Joe Thorley [aut, cre]
 Maintainer: Joe Thorley <joe@poissonconsulting.ca>
-URL: https://github.com/joethorley/jaggernaut
+License: GPL-2
 Description: jaggernaut is an R package to facilitate Bayesian analyses using
     JAGS (Just Another Gibbs Sampler). Key features include the conversion of a
     data frame into a suitable format for input into JAGS; the option to
@@ -14,6 +13,10 @@ Description: jaggernaut is an R package to facilitate Bayesian analyses using
     processes; the ability to extract derived parameters from an existing model
     using BUGS code without additional MCMC sampling; the ability to use BUGS
     code to generate dummy data sets and perform power analyses.
+URL: https://github.com/joethorley/jaggernaut
+SystemRequirements: jags (>= 3.3.0)
+NeedsCompilation: yes
+LinkingTo: Rcpp
 Depends:
     R (>= 3.0.2)
 Imports:
@@ -21,13 +24,12 @@ Imports:
     reshape2,
     foreach,
     plyr,
-    coda,
-    rjags
+    coda (>= 0.16),
+    rjags (>= 3-11)
 Suggests:
     ggplot2,
     scales,
     testthat
-License: GPL-2
 Collate:
     'plot.r'
     'as.r'
@@ -131,3 +133,4 @@ Collate:
     'names-select.r'
     'ddply-jags-sample.r'
     'merge-jags-samples.r'
+    'RcppExports.R'

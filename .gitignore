@@ -2,7 +2,12 @@
 .Rhistory
 .RData
 .DS_Store
-jaggernaut.Rproj
-build.r
 .Rbuildignore
+
+*.Rproj
+
+*.o
+*.so
+
+build.r
 data.r
