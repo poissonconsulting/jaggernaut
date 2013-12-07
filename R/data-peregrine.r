@@ -25,5 +25,8 @@
 #' @examples
 #' data(peregrine)
 #' summary(peregrine)
-#' # demo(peregrine)
+#' \dontrun{
+#' 
+#' demo(peregrine)
+#' }
 NULL
