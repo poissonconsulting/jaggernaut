@@ -24,7 +24,8 @@ Imports:
     reshape2,
     plyr,
     coda (>= 0.16),
-    rjags (>= 3-11)
+    rjags (>= 3-11),
+    assertthat
 Suggests:
     ggplot2,
     scales,

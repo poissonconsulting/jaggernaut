@@ -18,8 +18,10 @@ rhat <- function (object, parm, combine, ...) {
 
 rhat.jagr_chains <- function (object, parm = "all", combine = TRUE, ...) {
   
-  stopifnot(is_character_vector(parm))
-  stopifnot(is_logical_scalar(combine))
+  assertthat::assert_that(assertthat::is.string(parm) &&
+                            assertthat::noNA(parm))
+  assertthat::assert_that(assertthat::is.flag(combine) &&
+                            assertthat::noNA(combine))
   
   parm <- unique(parm)
   
