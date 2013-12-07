@@ -72,11 +72,16 @@ random_effects = list(bGroup = NULL))
 power <- jags_power_analysis(model, data_model, values, nreps = 5, mode = "demo")
 
 print(power)
+
+\dontshow{
+
 nvalues(power)
 nreps(power)
 nchains(power)
 niters(power)
 nsims(power)
+}
+
 rhat(power)
 is_converged(power, percent = TRUE)
 

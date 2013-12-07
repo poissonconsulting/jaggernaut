@@ -83,12 +83,16 @@ rhat(an)
 coef(an)
 summary(an)
 
-# data()
-# ?peregrine
-# data(peregrine)
-# summary(peregrine)
-# demo()
-# demo(peregrine)
+
+\dontrun{
+
+data(package = "jaggernaut")
+?peregrine
+data(peregrine)
+summary(peregrine)
+demo(package = "jaggernaut")
+demo(peregrine)
+}
 }
 \references{
   Kery M & Schaub M (2011) Bayesian Population Analysis

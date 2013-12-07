@@ -19,7 +19,10 @@
 \examples{
 data(peregrine)
 summary(peregrine)
-# demo(peregrine)
+\dontrun{
+
+demo(peregrine)
+}
 }
 \references{
   Kery M & Schaub M (2011) Bayesian Population Analysis

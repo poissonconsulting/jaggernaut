@@ -40,6 +40,8 @@ print(simulation)
 nreps(simulation)
 nvalues(simulation)
 
+\dontshow{
+
 simulation1 <- subset_jags(simulation, rep = 1:2)
 data_jags(simulation1)
 
@@ -57,6 +59,7 @@ simulation <- update(simulation1, nreps = 2, values = data.frame(nx = c(25)))
 nreps(simulation)
 values(simulation)
 nvalues(simulation)
+}
 }
 \seealso{
   \code{\link{jags_data_model}} and
