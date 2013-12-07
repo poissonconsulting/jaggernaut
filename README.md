@@ -13,3 +13,10 @@ Key features include
 
 * the ability to use BUGS code to generate dummy data sets and perform power analyses
 
+Contact
+
+You are welcome to:
+
+* submit suggestions and bug-reports at: https://github.com/joethorley/jaggernaut/issues
+* send a pull request on: https://github.com/joethorley/jaggernaut/
+* compose a friendly e-mail to: joethorley@gmail.com
