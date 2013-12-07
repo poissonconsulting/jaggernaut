@@ -22,14 +22,17 @@ Depends:
 Imports:
     abind,
     reshape2,
-    foreach,
     plyr,
     coda (>= 0.16),
     rjags (>= 3-11)
 Suggests:
     ggplot2,
     scales,
-    testthat
+    testthat,
+    foreach,
+    doMC,
+    itertools,
+    iterators
 Collate:
     'plot.r'
     'as.r'
