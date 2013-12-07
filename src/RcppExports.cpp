@@ -5,14 +5,15 @@
 
 using namespace Rcpp;
 
-// hello_world
-List hello_world();
-RcppExport SEXP jaggernaut_hello_world() {
+// bayesian_p_value
+double bayesian_p_value(NumericVector x);
+RcppExport SEXP jaggernaut_bayesian_p_value(SEXP xSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
-        List __result = hello_world();
+        Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP );
+        double __result = bayesian_p_value(x);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);

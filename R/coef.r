@@ -8,12 +8,6 @@ coef_matrix <- function(object, level, estimate) {
   
   est <- function (x, level) {
     
-    p<-function (x) {
-      x<-sum(as.integer(x>=0))/length(x)
-      x<-round(x,4)
-      return (min(x,1-x)*2)
-    }
-    
     lower <- (1 - level) / 2
     upper <- level + lower
     ci <- quantile(x,c(lower,upper),na.rm=T)
@@ -28,7 +22,8 @@ coef_matrix <- function(object, level, estimate) {
     pre <- (ci["upper"]-ci["lower"]) / 2 / abs(estimate)
     pre <- pre * 100
     
-    return (c(estimate ,ci, signif(sd(x),5), round(pre), p(x)))
+    return (c(estimate ,ci, signif(sd(x),5), round(pre), 
+              round(bayesian_p_value(x),4)))
   }
   
   estimates<-data.frame(t(apply(object,MARGIN=2,FUN = est, level = level)))
