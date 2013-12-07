@@ -316,7 +316,7 @@ assign_opts_jagr <- function (opts) {
          call. = FALSE)
   }
   if (opts$parallel && foreach::getDoParWorkers() == 1) {
-    warning("option parallel can only be TRUE when there is a registered doPar backend")
+    warning("option parallel can only be TRUE when there is a registered doPar backend", call. = FALSE)
     opts$parallel <- FALSE
   } 
   if (!(opts$rhat >= 1 &&  opts$rhat <= 2)) {
