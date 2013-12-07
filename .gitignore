@@ -8,6 +8,3 @@
 
 *.o
 *.so
-
-build.r
-data.r
