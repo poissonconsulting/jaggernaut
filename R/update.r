@@ -46,7 +46,7 @@ update.jagr_chains <- function (object, niters, ...) {
     
     chains <- chains_list[[1]]
     for (i in 2:length(chains_list)) {
-      chains <- add_jags(chains, chains_list[[i]])
+      chains <- combine(chains, chains_list[[i]])
     } 
   } else {
     chains <- update_jags (jags = jags[[1]], monitor = monitor, 
@@ -150,7 +150,7 @@ update.jags_simulation <- function (object, nreps, values = NULL, mode = "curren
     if(!quiet)
       cat("\nValues Updated\n")
 
-    object <- add_jags(object, simulation)
+    object <- combine(object, simulation)
   }
     
   if (nreps > 0) {
@@ -200,7 +200,7 @@ update.jags_power_analysis <- function (object, nreps = 0, values = NULL, mode =
     if(!quiet)
       cat("\nValues Updated\n")
     
-    object <- add_jags(object, power)
+    object <- combine(object, power)
   }
   
   if (nreps > 0) {

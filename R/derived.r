@@ -50,7 +50,7 @@ derived <- function (object, parm, data) {
       for (i in 2:nsims) {
         samples <- get_samples (parm,data = c(dat,as.list(subset_jags(chains, sim = i, chain = j))), file = file)
         
-        list[[j]] <- add_jags (list[[j]], samples, by = "sims")
+        list[[j]] <- combine(list[[j]], samples, by = "sims")
       }
     }
   }    
@@ -58,7 +58,7 @@ derived <- function (object, parm, data) {
     
   if (nchains > 1) {
     for (j in 2:nchains)
-      samples <- add_jags (samples, list[[j]], by = "chains")
+      samples <- combine(samples, list[[j]], by = "chains")
   }
   
   newobject <- list()

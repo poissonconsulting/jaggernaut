@@ -29,7 +29,7 @@ select = c("Volume","Girth")
   select = c("Volume","Girth","Height")
 )
   
-  models <- add_jags(model1, model2)
+  models <- combine(model1, model2)
   
   data <- trees
   

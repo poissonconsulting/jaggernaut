@@ -54,7 +54,7 @@ test_that("jags_model returns object of correct class", {
       } 
     }"
   
-  model <- add_jags(model,model2)
+  model <- combine(model,model2)
   
   expect_that(model, is_a("jags_model"))
   expect_equal(nmodels(model), 2)
@@ -95,7 +95,7 @@ test_that("jags_model returns object of correct class", {
   expect_that(length(random_effects(model)), is_equivalent_to(2))
   expect_that(random_effects(model)[[2]], is_a("list"))
   
-  model3 <- add_jags(model2, model2)
+  model3 <- combine(model2, model2)
   model_code(model3) <- model_code(model)
   select(model3) <- select(model)
   monitor(model3) <- monitor(model)

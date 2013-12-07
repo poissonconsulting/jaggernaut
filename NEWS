@@ -24,3 +24,10 @@ And constructed with the following guidelines:
 
 For more information on jaggernaut, please visit 
 https://github.com/joethorley/jaggernaut/wiki.
+
+Version 1.4
+----------
+
+* add_jags deprecated for combine
+
+

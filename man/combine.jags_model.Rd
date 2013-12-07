@@ -1,8 +1,8 @@
-\name{add_jags.jags_model}
-\alias{add_jags.jags_model}
+\name{combine.jags_model}
+\alias{combine.jags_model}
 \title{Add JAGS model objects}
 \usage{
-  \method{add_jags}{jags_model} (object, ...)
+  \method{combine}{jags_model} (object, ...)
 }
 \arguments{
   \item{object}{a \code{jags_model} object.}
@@ -17,7 +17,7 @@
   Adds two or more \code{jags_model} objects.
 }
 \seealso{
-  \code{\link{add_jags}}, \code{\link{jags_model}} and
+  \code{\link{combine}}, \code{\link{jags_model}} and
   \code{\link{jaggernaut}}.
 }
 

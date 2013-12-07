@@ -1,8 +1,8 @@
-\name{add_jags.jags_power_analysis}
-\alias{add_jags.jags_power_analysis}
+\name{combine.jags_power_analysis}
+\alias{combine.jags_power_analysis}
 \title{Add JAGS power analysis objects}
 \usage{
-  \method{add_jags}{jags_power_analysis} (object, ...,
+  \method{combine}{jags_power_analysis} (object, ...,
     mode = "current")
 }
 \arguments{
@@ -26,8 +26,7 @@
   same number.
 }
 \seealso{
-  \code{\link{add_jags}},
-  \code{\link{jags_power_analysis}},
+  \code{\link{combine}}, \code{\link{jags_power_analysis}},
   \code{\link{jags_data_model}}, \code{\link{opts_jagr}}
   and \code{\link{jaggernaut}}.
 }

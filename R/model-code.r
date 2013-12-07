@@ -70,7 +70,7 @@ model_code.jags_analysis <- function (object, ...) {
   
   if (is.character (value)) {
     if (length(value) != 1) {
-      stop ("model_code must define a single model - for multiple models use add_jags to add multiple jags_models")
+      stop ("model_code must define a single model - for multiple models use combine to add multiple jags_models")
     }
   } else {
     stop ("model_code must be class character")

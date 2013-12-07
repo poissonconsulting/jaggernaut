@@ -13,7 +13,7 @@
   the JAGS model in BUGS code using the
   \code{\link{jags_model}} function. Multiple models can be
   combined in a single \code{jags_model} object using
-  \code{\link{add_jags}}. Next the resultant
+  \code{\link{combine}}. Next the resultant
   \code{jags_model} object is passed together with a data
   set to the \code{\link{jags_analysis}} function which
   calls the JAGS software to perform the actual MCMC

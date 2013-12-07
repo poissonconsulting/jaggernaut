@@ -138,3 +138,4 @@ Collate:
     'ddply-jags-sample.r'
     'merge-jags-samples.r'
     'RcppExports.R'
+    'combine.r'

@@ -86,7 +86,7 @@
 #' 
 #' values$bEffect <- c(0.1, 0.2)
 #' power2 <- jags_power_analysis(model, data_model, values, nreps = 10, mode = "demo") 
-#'  power <- add_jags(power, power2)
+#'  power <- combine(power, power2)
 #' 
 #' coef(power, parm = "bEffect", combine = TRUE)
 #' 

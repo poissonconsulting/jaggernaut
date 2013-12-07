@@ -29,7 +29,7 @@ test_that("subset.jags_analysis subsets", {
                       x[i]~dpois(bLambda) 
                       } 
 }")
-  mods <- add_jags(mod1,mod2)
+  mods <- combine(mod1,mod2)
   
   data <- data.frame(x = rpois(100,1))
 

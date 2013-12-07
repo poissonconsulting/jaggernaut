@@ -39,7 +39,7 @@ jagr_power_analysis <- function (model_code, data, niters, inits,
     
     chains <- chains_list[[1]]
     for (i in 2:length(chains_list)) {
-      chains <- add_jags(chains, chains_list[[i]])
+      chains <- combine(chains, chains_list[[i]])
     }
   } else {
     chains <- jags_analysis_internal(inits = inits, data = data, file=file, 

@@ -1,8 +1,8 @@
-\name{add_jags.jags_simulation}
-\alias{add_jags.jags_simulation}
+\name{combine.jags_simulation}
+\alias{combine.jags_simulation}
 \title{Add JAGS simulation objects}
 \usage{
-  \method{add_jags}{jags_simulation} (object, ...,
+  \method{combine}{jags_simulation} (object, ...,
     mode = "current")
 }
 \arguments{
@@ -25,7 +25,7 @@
   same number.
 }
 \seealso{
-  \code{\link{add_jags}}, \code{\link{jags_simulation}},
+  \code{\link{combine}}, \code{\link{jags_simulation}},
   \code{\link{opts_jagr}} and \code{\link{jaggernaut}}.
 }
 

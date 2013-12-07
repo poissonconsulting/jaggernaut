@@ -1,8 +1,8 @@
-\name{add_jags}
-\alias{add_jags}
-\title{Add JAGS objects}
+\name{combine}
+\alias{combine}
+\title{Combines objects}
 \usage{
-  add_jags(object, ...)
+  combine(object, ...)
 }
 \arguments{
   \item{object}{a JAGS object.}

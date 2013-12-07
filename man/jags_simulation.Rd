@@ -50,7 +50,7 @@ simulation1 <- update(simulation1, nreps = 2)
 nreps(simulation1)
 
 simulation2 <- subset_jags(simulation, value = 2, rep = 1)
-simulation <- add_jags(simulation1, simulation2)
+simulation <- combine(simulation1, simulation2)
 nreps(simulation)
 values(simulation)
 nvalues(simulation)

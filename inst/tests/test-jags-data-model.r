@@ -40,7 +40,7 @@ test_that("jags_data_model returns object of correct class", {
   extract_data(model) <- function (data) data
   expect_that(extract_data(model), is_a("function"))
   
-  expect_that(add_jags(model,model), throws_error())
+  expect_that(combine(model,model), throws_error())
   expect_that(subset_jags(model,1), throws_error())
   expect_that(update_jags(model), throws_error())
   expect_that(model(model), throws_error())
