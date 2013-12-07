@@ -28,6 +28,8 @@
 #' nreps(simulation)
 #' nvalues(simulation)
 #' 
+#' \dontshow{
+#' 
 #' simulation1 <- subset_jags(simulation, rep = 1:2)
 #' data_jags(simulation1)
 #'  
@@ -45,6 +47,7 @@
 #' nreps(simulation)
 #' values(simulation)
 #' nvalues(simulation)
+#' }
 #' 
 #' @export
 jags_simulation <- function (data_model, values, nreps = 100, mode = "current") {
