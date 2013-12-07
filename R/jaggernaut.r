@@ -88,10 +88,14 @@
 #' coef(an)
 #' summary(an)
 #'  
-#' # data()  
-#' # ?peregrine  
-#' # data(peregrine)
-#' # summary(peregrine)
-#' # demo()  
-#' # demo(peregrine)
+#'  
+#' \dontrun{ 
+#' 
+#' data(package = "jaggernaut")  
+#' ?peregrine  
+#' data(peregrine)
+#' summary(peregrine)
+#' demo(package = "jaggernaut")
+#' demo(peregrine)
+#' }
 NULL
