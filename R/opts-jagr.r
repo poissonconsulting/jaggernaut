@@ -311,8 +311,13 @@ assign_opts_jagr <- function (opts) {
   if (!(opts$nsims >= 100 &&  opts$nsims <= 2000)) {
     stop("option nsims must lie between 100 and 2000")
   } 
+  if (opts$parallel && !require("foreach")) {
+    stop("foreach package required for parallel jaggernaut processing",
+         call. = FALSE)
+  }
   if (opts$parallel && foreach::getDoParWorkers() == 1) {
-    stop("option parallel can only be TRUE when there is a registered doPar backend")
+    warning("option parallel can only be TRUE when there is a registered doPar backend")
+    opts$parallel <- FALSE
   } 
   if (!(opts$rhat >= 1 &&  opts$rhat <= 2)) {
     stop("option rhat must lie between 1 and 2")
