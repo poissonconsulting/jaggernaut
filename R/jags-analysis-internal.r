@@ -4,7 +4,11 @@ jags_analysis_internal <- function (inits, data, file, monitor, n.chain = 1,
                                     n.thin = 1, random = NULL) {
   stopifnot(is.null(monitor) || is.character(monitor))
   stopifnot(is.jagr_data(data))
-  stopifnot(is.null(inits) || is.list(inits))
+  
+  assert_that(is.count(n.chain) && noNA(n.chain))
+  assert_that(is.null(inits) || is.list(inits))
+  assert_that(is.null(inits) || length(inits) == n.chain)
+
   
   n.adapt <- as.integer(n.adapt)
   n.burnin <- as.integer(n.burnin)

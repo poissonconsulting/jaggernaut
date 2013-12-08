@@ -1,4 +1,3 @@
-
 #' @title Perform a JAGS analysis
 #'
 #' @description 
@@ -58,49 +57,55 @@
 #' @export
 jags_analysis <- function (model, data, niters = 10^3, mode = "current") {
 
-  if (!is.jags_model(model))
-    stop("model must be a jags_model")
-  
-  if(is.numeric(niters)) {
-    if(!is_scalar(niters))
-      stop("niters must be a single value")  
-    if(niters < 100 || niters > 10^6) 
-      stop("niters must lie between 100 and 10^6")
-  } else
-    stop("niters must be numeric")
-  
-  check_modules()
-  
-  object <- list()
-  
-  class(object) <- "jags_analysis"
-  
-  data_jags(object) <- data
-  
-  niters <- as.integer(niters)
-  
-  if (mode != "current") {
-    old_opts <- opts_jagr(mode = mode)
-    on.exit(opts_jagr(old_opts))
-  }
-  
-  quiet <- opts_jagr("quiet")
+  assert_that(is.jags_model(model))
+  assert_that(is_data(data))
+  assert_that(is.count(niters))
+  assert_that(niters >= 100 && niters <= 10^6)
+  assert_that(is.string(mode))
   
   if (options()$jags.pb != "none") {
     jags.pb <- options()$jags.pb
     options(jags.pb = "none")
     on.exit(options("jags.pb" = jags.pb), add = TRUE)
   }
-      
-  if (opts_jagr("mode") == "debug") {
-    niters <- 100
-  } 
   
-  analyses <- list()
+  if (mode != "current") {
+    old_opts <- opts_jagr(mode = mode)
+    on.exit(opts_jagr(old_opts))
+  }
+  
+  check_modules()
     
-  analyses <- llply_jg(.data = models(model), .fun = jagr_analysis, 
-                             data = data_jags(object), niters = niters, 
-                       .parallel = TRUE)
+  nworkers <- getDoParWorkers()
+  
+  if(!opts_jagr("parallel") || opts_jagr("mode") == "debug")
+    nworkers <- 1
+  
+  if (opts_jagr("mode") == "debug")
+    niters <- 100
+  
+  object <- list()
+  class(object) <- "jags_analysis"
+  data_jags(object) <- data
+  
+  data <- data_jags(object)
+  models <- models(model)
+  nmodels <- nmodels(model)
+  nchains <- opts_jagr("nchains")
+
+  chunks <- floor(nworkers / nchains)
+  chunks <- min(nmodels, chunks)
+  if (chunks <= 1) {
+    analyses <- jagr_analysis_list(models, data = data, niters = niters, 
+                                   nworkers = nworkers)
+  } else { 
+    i <- NULL
+    analyses <- foreach(i = isplitIndices(n = nmodels, 
+                                          chunks = chunks)) %dopar% {
+      jagr_analysis_list(models[i], data = data, niters = niters, 
+                         nworkers = nchains)
+    }
+  }
   
   analyses(object) <- analyses
   rhat_threshold(object) <- opts_jagr("rhat")

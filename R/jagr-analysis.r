@@ -1,19 +1,17 @@
-
-jagr_analysis <- function (model, data, niters) {    
+jagr_analysis <- function (model, data, niters, nworkers) {    
   
-  stopifnot(is.jagr_analysis_model(model))
-  stopifnot(is.jags_data(data))
-  stopifnot(is_integer_scalar(niters))
-  stopifnot(is_bounded(niters, 100))
+  assert_that(is.jagr_analysis_model(model))
+  assert_that(is.jags_data(data))
+  assert_that(is.count(niters) && noNA(niters))
+  assert_that(is.count(nworkers) && noNA(nworkers))
   
   resample <- opts_jagr("nresample")
   nchains <- opts_jagr("nchains")
   quiet <- opts_jagr("quiet")
   rhat_threshold <- opts_jagr("rhat")
   
-  if(!is.null(monitor(model))) {
+  if(!is.null(monitor(model)))
     monitor(model) <- sort(unique(c(monitor(model),"deviance")))
-  }
   
   data <- translate_data(select(model), data) 
   
@@ -31,7 +29,8 @@ jagr_analysis <- function (model, data, niters) {
   analysis <- jagr_power_analysis(model_code = model_code(model), 
                                   data = data, 
                                   niters = niters,
-                                  inits = inits, 
+                                  inits = inits,
+                                  nworkers = nworkers,
                                   monitor = monitor(model),
                                   random = names(random_effects(model)))
     
@@ -64,4 +63,10 @@ jagr_analysis <- function (model, data, niters) {
   }
     
   return (object)
+}
+
+jagr_analysis_list <- function (models, data, niters, nworkers) {
+  assert_that(is_list(models))
+  
+  llply(models, jagr_analysis, data = data, niters = niters, nworkers = nworkers)
 }

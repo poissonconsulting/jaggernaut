@@ -1,13 +1,13 @@
-
-jagr_power_analysis <- function (model_code, data, niters, inits, 
+jagr_power_analysis <- function (model_code, data, niters, inits, nworkers,
                                  monitor = NULL,
                                  random = NULL) { 
   
-  stopifnot(is.jagr_data(data))
+  assert_that(is.jagr_data(data))
+  assert_that(is.count(niters) && noNA(niters))
+  assert_that(is.count(nworkers) && noNA(nworkers))
   
   nchains <- opts_jagr("nchains")
   nsims <- opts_jagr("nsims")  
-  parallel <- opts_jagr("parallel")
   
   niters <- ceiling(max(niters, nsims * 2 / nchains))
 
@@ -29,25 +29,25 @@ jagr_power_analysis <- function (model_code, data, niters, inits,
   file <- tempfile(fileext=".bug")
   cat(model_code, file=file)
   
-  if(!parallel || opts_jagr("mode") == "debug" ||
-       getDoParWorkers() < opts$nchains) {
+  chunks <- floor(nworkers / nchains)
+  if(chunks < 1) {
     chains <- jags_analysis_internal(inits, data, file = file, 
-                                     monitor = monitor,
-                                     n.chain = nchains, 
-                                     n.adapt = n.adapt, 
-                                     n.burnin = n.burnin, 
-                                     n.sim = nsims, n.thin = n.thin, 
-                                     random = random)
-  } else {
-    chains <- foreach(i = 1:nchains, .combine=combine_jagr_chains) %dopar% {
+                           monitor = monitor,
+                           n.adapt = n.adapt, 
+                           n.burnin = n.burnin, n.chain = nchains, 
+                           n.sim = nsims, n.thin = n.thin, 
+                           random = random)
+  } else {  
+    chains <- foreach(i = 1:nchains,
+                      .combine = combine_jagr_chains) %dopar% {
       jags_analysis_internal(inits[i], data, file = file, 
                              monitor = monitor,
                              n.adapt = n.adapt, 
                              n.burnin = n.burnin, 
                              n.sim = nsims, n.thin = n.thin, 
                              random = random)
-    }
-  } 
+    } 
+  }
   object <- list()
   
   class(object) <- c("jagr_power_analysis")
