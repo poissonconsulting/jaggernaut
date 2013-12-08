@@ -18,22 +18,20 @@ SystemRequirements: jags (>= 3.3.0)
 NeedsCompilation: yes
 LinkingTo: Rcpp
 Depends:
-    R (>= 3.0.2)
+    R (>= 3.0.2),
+    doParallel
 Imports:
+    assertthat,
     abind,
     reshape2,
     plyr,
     coda (>= 0.16),
     rjags (>= 3-11),
-    assertthat
+    itertools
 Suggests:
-    ggplot2,
-    scales,
     testthat,
-    foreach,
-    doMC,
-    itertools,
-    iterators
+    ggplot2,
+    scales
 Collate:
     'plot.r'
     'as.r'
@@ -139,3 +137,5 @@ Collate:
     'merge-jags-samples.r'
     'RcppExports.R'
     'combine.r'
+    'parallel.r'
+    'test-examples.r'
