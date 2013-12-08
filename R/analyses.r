@@ -33,7 +33,7 @@ analyses.jags_power_analysis <- function (object) {
   stopifnot(is.list(value) && is.list(value)[[1]])
   stopifnot(is.jagr_power_analysis(value[[1]][[1]]))
   stopifnot(is_scalar(unique(sapply(value,length))))
-  assertthat::assert_that(length(value) == nvalues(object))
+  assert_that(length(value) == nvalues(object))
   
   object$analyses <- value
   

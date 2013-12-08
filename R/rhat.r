@@ -18,10 +18,8 @@ rhat <- function (object, parm, combine, ...) {
 
 rhat.jagr_chains <- function (object, parm = "all", combine = TRUE, ...) {
   
-  assertthat::assert_that(assertthat::is.string(parm) &&
-                            assertthat::noNA(parm))
-  assertthat::assert_that(assertthat::is.flag(combine) &&
-                            assertthat::noNA(combine))
+  assert_that(is.string(parm) && noNA(parm))
+  assert_that(is.flag(combine) && noNA(combine))
   
   parm <- unique(parm)
   
