@@ -310,16 +310,10 @@ assign_opts_jagr <- function (opts) {
     stop("option rhat must lie between 1 and 2")
   
   if(opts$parallel && getDoParWorkers() == 1) {
-    warning("option parallel set to FALSE as no parallel backend registered")
-    opts$parallel <- FALSE
+    warning(paste0("chains and models will not be run",
+    " in parallel until a parallel backend is registered"))
   }
-  
-  if(opts$parallel && getDoParWorkers() < opts$nchains) {
-    message(paste0("chains will not be run in parallel until the number of",
-                   "registered DoParWorkers (",getDoParWorkers(),") is at least",
-                   "the number of chains (",opts$nchains,")"))
-  }
-  
+
   topts <- opts[!names(opts) %in% c("mode","parallel")]
   
   if (isTRUE(all.equal(topts, 
