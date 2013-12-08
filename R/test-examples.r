@@ -56,6 +56,9 @@
 #' opts_jagr("parallel" = FALSE)
 #' registerDoSEQ()
 #' 
+#' registerDoParallel(4) 
+#' opts_jagr("parallel" = TRUE)
+#' 
 #' demo(peregrine, ask= FALSE)
 #' demo(hm, ask = FALSE)
 #' demo(woodchat, ask = FALSE)
