@@ -1,11 +1,10 @@
+# State-space model for annual population counts
 
 library(ggplot2)
 library(scales)
 
-# State-space model for annual population counts
-
 # ssm (Kery and Schaub 2011 p.127)
-mod <- jags_model("
+model <- jags_model("
              model {
              logN.est[1] ~ dnorm(5.6, 10^-2)
              mean.r ~ dnorm(1, 10^-2)
@@ -17,12 +16,12 @@ mod <- jags_model("
              logN.est[yr+1] <- logN.est[yr] + r[yr]
              }
              
-             for (i in 1:nrow) {
+             for (i in 1:length(year)) {
              C[i] ~ dlnorm(logN.est[year[i]], sigma.obs^-2)
              }
              }",
  derived_code = "model{
-             for (i in 1:nrow) {
+             for (i in 1:length(year)) {
              log(prediction[i]) <- logN.est[year[i]]
              }
  }",
@@ -32,24 +31,24 @@ select = c("C","year")
 
 data(hm)
 
-dat <- hm
+data <- hm
 pyears <- 6
-C <- c(dat$hm,rep(NA,pyears))
-year <- c(dat$year,max(dat$year+1):max(dat$year+pyears))
-dat <- data.frame(C = C, year = year)
+C <- c(data$hm,rep(NA,pyears))
+year <- c(data$year,max(data$year+1):max(data$year+pyears))
+data <- data.frame(C = C, year = year)
 
-dat$year <- factor(dat$year)
+data$year <- factor(data$year)
 
-an <- jags_analysis (mod, dat, niter = 10^5, mode = "demo")
+analysis <- jags_analysis (model, data, niter = 10^5, mode = "demo")
 
-coef(an, parm = c("mean.r","sigma.obs","sigma.proc"))
+coef(analysis, parm = c("mean.r","sigma.obs","sigma.proc"))
 
-pred <- predict(an, newdata = "year")
+prediction <- predict(analysis, newdata = "year")
 
-pred$Year <- as.integer(as.character(pred$year))
-dat$Year <- as.integer(as.character(dat$year))
+prediction$Year <- as.integer(as.character(prediction$year))
+data$Year <- as.integer(as.character(data$year))
 
-gp <- ggplot(data = pred, aes(x = Year, y = estimate))
+gp <- ggplot(data = prediction, aes(x = Year, y = estimate))
 gp <- gp + geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 1/4)
 gp <- gp + geom_line(data = na.omit(dat), aes(y = C), alpha = 1/3)
 gp <- gp + geom_line()
@@ -60,12 +59,12 @@ gp <- gp + expand_limits(y = 0)
 print(gp)
 
 base <- data.frame(year = "2009")
-pred <- predict(an, newdata = "year", base = base)
-print(pred)
+prediction <- predict(analysis, newdata = "year", base = base)
+print(prediction)
 
-pred$Year <- as.integer(as.character(pred$year))
+prediction$Year <- as.integer(as.character(prediction$year))
 
-gp <- ggplot(data = pred, aes(x = Year, y = estimate))
+gp <- ggplot(data = prediction, aes(x = Year, y = estimate))
 gp <- gp + geom_hline(yintercept = 0, alpha = 1/3)
 gp <- gp + geom_pointrange(aes(ymin = lower, ymax = upper))
 gp <- gp + scale_y_continuous(name = "Population Change", labels = percent)

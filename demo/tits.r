@@ -1,9 +1,8 @@
+# Poisson GLM analyses of coal tit counts (Kery & Schaub 2011 p.95-110)
 
 library(reshape2) 
 library(ggplot2)
 library(scales) 
-
-# Poisson GLM analyses of coal tit counts (Kery & Schaub 2011 p.95-110)
 
 # Whereas Kery & Schaub (2011) pass the counts, observer codes and
 # first time observer indicators as site x year matrices in the following

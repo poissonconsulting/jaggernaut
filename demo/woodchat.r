@@ -1,6 +1,4 @@
-
-# Binomial mixed-effects model for woodchat shrike
-# (Kery 2010 p.231-235)
+# Binomial mixed-effects model for woodchat shrike (Kery 2010 p.231-235)
 
 data_model <- jags_data_model("data {
   for (gr in 1:n.groups) {
@@ -47,5 +45,7 @@ monitor = c("intercept.mean","slope.mean","intercept.sd","slope.sd",
 random_effects = list(intercept.effects = NULL, slope.effects = NULL))
 
 data <- data_jags(data_model, values)
+
 analysis <- jags_analysis(model, data, niters = 10^5, mode = "demo")
+
 coef(analysis)

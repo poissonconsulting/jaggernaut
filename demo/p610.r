@@ -1,11 +1,10 @@
+# Mark-recapture analysis of species detections
 
 library(ggplot2)
 library(scales)
 
-# Mark-recapture analysis of species detections
-
 # M_tbh (Kery and Schaub 2011 p.158-159)
-mod1 <- jags_model(" model {
+model1 <- jags_model(" model {
   omega ~ dunif(0, 1)
   sd ~ dunif(0, 3)
   gamma ~ dnorm(0, 10^-2)
@@ -42,12 +41,12 @@ gen_inits = function (data) {
   inits$z <- rep(1,data$nrow)
   return (inits)
 },
-random = list(z = NULL, eps = NULL, p = NULL),
+random_effects = list(z = NULL, eps = NULL, p = NULL),
 select = c("y")
 )
 
 # M0 (Kery and Schaub 2011 p.160-161)
-mod2 <- jags_model(" model {
+model2 <- jags_model(" model {
   omega ~ dunif(0, 1)
   p ~ dunif(0, 1)
            
@@ -72,12 +71,12 @@ gen_inits = function (data) {
   inits$z <- rep(1,data$nrow)
   return (inits)
 },
-random = list(z = NULL),
+random_effects = list(z = NULL),
 select = c("y")                  
 )
 
 # M_t+X (Kery and Schaub 2011 164-165)
-mod3 <- jags_model (" model {
+model3 <- jags_model (" model {
   omega ~ dunif(0, 1)
   beta ~ dnorm(0, 10^-2)
   mu.size ~ dnorm(0, 10^-2)
@@ -120,44 +119,44 @@ modify_data = function (data, analysis) {
    
    return (inits)
  },
- random = list(z = NULL, eps = NULL, p = NULL),
+random_effects = list(z = NULL, eps = NULL, p = NULL),
 select = c("y","log_cbrt(size)*","prior.sd.upper")                                      
 )
 
 
-mods <- list(mod1,mod2,mod3)
+models <- combine(model1, model2, model3)
 
 data(p610)
-dat <- p610
+data <- p610
 
-bm <- dat$bm
+bm <- data$bm
 
-dat <- dat[,substr(colnames(dat),1,5) == "count"]
-for (i in 1:ncol(dat)) {
-  dat[,i] <- as.logical(dat[,i])
+data <- data[,substr(colnames(dat),1,5) == "count"]
+for (i in 1:ncol(data)) {
+  data[,i] <- as.logical(data[,i])
 }
-dat <- as.matrix(dat)
+data <- as.matrix(data)
 
-dat <- list(y = dat, size = bm, prior.sd.upper = 33)
+data <- list(y = data, size = bm, prior.sd.upper = 33)
 
 log_cbrt <- function (x) {
   return (log(x^(1/3)))
 }
 
-an <- jags_analysis (mods, dat, niter = 10^5, mode = "demo")
+analysis <- jags_analysis (models, data, niter = 10^5, mode = "demo")
 
-summary(an)
+summary(analysis)
 
-plot(an, model_number = 1, parm = "N")
-plot(an, model_number = 2, parm = "N")
+plot(analysis, model_number = 1, parm = "N")
+plot(analysis, model_number = 2, parm = "N")
 
 newdata <- list(size = seq(from = min(dat$size), to = 2000, length.out = 50))
 
-pred <- predict(an, newdata = newdata, model_number = 3)
+prediction <- predict(analysis, newdata = newdata, model_number = 3)
 
-pred$Size <- newdata$size
+prediction$Size <- newdata$size
 
-gp <- ggplot(data = pred, aes(x = Size, y = estimate))
+gp <- ggplot(data = prediction, aes(x = Size, y = estimate))
 gp <- gp + geom_line()
 gp <- gp + scale_x_continuous(name = "Body mass (g)")
 gp <- gp + scale_y_continuous(name = "Detection probability",labels=percent,expand=c(0,0))

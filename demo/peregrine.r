@@ -1,8 +1,7 @@
+# Poisson GLM analysis of peregrine breeding pairs (Kery & Schaub 2011 p.55-66)
 
 library(ggplot2)
 library(scales) 
-
-# Poisson GLM analysis of peregrine breeding pairs (Kery & Schaub 2011 p.55-66)
 
 # GLM_Poisson (Kery & Schaub 2011 p.58-59)
 model <- jags_model("
