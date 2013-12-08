@@ -83,7 +83,7 @@ jags_analysis <- function (model, data, niters = 10^3, mode = "current") {
   
   if (opts_jagr("mode") == "debug")
     niters <- 100
-  
+    
   object <- list()
   class(object) <- "jags_analysis"
   data_jags(object) <- data
@@ -100,8 +100,21 @@ jags_analysis <- function (model, data, niters = 10^3, mode = "current") {
                                    nworkers = nworkers)
   } else { 
     i <- NULL
+    
+    fun <- function (x1, x2) {
+      n1 <- length(x1)
+      n2 <- length(x2)
+      x <- list()
+      for (i in 1:n1)
+        x[[i]] <- x1[[i]]
+      for (i in 1:n2)
+        x[[i + n1]] <- x2[[i]]
+      return (x)
+    }
+    
     analyses <- foreach(i = isplitIndices(n = nmodels, 
-                                          chunks = chunks)) %dopar% {
+                                          chunks = chunks),
+                        .combine = fun) %dopar% {
       jagr_analysis_list(models[i], data = data, niters = niters, 
                          nworkers = nchains)
     }
