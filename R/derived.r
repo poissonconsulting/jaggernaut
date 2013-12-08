@@ -29,11 +29,11 @@ derived <- function (object, parm, data) {
     warn <- options('warn')
     options(warn = -1)
     
-    jags <- rjags::jags.model (file = file, data = data, 
+    jags <- jags.model (file = file, data = data, 
                                n.chains = 1, n.adapt = 0, quiet = TRUE
     )
     
-    samples <- rjags::jags.samples(
+    samples <- jags.samples(
       model = jags, variable.names = monitor, n.iter = 1
     )
     options (warn)

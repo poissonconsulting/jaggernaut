@@ -7,7 +7,7 @@ expand_parm.jagr_chains <- function (object, parm, ...) {
   
   mcmc <- as.mcmc.list (object)
   
-  vars <- coda::varnames(mcmc)
+  vars <- varnames(mcmc)
   
   vars <- sort(vars)
   

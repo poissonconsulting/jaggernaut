@@ -74,7 +74,7 @@ power_jags <- function (object, parm = c(fixed = 0), level = "current",
     coef <- coef(object, parm = parm, level = level, estimate = estimate)
         
     coef$parameter <- rownames(coef) 
-    coef <- reshape2::melt(coef, id.vars = c("parameter"), variable.name = "statistic", value.name = "number")
+    coef <- melt(coef, id.vars = c("parameter"), variable.name = "statistic", value.name = "number")
     
     if(!is_converged(object, rhat_threshold = rhat_threshold))
       is.na(coef$number) <- TRUE
@@ -88,7 +88,7 @@ power_jags <- function (object, parm = c(fixed = 0), level = "current",
   coef$value <- paste0("value",rep(1:nvalues(object), each = nrow(coef)/nvalues(object)))
   coef$.id <- NULL
   
-  coef <- reshape2::dcast(coef,value + parameter + statistic ~ replicate,
+  coef <- dcast(coef,value + parameter + statistic ~ replicate,
                           value.var = "number")
   
   values <- values(object)

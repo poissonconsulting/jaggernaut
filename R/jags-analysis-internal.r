@@ -15,9 +15,9 @@ jags_analysis_internal <- function (inits, data, file, monitor, n.chain = 1,
     quiet <- opts_jagr("mode") != "debug"
     
     if (!length(inits)) {
-      return (rjags::jags.model (..., quiet = quiet))
+      return (jags.model (..., quiet = quiet))
     }
-    return (rjags::jags.model (..., inits = inits, quiet = quiet))
+    return (jags.model (..., inits = inits, quiet = quiet))
   }
   
   jags <- jags.model_jg (file = file, data = data, inits = inits, 
@@ -35,7 +35,7 @@ jags_analysis_internal <- function (inits, data, file, monitor, n.chain = 1,
   monitor <- c(monitor, "deviance")
   monitor <- sort(unique(monitor))
   
-  samples <- rjags::jags.samples(
+  samples <- jags.samples(
     model = jags, variable.names = monitor, n.iter = n.sim, thin = n.thin
   )
   

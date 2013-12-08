@@ -25,7 +25,7 @@ rhat.jagr_chains <- function (object, parm = "all", combine = TRUE, ...) {
   
   mcmc <- as.mcmc.list (object)
   
-  vars <- coda::varnames(mcmc)
+  vars <- varnames(mcmc)
   
   vars <- sort(vars)
   
@@ -33,7 +33,7 @@ rhat.jagr_chains <- function (object, parm = "all", combine = TRUE, ...) {
     if(nchains(object) > 1) {
       rhat <- numeric()
       for (i in seq(along = vars)) {
-        rhat[i] <- round(coda::gelman.diag(mcmc[,vars[i]])$psrf[1],2)
+        rhat[i] <- round(gelman.diag(mcmc[,vars[i]])$psrf[1],2)
       }
     } else {
       rhat <- rep(NA,length(vars))

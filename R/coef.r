@@ -228,7 +228,7 @@ coef.jags_power_analysis <- function (object, parm = "fixed", combine = TRUE, co
         
     object <- subset(object,select = c("estimate","lower","upper","error"))
     object$parameter <- rownames(object) 
-    melt <- reshape2::melt(object, id.vars = c("parameter"), variable.name = "statistic", value.name = "number")
+    melt <- melt(object, id.vars = c("parameter"), variable.name = "statistic", value.name = "number")
     
     if(!converged)
       is.na(melt$number) <- TRUE
@@ -244,7 +244,7 @@ coef.jags_power_analysis <- function (object, parm = "fixed", combine = TRUE, co
   
   value <- parameter <- statistic <- replicate <- NULL
   
-  coef <- reshape2::dcast(coef,value + parameter + statistic ~ replicate,
+  coef <- dcast(coef,value + parameter + statistic ~ replicate,
                           value.var = "number")
   
   get_estimates <- function (d, power_level, level, estimate, converged) {

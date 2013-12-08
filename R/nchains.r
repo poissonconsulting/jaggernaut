@@ -18,7 +18,7 @@ nchains.mcarray <- function (object) {
 }
 
 nchains.mcmc.list <- function (object) {
-  return (coda::nchain (object))
+  return (nchain (object))
 }
 
 nchains.jagr_chains <- function (object) {
