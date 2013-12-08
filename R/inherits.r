@@ -3,8 +3,16 @@ is.mcarray <- function (x) {
   return (inherits(x, "mcarray"))
 }
 
+on_failure(is.mcarray) <- function(call, env) {
+  paste0(deparse(call$x), " is not a mcarray")
+}
+
 is.jags <- function (x) {
   return (inherits(x, "jags"))
+}
+
+on_failure(is.mcarray) <- function(call, env) {
+  paste0(deparse(call$x), " is not a jags")
 }
 
 is.jagr_data <- function (x) {
@@ -106,6 +114,10 @@ is.jagr_analysis_model <- function (x) {
 is.jags_model <- function (x) {
   return (inherits(x, "jags_model"))
 }
+
+on_failure(is.jags_model) <- function(call, env) {
+  paste0(deparse(call$x), " is not a jags_model")
+}
   
 is.jagr_power_analysis <- function (x) {
   return (inherits(x, "jagr_power_analysis"))
@@ -129,6 +141,11 @@ is.jagr_analysis <- function (x) {
 is.jags_analysis <- function (x) {
   return (inherits(x, "jags_analysis"))
 }
+
+on_failure(is.jags_analysis) <- function(call, env) {
+  paste0(deparse(call$x), " is not a jags_analysis")
+}
+
 
 #' @title Test for objects of class jags_simulation
 #'
