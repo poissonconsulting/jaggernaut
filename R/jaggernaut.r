@@ -1,4 +1,3 @@
-
 #' @title Bayesian Analysis with JAGS
 #'
 #' @description 
@@ -62,7 +61,7 @@
 #' Plummer M (2012) JAGS Version 3.3.0 User Manual \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
 #' 
 #' @docType package
-#' @import abind reshape2 plyr coda rjags assertthat
+#' @import assertthat abind reshape2 plyr coda rjags doParallel itertools
 #' @name jaggernaut
 #' @aliases package-jaggernaut
 #' @seealso \code{\link{jags_model}},
@@ -91,11 +90,15 @@
 #'  
 #' \dontrun{ 
 #' 
-#' data(package = "jaggernaut")  
-#' ?peregrine  
+#' data(package = "jaggernaut") 
 #' data(peregrine)
 #' summary(peregrine)
 #' demo(package = "jaggernaut")
+#' 
 #' demo(peregrine)
+#' 
+#' # further information on the peregrine data set
+#' ?peregrine
 #' }
+#'
 NULL
