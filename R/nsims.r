@@ -20,7 +20,7 @@ nsims.mcarray <- function (object) {
 }
 
 nsims.mcmc.list <- function (object) {
-  return (nchains (object) * coda::niter(object))
+  return (nchains (object) * niter(object))
 }
 
 nsims.jagr_chains <- function (object) {

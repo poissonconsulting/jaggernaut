@@ -47,7 +47,7 @@ combine.mcarray <- function (object, ..., by = "sims") {
     
     class(object)<-"array"
     class(object2)<-"array"
-    object <- abind::abind (object,object2,along=length(dimobj))
+    object <- abind (object,object2,along=length(dimobj))
     
     names(dim(object)) <- dnames
     class(object)<-"mcarray"
@@ -69,7 +69,7 @@ combine.mcarray <- function (object, ..., by = "sims") {
     
     class(object)<-"array"
     class(object2)<-"array"
-    object <- abind::abind (object,object2,along=length(dimobj)-1)
+    object <- abind (object,object2,along=length(dimobj)-1)
     
     names(dim(object)) <- dnames
     class(object)<-"mcarray"

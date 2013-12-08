@@ -15,11 +15,11 @@ update_jags <- function (jags, monitor, n.sim, n.thin, recompile) {
       jags$recompile()
   }
   if (opts_jagr("mode") != "debug") {
-    capture.output(samples <- rjags::jags.samples(
+    capture.output(samples <- jags.samples(
       model = jags, variable.names = monitor, n.iter = n.sim, thin = n.thin
     ))
   } else {
-    samples <- rjags::jags.samples(
+    samples <- jags.samples(
       model = jags, variable.names = monitor, n.iter = n.sim, thin = n.thin
     )      
   }

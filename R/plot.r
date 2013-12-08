@@ -7,7 +7,7 @@ plot.jagr_chains <- function (x, parm = "all", ...) {
   parm <- expand_parm(x, parm = parm)
     
   mcmc <- as.mcmc.list (x)
-  mcmc <- mcmc[,coda::varnames(mcmc) %in% parm, drop = FALSE]
+  mcmc <- mcmc[,varnames(mcmc) %in% parm, drop = FALSE]
     
   return (plot(mcmc,...))
 }

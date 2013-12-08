@@ -18,7 +18,7 @@ jagr_power_analysis <- function (model_code, data, niters, inits,
   
   ptm <- proc.time()
             
-  rngs <- rjags::parallel.seeds("base::BaseRNG", nchains)
+  rngs <- parallel.seeds("base::BaseRNG", nchains)
   
   if (!is.null (inits)) {
     for (i in 1:nchains)
@@ -30,7 +30,7 @@ jagr_power_analysis <- function (model_code, data, niters, inits,
   cat(model_code, file=file)
   
   if(!parallel || opts_jagr("mode") == "debug" ||
-       foreach::getDoParWorkers() < opts$nchains) {
+       getDoParWorkers() < opts$nchains) {
     chains <- jags_analysis_internal(inits, data, file = file, 
                                      monitor = monitor,
                                      n.chain = nchains, 

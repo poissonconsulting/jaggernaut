@@ -124,7 +124,7 @@ as.mcmc.list.jagr_chains <- function (x, ...) {
     colnames(ans.ch) <- vnames.ch
     ans[[ch]] <- mcmc(ans.ch)
   }
-  return (coda::mcmc.list(ans))
+  return (mcmc.list(ans))
 }
 
 #' @method as.jags_data list
