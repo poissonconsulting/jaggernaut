@@ -42,7 +42,7 @@ test_that("checks input", {
    expect_that(jags_analysis (model, data, niter = 99, mode = "test"), throws_error())
    expect_that(jags_analysis (model, data, niter = 10^6+1, mode = "test"), throws_error())
    expect_that(jags_analysis (model, data, niter = 100, mode = "test"), is_a("jags_analysis"))
-   expect_that(jags_analysis (model, data, niter = 100.1, mode = "test"), is_a("jags_analysis"))
+   expect_that(jags_analysis (model, data, niter = 100.1, mode = "test"), throws_error())
    expect_that(jags_analysis (model, data, mode = "unknown"), throws_error())
 })
 
