@@ -139,4 +139,3 @@ Collate:
     'merge-jags-samples.r'
     'RcppExports.R'
     'combine.r'
-    'assertthat.r'

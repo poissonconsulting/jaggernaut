@@ -62,7 +62,7 @@
 #' Plummer M (2012) JAGS Version 3.3.0 User Manual \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
 #' 
 #' @docType package
-#' @import abind reshape2 plyr coda rjags
+#' @import abind reshape2 plyr coda rjags assertthat
 #' @name jaggernaut
 #' @aliases package-jaggernaut
 #' @seealso \code{\link{jags_model}},
