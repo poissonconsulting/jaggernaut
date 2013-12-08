@@ -87,11 +87,14 @@ summary(an)
 \dontrun{
 
 data(package = "jaggernaut")
-?peregrine
 data(peregrine)
 summary(peregrine)
 demo(package = "jaggernaut")
+
 demo(peregrine)
+
+# further information on the peregrine data set
+?peregrine
 }
 }
 \references{
