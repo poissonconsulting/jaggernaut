@@ -128,8 +128,7 @@ opts_jagr_set <- .opts_jagr$set
 #' \item{nresample}{the number of times to resample 
 #' until convergence is achieved (default = 3)}
 #' \item{nsims}{the total number of MCMC samples to thin from the second halves of the MCMC chains (default = 1000)}
-#' \item{parallel}{whether chains and analyses should
-#' be run on separate processes (default = FALSE)}
+#' \item{parallel}{whether in parallel.}
 #' \item{quiet}{whether to suppress messages (default = FALSE)}
 #' \item{rhat}{the R-hat threshold for convergence (default = 1.1)}
 #' }
@@ -150,8 +149,6 @@ opts_jagr_set <- .opts_jagr$set
 #' MCMC sampling continues.  This process is repeated until the convergence target is 
 #' achieved or resampling would exceed the value of the \code{nresample} argument.
 #' 
-#' Currently parallel processing is only available for unix-based systems. For such systems
-#' the \code{parallel_chains} option is by default \code{TRUE} otherwise its \code{FALSE}.
 #' 
 #' @return For \code{opts_jagr()} a list of all jaggernaut options values
 #' sorted by name. For \code{opts_jagr(name)} a list of length one of the 
@@ -279,12 +276,9 @@ assign_opts_jagr <- function (opts) {
   if (length(opts$nsims) != 1) {
     stop("option nsims must be length 1")
   }
-  if (length(opts$parallel) != 1) {
-    stop("option parallel must be length 1")
-  }   
-  if (length(opts$quiet) != 1) {
-    stop("option quiet must be length 1")
-  }  
+  assert_that(is.flag(opts$parallel) && noNA(opts$parallel))
+  assert_that(is.flag(opts$quiet) && noNA(opts$quiet))
+  
   if (length(opts$rhat) != 1) {
     stop("option convergence must be length 1")
   }
@@ -292,7 +286,7 @@ assign_opts_jagr <- function (opts) {
   opts$nchains <- as.integer(opts$nchains)
   opts$nresample <- as.integer(opts$nresample)
   opts$nsims <- as.integer(opts$nsims)
-   
+  
   if (!(opts$level >= 0.75 && opts$level <= 0.99)) {
     stop("option level must lie between 0.75 and 0.99")
   }  
@@ -311,23 +305,19 @@ assign_opts_jagr <- function (opts) {
   if (!(opts$nsims >= 100 &&  opts$nsims <= 2000)) {
     stop("option nsims must lie between 100 and 2000")
   } 
-  if (opts$parallel && !require("foreach")) {
-    stop("foreach package required for parallel jaggernaut processing",
-         call. = FALSE)
-  }
-  if (opts$parallel && getDoParWorkers() == 1) {
-    warning("option parallel can only be TRUE when there is a registered doPar backend", call. = FALSE)
-    opts$parallel <- FALSE
-  } 
   
   if (!(opts$rhat >= 1 &&  opts$rhat <= 2))
     stop("option rhat must lie between 1 and 2")
   
+  if(opts$parallel && getDoParWorkers() == 1) {
+    warning("option parallel set to FALSE as no parallel backend registered")
+    opts$parallel <- FALSE
+  }
+  
   if(opts$parallel && getDoParWorkers() < opts$nchains) {
-    warning(paste0("option parallel is TRUE but the number of registered",
-                   "DoParWorkers (",getDoParWorkers(),") is less",
-                   "than the number of chains (",opts$nchains,") which means",
-                  "that chains will not be run in parallel."))
+    message(paste0("chains will not be run in parallel until the number of",
+                   "registered DoParWorkers (",getDoParWorkers(),") is at least",
+                   "the number of chains (",opts$nchains,")"))
   }
   
   topts <- opts[!names(opts) %in% c("mode","parallel")]
