@@ -319,9 +319,16 @@ assign_opts_jagr <- function (opts) {
     warning("option parallel can only be TRUE when there is a registered doPar backend", call. = FALSE)
     opts$parallel <- FALSE
   } 
-  if (!(opts$rhat >= 1 &&  opts$rhat <= 2)) {
+  
+  if (!(opts$rhat >= 1 &&  opts$rhat <= 2))
     stop("option rhat must lie between 1 and 2")
-  } 
+  
+  if(opts$parallel && foreach::getDoParWorkers() < opts$nchains) {
+    warning(paste0("option parallel is TRUE but the number of registered",
+                   "DoParWorkers (",foreach::getDoParWorkers(),") is less",
+                   "than the number of chains (",opts$nchains,") which means",
+                  "that chains will not be run in parallel."))
+  }
   
   topts <- opts[!names(opts) %in% c("mode","parallel")]
   

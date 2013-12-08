@@ -29,26 +29,25 @@ jagr_power_analysis <- function (model_code, data, niters, inits,
   file <- tempfile(fileext=".bug")
   cat(model_code, file=file)
   
-  if(opts_jagr("mode") != "debug") {
-  
-    chains_list <- llply_jg(.data = inits, .fun = jags_analysis_internal, 
-                               data = data, file=file, monitor = monitor, 
-                               n.adapt = n.adapt, n.burnin = n.burnin, 
-                               n.sim = nsims, n.thin = n.thin, random = random,
-                            .parallel = TRUE)  
-    
-    chains <- chains_list[[1]]
-    for (i in 2:length(chains_list)) {
-      chains <- combine(chains, chains_list[[i]])
-    }
-  } else {
-    chains <- jags_analysis_internal(inits = inits, data = data, file=file, 
-                                     monitor = monitor, n.chain = nchains, 
+  if(!parallel || opts_jagr("mode") == "debug" ||
+       foreach::getDoParWorkers() < opts$nchains) {
+    chains <- jags_analysis_internal(inits, data, file = file, 
+                                     monitor = monitor,
+                                     n.chain = nchains, 
                                      n.adapt = n.adapt, 
-                                     n.burnin = n.burnin, n.sim = nsims, 
-                                     n.thin = n.thin, random = random)
-  }
-  
+                                     n.burnin = n.burnin, 
+                                     n.sim = nsims, n.thin = n.thin, 
+                                     random = random)
+  } else {
+    chains <- foreach(i = 1:nchains, .combine=combine_jagr_chains) %dopar% {
+      jags_analysis_internal(inits[i], data, file = file, 
+                             monitor = monitor,
+                             n.adapt = n.adapt, 
+                             n.burnin = n.burnin, 
+                             n.sim = nsims, n.thin = n.thin, 
+                             random = random)
+    }
+  } 
   object <- list()
   
   class(object) <- c("jagr_power_analysis")
