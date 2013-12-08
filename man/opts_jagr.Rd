@@ -50,11 +50,10 @@
   number of times to resample until convergence is achieved
   (default = 3)} \item{nsims}{the total number of MCMC
   samples to thin from the second halves of the MCMC chains
-  (default = 1000)} \item{parallel}{whether chains and
-  analyses should be run on separate processes (default =
-  FALSE)} \item{quiet}{whether to suppress messages
-  (default = FALSE)} \item{rhat}{the R-hat threshold for
-  convergence (default = 1.1)} }
+  (default = 1000)} \item{parallel}{whether in parallel.}
+  \item{quiet}{whether to suppress messages (default =
+  FALSE)} \item{rhat}{the R-hat threshold for convergence
+  (default = 1.1)} }
 
   By default a JAGS analysis will retain a minumum of 1,000
   MCMC samples thinned from the second halves of three
@@ -74,11 +73,6 @@
   repeated until the convergence target is achieved or
   resampling would exceed the value of the \code{nresample}
   argument.
-
-  Currently parallel processing is only available for
-  unix-based systems. For such systems the
-  \code{parallel_chains} option is by default \code{TRUE}
-  otherwise its \code{FALSE}.
 }
 \examples{
 opts_jagr()
