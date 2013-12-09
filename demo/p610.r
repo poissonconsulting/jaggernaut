@@ -134,7 +134,7 @@ data <- p610
 
 bm <- data$bm
 
-data <- data[,substr(colnames(dat),1,5) == "count"]
+data <- data[,substr(colnames(data),1,5) == "count"]
 for (i in 1:ncol(data)) {
   data[,i] <- as.logical(data[,i])
 }
