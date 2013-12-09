@@ -29,21 +29,20 @@ jagr_power_analysis <- function (model_code, data, niters, inits, nworkers,
   file <- tempfile(fileext=".bug")
   cat(model_code, file=file)
   
-  chunks <- floor(nworkers / nchains)
-  if(chunks < 1) {
+  if(nchains == 1 || nworkers == 1) {
     chains <- jags_analysis_internal(inits, data, file = file, 
                            monitor = monitor,
                            n.adapt = n.adapt, 
                            n.burnin = n.burnin, n.chain = nchains, 
                            n.sim = nsims, n.thin = n.thin, 
                            random = random)
-  } else {  
-    chains <- foreach(i = 1:nchains,
+  } else {
+    chains <- foreach(i = isplitIndices(n = nchains, chunks = nworkers),
                       .combine = combine_jagr_chains) %dopar% {
       jags_analysis_internal(inits[i], data, file = file, 
                              monitor = monitor,
                              n.adapt = n.adapt, 
-                             n.burnin = n.burnin, 
+                             n.burnin = n.burnin, n.chain = length(i),
                              n.sim = nsims, n.thin = n.thin, 
                              random = random)
     } 
