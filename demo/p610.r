@@ -103,16 +103,19 @@ derived_code = "model {
     logit(prediction[i]) <- alpha[1] + beta * size[i] 
   }
 }",
-modify_data = function (data, analysis) {
+modify_data = function (data) {
   
   data$nrow <- length(data$size)
   
-  if (analysis) {
-    stopifnot(nrow(data$y) == length(data$size))
-    data$ncol <- ncol(data$y)
-  }
+  stopifnot(nrow(data$y) == length(data$size))
+  data$ncol <- ncol(data$y)
+  
   return (data)
   },
+modify_data_derived = function (data) {
+  data$nrow <- length(data$size)
+  return (data)
+},                      
  gen_inits = function (data) {
    inits <- list()
    inits$z <- rep(1,data$nrow)

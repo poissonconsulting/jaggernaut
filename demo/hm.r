@@ -50,7 +50,7 @@ data$Year <- as.integer(as.character(data$year))
 
 gp <- ggplot(data = prediction, aes(x = Year, y = estimate))
 gp <- gp + geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 1/4)
-gp <- gp + geom_line(data = na.omit(dat), aes(y = C), alpha = 1/3)
+gp <- gp + geom_line(data = na.omit(data), aes(y = C), alpha = 1/3)
 gp <- gp + geom_line()
 gp <- gp + scale_y_continuous(name = "Population Size",expand = c(0,0))
 gp <- gp + scale_x_continuous(name = "Year",expand = c(0,0))

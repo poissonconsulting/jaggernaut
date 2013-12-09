@@ -12,7 +12,7 @@ library(scales)
 # vector to ensure it is treated correctly by the predict function.
 
 # GLMM5 (Kery & Schaub 2011 p.108-109)
-mod1 <- jags_model ("
+model1 <- jags_model ("
               model {
               mu ~ dnorm(0, 10^-2)
               beta1 ~ dnorm(0, 10^-2)
@@ -50,7 +50,7 @@ select = c("C","site","year*","yearFac","obs","first")
 )
 
 # GLMM4 (Kery & Schaub 2011 p.106-107)
-mod2 <- jags_model("
+model2 <- jags_model("
               model {
               mu ~ dnorm(0, 10^-2)
               beta1 ~ dnorm(0, 10^-2)
@@ -83,7 +83,7 @@ select = c("C","site","year*","yearFac","first")
 )
 
 # GLMM3 (Kery & Schaub 2011 p.105)
-mod3 <- jags_model("
+model3 <- jags_model("
               model {
               mu ~ dnorm(0, 10^-2)
               beta2 ~ dnorm(0, 10^-2)
@@ -115,7 +115,7 @@ select = c("C","site","yearFac","first")
 )
 
 # GLMM2 (Kery & Schaub 2011 p.103-104)
-mod4 <- jags_model("
+model4 <- jags_model("
               model {
               mu ~ dnorm(0, 10^-2)
               
@@ -144,7 +144,7 @@ select = c("C","site","yearFac")
 )
 
 # GLMM1 (Kery & Schaub 2011 p.102)
-mod5 <- jags_model("
+model5 <- jags_model("
               model {
               mu ~ dnorm(0, 10^-2)
               
@@ -168,7 +168,7 @@ select = c("C","site")
 )
 
 #' # GLM0 (Kery & Schaub 2011 p.102)
-mod6 <- jags_model ("
+model6 <- jags_model ("
               model {
               mu ~ dnorm(0, 10^-2)
               
@@ -185,14 +185,14 @@ mod6 <- jags_model ("
 select = c("C")
 )
 
-mods <- list(mod1,mod2,mod3,mod4,mod5,mod6)
+models <- list(model1, model2, model3, model4, model5, model6)
 
 data(tits)
-dat <- tits
+data <- tits
 
-year <- subset(dat,select=c("site",paste0("y",1999:2007)))
-obs <- subset(dat,select=c("site",paste0("obs",1999:2007)))
-first <- subset(dat,select=c("site",paste0("first",1999:2007)))
+year <- subset(data, select=c("site",paste0("y",1999:2007)))
+obs <- subset(data, select=c("site",paste0("obs",1999:2007)))
+first <- subset(data, select=c("site",paste0("first",1999:2007)))
 
 year <- melt(year, id.vars = "site", variable.name = "year", value.name = "C")
 obs <- melt(obs, id.vars = "site", variable.name = "year", value.name = "obs")
@@ -203,17 +203,17 @@ year$year <- as.integer(substr(as.character(year$year),2,5))
 obs$year <- as.integer(substr(as.character(obs$year),4,7))
 first$year <- as.integer(substr(as.character(first$year),6,9))
 
-dat <- merge(year, obs, by = c("site","year"))
-dat <- merge(dat, first, by = c("site","year"))
+data <- merge(year, obs, by = c("site","year"))
+data <- merge(data, first, by = c("site","year"))
 
-dat$obs[is.na(dat$obs)] <- 272
-dat$first[is.na(dat$first)] <- 0
-dat$first <- as.logical(dat$first)
+data$obs[is.na(data$obs)] <- 272
+data$first[is.na(data$first)] <- 0
+data$first <- as.logical(data$first)
 
-dat$yearFac <- factor(dat$year)
-dat$obs <- factor(dat$obs)
+data$yearFac <- factor(data$year)
+data$obs <- factor(data$obs)
 
-gp <- ggplot(data = na.omit(dat), aes(x = year, y = C))
+gp <- ggplot(data = na.omit(data), aes(x = year, y = C))
 gp <- gp + geom_line(aes(group = site, color = site))
 gp <- gp + scale_y_continuous(name = "Territory count")
 gp <- gp + scale_x_continuous(name = "Year", breaks = seq(2000,2006,by=2))
@@ -222,13 +222,13 @@ gp <- gp + theme(legend.position = "none")
 
 print(gp)
 
-an <- jags_analysis (mods, dat, niter = 10^4, mode = "demo")
+analysis <- jags_analysis (models, data, niter = 10^4, mode = "demo")
 
-summary(an)
+summary(analysis)
 
-pred <- predict(an, newdata = "site")
+prediction <- predict(analysis, newdata = "site")
 
-gp <- ggplot(data = pred, aes(x = site, y = estimate))
+gp <- ggplot(data = prediction, aes(x = site, y = estimate))
 gp <- gp + geom_pointrange(aes(ymin = lower, ymax = upper))
 gp <- gp + scale_y_continuous(name = "Territory count", expand = c(0,0))
 gp <- gp + scale_x_discrete(name = "Territory", breaks = NULL)
@@ -236,8 +236,8 @@ gp <- gp + expand_limits(y = 0)
 
 print(gp)
 
-pred <- predict(an, newdata = "site", model_number = 2)
+prediction <- predict(analysis, newdata = "site", model_number = 2)
 
-gp <- gp %+% pred
+gp <- gp %+% prediction
 
 print(gp)
