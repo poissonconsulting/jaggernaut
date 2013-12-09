@@ -132,9 +132,13 @@ predict.jags_analysis <- function (object, newdata = NULL,
       on.exit(opts_jagr(old_opts))
   }
   
-  if (!estimate %in% c("mean","median")) {
+  if (!estimate %in% c("mean","median"))
     estimate <- opts_jagr("estimate")
-  }
+  
+  nworkers <- getDoParWorkers()
+  
+  if(!opts_jagr("parallel"))
+    nworkers <- 1
   
   object <- subset_jags(object, model_number = model_number)
   
@@ -225,7 +229,8 @@ predict.jags_analysis <- function (object, newdata = NULL,
     base <- as.jags_data(base)
   
   pred <- predict_jagr(object, parm = parm, data = newdata, base = base, 
-                           level = level, estimate = estimate, ...)
+                           level = level, estimate = estimate, 
+                       nworkers = nworkers, ...)
       
   rownames(pred) <- NULL
   

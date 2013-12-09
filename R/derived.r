@@ -1,9 +1,10 @@
 
-derived <- function (object, parm, data) {
+derived <- function (object, parm, data, nworkers) {
   
   stopifnot(is.jags_analysis(object) && is_one_model(object))
   stopifnot(is_character_scalar(parm))
   stopifnot(is.jags_data(data))
+  assert_that(is.count(nworkers) && noNA(nworkers))
   
   if (options()$jags.pb != "none") {
     jags.pb <- options()$jags.pb

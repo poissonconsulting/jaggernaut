@@ -1,5 +1,6 @@
 
-predict_jagr <- function (object, parm, data, base, level, estimate, ...) {
+predict_jagr <- function (object, parm, data, base, level, estimate, 
+                          nworkers, ...) {
   
   stopifnot(is.jags_analysis(object) && is_one_model(object))
   stopifnot(is_character_scalar(parm))
@@ -8,12 +9,13 @@ predict_jagr <- function (object, parm, data, base, level, estimate, ...) {
   stopifnot(is_numeric_scalar(level))
   stopifnot(is_bounded(level, 0.75, 0.99) || level == 0)
   stopifnot(estimate %in% c("mean","median"))
+  assert_that(is.count(nworkers) && noNA(nworkers))
   
-  data_sample <- derived (object, parm = parm, data = data) 
+  data_sample <- derived (object, parm = parm, data = data, nworkers = nworkers) 
   data_sample <- jags_sample(data_sample, parm = parm, data = data)
   
   if (is.jags_data_frame(base)) {
-    base_sample <- derived (object, parm = parm, data = base)
+    base_sample <- derived (object, parm = parm, data = base, nworkers = nworkers)
     base_sample <- jags_sample(base_sample, parm = parm, data = base)
     
     base_sample <- base_sample[rep(1,nrow(data_sample)),]
