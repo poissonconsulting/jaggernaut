@@ -162,8 +162,6 @@ predict.jags_analysis <- function (object, newdata = NULL,
     if (!is_FALSE(obs_by) && !all(obs_by %in% colnames(data)))
       stop("all obs_by must be in data")
   } else {
-    if(!is_null(newdata) && !is_data_list(newdata))
-      stop("as original dataset is a data list newdata must be NULL or a data list")
     if(!is_FALSE(base))
       stop("as original dataset is a data list base must be FALSE")    
     if(!is_null(values))

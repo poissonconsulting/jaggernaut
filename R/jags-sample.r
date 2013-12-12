@@ -13,7 +13,7 @@ jags_sample <- function (chains, parm, data) {
   stopifnot(is.jagr_chains(chains))
   stopifnot(is_character_scalar(parm))
   stopifnot(parm %in% names(chains$samples))  
-  stopifnot(is_data_frame(data))  
+  stopifnot(is_data(data))
   
   parm <- expand_parm(chains, parm = parm)
   
@@ -21,6 +21,15 @@ jags_sample <- function (chains, parm, data) {
   samples <- samples[rownames(samples) %in% parm, , drop = FALSE]
   
   stopifnot(nrow(samples) >= 1)
+  
+  if(is_data_list(data)) {
+    bol <- sapply(data, function (x, n) is.vector(x) && length(x) == n,
+                  n = nrow(samples))
+    if(any(bol)) {
+      data <- data.frame(data[bol])
+    } else
+      data <- data.frame(row = 1:nrow(samples))
+  }
   stopifnot(nrow(samples) == nrow(data))
   
   object <- cbind(data, samples)

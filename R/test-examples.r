@@ -31,7 +31,7 @@
 #' analysis <- jags_analysis (models, data, mode = "demo")
 #' 
 #' registerDoParallel(2) 
-#' opts_jagr("parallel" = TRUE)
+#' opts_jagr(parallel = TRUE)
 #' 
 #' analysis <- jags_analysis (model1, data, mode = "demo")
 #' analysis <- jags_analysis (model2, data, mode = "demo")
@@ -40,11 +40,11 @@
 #' #' # stop cluster if registered parallel backend in windows
 #' if(.Platform$OS.type == "windows") stopImplicitCluster()
 #' 
-#' opts_jagr("parallel" = FALSE)
+#' opts_jagr(parallel = FALSE)
 #' registerDoSEQ()
 #' 
 #' registerDoParallel(4) 
-#' opts_jagr("parallel" = TRUE)
+#' opts_jagr(parallel = TRUE)
 #' 
 #' analysis <- jags_analysis (model1, data, mode = "demo")
 #' analysis <- jags_analysis (model2, data, mode = "demo")
@@ -53,14 +53,15 @@
 #' #' # stop cluster if registered parallel backend in windows
 #' if(.Platform$OS.type == "windows") stopImplicitCluster()
 #' 
-#' opts_jagr("parallel" = FALSE)
+#' opts_jagr(parallel = FALSE)
 #' registerDoSEQ()
 #' 
 #' registerDoParallel(4) 
-#' opts_jagr("parallel" = TRUE)
+#' opts_jagr(parallel = TRUE)
 #' 
 #' demo(peregrine, ask= FALSE)
 #' demo(hm, ask = FALSE)
+#' demo(pinna, ask = FALSE)
 #' demo(woodchat, ask = FALSE)
 #' demo(tits, ask = FALSE)
 #' demo(p610, ask = FALSE)
@@ -68,7 +69,7 @@
 #' # stop cluster if registered parallel backend in windows
 #' if(.Platform$OS.type == "windows") stopImplicitCluster()
 #' 
-#' opts_jagr("parallel" = FALSE)
+#' opts_jagr(parallel = FALSE)
 #' registerDoSEQ()
 #' }
 #'

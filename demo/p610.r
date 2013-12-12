@@ -153,7 +153,7 @@ summary(analysis)
 plot(analysis, model_number = 1, parm = "N")
 plot(analysis, model_number = 2, parm = "N")
 
-newdata <- list(size = seq(from = min(dat$size), to = 2000, length.out = 50))
+newdata <- data.frame(size = seq(from = min(data$size), to = 2000, length.out = 50))
 
 prediction <- predict(analysis, newdata = newdata, model_number = 3)
 
