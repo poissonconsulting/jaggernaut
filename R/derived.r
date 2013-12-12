@@ -1,4 +1,57 @@
 
+get_samples <- function (sims, chains, data, parm, file) {
+  
+  fun <- function (parm, data, file) {
+    # could remove unnecessary data so not need to suppress warning messages...
+    warn <- options('warn')
+    options(warn = -1)
+    
+    jags <- jags.model (file = file, data = data, 
+                        n.chains = 1, n.adapt = 0, quiet = TRUE
+    )
+    
+    samples <- jags.samples(
+      model = jags, variable.names = parm, n.iter = 1
+    )
+    options (warn)
+    
+    return (samples)
+  }
+  
+  nchains <- nchains (chains)
+  
+  list <- list ()
+  for (j in 1:nchains) {
+    
+    list[[j]] <- fun(parm, data = c(data, 
+                                    as.list(subset(chains, 
+                                                   sim = sims[1], 
+                                                   chain = j))),
+                     file = file)    
+    
+    if (length(sims) > 1) {
+      for (i in 2:length(sims)) {
+        samples <- fun (parm,
+                        data = c(data, 
+                                 as.list(subset(chains, 
+                                                sim = sims[i], 
+                                                chain = j))), 
+                        file = file)
+        
+        list[[j]] <- combine(list[[j]], samples, by = "sims")
+      }
+    }
+  }
+  
+  samples <- list [[1]]
+  
+  if (nchains > 1) {
+    for (j in 2:nchains)
+      samples <- combine(samples, list[[j]], by = "chains")
+  }
+  return (samples)
+}
+
 derived <- function (object, parm, data, nworkers) {
   
   stopifnot(is.jags_analysis(object) && is_one_model(object))
@@ -12,12 +65,12 @@ derived <- function (object, parm, data, nworkers) {
     on.exit(options("jags.pb" = jags.pb))
   }  
   
-  dat <- translate_data(select(object), dataset(object), data) 
+  data <- translate_data(select(object), dataset(object), data) 
       
-  chains <- zero_random (object, dat)
+  chains <- zero_random (object, data)
   
   if (is.function(modify_data_derived(object)))
-    dat <- modify_data_derived(object)(dat)
+    data <- modify_data_derived(object)(data)
   
   file <- tempfile(fileext=".bug")
   cat(derived_code(object), file=file)
@@ -25,43 +78,18 @@ derived <- function (object, parm, data, nworkers) {
   nchains <- nchains (chains)
   nsims <- nsims (chains) / nchains
   
-  get_samples <- function (monitor, data, file) {
-    # could remove unnecessary data so not need to suppress warning messages...
-    warn <- options('warn')
-    options(warn = -1)
-    
-    jags <- jags.model (file = file, data = data, 
-                               n.chains = 1, n.adapt = 0, quiet = TRUE
-    )
-    
-    samples <- jags.samples(
-      model = jags, variable.names = monitor, n.iter = 1
-    )
-    options (warn)
-    
-    return (samples)
+  if(nworkers == 1) {
+    samples <- get_samples(sims = 1:nsims, chains = chains, data = data, 
+                 parm = parm, file = file)
+  } else {
+    i <- NULL
+    samples <- foreach(i = isplitIndices(n = nsims, chunks = nworkers),
+                       .combine = combine_lists_by_sims) %dopar% {
+                         get_samples(i, chains = chains, data = data, 
+                                     parm = parm, file = file)
+                       }
   }
-  
-  list <- list ()
-  for (j in 1:nchains) {
     
-    list[[j]] <- get_samples (parm,data = c(dat,as.list(subset(chains, sim = 1, chain = j))),file = file)    
-    
-    if (nsims > 1) {
-      for (i in 2:nsims) {
-        samples <- get_samples (parm,data = c(dat,as.list(subset(chains, sim = i, chain = j))), file = file)
-        
-        list[[j]] <- combine(list[[j]], samples, by = "sims")
-      }
-    }
-  }    
-  samples <- list [[1]]
-    
-  if (nchains > 1) {
-    for (j in 2:nchains)
-      samples <- combine(samples, list[[j]], by = "chains")
-  }
-  
   newobject <- list()
   class(newobject) <- "jagr_chains"
   

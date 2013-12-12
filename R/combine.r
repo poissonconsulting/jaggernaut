@@ -106,6 +106,11 @@ combine.list <- function (object, ..., by = "sims") {
   return (object)
 }
 
+combine_lists_by_sims <- function (object, ...) {
+  assert_that(is.list(object))
+  return (combine(object, ..., by = "sims"))
+}
+
 combine.jagr_chains <- function (object, ...) {
   
   args <- list(...)
