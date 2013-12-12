@@ -45,11 +45,11 @@ derived <- function (object, parm, data, nworkers) {
   list <- list ()
   for (j in 1:nchains) {
     
-    list[[j]] <- get_samples (parm,data = c(dat,as.list(subset_jags(chains, sim = 1, chain = j))),file = file)    
+    list[[j]] <- get_samples (parm,data = c(dat,as.list(subset(chains, sim = 1, chain = j))),file = file)    
     
     if (nsims > 1) {
       for (i in 2:nsims) {
-        samples <- get_samples (parm,data = c(dat,as.list(subset_jags(chains, sim = i, chain = j))), file = file)
+        samples <- get_samples (parm,data = c(dat,as.list(subset(chains, sim = i, chain = j))), file = file)
         
         list[[j]] <- combine(list[[j]], samples, by = "sims")
       }

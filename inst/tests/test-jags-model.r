@@ -112,7 +112,7 @@ test_that("jags_model returns object of correct class", {
   expect_true(identical(derived_code(model3), derived_code(model)))
   expect_true(identical(random_effects(model3), random_effects(model)))
   
-  model <- subset_jags(model,model_number = 2)
+  model <- subset(model,model_number = 2)
   expect_that(model, is_a("jags_model"))
   expect_equal(nmodels(model), 1)
   
@@ -127,7 +127,7 @@ test_that("jags_model returns object of correct class", {
   expect_that(model(model), is_a("jagr_model"))
   expect_that(model(model), is_a("jagr_analysis_model"))
   
-  model <- subset_jags(model, model_number = c(1,1))
+  model <- subset(model, model_number = c(1,1))
   expect_that(model, is_a("jags_model"))
   expect_equal(nmodels(model), 2)  
   

@@ -65,9 +65,9 @@ values <- data.frame(nx = c(1,10), bIntercept = c(5,10))
 simulation <- jags_simulation (data_model, values, nrep = 5, mode = "test")
 
 data1 <- dataset(simulation)
-data2 <- dataset(subset_jags(simulation, value = 1, rep = NULL))
-data3 <- dataset(subset_jags(simulation, value = NULL, rep = 1))
-data4 <- dataset(subset_jags(simulation, value = NULL, rep = NULL))
+data2 <- dataset(subset(simulation, value = 1, rep = NULL))
+data3 <- dataset(subset(simulation, value = NULL, rep = 1))
+data4 <- dataset(subset(simulation, value = NULL, rep = NULL))
   
   expect_that(data1, is_a("list"))
   expect_that(data2, is_a("list"))

@@ -140,7 +140,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
   if(!opts_jagr("parallel"))
     nworkers <- 1
   
-  object <- subset_jags(object, model_number = model_number)
+  object <- subset(object, model_number = model_number)
   
   if(!is_null(modify_data_derived))
     modify_data_derived(object) <- modify_data_derived

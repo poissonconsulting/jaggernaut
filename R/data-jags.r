@@ -10,6 +10,6 @@
 #' @seealso \code{\link{dataset}}  
 #' @export
 data_jags <- function (object, ...) {
-  warning("data_jags is deprecated - use dataset instead")
+  warning("data_jags is deprecated - use dataset instead", call. = FALSE)
   UseMethod("dataset", object)
 }

@@ -132,3 +132,4 @@ Collate:
     'test-examples.r'
     'package-jaggernaut.r'
     'dataset.r'
+    'subset.r'

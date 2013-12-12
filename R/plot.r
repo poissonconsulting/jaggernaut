@@ -32,7 +32,7 @@ plot.jagr_analysis <- function (x, parm, ...) {
 #' @export
 plot.jags_analysis <- function (x, model_number = 1, parm = "fixed", ...) {
 
-  x <- subset_jags(x, model_number = model_number)
+  x <- subset(x, model_number = model_number)
   
   return (plot(analysis(x), parm = parm, ...))
 }

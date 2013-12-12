@@ -1,9 +1,9 @@
-\name{subset_jags.jags_simulation}
-\alias{subset_jags.jags_simulation}
+\name{subset.jags_simulation}
+\alias{subset.jags_simulation}
 \title{Subset a JAGS simulation}
 \usage{
-  \method{subset_jags}{jags_simulation} (object,
-    value = NULL, rep = NULL, ...)
+  \method{subset}{jags_simulation} (object, value = NULL,
+    rep = NULL, ...)
 }
 \arguments{
   \item{object}{a jags_simulation object.}
@@ -23,7 +23,6 @@
   Subset a JAGS simulation object.
 }
 \seealso{
-  \code{\link{subset_jags}} and
-  \code{\link{jags_simulation}}
+  \code{\link{subset}} and \code{\link{jags_simulation}}
 }
 
