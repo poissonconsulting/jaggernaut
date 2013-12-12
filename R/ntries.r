@@ -55,7 +55,7 @@ ntries.jags_simulation <- function (object, combine = FALSE, ...) {
   return (apply(ntries, MARGIN = 2, FUN = mean))
 }
 
-"ntries<-.jags_data" <- function (object, value) {
+"ntries<-.default" <- function (object, value) {
   stopifnot(is_integer_scalar(value))
   stopifnot(is_bounded(value, 1, 10))
   

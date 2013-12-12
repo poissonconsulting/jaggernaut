@@ -11,8 +11,7 @@
   methods.}
 }
 \value{
-  a data.frame, object of type \code{jags_data} or list(s)
-  of the data
+  a data.frame or list(s) of the data
 }
 \description{
   Gets the dataset(s) from a JAGS object.

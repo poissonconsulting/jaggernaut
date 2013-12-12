@@ -25,6 +25,7 @@ Imports:
     abind,
     reshape2,
     plyr,
+    datalist,
     coda (>= 0.16),
     rjags (>= 3-11),
     itertools
@@ -41,12 +42,6 @@ Collate:
     'zero-random.r'
     'print.r'
     'extract-estimates.r'
-    'convert-data.r'
-    'convert-variable.r'
-    'dvariable.r'
-    'generate-data.r'
-    'generate-range.r'
-    'unique.r'
     'jaggernaut.r'
     'jagr-analysis.r'
     'jags-analysis-internal.r'
@@ -86,7 +81,6 @@ Collate:
     'gen-inits.r'
     'modify-data.r'
     'derived-code.r'
-    'get-base-value.r'
     'jagr-model.r'
     'name-object.r'
     'cat-convergence.r'
@@ -126,9 +120,6 @@ Collate:
     'update.r'
     'check-modules.r'
     'ntries.r'
-    'jags-data-frame.r'
-    'jags-data-list.r'
-    'jags-data.r'
     'jags-sample.r'
     'predict-jagr.r'
     'derived.r'
@@ -139,3 +130,4 @@ Collate:
     'combine.r'
     'parallel.r'
     'test-examples.r'
+    'package-jaggernaut.r'

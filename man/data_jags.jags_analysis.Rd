@@ -11,14 +11,14 @@
   methods.}
 }
 \value{
-  The original dataset as type \code{jags_data}.
+  The original dataset.
 }
 \description{
   Returns the original dataset from a \code{jags_analysis}
   object.
 }
 \seealso{
-  \code{\link{data_jags}}, \code{\link{jags_analysis}},
-  \code{\link{jags_data}} and \code{\link{jaggernaut}}
+  \code{\link{data_jags}}, \code{\link{jags_analysis}} and
+  \code{\link{jaggernaut}}
 }
 

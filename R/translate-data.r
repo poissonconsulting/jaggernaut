@@ -2,9 +2,9 @@
 translate_data <- function (select, data, dat = NULL) {
   
   stopifnot(is_null(select) || is_character_vector(select))
-  stopifnot(is.jags_data(data))
-  stopifnot(is_null(dat) || (is.jags_data(dat) &&
-                               is.jags_data_frame(dat) == is.jags_data_frame(data)))
+  stopifnot(is_data(data))
+  stopifnot(is_null(dat) || (is_data(dat) &&
+                               is_data_frame(dat) == is_data_frame(data)))
 
   if (is.null(dat)) 
     dat <- data

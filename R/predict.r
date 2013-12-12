@@ -156,7 +156,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
   
   data <- data_jags(object)
   
-  if(is.jags_data_frame(data)) {
+  if(is_data_frame(data)) {
     if(is_data_list(newdata))
       stop("as original dataset is a data frame newdata must not be a data list")
     if (!is_FALSE(obs_by) && !all(obs_by %in% colnames(data)))
@@ -182,7 +182,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
   } else if(is_FALSE(base))
     base <- NULL
   
-  if (is.jags_data_list(data)) {
+  if (is_data_list(data)) {
     bol <- !names(data) %in% names(newdata)
     if (any(bol)) {
       newdata <- c(newdata, data[bol])
@@ -223,10 +223,6 @@ predict.jags_analysis <- function (object, newdata = NULL,
     dat <- unique(data[, colnames(data) %in% obs_by])
     newdata <- merge(newdata, dat, by = colnames(dat))
   }
-  
-  newdata <- as.jags_data(newdata)
-  if(!is_null(base))
-    base <- as.jags_data(base)
   
   pred <- predict_jagr(object, parm = parm, data = newdata, base = base, 
                            level = level, estimate = estimate, 

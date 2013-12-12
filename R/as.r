@@ -1,16 +1,3 @@
-
-as.jags_data<- function (x, ...) {
-  UseMethod("as.jags_data", x)
-}
-
-as.jags_data_list<- function (x, ...) {
-  UseMethod("as.jags_data_list", x)
-}
-
-as.jags_data_frame<- function (x, ...) {
-  UseMethod("as.jags_data_frame", x)
-}
-
 as.jagr_chains<- function (x, ...) {
   UseMethod("as.jagr_chains", x)
 }
@@ -125,42 +112,6 @@ as.mcmc.list.jagr_chains <- function (x, ...) {
     ans[[ch]] <- mcmc(ans.ch)
   }
   return (mcmc.list(ans))
-}
-
-#' @method as.jags_data list
-#' @export
-as.jags_data.list <- function (x, ...) {
-  return (jags_data_list(x))
-}
-
-#' @method as.jags_data data.frame
-#' @export
-as.jags_data.data.frame <- function (x, ...) {
-  return (jags_data_frame(x))
-}
-
-#' @method as.jags_data_list list
-#' @export
-as.jags_data_list.list <- function (x, ...) {
-  return (jags_data_list(x))
-}
-
-#' @method as.jags_data_list data.frame
-#' @export
-as.jags_data_list.data.frame <- function (x, ...) {
-  return (jags_data_list(x))
-}
-
-#' @method as.jags_data_frame list
-#' @export
-as.jags_data_frame.list <- function (x, ...) {
-  return (jags_data_frame(as.data.frame(x)))
-}
-
-#' @method as.jags_data_frame data.frame
-#' @export
-as.jags_data_frame.data.frame <- function (x, ...) {
-  return (jags_data_frame(x))
 }
 
 as.jagr_chains.jagr_power_analysis <- function (x, ...) {

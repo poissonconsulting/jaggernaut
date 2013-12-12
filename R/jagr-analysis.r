@@ -1,7 +1,7 @@
 jagr_analysis <- function (model, data, niters, nworkers) {    
   
   assert_that(is.jagr_analysis_model(model))
-  assert_that(is.jags_data(data))
+  assert_that(is_data(data))
   assert_that(is.count(niters) && noNA(niters))
   assert_that(is.count(nworkers) && noNA(nworkers))
   

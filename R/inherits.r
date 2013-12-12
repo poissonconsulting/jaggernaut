@@ -19,45 +19,6 @@ is.jagr_data <- function (x) {
   return (inherits(x, "jagr_data"))
 }
 
-#' @title Test for objects of class jags_data
-#'
-#' @description
-#' Tests for objects of class \code{jags_data}.  
-#' 
-#' @param x the object to be tested.
-#' @return a logical element indicating whether or not \code{x} is of 
-#' class \code{jags_data}.
-#' @export
-is.jags_data <- function (x) {
-  return (inherits(x, "jags_data"))
-}
-
-#' @title Test for objects of class jags_data_list
-#'
-#' @description
-#' Tests for objects of class \code{jags_data_list}.  
-#' 
-#' @param x the object to be tested.
-#' @return a logical element indicating whether or not \code{x} is of 
-#' class \code{jags_data_list}.
-#' @export
-is.jags_data_list <- function (x) {
-  return (inherits(x, "jags_data_list"))
-}
-
-#' @title Test for objects of class jags_data_frame
-#'
-#' @description
-#' Tests for objects of class \code{jags_data_frame}.  
-#' 
-#' @param x the object to be tested.
-#' @return a logical element indicating whether or not \code{x} is of 
-#' class \code{jags_data_frame}.
-#' @export
-is.jags_data_frame <- function (x) {
-  return (inherits(x, "jags_data_frame"))
-}
-
 is.jagr_chains <- function (x) {
   return (inherits(x, "jagr_chains"))
 }

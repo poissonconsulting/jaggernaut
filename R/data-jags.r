@@ -6,7 +6,7 @@
 #' 
 #' @param object a JAGS object.
 #' @param ... further arguments passed to or from other methods.
-#' @return a data.frame, object of type \code{jags_data} or list(s) of the data
+#' @return a data.frame or list(s) of the data
 #' @seealso \code{\link{data_jags.jags_data_model}}  
 #' @export
 data_jags <- function (object, ...) {
@@ -56,9 +56,7 @@ data_jags.jags_data_model <- function (object, values, ...) {
   }
   
   check_modules()
-  
-  values <- as.jags_data_frame(values)
-  
+    
   values <- translate_data(select(object), values)
   
   data <- values
@@ -96,7 +94,7 @@ data_jags.jags_data_model <- function (object, values, ...) {
   
   data <- data[order(names(data))]
   
-  return (as.jags_data(data))
+  return (data)
 }
 
 #' @title Get dataset from a JAGS analysis object
@@ -106,9 +104,9 @@ data_jags.jags_data_model <- function (object, values, ...) {
 #' 
 #' @param object a \code{jags_analysis} object.
 #' @param ... further arguments passed to or from other methods.
-#' @return The original dataset as type \code{jags_data}.
-#' @seealso \code{\link{data_jags}}, \code{\link{jags_analysis}},
-#' \code{\link{jags_data}} and \code{\link{jaggernaut}}
+#' @return The original dataset.
+#' @seealso \code{\link{data_jags}}, \code{\link{jags_analysis}}
+#' and \code{\link{jaggernaut}}
 #' @method data_jags jags_analysis
 #' @export
 data_jags.jags_analysis <- function (object, ...) {
@@ -136,7 +134,7 @@ data_jags.jags_simulation <- function (object, ...) {
 "data_jags<-.jags_analysis" <- function (object, value) {
   stopifnot(is_data(value))
 
-  object$data <- as.jags_data(value)
+  object$data <- value
   
   return (object)
 }
