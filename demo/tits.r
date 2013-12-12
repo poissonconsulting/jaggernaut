@@ -33,14 +33,14 @@ model1 <- jags_model ("
               gamma[i] ~ dnorm (0, sd.gamma^-2)
               }
               
-              for (i in 1:nrow) {
+              for (i in 1:length(C)) {
               log(eC[i]) <- mu + beta1 * year[i] + beta2 * first[i]
                 + alpha[site[i]] + gamma[obs[i]] + eps[yearFac[i]]
               C[i] ~ dpois(eC[i])
               }
               }",
  derived_code = "model{
-              for (i in 1:nrow) {
+              for (i in 1:length(C)) {
               log(prediction[i]) <- mu + beta1 * year[i] + beta2 * first[i]
                 + alpha[site[i]] + gamma[obs[i]] + eps[yearFac[i]]
               }
@@ -66,14 +66,14 @@ model2 <- jags_model("
               eps[i] ~ dnorm (0, sd.eps^-2)
               }
               
-              for (i in 1:nrow) {
+              for (i in 1:length(C)) {
               log(eC[i]) <- mu + beta1 * year[i] + beta2 * first[i]
                 + alpha[site[i]] + eps[yearFac[i]]
               C[i] ~ dpois(eC[i])
               }
               }",
  derived_code = "model{
-              for (i in 1:nrow) {
+              for (i in 1:length(C)) {
               log(prediction[i]) <- mu + beta1 * year[i] + beta2 * first[i]
                 + alpha[site[i]] + eps[yearFac[i]]
               }
@@ -98,14 +98,14 @@ model3 <- jags_model("
               eps[i] ~ dnorm (0, sd.eps^-2)
               }
               
-              for (i in 1:nrow) {
+              for (i in 1:length(C)) {
               log(eC[i]) <- mu + beta2 * first[i]
               + alpha[site[i]] + eps[yearFac[i]]
               C[i] ~ dpois(eC[i])
               }
               }",
  derived_code = "model{
-              for (i in 1:nrow) {
+              for (i in 1:length(C)) {
               log(prediction[i]) <- mu + beta2 * first[i]
                 + alpha[site[i]] + eps[yearFac[i]]
               }
@@ -129,13 +129,13 @@ model4 <- jags_model("
               eps[i] ~ dnorm (0, sd.eps^-2)
               }
               
-              for (i in 1:nrow) {
+              for (i in 1:length(C)) {
               log(eC[i]) <- mu + alpha[site[i]] + eps[yearFac[i]]
               C[i] ~ dpois(eC[i])
               }
               }",
  derived_code = "model{
-              for (i in 1:nrow) {
+              for (i in 1:length(C)) {
               log(prediction[i]) <- mu + alpha[site[i]] + eps[yearFac[i]]
               }
  }",
@@ -153,13 +153,13 @@ model5 <- jags_model("
               alpha[j] ~ dnorm (0, sd.alpha^-2)
               }
               
-              for (i in 1:nrow) {
+              for (i in 1:length(C)) {
               log(eC[i]) <- mu + alpha[site[i]]
               C[i] ~ dpois(eC[i])
               }
               }",
  derived_code = "model{
-              for (i in 1:nrow) {
+              for (i in 1:length(C)) {
               log(prediction[i]) <- mu + alpha[site[i]]
               }
  }",
@@ -172,13 +172,13 @@ model6 <- jags_model ("
               model {
               mu ~ dnorm(0, 10^-2)
               
-              for (i in 1:nrow) {
+              for (i in 1:length(C)) {
               log(eC[i]) <- mu
               C[i] ~ dpois(eC[i])
               }
               }",
  derived_code = "model{
-              for (i in 1:nrow) {
+              for (i in 1:length(C)) {
               log(prediction[i]) <- mu
               }
  }",
