@@ -209,7 +209,7 @@ combine.jags_simulation <- function (object, ..., mode = "current") {
   
   values(object) <- rbind(values(object), values(object2))
   
-  data_jags(object)  <- clist(data_jags(object), data_jags(object2))
+  dataset(object)  <- clist(dataset(object), dataset(object2))
   
   nargs <- length(args)
   if (nargs > 0) {
@@ -269,7 +269,7 @@ combine.jags_power_analysis <- function (object, ..., mode = "current") {
   
   values(object) <- rbind(values(object), values(object2))
   
-  data_jags(object) <- clist(data_jags(object), data_jags(object2))
+  dataset(object) <- clist(dataset(object), dataset(object2))
   
   analyses(object) <- clist(analyses(object), analyses(object2))
   

@@ -34,7 +34,7 @@ predict_jagr <- function (object, parm, data, base, level, estimate,
     base_sample <- merge_jags_samples(list(data_sample, base_sample), 
                                       by = "all", fun = percent)
             
-    data_sample <- merge(data_jags(data_sample), base_sample, by = "all")
+    data_sample <- merge(dataset(data_sample), base_sample, by = "all")
     data_sample$all <- NULL
     class(data_sample) <- c("data.frame", "jags_sample")    
   }

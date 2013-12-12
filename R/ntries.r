@@ -43,7 +43,7 @@ ntries.jags_simulation <- function (object, combine = FALSE, ...) {
     return (lapply(object, ntries_default, ...))
   }
   
-  data <- data_jags(object)
+  data <- dataset(object)
   
   ntries <- lapply(data, lapply_ntries_default, ...)
   

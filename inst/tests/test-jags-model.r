@@ -133,5 +133,5 @@ test_that("jags_model returns object of correct class", {
   
   expect_that(model(model), throws_error())
   expect_that(update_jags(model), throws_error())
-  expect_that(data_jags(model), throws_error())
+  expect_that(dataset(model), throws_error())
 })

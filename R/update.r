@@ -162,7 +162,7 @@ update.jags_simulation <- function (object, nreps, values = NULL, mode = "curren
     if(!quiet)
       cat("\nReplicates Updated\n")   
 
-    data_jags(object) <- clist(data_jags(object), data_jags(simulation), 
+    dataset(object) <- clist(dataset(object), dataset(simulation), 
                                recursive = 2)
   }
 
@@ -213,7 +213,7 @@ update.jags_power_analysis <- function (object, nreps = 0, values = NULL, mode =
     if(!quiet)
       cat("\nReplicates Updated\n")   
 
-    data_jags(object) <- clist(data_jags(object), data_jags(power), 
+    dataset(object) <- clist(dataset(object), dataset(power), 
                                recursive = 2)
     analyses(object) <- clist(analyses(object), analyses(power), 
                               recursive = 2)

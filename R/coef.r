@@ -88,7 +88,7 @@ coef.jags_sample <- function (object, level = "current", estimate = "current", .
     
   coef <- coef_matrix(t(samples(object)), level = level, estimate = estimate)
   
-  coef <- cbind(data_jags(object), coef)
+  coef <- cbind(dataset(object), coef)
   
   return (coef)
 }

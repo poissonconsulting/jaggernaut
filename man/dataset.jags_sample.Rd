@@ -1,8 +1,8 @@
-\name{data_jags.jags_sample}
-\alias{data_jags.jags_sample}
+\name{dataset.jags_sample}
+\alias{dataset.jags_sample}
 \title{Get dataset}
 \usage{
-  \method{data_jags}{jags_sample} (object, ...)
+  \method{dataset}{jags_sample} (object, ...)
 }
 \arguments{
   \item{object}{a \code{jags_sample} object.}

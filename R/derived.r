@@ -12,7 +12,7 @@ derived <- function (object, parm, data, nworkers) {
     on.exit(options("jags.pb" = jags.pb))
   }  
   
-  dat <- translate_data(select(object), data_jags(object), data) 
+  dat <- translate_data(select(object), dataset(object), data) 
       
   chains <- zero_random (object, dat)
   

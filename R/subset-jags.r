@@ -210,12 +210,12 @@ subset_jags.jags_simulation <- function (object, value = NULL, rep = NULL, ...) 
   
   values(object) <- values(object)[value,,drop = FALSE]
   
-  data <- data_jags(object)[value]
+  data <- dataset(object)[value]
   
   for (i in 1:length(data))
     data[[i]] <- data[[i]][rep]
 
-  data_jags(object) <- data
+  dataset(object) <- data
   
   return (object)
 }

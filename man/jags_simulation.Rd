@@ -43,7 +43,7 @@ nvalues(simulation)
 \dontshow{
 
 simulation1 <- subset_jags(simulation, rep = 1:2)
-data_jags(simulation1)
+dataset(simulation1)
 
 nreps(simulation1)
 simulation1 <- update(simulation1, nreps = 2)

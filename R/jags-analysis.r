@@ -86,9 +86,9 @@ jags_analysis <- function (model, data, niters = 10^3, mode = "current") {
     
   object <- list()
   class(object) <- "jags_analysis"
-  data_jags(object) <- data
+  dataset(object) <- data
   
-  data <- data_jags(object)
+  data <- dataset(object)
   models <- models(model)
   nmodels <- nmodels(model)
   nchains <- opts_jagr("nchains")

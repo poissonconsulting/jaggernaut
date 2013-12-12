@@ -97,7 +97,7 @@
   Its also important to realize that values always replaces
   the corresponding values in base but only replaces the
   corresponding values in newdata if they are unaltered,
-  i.e., as they are in data_jags(object, base = TRUE).
+  i.e., as they are in dataset(object, base = TRUE).
 }
 \seealso{
   \code{\link{jags_model}}, \code{\link{jags_analysis}},

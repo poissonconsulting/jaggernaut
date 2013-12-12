@@ -27,7 +27,7 @@
 #' function to define the underlying model in BUGS code. Next the resultant
 #' \code{jags_data_model} object is passed to the \code{\link{jags_simulation}}
 #' function together with a data frame specifying the values of particular parameters.
-#' The generated data sets can then be extracted using the \code{\link{data_jags}}
+#' The generated data sets can then be extracted using the \code{\link{dataset}}
 #' function. 
 #' 
 #' A power analysis is performed in a similar manner except the \code{jags_data_model}

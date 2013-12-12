@@ -44,7 +44,7 @@ monitor = c("intercept.mean","slope.mean","intercept.sd","slope.sd",
             "intercept.effects","slope.effects"),
 random_effects = list(intercept.effects = NULL, slope.effects = NULL))
 
-data <- data_jags(data_model, values)
+data <- dataset(data_model, values)
 
 analysis <- jags_analysis(model, data, niters = 10^5, mode = "demo")
 

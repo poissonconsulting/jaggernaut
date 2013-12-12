@@ -31,7 +31,7 @@
 #' \dontshow{
 #' 
 #' simulation1 <- subset_jags(simulation, rep = 1:2)
-#' data_jags(simulation1)
+#' dataset(simulation1)
 #'  
 #' nreps(simulation1)
 #' simulation1 <- update(simulation1, nreps = 2)
@@ -76,9 +76,9 @@ jags_simulation <- function (data_model, values, nreps = 100, mode = "current") 
   data_model(object) <- data_model
   values(object) <- values
   
-  try_data_jags <- function (data_model, values) {
+  try_dataset <- function (data_model, values) {
     
-    data <- try(data_jags(data_model, values))
+    data <- try(dataset(data_model, values))
                 
     onetwothree <- c("one","two","three")
     
@@ -92,7 +92,7 @@ jags_simulation <- function (data_model, values, nreps = 100, mode = "current") 
       
       retries <- retries - 1 
       
-      data <- try(data_jags(data_model, values))
+      data <- try(dataset(data_model, values))
     }
     ntries(data) <- 3 - retries
     return (data)
@@ -106,11 +106,11 @@ jags_simulation <- function (data_model, values, nreps = 100, mode = "current") 
       data[[value]][[rep]] <- data_model
     }
     data[[value]] <- llply_jg(data[[value]], 
-                              try_data_jags, 
+                              try_dataset, 
                               values = values(object)[value,,drop = FALSE])
   }
 
-  data_jags(object) <- data
+  dataset(object) <- data
   
   return (object)
 }

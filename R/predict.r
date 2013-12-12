@@ -53,7 +53,7 @@
 #' 
 #' Its also important to realize that values always replaces the corresponding
 #' values in base but only replaces the corresponding values in newdata if they
-#' are unaltered, i.e., as they are in data_jags(object, base = TRUE).
+#' are unaltered, i.e., as they are in dataset(object, base = TRUE).
 #' 
 #' @return the \code{coef} table for the derived parameter of interest 
 #' or if level = "no" an object of class \code{jags_samples}
@@ -154,7 +154,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
   if(is_TRUE(obs_by))
     obs_by <- newdata
   
-  data <- data_jags(object)
+  data <- dataset(object)
   
   if(is_data_frame(data)) {
     if(is_data_list(newdata))

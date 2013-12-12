@@ -1,8 +1,8 @@
-\name{data_jags}
-\alias{data_jags}
+\name{dataset}
+\alias{dataset}
 \title{Get dataset(s) from a JAGS object}
 \usage{
-  data_jags(object, ...)
+  dataset(object, ...)
 }
 \arguments{
   \item{object}{a JAGS object.}
@@ -17,6 +17,6 @@
   Gets the dataset(s) from a JAGS object.
 }
 \seealso{
-  \code{\link{dataset}}
+  \code{\link{dataset.jags_data_model}}
 }
 

@@ -1,6 +1,6 @@
 Package: jaggernaut
-Version: 1.4
-Date: 2013-12-03
+Version: 1.5
+Date: 2013-12-12
 Title: A package to facilitate Bayesian analyses using JAGS
 Author: Joe Thorley [aut, cre]
 Maintainer: Joe Thorley <joe@poissonconsulting.ca>
@@ -131,3 +131,4 @@ Collate:
     'parallel.r'
     'test-examples.r'
     'package-jaggernaut.r'
+    'dataset.r'

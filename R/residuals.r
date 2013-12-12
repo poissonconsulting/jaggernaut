@@ -42,7 +42,7 @@ residuals.jags_analysis <- function (object, parm = "residual", model_number = 1
   if(!is_null(data) && !is_data(data))
     stop("data must be NULL or a data.frame or list of data")
     
-  if(is_data_frame(data_jags(object))) {
+  if(is_data_frame(dataset(object))) {
     if(is_data_list(data))
       stop("as original dataset is a data frame data must not be a data list")
   } else {

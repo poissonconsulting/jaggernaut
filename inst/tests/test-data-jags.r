@@ -1,6 +1,6 @@
-context("data_jags")
+context("dataset")
 
-test_that("data_jags.jags_data_model", {
+test_that("dataset.jags_data_model", {
   
   data_model <- jags_data_model("
 data {
@@ -16,7 +16,7 @@ data {
   
   values <- data.frame(nx = 10, bIntercept = 5)
   
-  data <- data_jags(data_model, values)
+  data <- dataset(data_model, values)
     
   expect_that(data, is_a("list"))
   expect_that(is_data_list(data), is_true())
@@ -25,7 +25,7 @@ data {
   expect_that(dim(data$y), equals(c(10,10)))
 })
 
-test_that("data_jags.jags_data_model", {
+test_that("dataset.jags_data_model", {
   
   model <- jags_model("
 model {
@@ -39,14 +39,14 @@ model {
   
   analysis <- jags_analysis (model, data, mode = "test")
   
-  data <- data_jags(analysis)
+  data <- dataset(analysis)
     
   expect_that(data, is_a("data.frame"))
   expect_that(nrow(data), equals(100))
   expect_that(colnames(data), is_identical_to("x"))
 })
 
-test_that("data_jags.jags_simulation", {
+test_that("dataset.jags_simulation", {
   
   data_model <- jags_data_model("
 data {
@@ -64,10 +64,10 @@ values <- data.frame(nx = c(1,10), bIntercept = c(5,10))
 
 simulation <- jags_simulation (data_model, values, nrep = 5, mode = "test")
 
-data1 <- data_jags(simulation)
-data2 <- data_jags(subset_jags(simulation, value = 1, rep = NULL))
-data3 <- data_jags(subset_jags(simulation, value = NULL, rep = 1))
-data4 <- data_jags(subset_jags(simulation, value = NULL, rep = NULL))
+data1 <- dataset(simulation)
+data2 <- dataset(subset_jags(simulation, value = 1, rep = NULL))
+data3 <- dataset(subset_jags(simulation, value = NULL, rep = 1))
+data4 <- dataset(subset_jags(simulation, value = NULL, rep = NULL))
   
   expect_that(data1, is_a("list"))
   expect_that(data2, is_a("list"))

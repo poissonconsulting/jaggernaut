@@ -118,7 +118,7 @@ jags_power_analysis <- function (model, data_model, values, nreps = 100,
   if (!quiet)
     cat("\nAnalysing Data\n")
     
-  analyses <- llply_jg(data_jags(object), jags_analysis_datafirst, model = model, niters = niters, .parallel = TRUE, .recursive = 2)
+  analyses <- llply_jg(dataset(object), jags_analysis_datafirst, model = model, niters = niters, .parallel = TRUE, .recursive = 2)
   
   as.jagr_power_analysis_analysis <- function (object) {
     stopifnot(is.jags_analysis(object))

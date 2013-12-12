@@ -101,7 +101,7 @@ data {
 
 print(model)
 values <- data.frame(nx = 10)
-data_jags(model, values)
+dataset(model, values)
 }
 \references{
   Plummer M (2012) JAGS Version 3.3.0 User Manual

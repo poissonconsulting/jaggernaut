@@ -14,5 +14,5 @@ nreps <- function (object) {
 #' @method nreps jags_simulation
 #' @export
 nreps.jags_simulation <- function (object) {
-  return (as.integer(length(data_jags(object)[[1]])))
+  return (as.integer(length(dataset(object)[[1]])))
 }

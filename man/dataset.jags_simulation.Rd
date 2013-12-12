@@ -1,8 +1,8 @@
-\name{data_jags.jags_simulation}
-\alias{data_jags.jags_simulation}
+\name{dataset.jags_simulation}
+\alias{dataset.jags_simulation}
 \title{Get datasets from a JAGS simulation}
 \usage{
-  \method{data_jags}{jags_simulation} (object, ...)
+  \method{dataset}{jags_simulation} (object, ...)
 }
 \arguments{
   \item{object}{a \code{jags_simulation} object.}
@@ -17,6 +17,6 @@
   Extracts datasets from a \code{jags_simulation} object.
 }
 \seealso{
-  \code{\link{data_jags}} and \code{\link{jags_simulation}}
+  \code{\link{dataset}} and \code{\link{jags_simulation}}
 }
 

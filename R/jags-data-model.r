@@ -75,7 +75,7 @@
 #' 
 #' print(model)
 #' values <- data.frame(nx = 10)
-#' data_jags(model, values)
+#' dataset(model, values)
 #'
 #' @export 
 jags_data_model <- function (model_code, monitor = NULL, select = NULL, 

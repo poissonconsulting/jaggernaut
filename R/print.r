@@ -76,7 +76,7 @@ print.jagr_analysis <- function (x, ...) {
 print.jags_analysis <- function (x, ...) {
 
   cat("\ndata head:\n")
-  print(head(data_jags(x)))
+  print(head(dataset(x)))
   
   if (is_one_model(x)) {
     print(analysis(x), ...)
@@ -103,7 +103,7 @@ print.jags_simulation <- function (x, ...) {
   print(values(x), ...)
   
   cat("\ndata head (value:1 rep:1):\n")  
-  print(head(data_jags(x)[[1]][[1]]))
+  print(head(dataset(x)[[1]][[1]]))
   
   cat(paste0("\nnvalues: ", nvalues(x),"\n"))
   cat(paste0("\nnreps: ", nreps(x),"\n"))
