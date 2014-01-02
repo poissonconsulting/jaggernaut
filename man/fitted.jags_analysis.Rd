@@ -2,11 +2,9 @@
 \alias{fitted.jags_analysis}
 \title{JAGS analysis fitted values}
 \usage{
-  \method{fitted}{jags_analysis} (object,
-    parm = "prediction", model_number = 1,
-    derived_code = NULL, random_effects = NULL,
-    level = "current", estimate = "current", data = NULL,
-    ...)
+\method{fitted}{jags_analysis}(object, parm = "prediction",
+  model_number = 1, derived_code = NULL, random_effects = NULL,
+  level = "current", estimate = "current", data = NULL, ...)
 }
 \arguments{
   \item{object}{a jags_analysis object.}
@@ -50,16 +48,16 @@
   methods.}
 }
 \value{
-  the original data frame with the point estimate and lower
-  and upper credibility limits for the derived parameter of
-  interest
+the original data frame with the point estimate and lower
+and upper credibility limits for the derived parameter of
+interest
 }
 \description{
-  Calculate fitted values with credible limits for a JAGS
-  analysis
+Calculate fitted values with credible limits for a JAGS
+analysis
 }
 \seealso{
-  \code{\link{jags_model}}, \code{\link{jags_analysis}} and
-  \code{\link{predict.jags_analysis}}
+\code{\link{jags_model}}, \code{\link{jags_analysis}} and
+\code{\link{predict.jags_analysis}}
 }
 

@@ -2,7 +2,7 @@
 \alias{derived_code}
 \title{Get derived code from a JAGS object}
 \usage{
-  derived_code(object, ...)
+derived_code(object, ...)
 }
 \arguments{
   \item{object}{a JAGS object.}
@@ -11,12 +11,12 @@
   methods.}
 }
 \value{
-  The derived_code component of object.
+The derived_code component of object.
 }
 \description{
-  Gets the derived_code component of a JAGS object.
+Gets the derived_code component of a JAGS object.
 }
 \seealso{
-  \code{\link{jaggernaut}}
+\code{\link{jaggernaut}}
 }
 

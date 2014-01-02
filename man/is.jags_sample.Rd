@@ -2,21 +2,21 @@
 \alias{is.jags_sample}
 \title{Test for objects of class jags_sample}
 \usage{
-  is.jags_sample(x)
+is.jags_sample(x)
 }
 \arguments{
   \item{x}{the object to be tested.}
 }
 \value{
-  a logical element indicating whether or not \code{x} is
-  of class \code{jags_sample}.
+a logical element indicating whether or not \code{x} is of
+class \code{jags_sample}.
 }
 \description{
-  Tests for objects of class \code{jags_sample}.
+Tests for objects of class \code{jags_sample}.
 }
 \seealso{
-  \code{\link{merge_jags_samples}},
-  \code{\link{ddply_jags_sample}} and
-  \code{\link{coef.jags_sample}}.
+\code{\link{merge_jags_samples}},
+\code{\link{ddply_jags_sample}} and
+\code{\link{coef.jags_sample}}.
 }
 

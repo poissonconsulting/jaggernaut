@@ -2,7 +2,7 @@
 \alias{ddply_jags_sample}
 \title{ddply JAGS sample}
 \usage{
-  ddply_jags_sample(object, by, fun = sum)
+ddply_jags_sample(object, by, fun = sum)
 }
 \arguments{
   \item{object}{a jags_sample object.}
@@ -13,13 +13,13 @@
   (by default fun = sum).}
 }
 \value{
-  a jags_sample object
+a jags_sample object
 }
 \description{
-  Combines JAGS samples in a jags_sample object by by using
-  function fun
+Combines JAGS samples in a jags_sample object by by using
+function fun
 }
 \seealso{
-  \code{\link{predict.jags_analysis}}
+\code{\link{predict.jags_analysis}}
 }
 

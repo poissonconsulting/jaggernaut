@@ -2,16 +2,16 @@
 \alias{nsims}
 \title{Number of MCMC simulations in a JAGS object}
 \usage{
-  nsims(object)
+nsims(object)
 }
 \arguments{
   \item{object}{a JAGS object}
 }
 \value{
-  an integer element indicating the number of MCMC
-  simulations in object
+an integer element indicating the number of MCMC
+simulations in object
 }
 \description{
-  Gets the number of MCMC simulations in a JAGS object
+Gets the number of MCMC simulations in a JAGS object
 }
 

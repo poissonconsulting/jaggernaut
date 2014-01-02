@@ -2,7 +2,7 @@
 \alias{random_effects}
 \title{Get random effects}
 \usage{
-  random_effects(object, ...)
+random_effects(object, ...)
 }
 \arguments{
   \item{object}{a JAGS object.}
@@ -11,12 +11,12 @@
   methods.}
 }
 \value{
-  The random_effects component of a JAGS object.
+The random_effects component of a JAGS object.
 }
 \description{
-  Get the random_effects component of a JAGS object.
+Get the random_effects component of a JAGS object.
 }
 \seealso{
-  \code{\link{jaggernaut}}
+\code{\link{jaggernaut}}
 }
 

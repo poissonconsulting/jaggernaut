@@ -2,7 +2,7 @@
 \alias{dic_jags}
 \title{DIC values}
 \usage{
-  dic_jags(object, ...)
+dic_jags(object, ...)
 }
 \arguments{
   \item{object}{a JAGS object.}
@@ -11,13 +11,13 @@
   methods.}
 }
 \value{
-  The DIC values as a data.frame.
+The DIC values as a data.frame.
 }
 \description{
-  Gets Deviance Information Criterion values from a JAGS
-  object.
+Gets Deviance Information Criterion values from a JAGS
+object.
 }
 \seealso{
-  \code{\link{jaggernaut}}
+\code{\link{jaggernaut}}
 }
 

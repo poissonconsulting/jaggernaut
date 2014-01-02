@@ -2,7 +2,7 @@
 \alias{dataset.jags_data_model}
 \title{Get dataset from a JAGS data model}
 \usage{
-  \method{dataset}{jags_data_model} (object, values, ...)
+\method{dataset}{jags_data_model}(object, values, ...)
 }
 \arguments{
   \item{object}{a \code{jags_data_model} object.}
@@ -14,13 +14,13 @@
   methods.}
 }
 \value{
-  the simulated dataset in list form (unless modified by
-  extract_data function).
+the simulated dataset in list form (unless modified by
+extract_data function).
 }
 \description{
-  Simulates a dataset from a \code{jags_data_model} object.
+Simulates a dataset from a \code{jags_data_model} object.
 }
 \seealso{
-  \code{\link{dataset}} and \code{\link{jags_data_model}}
+\code{\link{dataset}} and \code{\link{jags_data_model}}
 }
 

@@ -2,12 +2,11 @@
 \alias{predict.jags_analysis}
 \title{Predict}
 \usage{
-  \method{predict}{jags_analysis} (object, newdata = NULL,
-    parm = "prediction", base = FALSE, values = NULL,
-    model_number = 1, modify_data_derived = NULL,
-    derived_code = NULL, random_effects = NULL,
-    level = "current", estimate = "current",
-    obs_by = FALSE, length_out = 50, ...)
+\method{predict}{jags_analysis}(object, newdata = NULL, parm = "prediction",
+  base = FALSE, values = NULL, model_number = 1,
+  modify_data_derived = NULL, derived_code = NULL, random_effects = NULL,
+  level = "current", estimate = "current", obs_by = FALSE,
+  length_out = 50, ...)
 }
 \arguments{
   \item{object}{a jags_analysis object.}
@@ -78,30 +77,29 @@
   methods.}
 }
 \value{
-  the \code{coef} table for the derived parameter of
-  interest or if level = "no" an object of class
-  \code{jags_samples}
+the \code{coef} table for the derived parameter of interest
+or if level = "no" an object of class \code{jags_samples}
 }
 \description{
-  Predict derived parameter from JAGS analysis. Level
-  specifies the credibility intervals with or if level =
-  "no" the function returns an object of class jags_samples
+Predict derived parameter from JAGS analysis. Level
+specifies the credibility intervals with or if level = "no"
+the function returns an object of class jags_samples
 }
 \details{
-  Its important to realise that if the original data set
-  was a data list then newdata must be a data list or NULL,
-  base must be FALSE and values must be NULL. Otherwise if
-  the original data set was a data frame then newdata
-  cannot be a data list.
+Its important to realise that if the original data set was
+a data list then newdata must be a data list or NULL, base
+must be FALSE and values must be NULL. Otherwise if the
+original data set was a data frame then newdata cannot be a
+data list.
 
-  Its also important to realize that values always replaces
-  the corresponding values in base but only replaces the
-  corresponding values in newdata if they are unaltered,
-  i.e., as they are in dataset(object, base = TRUE).
+Its also important to realize that values always replaces
+the corresponding values in base but only replaces the
+corresponding values in newdata if they are unaltered,
+i.e., as they are in dataset(object, base = TRUE).
 }
 \seealso{
-  \code{\link{jags_model}}, \code{\link{jags_analysis}},
-  \code{\link{coef.jags_analysis}},
-  \code{\link{jags_sample}} and \code{\link{jaggernaut}}
+\code{\link{jags_model}}, \code{\link{jags_analysis}},
+\code{\link{coef.jags_analysis}}, \code{\link{jags_sample}}
+and \code{\link{jaggernaut}}
 }
 

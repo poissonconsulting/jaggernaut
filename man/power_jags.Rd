@@ -2,8 +2,8 @@
 \alias{power_jags}
 \title{JAGS power}
 \usage{
-  power_jags(object, parm = c(fixed = 0),
-    level = "current", estimate = "current")
+power_jags(object, parm = c(fixed = 0), level = "current",
+  estimate = "current")
 }
 \arguments{
   \item{object}{a \code{jags_power_analysis} object. for
@@ -25,14 +25,14 @@
   by \code{opts_jagr} in the global options.}
 }
 \value{
-  A \code{data.frame} of the power estimates.
+A \code{data.frame} of the power estimates.
 }
 \description{
-  Extracts the power estimates from a
-  \code{jags_power_analysis} object
+Extracts the power estimates from a
+\code{jags_power_analysis} object
 }
 \seealso{
-  \code{\link{jags_power_analysis}} and
-  \code{\link{jaggernaut}}
+\code{\link{jags_power_analysis}} and
+\code{\link{jaggernaut}}
 }
 

@@ -2,8 +2,7 @@
 \alias{plot.jags_analysis}
 \title{Plot a JAGS analysis}
 \usage{
-  \method{plot}{jags_analysis} (x, model_number = 1,
-    parm = "fixed", ...)
+\method{plot}{jags_analysis}(x, model_number = 1, parm = "fixed", ...)
 }
 \arguments{
   \item{x}{a jags_analysis object}
@@ -18,11 +17,11 @@
   \item{...}{arguments to pass to coda::plot.mcmc}
 }
 \description{
-  Plots the MCMC samples from a JAGS analysis model using
-  the coda::plot.mcmc function.
+Plots the MCMC samples from a JAGS analysis model using the
+coda::plot.mcmc function.
 }
 \seealso{
-  \code{\link{jags_analysis}} and
-  \code{\link[coda]{plot.mcmc}}
+\code{\link{jags_analysis}} and
+\code{\link[coda]{plot.mcmc}}
 }
 

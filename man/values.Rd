@@ -2,7 +2,7 @@
 \alias{values}
 \title{Get values}
 \usage{
-  values(object, ...)
+values(object, ...)
 }
 \arguments{
   \item{object}{a JAGS object.}
@@ -11,12 +11,12 @@
   methods.}
 }
 \value{
-  The values component of a JAGS object.
+The values component of a JAGS object.
 }
 \description{
-  Get the values component of a JAGS object.
+Get the values component of a JAGS object.
 }
 \seealso{
-  \code{\link{jaggernaut}}
+\code{\link{jaggernaut}}
 }
 

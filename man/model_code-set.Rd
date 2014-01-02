@@ -2,7 +2,7 @@
 \alias{model_code<-}
 \title{Set model code}
 \usage{
-  model_code(object) <- value
+model_code(object) <- value
 }
 \arguments{
   \item{object}{a JAGS object.}
@@ -11,9 +11,9 @@
   in the JAGS dialect of the BUGS language.}
 }
 \description{
-  Set the model_code component of a JAGS object.
+Set the model_code component of a JAGS object.
 }
 \seealso{
-  \code{\link{jaggernaut}}
+\code{\link{jaggernaut}}
 }
 

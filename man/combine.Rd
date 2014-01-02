@@ -2,7 +2,7 @@
 \alias{combine}
 \title{Combines objects}
 \usage{
-  combine(object, ...)
+combine(object, ...)
 }
 \arguments{
   \item{object}{a JAGS object.}
@@ -10,9 +10,9 @@
   \item{...}{additional JAGS objects to add to object.}
 }
 \value{
-  a JAGS object of the original class
+a JAGS object of the original class
 }
 \description{
-  Adds two or more JAGS object of the same class.
+Adds two or more JAGS object of the same class.
 }
 

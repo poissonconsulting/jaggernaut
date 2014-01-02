@@ -2,8 +2,8 @@
 \alias{coef.jags_analysis}
 \title{Calculate parameter estimates}
 \usage{
-  \method{coef}{jags_analysis} (object, parm = "fixed",
-    level = "current", estimate = "current", ...)
+\method{coef}{jags_analysis}(object, parm = "fixed", level = "current",
+  estimate = "current", ...)
 }
 \arguments{
   \item{object}{a \code{jags_analysis} object}
@@ -27,16 +27,15 @@
   methods.}
 }
 \value{
-  a data.frame of the parameter estimates with the point
-  estimate and lower and upper credible limits as well as
-  the standard deviation, percent relative error and
-  significance
+a data.frame of the parameter estimates with the point
+estimate and lower and upper credible limits as well as the
+standard deviation, percent relative error and significance
 }
 \description{
-  Calculates parameter estimates for a JAGS analysis
+Calculates parameter estimates for a JAGS analysis
 }
 \seealso{
-  \code{\link{jags_analysis}}, \code{\link{opts_jagr}} and
-  \code{\link{jaggernaut}}
+\code{\link{jags_analysis}}, \code{\link{opts_jagr}} and
+\code{\link{jaggernaut}}
 }
 

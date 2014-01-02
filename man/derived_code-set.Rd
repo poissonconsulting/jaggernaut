@@ -2,7 +2,7 @@
 \alias{derived_code<-}
 \title{Set derived code in a JAGS object}
 \usage{
-  derived_code(object) <- value
+derived_code(object) <- value
 }
 \arguments{
   \item{object}{a JAGS object.}
@@ -10,13 +10,13 @@
   \item{value}{a character element or NULL.}
 }
 \value{
-  The replacement method changes the derived_code component
-  of the object.
+The replacement method changes the derived_code component
+of the object.
 }
 \description{
-  Sets the derived_code component of a JAGS object.
+Sets the derived_code component of a JAGS object.
 }
 \seealso{
-  \code{\link{derived_code}} and \code{\link{jaggernaut}}
+\code{\link{derived_code}} and \code{\link{jaggernaut}}
 }
 

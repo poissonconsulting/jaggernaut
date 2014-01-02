@@ -2,7 +2,7 @@
 \alias{modify_data}
 \title{Get modify data}
 \usage{
-  modify_data(object, ...)
+modify_data(object, ...)
 }
 \arguments{
   \item{object}{a JAGS object.}
@@ -11,12 +11,12 @@
   methods.}
 }
 \value{
-  The modify_data component of a JAGS object.
+The modify_data component of a JAGS object.
 }
 \description{
-  Get the modify_data component of a JAGS object.
+Get the modify_data component of a JAGS object.
 }
 \seealso{
-  \code{\link{jaggernaut}}
+\code{\link{jaggernaut}}
 }
 

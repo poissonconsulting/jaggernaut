@@ -2,7 +2,7 @@
 \alias{modify_data_derived}
 \title{Get modify data derived}
 \usage{
-  modify_data_derived(object, ...)
+modify_data_derived(object, ...)
 }
 \arguments{
   \item{object}{a JAGS object.}
@@ -11,12 +11,12 @@
   methods.}
 }
 \value{
-  The modify_data_derived component of a JAGS object.
+The modify_data_derived component of a JAGS object.
 }
 \description{
-  Get the modify_data_derived component of a JAGS object.
+Get the modify_data_derived component of a JAGS object.
 }
 \seealso{
-  \code{\link{jaggernaut}}
+\code{\link{jaggernaut}}
 }
 

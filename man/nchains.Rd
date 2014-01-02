@@ -2,16 +2,16 @@
 \alias{nchains}
 \title{Number of MCMC chains in a JAGS object}
 \usage{
-  nchains(object)
+nchains(object)
 }
 \arguments{
   \item{object}{a JAGS object}
 }
 \value{
-  an integer element indicating the number of MCMC chains
-  in object
+an integer element indicating the number of MCMC chains in
+object
 }
 \description{
-  Gets the number of MCMC chains in a JAGS object
+Gets the number of MCMC chains in a JAGS object
 }
 

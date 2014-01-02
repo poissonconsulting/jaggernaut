@@ -2,7 +2,7 @@
 \alias{test_examples}
 \title{Test Examples}
 \description{
-  Test examples to be run manually by package maintainer.
+Test examples to be run manually by package maintainer.
 }
 \examples{
 \dontrun{
@@ -74,6 +74,6 @@ registerDoSEQ()
 }
 }
 \seealso{
-  \code{\link{jaggernaut}}
+\code{\link{jaggernaut}}
 }
 

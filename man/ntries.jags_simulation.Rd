@@ -2,8 +2,7 @@
 \alias{ntries.jags_simulation}
 \title{Get number of tries}
 \usage{
-  \method{ntries}{jags_simulation} (object,
-    combine = FALSE, ...)
+\method{ntries}{jags_simulation}(object, combine = FALSE, ...)
 }
 \arguments{
   \item{object}{a JAGS object.}
@@ -16,12 +15,12 @@
   methods.}
 }
 \value{
-  A matrix of the ntries component of a JAGS object.
+A matrix of the ntries component of a JAGS object.
 }
 \description{
-  Get the ntries of a JAGS object.
+Get the ntries of a JAGS object.
 }
 \seealso{
-  \code{\link{jaggernaut}}
+\code{\link{jaggernaut}}
 }
 

@@ -2,7 +2,7 @@
 \alias{monitor}
 \title{Get monitor}
 \usage{
-  monitor(object, ...)
+monitor(object, ...)
 }
 \arguments{
   \item{object}{a JAGS object.}
@@ -11,12 +11,12 @@
   methods.}
 }
 \value{
-  The monitor component of a JAGS object.
+The monitor component of a JAGS object.
 }
 \description{
-  Get the monitor component of a JAGS object.
+Get the monitor component of a JAGS object.
 }
 \seealso{
-  \code{\link{jaggernaut}}
+\code{\link{jaggernaut}}
 }
 

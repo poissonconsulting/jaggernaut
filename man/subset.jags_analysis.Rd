@@ -2,8 +2,7 @@
 \alias{subset.jags_analysis}
 \title{Subset a JAGS analysis}
 \usage{
-  \method{subset}{jags_analysis} (x, model_number = NULL,
-    ...)
+\method{subset}{jags_analysis}(x, model_number = NULL, ...)
 }
 \arguments{
   \item{x}{a jags_analysis x.}
@@ -14,12 +13,12 @@
   \item{...}{other arguments passed to generic function.}
 }
 \value{
-  the subsetted jags_analysis x
+the subsetted jags_analysis x
 }
 \description{
-  Subset a JAGS analysis x.
+Subset a JAGS analysis x.
 }
 \seealso{
-  \code{\link{subset}} and \code{\link{jags_analysis}}
+\code{\link{subset}} and \code{\link{jags_analysis}}
 }
 

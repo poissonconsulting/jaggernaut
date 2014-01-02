@@ -2,7 +2,7 @@
 \alias{model_code}
 \title{Get model code}
 \usage{
-  model_code(object, ...)
+model_code(object, ...)
 }
 \arguments{
   \item{object}{a JAGS object.}
@@ -11,12 +11,12 @@
   methods.}
 }
 \value{
-  The model_code component of a JAGS object.
+The model_code component of a JAGS object.
 }
 \description{
-  Get the model_code component of a JAGS object.
+Get the model_code component of a JAGS object.
 }
 \seealso{
-  \code{\link{jaggernaut}}
+\code{\link{jaggernaut}}
 }
 

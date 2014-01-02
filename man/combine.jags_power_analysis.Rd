@@ -2,8 +2,7 @@
 \alias{combine.jags_power_analysis}
 \title{Add JAGS power analysis objects}
 \usage{
-  \method{combine}{jags_power_analysis} (object, ...,
-    mode = "current")
+\method{combine}{jags_power_analysis}(object, ..., mode = "current")
 }
 \arguments{
   \item{object}{a \code{jags_power_analysis} object.}
@@ -16,18 +15,17 @@
   further information}
 }
 \value{
-  a \code{jags_power_analysis} object
+a \code{jags_power_analysis} object
 }
 \description{
-  Adds two or more \code{jags_power_analysis} objects with
-  the same \code{jags_data_model} object. If the objects
-  have different numbers of replicates then extra
-  replicates are generated until all the objects have the
-  same number.
+Adds two or more \code{jags_power_analysis} objects with
+the same \code{jags_data_model} object. If the objects have
+different numbers of replicates then extra replicates are
+generated until all the objects have the same number.
 }
 \seealso{
-  \code{\link{combine}}, \code{\link{jags_power_analysis}},
-  \code{\link{jags_data_model}}, \code{\link{opts_jagr}}
-  and \code{\link{jaggernaut}}.
+\code{\link{combine}}, \code{\link{jags_power_analysis}},
+\code{\link{jags_data_model}}, \code{\link{opts_jagr}} and
+\code{\link{jaggernaut}}.
 }
 

@@ -2,7 +2,7 @@
 \alias{gen_inits}
 \title{Get generate initial values}
 \usage{
-  gen_inits(object, ...)
+gen_inits(object, ...)
 }
 \arguments{
   \item{object}{a JAGS object.}
@@ -11,12 +11,12 @@
   methods.}
 }
 \value{
-  The gen_inits component of object.
+The gen_inits component of object.
 }
 \description{
-  Gets the gen_inits component of of a JAGS object.
+Gets the gen_inits component of of a JAGS object.
 }
 \seealso{
-  \code{\link{jaggernaut}}
+\code{\link{jaggernaut}}
 }
 

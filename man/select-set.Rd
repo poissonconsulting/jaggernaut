@@ -2,7 +2,7 @@
 \alias{select<-}
 \title{Set select}
 \usage{
-  select(object) <- value
+select(object) <- value
 }
 \arguments{
   \item{object}{a JAGS object.}
@@ -11,9 +11,9 @@
   select or NULL.}
 }
 \description{
-  Set the select component of a JAGS object.
+Set the select component of a JAGS object.
 }
 \seealso{
-  \code{\link{jaggernaut}}
+\code{\link{jaggernaut}}
 }
 

@@ -2,8 +2,7 @@
 \alias{jags_analysis}
 \title{Perform a JAGS analysis}
 \usage{
-  jags_analysis(model, data, niters = 10^3,
-    mode = "current")
+jags_analysis(model, data, niters = 10^3, mode = "current")
 }
 \arguments{
   \item{model}{a \code{jags_model} specifying the JAGS
@@ -18,36 +17,36 @@
   the analysis.}
 }
 \value{
-  a \code{jags_analysis} object
+a \code{jags_analysis} object
 }
 \description{
-  Performs a JAGS analysis by fitting a \code{jags_model}
-  or list of \code{jags_model}s to a data frame using JAGS
-  (Plummer 2012). The resultant \code{jags_analysis} object
-  can then be passed to other functions to to get the
-  \code{rhat} of particular parameters, parameter
-  \code{coefficients} with credible intervals and
-  \code{predict} derived parameter estimates.
+Performs a JAGS analysis by fitting a \code{jags_model} or
+list of \code{jags_model}s to a data frame using JAGS
+(Plummer 2012). The resultant \code{jags_analysis} object
+can then be passed to other functions to to get the
+\code{rhat} of particular parameters, parameter
+\code{coefficients} with credible intervals and
+\code{predict} derived parameter estimates.
 }
 \details{
-  The \code{jags_analysis} function performs a Bayesian
-  analysis of a data frame for a \code{jags_model} or list
-  of \code{jags_model}s.
+The \code{jags_analysis} function performs a Bayesian
+analysis of a data frame for a \code{jags_model} or list of
+\code{jags_model}s.
 
-  If \code{mode = "current"} (the default) then the
-  analysis options are as currently globally defined by
-  \code{opts_jagr()} otherwise the \code{mode} argument
-  specifies the analysis mode for that particular analysis.
+If \code{mode = "current"} (the default) then the analysis
+options are as currently globally defined by
+\code{opts_jagr()} otherwise the \code{mode} argument
+specifies the analysis mode for that particular analysis.
 
-  The \code{niters} argument specifies the total number of
-  iterations including adaptive and burn in periods for
-  each chain. The only exceptions are when the analysis is
-  in debug mode in which case \code{niters} is set to be
-  100 or if \code{niters} is less than \code{nsims * 2 /
-  nchain} (where nsims is set by the mode) in which case
-  \code{niters} is set to be \code{nsims * 2 / nchain} so
-  that \code{nsims} can be drawn from the second halves of
-  the chains.
+The \code{niters} argument specifies the total number of
+iterations including adaptive and burn in periods for each
+chain. The only exceptions are when the analysis is in
+debug mode in which case \code{niters} is set to be 100 or
+if \code{niters} is less than \code{nsims * 2 / nchain}
+(where nsims is set by the mode) in which case
+\code{niters} is set to be \code{nsims * 2 / nchain} so
+that \code{nsims} can be drawn from the second halves of
+the chains.
 }
 \examples{
 model <- jags_model("
@@ -70,10 +69,10 @@ nsims(analysis)
 rhat(analysis)
 }
 \references{
-  Plummer M (2012) JAGS Version 3.3.0 User Manual
-  \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
+Plummer M (2012) JAGS Version 3.3.0 User Manual
+\url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
 }
 \seealso{
-  \code{\link{jags_model}} and \code{\link{jaggernaut}}
+\code{\link{jags_model}} and \code{\link{jaggernaut}}
 }
 

@@ -2,8 +2,8 @@
 \alias{parallel}
 \title{Run analyses in parallel}
 \description{
-  In jaggernaut analyses can be run in parallel using a
-  registered parallel backend.
+In jaggernaut analyses can be run in parallel using a
+registered parallel backend.
 }
 \examples{
 \dontrun{
@@ -24,7 +24,7 @@ registerDoSEQ()
 }
 }
 \seealso{
-  \code{\link{jags_model}}, \code{\link{jags_analysis}} and
-  \code{\link{opts_jagr}}.
+\code{\link{jags_model}}, \code{\link{jags_analysis}} and
+\code{\link{opts_jagr}}.
 }
 

@@ -2,7 +2,7 @@
 \alias{dataset.jags_sample}
 \title{Get dataset}
 \usage{
-  \method{dataset}{jags_sample} (object, ...)
+\method{dataset}{jags_sample}(object, ...)
 }
 \arguments{
   \item{object}{a \code{jags_sample} object.}
@@ -11,9 +11,9 @@
   methods.}
 }
 \value{
-  The dataset.
+The dataset.
 }
 \description{
-  Gets the dataset from a \code{jags_sample} object.
+Gets the dataset from a \code{jags_sample} object.
 }
 

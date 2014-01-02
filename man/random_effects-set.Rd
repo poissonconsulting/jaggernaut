@@ -2,7 +2,7 @@
 \alias{random_effects<-}
 \title{Set random effects}
 \usage{
-  random_effects(object) <- value
+random_effects(object) <- value
 }
 \arguments{
   \item{object}{a JAGS object.}
@@ -11,9 +11,9 @@
   NULL.}
 }
 \description{
-  Set the random_effects component of a JAGS object.
+Set the random_effects component of a JAGS object.
 }
 \seealso{
-  \code{\link{jaggernaut}}
+\code{\link{jaggernaut}}
 }
 

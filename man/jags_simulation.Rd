@@ -2,8 +2,7 @@
 \alias{jags_simulation}
 \title{Create a JAGS simulation object}
 \usage{
-  jags_simulation(data_model, values, nreps = 100,
-    mode = "current")
+jags_simulation(data_model, values, nreps = 100, mode = "current")
 }
 \arguments{
   \item{data_model}{a \code{jags_data_model}.}
@@ -17,11 +16,11 @@
   the analysis.}
 }
 \value{
-  a \code{jags_simulation} object
+a \code{jags_simulation} object
 }
 \description{
-  Create a JAGS simulation object by generating data based
-  on JAGS data model object and a set of values
+Create a JAGS simulation object by generating data based on
+JAGS data model object and a set of values
 }
 \examples{
 model <- jags_data_model("
@@ -62,7 +61,6 @@ nvalues(simulation)
 }
 }
 \seealso{
-  \code{\link{jags_data_model}} and
-  \code{\link{jaggernaut}}
+\code{\link{jags_data_model}} and \code{\link{jaggernaut}}
 }
 

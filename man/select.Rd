@@ -2,7 +2,7 @@
 \alias{select}
 \title{Get select}
 \usage{
-  select(object, ...)
+select(object, ...)
 }
 \arguments{
   \item{object}{a JAGS object.}
@@ -11,12 +11,12 @@
   methods.}
 }
 \value{
-  The select component of a JAGS object.
+The select component of a JAGS object.
 }
 \description{
-  Get the select component of a JAGS object.
+Get the select component of a JAGS object.
 }
 \seealso{
-  \code{\link{jaggernaut}}
+\code{\link{jaggernaut}}
 }
 

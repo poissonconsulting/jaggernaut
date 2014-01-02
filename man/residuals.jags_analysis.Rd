@@ -2,11 +2,9 @@
 \alias{residuals.jags_analysis}
 \title{Residuals}
 \usage{
-  \method{residuals}{jags_analysis} (object,
-    parm = "residual", model_number = 1,
-    derived_code = NULL, random_effects = NULL,
-    level = "current", estimate = "current", data = NULL,
-    ...)
+\method{residuals}{jags_analysis}(object, parm = "residual",
+  model_number = 1, derived_code = NULL, random_effects = NULL,
+  level = "current", estimate = "current", data = NULL, ...)
 }
 \arguments{
   \item{object}{a jags_analysis object.}
@@ -50,14 +48,14 @@
   methods.}
 }
 \value{
-  the input data frame with the point estimate and
-  credibility intervals for the residuals
+the input data frame with the point estimate and
+credibility intervals for the residuals
 }
 \description{
-  Get residuals with estimates using derived code in a JAGS
-  analysis
+Get residuals with estimates using derived code in a JAGS
+analysis
 }
 \seealso{
-  \code{\link{jags_model}} and \code{\link{jags_analysis}}
+\code{\link{jags_model}} and \code{\link{jags_analysis}}
 }
 

@@ -2,7 +2,7 @@
 \alias{modify_data<-}
 \title{Set modify data}
 \usage{
-  modify_data(object) <- value
+modify_data(object) <- value
 }
 \arguments{
   \item{object}{a JAGS object.}
@@ -11,9 +11,9 @@
   data fnction.}
 }
 \description{
-  Set the modify_data component of a JAGS object.
+Set the modify_data component of a JAGS object.
 }
 \seealso{
-  \code{\link{jaggernaut}}
+\code{\link{jaggernaut}}
 }
 

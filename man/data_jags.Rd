@@ -2,7 +2,7 @@
 \alias{data_jags}
 \title{Get dataset(s) from a JAGS object}
 \usage{
-  data_jags(object, ...)
+data_jags(object, ...)
 }
 \arguments{
   \item{object}{a JAGS object.}
@@ -11,12 +11,12 @@
   methods.}
 }
 \value{
-  a data.frame or list(s) of the data
+a data.frame or list(s) of the data
 }
 \description{
-  Gets the dataset(s) from a JAGS object.
+Gets the dataset(s) from a JAGS object.
 }
 \seealso{
-  \code{\link{dataset}}
+\code{\link{dataset}}
 }
 

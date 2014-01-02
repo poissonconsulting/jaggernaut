@@ -2,8 +2,8 @@
 \alias{jags_power_analysis}
 \title{Perform a JAGS power analysis}
 \usage{
-  jags_power_analysis(model, data_model, values,
-    nreps = 100, niters = 10^3, mode = "current")
+jags_power_analysis(model, data_model, values, nreps = 100, niters = 10^3,
+  mode = "current")
 }
 \arguments{
   \item{model}{a \code{jags_model}.}
@@ -22,10 +22,10 @@
   the analysis.}
 }
 \value{
-  a \code{jags_power_analysis} object
+a \code{jags_power_analysis} object
 }
 \description{
-  Performs a JAGS power analysis.
+Performs a JAGS power analysis.
 }
 \examples{
 data_model <- jags_data_model("data {
@@ -105,11 +105,11 @@ power_jags(power, parm = c(bGroup = 0))
 power_jags(power, parm = c(bEffect = 0))
 }
 \references{
-  Plummer M (2012) JAGS Version 3.3.0 User Manual
-  \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
+Plummer M (2012) JAGS Version 3.3.0 User Manual
+\url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
 }
 \seealso{
-  \code{\link{jags_data_model}}, \code{\link{jags_model}}
-  and \code{\link{jaggernaut}}
+\code{\link{jags_data_model}}, \code{\link{jags_model}} and
+\code{\link{jaggernaut}}
 }
 

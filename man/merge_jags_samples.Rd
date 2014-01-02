@@ -2,7 +2,7 @@
 \alias{merge_jags_samples}
 \title{Merge JAGS samples}
 \usage{
-  merge_jags_samples(object, by = NULL, fun = sum)
+merge_jags_samples(object, by = NULL, fun = sum)
 }
 \arguments{
   \item{object}{a list of jags_sample objects.}
@@ -13,14 +13,14 @@
   (by default fun = sum).}
 }
 \value{
-  a jags_sample object
+a jags_sample object
 }
 \description{
-  Merges JAGS samples in multiple jags_sample objects by by
-  using function fun
+Merges JAGS samples in multiple jags_sample objects by by
+using function fun
 }
 \seealso{
-  \code{\link{predict.jags_analysis}} and
-  \code{\link{ddply_jags_sample}}
+\code{\link{predict.jags_analysis}} and
+\code{\link{ddply_jags_sample}}
 }
 

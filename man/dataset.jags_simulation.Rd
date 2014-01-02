@@ -2,7 +2,7 @@
 \alias{dataset.jags_simulation}
 \title{Get datasets from a JAGS simulation}
 \usage{
-  \method{dataset}{jags_simulation} (object, ...)
+\method{dataset}{jags_simulation}(object, ...)
 }
 \arguments{
   \item{object}{a \code{jags_simulation} object.}
@@ -11,12 +11,12 @@
   methods.}
 }
 \value{
-  The datasets as a list of lists.
+The datasets as a list of lists.
 }
 \description{
-  Extracts datasets from a \code{jags_simulation} object.
+Extracts datasets from a \code{jags_simulation} object.
 }
 \seealso{
-  \code{\link{dataset}} and \code{\link{jags_simulation}}
+\code{\link{dataset}} and \code{\link{jags_simulation}}
 }
 

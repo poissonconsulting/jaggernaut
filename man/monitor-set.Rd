@@ -2,7 +2,7 @@
 \alias{monitor<-}
 \title{Set monitor}
 \usage{
-  monitor(object) <- value
+monitor(object) <- value
 }
 \arguments{
   \item{object}{a JAGS object.}
@@ -11,9 +11,9 @@
   monitor.}
 }
 \description{
-  Set the monitor component of a JAGS object.
+Set the monitor component of a JAGS object.
 }
 \seealso{
-  \code{\link{jaggernaut}}
+\code{\link{jaggernaut}}
 }
 

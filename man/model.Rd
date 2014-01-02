@@ -2,7 +2,7 @@
 \alias{model}
 \title{Get model}
 \usage{
-  model(object, ...)
+model(object, ...)
 }
 \arguments{
   \item{object}{a JAGS object.}
@@ -11,12 +11,12 @@
   methods.}
 }
 \value{
-  The model component of a JAGS object.
+The model component of a JAGS object.
 }
 \description{
-  Get the model component of a JAGS object.
+Get the model component of a JAGS object.
 }
 \seealso{
-  \code{\link{jaggernaut}}
+\code{\link{jaggernaut}}
 }
 

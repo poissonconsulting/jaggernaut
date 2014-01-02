@@ -2,8 +2,8 @@
 \alias{coef.jags_sample}
 \title{Coefficients}
 \usage{
-  \method{coef}{jags_sample} (object, level = "current",
-    estimate = "current", ...)
+\method{coef}{jags_sample}(object, level = "current", estimate = "current",
+  ...)
 }
 \arguments{
   \item{object}{a jags_sample object from predict(...,level
@@ -25,15 +25,14 @@
   methods.}
 }
 \value{
-  a data.frame of the parameter estimates with the point
-  estimate and lower and upper credible limits as well as
-  the standard deviation, percent relative error and
-  significance
+a data.frame of the parameter estimates with the point
+estimate and lower and upper credible limits as well as the
+standard deviation, percent relative error and significance
 }
 \description{
-  Calculates coefficients for a jags_sample object
+Calculates coefficients for a jags_sample object
 }
 \seealso{
-  \code{\link{opts_jagr}} and \code{\link{jaggernaut}}
+\code{\link{opts_jagr}} and \code{\link{jaggernaut}}
 }
 

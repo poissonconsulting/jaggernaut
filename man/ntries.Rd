@@ -2,7 +2,7 @@
 \alias{ntries}
 \title{Get number of tries}
 \usage{
-  ntries(object, ...)
+ntries(object, ...)
 }
 \arguments{
   \item{object}{a JAGS object.}
@@ -11,12 +11,12 @@
   methods.}
 }
 \value{
-  The ntries component of a JAGS object.
+The ntries component of a JAGS object.
 }
 \description{
-  Get the ntries of a JAGS object.
+Get the ntries of a JAGS object.
 }
 \seealso{
-  \code{\link{jaggernaut}}
+\code{\link{jaggernaut}}
 }
 

@@ -2,7 +2,7 @@
 \alias{modify_data_derived<-}
 \title{Set modify data derived}
 \usage{
-  modify_data_derived(object) <- value
+modify_data_derived(object) <- value
 }
 \arguments{
   \item{object}{a JAGS object.}
@@ -11,9 +11,9 @@
   data derived fnction.}
 }
 \description{
-  Set the modify_data_derived component of a JAGS object.
+Set the modify_data_derived component of a JAGS object.
 }
 \seealso{
-  \code{\link{jaggernaut}}
+\code{\link{jaggernaut}}
 }
 
