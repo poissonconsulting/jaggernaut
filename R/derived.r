@@ -56,7 +56,7 @@ derived <- function (object, parm, data, nworkers) {
   
   stopifnot(is.jags_analysis(object) && is_one_model(object))
   stopifnot(is_character_scalar(parm))
-  stopifnot(is_data(data))
+  stopifnot(is_convertible_data(data))
   assert_that(is.count(nworkers) && noNA(nworkers))
   
   if (options()$jags.pb != "none") {

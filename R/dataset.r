@@ -131,7 +131,7 @@ dataset.jags_simulation <- function (object, ...) {
 }
 
 "dataset<-.jags_analysis" <- function (object, value) {
-  stopifnot(is_data(value))
+  stopifnot(is_convertible_data(value))
   
   object$data <- value
   

@@ -58,7 +58,7 @@
 jags_analysis <- function (model, data, niters = 10^3, mode = "current") {
 
   assert_that(is.jags_model(model))
-  assert_that(is_data(data))
+  assert_that(is_convertible_data(data))
   assert_that(is.count(niters))
   assert_that(niters >= 100 && niters <= 10^6)
   assert_that(is.string(mode))

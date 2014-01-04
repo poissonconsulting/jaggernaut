@@ -101,27 +101,6 @@ is_bounded <- function (x, min = -Inf, max = Inf) {
   return (all(x >= min & x <= max))
 }
 
-is_data_list <- function (x) {
-  
-  if (!is_named_list(x))
-    return (FALSE)
-  
-  bol <- sapply(x, inherits, "logical")
-  
-  for (class in c("integer","numeric","factor","Date","POSIXt","matrix","array")) {
-    bol <- bol | sapply(x, inherits, class)
-  }
-  return (all(bol))
-}
-
-is_data_frame <- function (x) {
-  return (is.data.frame(x) && is_data_list(as.list(x)))
-}
-
-is_data <- function (x) {
-  return (is_data_frame(x) || is_data_list(x))
-}
-
 is_one_model <- function (x) {
   return (nmodels(x) == 1)
 }

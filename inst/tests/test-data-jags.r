@@ -19,7 +19,7 @@ data {
   data <- dataset(data_model, values)
     
   expect_that(data, is_a("list"))
-  expect_that(is_data_list(data), is_true())
+  expect_that(is_convertible_data_list(data), is_true())
   expect_that(names(data), is_identical_to(c("bIntercept","nx","x","y","z")))
   expect_that(length(data$x), equals(10))
   expect_that(dim(data$y), equals(c(10,10)))
