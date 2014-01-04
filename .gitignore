@@ -3,10 +3,9 @@
 .RData
 .DS_Store
 .Rbuildignore
-
 *.Rproj
-
 *.o
 *.so
-
+*.dll
 src-i386
+DESCRIPTION
