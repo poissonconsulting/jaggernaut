@@ -1,5 +1,9 @@
 # NEWS
 
+# jaggernaut 1.5.4
+
+* `update` now runs chains in parallel (if workers available)
+
 # jaggernaut 1.5.3
 
 * Fixed error when running in parallel on windows (was failing to export
