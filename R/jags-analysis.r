@@ -114,7 +114,8 @@ jags_analysis <- function (model, data, niters = 10^3, mode = "current") {
     
     analyses <- foreach(i = isplitIndices(n = nmodels, 
                                           chunks = chunks),
-                        .combine = fun) %dopar% {
+                        .combine = fun, 
+                        .export = "jagr_analysis_list") %dopar% {
       jagr_analysis_list(models[i], data = data, niters = niters, 
                          nworkers = nchains)
     }

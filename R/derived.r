@@ -84,7 +84,8 @@ derived <- function (object, parm, data, nworkers) {
   } else {
     i <- NULL
     samples <- foreach(i = isplitIndices(n = nsims, chunks = nworkers),
-                       .combine = combine_lists_by_sims) %dopar% {
+                       .combine = combine_lists_by_sims, 
+                       .export = "get_samples") %dopar% {
                          get_samples(i, chains = chains, data = data, 
                                      parm = parm, file = file)
                        }

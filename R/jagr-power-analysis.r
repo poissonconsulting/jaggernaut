@@ -38,7 +38,8 @@ jagr_power_analysis <- function (model_code, data, niters, inits, nworkers,
                            random = random)
   } else {
     chains <- foreach(i = isplitIndices(n = nchains, chunks = nworkers),
-                      .combine = combine_jagr_chains) %dopar% {
+                      .combine = combine_jagr_chains, 
+                      .export = "jags_analysis_internal") %dopar% {
       jags_analysis_internal(inits[i], data, file = file, 
                              monitor = monitor,
                              n.adapt = n.adapt, 
