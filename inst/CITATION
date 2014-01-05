@@ -3,10 +3,10 @@ citHeader("To cite jaggernaut in publications use:")
 citEntry(entry = "Manual",
   title        = "jaggernaut: An R package to facilitate Bayesian analyses using JAGS (Just Another Gibbs Sampler)",
   author       = personList(as.person("Joseph L. Thorley")),
-  year         = "2013",
+  year         = "2014",
   url          = "https://github.com/joethorley/jaggernaut",
   textVersion  =
-  paste("Thorley JL (2013)",
+  paste("Thorley JL (2014)",
         "jaggernaut: An R package to facilitate Bayesian analyses using JAGS (Just Another Gibbs Sampler)."
         )
 )
