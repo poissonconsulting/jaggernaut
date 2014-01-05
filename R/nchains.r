@@ -1,4 +1,3 @@
-
 #' @title Number of MCMC chains in a JAGS object
 #'
 #' @description 
@@ -41,9 +40,9 @@ nchains.jags_analysis <- function (object) {
     return (nchains(analysis(object)))
   
   analyses <- analyses(object)
-  analyses <- lapply(analyses, nchains_jagr_power_analysis)
-  analyses <- name_object(analyses, "Model")
-  return (analyses) 
+  nchains <- sapply(analyses, nchains_jagr_power_analysis)
+  stopifnot(all(nchains == nchains[1]))
+  return (nchains[1]) 
 }
 
 nchains_jags_analysis <- function (object) {
