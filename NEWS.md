@@ -1,5 +1,10 @@
 # NEWS
 
+# jaggernaut 1.5.3
+
+* Fixed error when running in parallel on windows (was failing to export
+needed functions)
+
 # jaggernaut 1.5.2
 
 * Upgraded to `datalist` 0.2.
