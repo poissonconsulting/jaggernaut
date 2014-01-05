@@ -111,7 +111,7 @@ power_jags <- function (object, parm = c(fixed = 0), level = "current",
     return (data.frame(bound = bound, niters = niters, converged = converged, samples = samples, out = out))
   }
   value <- parameter <- bound <- NULL
-  power <- ddply_jg(power,plyr::.(value,parameter,bound), get_power)
+  power <- ddply(power,.(value,parameter,bound), get_power)
   power$power <- NA
   power$lower <- NA
   power$upper <- NA

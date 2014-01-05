@@ -105,7 +105,7 @@ jags_simulation <- function (data_model, values, nreps = 100, mode = "current") 
     for (rep in 1:nreps) {
       data[[value]][[rep]] <- data_model
     }
-    data[[value]] <- llply_jg(data[[value]], 
+    data[[value]] <- lapply(data[[value]], 
                               try_dataset, 
                               values = values(object)[value,,drop = FALSE])
   }

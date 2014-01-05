@@ -313,7 +313,7 @@ coef.jags_power_analysis <- function (object, parm = "fixed", combine = TRUE, co
     return (data)
   }
   
-  coef <- ddply_jg(coef, plyr::.(value,parameter), get_estimates, power_level = power_level, level = level, estimate = estimate, converged = converged)
+  coef <- ddply(coef,.(value,parameter), get_estimates, power_level = power_level, level = level, estimate = estimate, converged = converged)
   
   values <- values(object)
   values <- cbind(data.frame(value = row.names(values)),values)

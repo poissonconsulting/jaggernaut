@@ -19,7 +19,7 @@ ddply_jags_sample <- function (object, by, fun = sum) {
     return (apply(samples, MARGIN = 2, FUN = fun))
   }
   
-  object <- ddply_jg(object, .variables = by, fun_vs, fun = fun)
+  object <- ddply(object, .variables = by, fun_vs, fun = fun)
   class(object) <- c("data.frame","jags_sample")
   return (object)
 }
