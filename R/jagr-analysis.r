@@ -49,7 +49,7 @@ jagr_analysis <- function (model, data, niters, nworkers) {
     
     resample <- resample - 1
     
-    object <- update(object)
+    object <- update(object, nworkers = nworkers)
   }
   
   if(!quiet) {
@@ -68,5 +68,5 @@ jagr_analysis <- function (model, data, niters, nworkers) {
 jagr_analysis_list <- function (models, data, niters, nworkers) {
   assert_that(is_list(models))
   
-  llply(models, jagr_analysis, data = data, niters = niters, nworkers = nworkers)
+  lapply(models, jagr_analysis, data = data, niters = niters, nworkers = nworkers)
 }
