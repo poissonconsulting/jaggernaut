@@ -1,5 +1,11 @@
 # NEWS
 
+# jaggernaut 1.5.5
+
+* `obs_by` argument in `predict` functions now works for continuous 
+variables (previously only reliable for categorical variables while returning
+a subset of observed values for continuous variables)
+
 # jaggernaut 1.5.4
 
 * `update` now runs chains in parallel (if workers available)
