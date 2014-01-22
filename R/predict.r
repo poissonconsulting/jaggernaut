@@ -173,12 +173,18 @@ predict.jags_analysis <- function (object, newdata = NULL,
   if (is.null(newdata)) {
     newdata <- data
   } else if (is_character_vector(newdata))
-    newdata <- new_data(data, sequence = newdata, 
-                        observed = ifelse(is.character(obs_by), obs_by, NULL), 
+    observed <- obs_by
+    if(!is.character(observed))
+      observed <- NULL
+    
+    newdata <- new_data(data, sequence = newdata, observed = observed, 
                         length_out = length_out)
   
   if (is_TRUE(base)) {
-    base <- new_data(data, observed = ifelse(is.character(obs_by), obs_by, NULL))
+    observed <- obs_by
+    if(!is.character(observed))
+      observed <- NULL
+    base <- new_data(data, observed = observed)
   } else if(is_FALSE(base))
     base <- NULL
   
