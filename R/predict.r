@@ -177,7 +177,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
                         length_out = length_out)
   
   if (is_TRUE(base)) {
-    base <- new_data(data)
+    base <- new_data(data, observed = ifelse(is.character(obs_by), obs_by, NULL))
   } else if(is_FALSE(base))
     base <- NULL
   
