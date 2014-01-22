@@ -172,13 +172,14 @@ predict.jags_analysis <- function (object, newdata = NULL,
   
   if (is.null(newdata)) {
     newdata <- data
-  } else if (is_character_vector(newdata))
+  } else if (is_character_vector(newdata)) {
     observed <- obs_by
     if(!is.character(observed))
       observed <- NULL
     
     newdata <- new_data(data, sequence = newdata, observed = observed, 
                         length_out = length_out)
+  }
   
   if (is_TRUE(base)) {
     observed <- obs_by
