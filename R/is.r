@@ -3,7 +3,7 @@ is_null <- function (x) {
 }
 
 is_any_missing <- function (x) {
-  return (is_null(x) || any(is.na(x)) || any(x == ""))
+  return (is_null(x) || !noNA(x))
 }
 
 is_unique <- function (x) {
