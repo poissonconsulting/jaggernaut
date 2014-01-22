@@ -38,9 +38,9 @@
 #' @param estimate a character scalar indicating whether the point estimate 
 #' should be the "mean" or the "median". By default the estimate is as 
 #' currently defined by \code{opts_jagr} in the global options.
-#' @param obs_by a logical scalar or a character vector indicating which factors 
-#' to only predict for their observed factor combinations. If obs_by = TRUE then
-#' newdata must be a character vector and the factors are taken to be those 
+#' @param obs_by a logical scalar or a character vector indicating which variables
+#' to only predict for their observed combinations in the original. If obs_by = TRUE then
+#' newdata must be a character vector and the variables are taken to be those 
 #' in newdata.
 #' @param length_out an integer scalar indicating the number of values when 
 #' creating a sequence of values across the range of a continuous variable.
