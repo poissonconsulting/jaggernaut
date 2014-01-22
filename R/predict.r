@@ -53,7 +53,7 @@
 #' 
 #' Its also important to realize that values always replaces the corresponding
 #' values in base but only replaces the corresponding values in newdata if they
-#' are unaltered, i.e., as they are in dataset(object, base = TRUE).
+#' are unaltered, i.e., as they are in new_data(dataset(object)).
 #' 
 #' @return the \code{coef} table for the derived parameter of interest 
 #' or if level = "no" an object of class \code{jags_samples}
