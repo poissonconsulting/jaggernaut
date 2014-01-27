@@ -1,5 +1,10 @@
 # NEWS
 
+# jaggernaut 1.5.6
+
+* `predict` function now gives observed base values when `base = TRUE` and
+`obs_by = TRUE`
+
 # jaggernaut 1.5.5
 
 * `obs_by` argument in `predict` functions now works for continuous 
