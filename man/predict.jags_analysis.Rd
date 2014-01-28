@@ -64,10 +64,10 @@
   \code{opts_jagr} in the global options.}
 
   \item{obs_by}{a logical scalar or a character vector
-  indicating which factors to only predict for their
-  observed factor combinations. If obs_by = TRUE then
-  newdata must be a character vector and the factors are
-  taken to be those in newdata.}
+  indicating which variables to only predict for their
+  observed combinations in the original. If obs_by = TRUE
+  then newdata must be a character vector and the variables
+  are taken to be those in newdata.}
 
   \item{length_out}{an integer scalar indicating the number
   of values when creating a sequence of values across the
@@ -95,7 +95,7 @@ data list.
 Its also important to realize that values always replaces
 the corresponding values in base but only replaces the
 corresponding values in newdata if they are unaltered,
-i.e., as they are in dataset(object, base = TRUE).
+i.e., as they are in new_data(dataset(object)).
 }
 \seealso{
 \code{\link{jags_model}}, \code{\link{jags_analysis}},

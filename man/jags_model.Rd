@@ -95,10 +95,7 @@ the factor. For example if the factor \code{Type} with
 three levels is present in the input data then an addition
 element would be created in the list of data with the name
 \code{nType} and value three. This is useful for iterating
-over factor levels in the JAGS model code. To facilitate
-iterating over all the data the list also contains an
-element named \code{nrow} that defines the number of rows
-in the input data.
+over factor levels in the JAGS model code.
 
 In some cases additional manipulations of the data may be
 required such as conversion of variables into matrix or

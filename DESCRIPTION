@@ -8,7 +8,7 @@ License: MIT + file LICENSE
 Description: Facilitates Bayesian analyses using
     JAGS (Just Another Gibbs Sampler). Key features include the conversion of a
     data frame into a suitable format for input into JAGS; the option to
-    manually or automatically increase the length of the 
+    manually or automatically increase the length of the
     MCMC (Markov Chain Monte Carlo) chains until
     convergence is achieved; the option to run MCMC chains on separate
     processes; the ability to extract derived parameters from an existing model
