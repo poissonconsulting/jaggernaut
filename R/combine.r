@@ -315,47 +315,48 @@ combine.jags_sample <- function (object, ..., by = NULL, fun = sum) {
     return (object)
 
   assert_that(is_list_jags_sample(args))
-
-  args <- c(object, args)
-
+  
+  args <- c(list(object), args)
+  
+  nargs <- length(args)
+    
   colnames <- colnames(args[[1]])
-  for (i in 2:length(object))
+  for (i in 2:nargs)
     colnames <- colnames[colnames %in% colnames(args[[i]])]
   
   if (is.null(by)) {
-    by <- colnames[grep("[[:digit:]]", colnames, invert = TRUE)]
+    by <- colnames[grep("^[[:digit:]]", colnames, invert = TRUE)]
   } else {
-    bby <- by[by %in% colnames[grep("[[:digit:]]", colnames, invert = TRUE)]]
+    bby <- by[by %in% colnames[grep("^[[:digit:]]", colnames, invert = TRUE)]]
     if (length(bby) != length(by))
       warning("the following variables are in by but not all the jags_sample",
-                    "objects: ", paste(by[!by %in% bby], collapse = ", "))
+              " objects: ", paste(by[!by %in% bby], collapse = ", "))
   }
   
   if(length(by) == 0)
     stop("jags_samples have no column names in common")
   
-  colnames <- colnames[grep("[[:digit:]]", colnames)]
+  colnames <- colnames[grep("^[[:digit:]]", colnames)]
   
-  merge <- object[[1]][,colnames(object[[1]]) %in% by, drop=FALSE]
+  merge <- args[[1]][,colnames(args[[1]]) %in% by, drop=FALSE]
   
-  for (i in 2:length(object))
-    merge <- merge(merge, object[[i]][,colnames(object[[i]]) %in% by, drop=FALSE])
+  for (i in 2:nargs)
+    merge <- merge(merge, args[[i]][,colnames(args[[i]]) %in% by, drop=FALSE])
   
-  for (i in 1:length(object))
-    object[[i]] <- merge(merge, object[[i]])
+  for (i in 1:nargs)
+    args[[i]] <- merge(merge, args[[i]])
   
-  array <- as.matrix((object[[1]][,colnames]))
-  for (i in 2:length(object)) {
-    mat <- as.matrix((object[[i]][,colnames]))
+  array <- as.matrix((args[[1]][,colnames]))
+  for (i in 2:nargs) {
+    mat <- as.matrix((args[[i]][,colnames]))
     array <- abind(array, mat, along = 3)
   }  
   samples <- apply(array, MARGIN=c(1,2), fun)  
   
   if (!is.null(by)) {
-    data <- object[[1]][,colnames(object[[1]]) %in% by, drop=FALSE]
+    data <- args[[1]][,colnames(args[[1]]) %in% by, drop=FALSE]
   }
   object <- cbind(data, samples)
   class(object) <- c("data.frame","jags_sample")
   return (object)
 }
-
