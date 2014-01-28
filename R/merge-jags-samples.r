@@ -12,52 +12,18 @@
 #' @export
 merge_jags_samples <- function (object, by = NULL, fun = sum) {
   
-  if(!is_list_jags_sample(object))
-    stop("object must be a list of jags_sample objects")
-  
-  if(!(is_null(by) || is_character_vector(by)))
-    stop("by must be NULL or a character vector")
-  
-  if(length(object) == 1)
-    return (object[[1]])
-    
-  colnames <- colnames(object[[1]])
-  for (i in 2:length(object))
-    colnames <- colnames[colnames %in% colnames(object[[i]])]
-  
-  if (is.null(by)) {
-    by <- colnames[-grep("[[:digit:]]", colnames)]
-  } else {
-    bby <- by[by %in% colnames[-grep("[[:digit:]]", colnames)]]
-    if (length(bby) != length(by))
-      warning(paste("the following variables are in by but not all the jags_sample",
-              "objects:", by[!by %in% bby], collapse = " "))
+  warning("merge_jags_samples is deprecated by combine.jags_sample in v1.6")
+  if(length(object) == 1) {
+    return(combine(object[[1]], by = by, fun = fun)
+  } 
+  if(length(object) == 2) {
+    return(combine(object[[1]], object[[2]], by = by, fun = fun)
   }
-  
-  if(length(by) == 0)
-    stop("jags_samples have no column names in common")
-  
-  colnames <- colnames[grep("[[:digit:]]", colnames)]
-  
-  merge <- object[[1]][,colnames(object[[1]]) %in% by, drop=FALSE]
-  
-  for (i in 2:length(object))
-    merge <- merge(merge, object[[i]][,colnames(object[[i]]) %in% by, drop=FALSE])
-    
-  for (i in 1:length(object))
-    object[[i]] <- merge(merge, object[[i]])
-  
-  array <- as.matrix((object[[1]][,colnames]))
-  for (i in 2:length(object)) {
-    mat <- as.matrix((object[[i]][,colnames]))
-    array <- abind(array, mat, along = 3)
-  }  
-  samples <- apply(array, MARGIN=c(1,2), fun)  
-    
-  if (!is.null(by)) {
-    data <- object[[1]][,colnames(object[[1]]) %in% by, drop=FALSE]
+  if(length(object) == 3) {
+    return(combine(object[[1]], object[[2]], object[[3]], by = by, fun = fun)
   }
-  object <- cbind(data, samples)
-  class(object) <- c("data.frame","jags_sample")
-  return (object)
+  if(length(object) == 4) {
+    return(combine(object[[1]], object[[2]], object[[3]], object[[4]], by = by, fun = fun)
+  }
+  stop("use combine.jags_sample instead with more than 4 jags_samples")
 }
