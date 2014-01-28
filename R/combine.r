@@ -328,7 +328,7 @@ combine.jags_sample <- function (object, ..., by = NULL, fun = sum) {
     bby <- by[by %in% colnames[grep("[[:digit:]]", colnames, invert = TRUE)]]
     if (length(bby) != length(by))
       warning("the following variables are in by but not all the jags_sample",
-                    "objects:", by[!by %in% bby])
+                    "objects: ", paste(by[!by %in% bby], collapse = ", "))
   }
   
   if(length(by) == 0)
