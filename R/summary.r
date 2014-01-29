@@ -14,7 +14,7 @@ summary.jagr_analysis <- function (object, level, estimate, ...) {
   summ[["Convergence"]] <- c(rhat = rhat(object, parm = "all", combine = TRUE))
 
   summ[["Estimates"]] <- coef(object, parm = "fixed", level = level, 
-                              estimate = estimate)
+                              estimate = estimate, as_list = FALSE)
   
   class (summ) <- "summary_jagr_analysis"
   

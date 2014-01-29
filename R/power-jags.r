@@ -1,5 +1,3 @@
-                                         
-
 #' @title JAGS power
 #'
 #' @description 
@@ -71,7 +69,8 @@ power_jags <- function (object, parm = c(fixed = 0), level = "current",
   melt_coef <- function (object, parm, level, estimate, rhat_threshold) {
     stopifnot(is.jagr_power_analysis(object))
         
-    coef <- coef(object, parm = parm, level = level, estimate = estimate)
+    coef <- coef(object, parm = parm, level = level, estimate = estimate,
+                 as_list = FALSE)
         
     coef$parameter <- rownames(coef) 
     coef <- melt(coef, id.vars = c("parameter"), variable.name = "statistic", value.name = "number")

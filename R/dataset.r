@@ -39,12 +39,16 @@ dataset.jags_sample <- function (object, ...) {
 #' @param object a \code{jags_data_model} object.
 #' @param values a data.frame with a single row of data indicating the values 
 #' for the simulation.
+#' @param estimate a character scalar specifying whether the point estimate should
+#' be the "mean" or the "median" or a character scalar which mode the level should be 
+#' taken from. By default the
+#' estimate is as currently specified by \code{opts_jagr} in the global options.
 #' @param ... further arguments passed to or from other methods.
 #' @return the simulated dataset in list form (unless modified by extract_data function).
 #' @seealso \code{\link{dataset}} and \code{\link{jags_data_model}}
 #' @method dataset jags_data_model
 #' @export
-dataset.jags_data_model <- function (object, values, ...) { 
+dataset.jags_data_model <- function (object, values, estimate = "current", ...) { 
   if (!is.data.frame(values) || nrow(values) != 1)
     stop("values must be a data.frame with a single row")
   
@@ -52,6 +56,18 @@ dataset.jags_data_model <- function (object, values, ...) {
     jags.pb <- options()$jags.pb
     options(jags.pb = "none")
     on.exit(options("jags.pb" = jags.pb))
+  }
+
+  level <- opts_jagr("level")
+  
+  if(!estimate %in% c("mean","median") && estimate != "current") {
+    old_opts <- opts_jagr(mode = level)
+    if(is.null(sys.on.exit()))
+      on.exit(opts_jagr(old_opts))
+  }
+  
+  if(!estimate %in% c("mean","median")) {
+    estimate <- opts_jagr("estimate")
   }
   
   check_modules()
@@ -76,8 +92,9 @@ dataset.jags_data_model <- function (object, values, ...) {
     data = data, file = file, monitor = monitor(object), 
     inits = inits
   )
-  
-  est <- extract_estimates(chains)[["estimate"]]
+    
+  est <- coef(chains, parm = "all", 
+              level = level, estimate = estimate, as_list = TRUE)[["estimate"]]
   
   est$deviance <- NULL
   

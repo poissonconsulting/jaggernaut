@@ -3,7 +3,7 @@
 \title{Coefficients}
 \usage{
 \method{coef}{jags_sample}(object, level = "current", estimate = "current",
-  ...)
+  as_list = FALSE, ...)
 }
 \arguments{
   \item{object}{a jags_sample object from predict(...,level
@@ -20,6 +20,10 @@
   character scalar which mode the level should be #' taken
   from. By default the estimate is as currently specified
   by \code{opts_jagr} in the global options.}
+
+  \item{as_list}{a logical scalar indicating whether the
+  coefs should be in the form of a list (as_list = TRUE) or
+  the default (as_list = FALSE) a data.frame.}
 
   \item{...}{further arguments passed to or from other
   methods.}

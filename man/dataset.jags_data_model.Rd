@@ -2,13 +2,19 @@
 \alias{dataset.jags_data_model}
 \title{Get dataset from a JAGS data model}
 \usage{
-\method{dataset}{jags_data_model}(object, values, ...)
+\method{dataset}{jags_data_model}(object, values, estimate = "current", ...)
 }
 \arguments{
   \item{object}{a \code{jags_data_model} object.}
 
   \item{values}{a data.frame with a single row of data
   indicating the values for the simulation.}
+
+  \item{estimate}{a character scalar specifying whether the
+  point estimate should be the "mean" or the "median" or a
+  character scalar which mode the level should be taken
+  from. By default the estimate is as currently specified
+  by \code{opts_jagr} in the global options.}
 
   \item{...}{further arguments passed to or from other
   methods.}

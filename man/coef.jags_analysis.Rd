@@ -3,7 +3,7 @@
 \title{Calculate parameter estimates}
 \usage{
 \method{coef}{jags_analysis}(object, parm = "fixed", level = "current",
-  estimate = "current", ...)
+  estimate = "current", as_list = FALSE, ...)
 }
 \arguments{
   \item{object}{a \code{jags_analysis} object}
@@ -19,9 +19,13 @@
 
   \item{estimate}{a character scalar specifying whether the
   point estimate should be the "mean" or the "median" or a
-  character scalar which mode the level should be #' taken
+  character scalar which mode the level should be taken
   from. By default the estimate is as currently specified
   by \code{opts_jagr} in the global options.}
+
+  \item{as_list}{a logical scalar indicating whether the
+  coefs should be in the form of a list (as_list = TRUE) or
+  the default (as_list = FALSE) a data.frame.}
 
   \item{...}{further arguments passed to or from other
   methods.}
