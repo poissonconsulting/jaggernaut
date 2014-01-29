@@ -17,6 +17,8 @@ jagr_analysis <- function (model, data, niters, nworkers) {
   
   if (is.function(modify_data(model))) 
     data <- modify_data(model)(data)
+  
+  assert_that(is_converted_data(data))
     
   if (is.function(gen_inits(model))) {
     inits <- list()

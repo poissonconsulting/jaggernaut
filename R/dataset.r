@@ -120,13 +120,40 @@ dataset.jags_data_model <- function (object, values, estimate = "current", ...) 
 #' 
 #' @param object a \code{jags_analysis} object.
 #' @param ... further arguments passed to or from other methods.
+#' @param converted a logical scalar indicating whether the data should be
+#' converted.
 #' @return The original dataset.
 #' @seealso \code{\link{dataset}}, \code{\link{jags_analysis}}
 #' and \code{\link{jaggernaut}}
 #' @method dataset jags_analysis
 #' @export
-dataset.jags_analysis <- function (object, ...) {
-  return (object$data)
+dataset.jags_analysis <- function (object, converted = FALSE, ...) {
+  assert_that(is.flag(converted) && noNA(converted))
+  
+  data <- object$data
+  
+  if(!converted)
+    return (data)
+  
+  data_list <- list()
+  
+  for(i in 1:length(object$analyses)) {
+    model <- object$analyses[[i]]
+    
+    data <- translate_data(select(model), data) 
+    
+    if (is.function(modify_data(model))) 
+      data <- modify_data(model)(data)
+    
+    data_list[[i]] <- data
+  }
+    
+  if(length(data_list) == 1)
+    return (data_list[[1]])
+
+  models <- name_object(models, "Model")
+  
+  return (data_list)
 }
 
 #' @title Get datasets from a JAGS simulation
