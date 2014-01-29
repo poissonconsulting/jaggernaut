@@ -23,7 +23,7 @@ zero_random.jagr_chains <- function (object, names_random, ...) {
 }
 
 zero_random.jagr_power_analysis <- function (object, data, ...) {
-  stopifnot(is.jagr_data(data))
+  stopifnot(is_converted_data(data))
   
   names_data <- names(data)
       
@@ -48,7 +48,7 @@ zero_random.jagr_power_analysis <- function (object, data, ...) {
 
 zero_random.jags_analysis <- function (object, data, ...) {
   stopifnot(is_one_model(object))
-  stopifnot(is.jagr_data(data))
+  stopifnot(is_converted_data(data))
   
   return (zero_random (analysis(object), data, ...))
 }

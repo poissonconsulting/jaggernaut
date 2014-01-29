@@ -2,7 +2,7 @@ jagr_power_analysis <- function (model_code, data, niters, inits, nworkers,
                                  monitor = NULL,
                                  random = NULL) { 
   
-  assert_that(is.jagr_data(data))
+  assert_that(is_converted_data(data))
   assert_that(is.count(niters) && noNA(niters))
   assert_that(is.count(nworkers) && noNA(nworkers))
   

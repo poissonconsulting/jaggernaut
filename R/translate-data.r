@@ -83,8 +83,6 @@ translate_data <- function (select, data, dat = NULL) {
   data <- convert_data (data, centre = centre, standardise = standardise, dat = dat)
   
   data <- c(as.list(data), facs)
-  
-  class(data) <- "jagr_data"
-  
+    
   return (data)
 }

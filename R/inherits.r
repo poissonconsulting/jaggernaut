@@ -15,10 +15,6 @@ on_failure(is.mcarray) <- function(call, env) {
   paste0(deparse(call$x), " is not a jags")
 }
 
-is.jagr_data <- function (x) {
-  return (inherits(x, "jagr_data"))
-}
-
 is.jagr_chains <- function (x) {
   return (inherits(x, "jagr_chains"))
 }

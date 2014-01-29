@@ -3,7 +3,7 @@ jags_analysis_internal <- function (inits, data, file, monitor, n.chain = 1,
                                     n.adapt = 0, n.burnin = 0, n.sim = 1, 
                                     n.thin = 1, random = NULL) {
   stopifnot(is.null(monitor) || is.character(monitor))
-  stopifnot(is.jagr_data(data))
+  stopifnot(is_converted_data(data))
   
   assert_that(is.count(n.chain) && noNA(n.chain))
   assert_that(is.null(inits) || is.list(inits))
