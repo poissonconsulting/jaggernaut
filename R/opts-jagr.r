@@ -54,7 +54,7 @@
 .opts_jagr_report <- list(
   level = 0.95,
   power_level = 0.80,
-  estimate = "median",
+  estimate = "mean",
   mode = "report",
   nchains = 3,
   nresample = 3,
@@ -67,7 +67,7 @@
 .opts_jagr_paper <- list(
   level = 0.95,
   power_level = 0.80,
-  estimate = "median",
+  estimate = "mean",
   mode = "paper",
   nchains = 4,
   nresample = 4,
@@ -123,7 +123,7 @@ opts_jagr_set <- .opts_jagr$set
 #' \describe{
 #' \item{level}{the credible interval level (default = 0.95)}
 #' \item{power_level}{the power analysis level (default = 0.80)}
-#' \item{estimate}{the type ("mean" or "median") of the point estimate (default = "median")}
+#' \item{estimate}{the type ("mean" or "median") of the point estimate (default = "mean")}
 #' \item{nchains}{the number of MCMC chains (default = 3)}
 #' \item{nresample}{the number of times to resample 
 #' until convergence is achieved (default = 3)}
