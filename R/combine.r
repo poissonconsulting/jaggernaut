@@ -84,8 +84,29 @@ combine.mcarray <- function (object, ..., by = "sims") {
   return (object)
 }
 
-combine.list <- function (object, ..., by = "sims") {
+#' @title Combines elements of list
+#'
+#' @description
+#' Combines elements of a list by calling the specific combine function.
+#' 
+#' @param object a list of objects of the same class to combine.
+#' @param ... additional arguments to pass to the specific combine function.
+#' @return The result of calling specific combine function.
+#' @seealso \code{\link{combine}}
+#' @method combine list
+#' @export 
+combine.list <- function (object, ...) {
+  assert_that(is.list(object))
+    
+  cmd <- paste0("object[[", 1:length(object), "]]")
+  cmd <- paste0(cmd, collapse = ", ")
   
+  cmd <- paste0("combine(",cmd,", ...)")
+  
+  eval(parse(text = cmd))
+}
+
+combine_lists_by_sims <- function (object, ...) {
   args <- list(...)
   
   if (length(args) == 0)
@@ -95,20 +116,36 @@ combine.list <- function (object, ..., by = "sims") {
   args <- args[-1] 
   
   for (i in seq(along = object))
-    object[[i]] <- combine(object[[i]], object2[[i]], by = by)
+    object[[i]] <- combine(object[[i]], object2[[i]], by = "sims")
   
   nargs <- length(args)
   if (nargs > 0) {
     for (i in 1:nargs) {
-      object[[i]] <- combine(object, args[[i]], by = by)
+      object[[i]] <- combine(object, args[[i]], by = "sims")
     }
   }
   return (object)
 }
 
-combine_lists_by_sims <- function (object, ...) {
-  assert_that(is.list(object))
-  return (combine(object, ..., by = "sims"))
+combine_lists_by_chains <- function (object, ...) {
+  args <- list(...)
+  
+  if (length(args) == 0)
+    return (object)
+  
+  object2 <- args[[1]]
+  args <- args[-1] 
+  
+  for (i in seq(along = object))
+    object[[i]] <- combine(object[[i]], object2[[i]], by = "chains")
+  
+  nargs <- length(args)
+  if (nargs > 0) {
+    for (i in 1:nargs) {
+      object[[i]] <- combine(object, args[[i]], by = "chains")
+    }
+  }
+  return (object)
 }
 
 combine.jagr_chains <- function (object, ...) {
