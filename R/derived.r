@@ -38,7 +38,7 @@ get_samples <- function (sims, chains, data, parm, file) {
                                                 chain = j))), 
                         file = file)
         
-        list[[j]] <- combine_lists_by_sims(list[[j]], samples)
+        list[[j]] <- combine(list[[j]], samples, by = "sims")
       }
     }
   }
@@ -47,7 +47,7 @@ get_samples <- function (sims, chains, data, parm, file) {
   
   if (nchains > 1) {
     for (j in 2:nchains)
-      samples <- combine_lists_by_chains(samples, list[[j]])
+      samples <- combine(samples, list[[j]], by = "chains")
   }
   return (samples)
 }
