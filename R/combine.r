@@ -84,6 +84,27 @@ combine.mcarray <- function (object, ..., by = "sims") {
   return (object)
 }
 
+#' @title Combines elements of list
+#'
+#' @description
+#' Combines elements of a list by calling the specific combine function.
+#' 
+#' @param object a list of objects of the same class to combine.
+#' @param ... additional arguments to pass to the specific combine function.
+#' @return The result of calling specific combine function.
+#' @seealso \code{\link{combine}}
+#' @export 
+combine_list <- function (object, ...) {
+  assert_that(is.list(object))
+  
+  cmd <- paste0("object[[", 1:length(object), "]]")
+  cmd <- paste0(cmd, collapse = ", ")
+  
+  cmd <- paste0("combine(",cmd,", ...)")
+  
+  eval(parse(text = cmd))
+}
+
 combine.list <- function (object, ..., by = "sims") {
   
   args <- list(...)
