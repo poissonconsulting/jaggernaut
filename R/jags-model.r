@@ -22,6 +22,8 @@
 #'  of the BUGS language that specifies derived parameters
 #' @param random_effects a named list of parameters to be treated as random effects with the
 #' related data as values
+#' @param select_derived a character vector of the variables to select from the 
+#' data set being analysed (can also specify variables to transform and/or centre)
 #' @param modify_data_derived a function to modify the derived data set 
 #' (after it has been converted to list form)
 #' @details 
@@ -110,6 +112,7 @@
 jags_model <- function (model_code, monitor = NULL, select = NULL, 
                         modify_data = NULL, gen_inits = NULL, 
                         derived_code = NULL, random_effects = NULL,
+                        select_derived = NULL,
                         modify_data_derived = NULL) {  
 
   model <- jagr_analysis_model(model_code = model_code, 
@@ -119,6 +122,7 @@ jags_model <- function (model_code, monitor = NULL, select = NULL,
                       gen_inits = gen_inits,
                       derived_code = derived_code,
                       random_effects = random_effects,
+                      select_derived = select_derived,
                       modify_data_derived = modify_data_derived)
   
   object <- list(

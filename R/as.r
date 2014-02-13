@@ -129,6 +129,7 @@ as.jagr_model.jags_data_model <- function (x, ...) {
 as.jagr_model.jagr_analysis_model <- function (x, ...) {
   
   x$modify_data_derived <- NULL
+  x$select_derived <- NULL
   x$derived_code <- NULL
   x$random_effects <- NULL
   
@@ -200,6 +201,7 @@ as.jagr_power_analysis.jagr_analysis <- function (x, ...) {
   x$select <- NULL
   x$modify_data <- NULL
   x$gen_inits <- NULL
+  x$select_derived <- NULL
   x$modify_data_derived <- NULL
   x$derived_code <- NULL
   x$random_effects <- NULL

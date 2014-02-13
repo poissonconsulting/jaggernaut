@@ -3,7 +3,11 @@ jagr_analysis_model <- function (model_code, monitor = NULL, select = NULL,
                                  modify_data = NULL, gen_inits = NULL, 
                                  derived_code = NULL, 
                                  random_effects = NULL,
+                                 select_derived = NULL,
                                  modify_data_derived = NULL) {  
+  
+  if(!is.null(select_derived))
+    select <- select_derived
   
   object <- jagr_model(model_code = model_code,
                        monitor = monitor, 

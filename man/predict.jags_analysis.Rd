@@ -5,8 +5,8 @@
 \method{predict}{jags_analysis}(object, newdata = NULL, parm = "prediction",
   base = FALSE, values = NULL, model_number = 1,
   modify_data_derived = NULL, derived_code = NULL, random_effects = NULL,
-  level = "current", estimate = "current", obs_by = FALSE,
-  length_out = 50, ...)
+  select_derived = NULL, level = "current", estimate = "current",
+  obs_by = FALSE, length_out = 50, ...)
 }
 \arguments{
   \item{object}{a jags_analysis object.}
@@ -35,6 +35,10 @@
   \item{model_number}{an integer scalar specifying the jags
   model to select. If model_number = 0 then it selects the
   model with the lowest DIC.}
+
+  \item{select_derived}{a character vector of the variables
+  to select from the data set being analysed (can also
+  specify variables to transform and/or centre)}
 
   \item{modify_data_derived}{a function to modify the
   derived data set (after it has been converted to list

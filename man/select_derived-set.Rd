@@ -1,0 +1,19 @@
+\name{select_derived<-}
+\alias{select_derived<-}
+\title{Set modify data derived}
+\usage{
+select_derived(object) <- value
+}
+\arguments{
+  \item{object}{a JAGS object.}
+
+  \item{value}{a function or NULL to replace the modify
+  data derived fnction.}
+}
+\description{
+Set the select_derived component of a JAGS object.
+}
+\seealso{
+\code{\link{jaggernaut}}
+}
+

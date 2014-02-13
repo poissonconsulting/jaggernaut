@@ -21,6 +21,8 @@
 #' replaced by the corresponding values.
 #' @param model_number an integer scalar specifying the jags model to select. 
 #' If model_number = 0 then it selects the model with the lowest DIC.
+#' @param select_derived a character vector of the variables to select from the 
+#' data set being analysed (can also specify variables to transform and/or centre)
 #' @param modify_data_derived a function to modify the derived data set 
 #' (after it has been converted to list form)
 #' @param derived_code a character scalar defining a block in the JAGS dialect of 
@@ -67,6 +69,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
                                    values = NULL, model_number = 1,
                                    modify_data_derived = NULL,
                                    derived_code = NULL, random_effects = NULL, 
+                                   select_derived = NULL,
                                    level = "current", estimate = "current", 
                                    obs_by = FALSE, length_out = 50, ...) {
   
@@ -88,6 +91,9 @@ predict.jags_analysis <- function (object, newdata = NULL,
 
   if(!is_null(modify_data_derived) && !is_function(modify_data_derived))
     stop("modify_data_derived must be NULL or a function")
+
+  if(!is_null(select_derived) && !is.character(select_derived))
+    stop("select_derived must be NULL or a character vector")
   
   if(!is_null(derived_code) && !is_character_scalar(derived_code))
     stop("derived_code must be NULL or a character scalar")
@@ -141,6 +147,9 @@ predict.jags_analysis <- function (object, newdata = NULL,
     nworkers <- 1
   
   object <- subset(object, model_number = model_number)
+
+  if(!is_null(select_derived))
+    select_derived(object) <- select_derived
   
   if(!is_null(modify_data_derived))
     modify_data_derived(object) <- modify_data_derived

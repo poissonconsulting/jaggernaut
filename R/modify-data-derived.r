@@ -113,7 +113,7 @@ modify_data_derived.jags_analysis <- function (object, ...) {
     is.na(value) <- TRUE
   
   for (i in 1:nmodels(object))
-    object$modify_data_derived[[i]] <- value
+    modify_data_derived(object$analyses[[i]]) <- value
   
   return (object)
 }

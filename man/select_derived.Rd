@@ -1,0 +1,22 @@
+\name{select_derived}
+\alias{select_derived}
+\title{Get select derived}
+\usage{
+select_derived(object, ...)
+}
+\arguments{
+  \item{object}{a JAGS object.}
+
+  \item{...}{further arguments passed to or from other
+  methods.}
+}
+\value{
+The select_derived component of a JAGS object.
+}
+\description{
+Get the select_derived component of a JAGS object.
+}
+\seealso{
+\code{\link{jaggernaut}}
+}
+
