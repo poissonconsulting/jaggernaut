@@ -12,9 +12,8 @@ translate_data <- function (select, data, dat = NULL) {
   vars <- names_select(select)
 
   bol <- !vars %in% names(data)
-  if (any(bol)) {
-    stop(paste(vars[bol],"in select but not variable names in data"))
-  }
+  if (any(bol))
+    stop("The following variables are in select but not data: ", paste(vars[bol],collapse = ", "))
 
   reserved <- c("all","fixed","random","deviance")
   
