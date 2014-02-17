@@ -13,7 +13,8 @@ translate_data <- function (select, data, dat = NULL) {
 
   bol <- !vars %in% names(data)
   if (any(bol))
-    stop("The following variables are in select but not data: ", paste(vars[bol],collapse = ", "))
+    stop("The following variables are in select but not data: ", 
+         paste(vars[bol], collapse = ", "))
 
   reserved <- c("all","fixed","random","deviance")
   
