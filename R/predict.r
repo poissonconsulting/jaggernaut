@@ -186,6 +186,9 @@ predict.jags_analysis <- function (object, newdata = NULL,
     if(!is.character(observed))
       observed <- NULL
     
+    if(identical(newdata, ""))
+      newdata <- NULL
+    
     newdata <- new_data(data, sequence = newdata, observed = observed, 
                         length_out = length_out)
   }
