@@ -1,5 +1,9 @@
 # NEWS
 
+# jaggernaut 1.6
+
+* refer to git history...
+
 # jaggernaut 1.5.6
 
 * `predict` function now gives observed base values when `base = TRUE` and
