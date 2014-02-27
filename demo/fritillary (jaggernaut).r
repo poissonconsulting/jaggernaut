@@ -18,32 +18,40 @@ fritillary.melted <- melt(fritillary, id.vars = c("Site", "Day"), variable.name 
 
 fritillary.melted$Site <- factor(fritillary.melted$Site)
 fritillary.melted$Day <- factor(fritillary.melted$Day)
+fritillary.melted$Replicate <- factor(fritillary.melted$Replicate)
 
 # Specify the model in JAGS using jaggernaut:
 simple.poisson <- jags_model("model{
-  for (k in 1:7){                           # Loop over days
-    alpha.lam[k] ~ dnorm(0, 0.01)
-    p[k] ~ dunif(0, 1)
+  for(j in 1:nDay){                           # Loop over days
+    alpha.lam[j] ~ dnorm(0, 0.01)
+    p[j] ~ dunif(0, 1)
 
-    lambda[k] <- exp(alpha.lam[k])
+    lambda[j] <- exp(alpha.lam[j])
 
-    for (i in 1:95){                        # Loop over sites
-      N[i, k] ~ dpois(lambda[k])            # Abundance
+    for(i in 1:nSite){                        # Loop over sites
+      N.singleRep[i, j] ~ dpois(lambda[j])
+      for(k in 1:nReplicate){                 # Loop over replicates
+        N[i, j, k] <- N.singleRep[i, j]
+      }
     }
   }
 
-  for (ii in 1:length(Count)){              # Loop over all days, sites and replicates
-    Count[ii] ~ dbin(p[Day[ii]], N[Site[ii], Day[ii]])
-    eval[ii] <- p[Day[ii]] * N[Site[ii], Day[ii]]
+  for(ii in 1:(nDay*nSite*nReplicate)){
+    N.long[ii] <- N[Site[ii], Day[ii], Replicate[ii]]
+  }
+
+  for(ii in 1:length(Count)){              # Loop over all days, sites and replicates
+    Count[ii] ~ dbin(p[Day[ii]], N.long[ii])
+    eval[ii] <- p[Day[ii]] * N.long[ii]
     E[ii] <- ((Count[ii] - eval[ii])^2) / (eval[ii] + 0.5)
 
-    Count.new[ii] ~ dbin(p[Day[ii]], N[Site[ii], Day[ii]])
+    Count.new[ii] ~ dbin(p[Day[ii]], N.long[ii])
     E.new[ii] <- ((Count.new[ii] - eval[ii])^2) / (eval[ii] + 0.5)
   }
 }",
 derived_code = "model{
-  for (k in 1:7){
-    totalN[k] <- sum(N[,k])
+  for(k in 1:7){
+#    totalN[k] <- sum(N[,k])
     mean.abundance[k] <- exp(alpha.lam[k])
   }
   fit <- sum(E)
@@ -52,18 +60,16 @@ derived_code = "model{
 gen_inits = function (data) {
   
   inits <- list()
-  inits.N  <- matrix(, 95, 7)
-  for (k in 1:7){                           # Loop over days
-    for (i in 1:95){                        # Loop over sites
-      inits.N[i, k] <- pmax(data$Count[i + (k-1)*95], data$Count[i + (k-1)*95 + 665], na.rm = TRUE)
-    }
+  inits.N.singleRep <- numeric(665)
+  for (ii in 1:665){                           # Loop over days and sites
+    inits.N.singleRep[ii] <- pmax(data$Count[ii], data$Count[ii + 665], na.rm = TRUE)
   }
-  inits$N <- inits.N
+  inits$N.long <- c(inits.N.singleRep, inits.N.singleRep)
   
   return (inits)
 },
-# No random effects(?)
+# No random effects
 select = c("Count", "Site", "Day", "Replicate")
 )
 
-analysis.output <- jags_analysis(simple.poisson, fritillary.melted, mode = "debug")
+analysis.output <- jags_analysis(simple.poisson, fritillary.melted, mode = "demo")
