@@ -302,8 +302,8 @@ assign_opts_jagr <- function (opts) {
   if (!opts$nresample %in% 0:4) {
     stop("option nresample must lie between 0 and 4")
   } 
-  if (!(opts$nsims >= 100 &&  opts$nsims <= 2000)) {
-    stop("option nsims must lie between 100 and 2000")
+  if (!(opts$nsims >= 100 &&  opts$nsims <= 5000)) {
+    stop("option nsims must lie between 100 and 6000")
   } 
   
   if (!(opts$rhat >= 1 &&  opts$rhat <= 2))
