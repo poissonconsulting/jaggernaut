@@ -77,7 +77,7 @@ select = c("Count", "Site", "Day")
 opts_jagr(nchains = 3, nsims = 2000) # To accurately parallel the Kéry & Schaub example this should be 3000, but limited by jaggernaut.
 analysis.output <- jags_analysis(simple.poisson, fritillary.melted, niters = 10^4) # Convergence can be elusive, even for niters = 10^5 -- needs fixing!
 
-#summary(analysis.output) # Currently broken.
+summary(analysis.output)
 
 plot(analysis.output$analyses$Model1$chains$samples$fit, analysis.output$analyses$Model1$chains$samples$fit.new, main = "", xlab = "Discrepancy actual data", ylab = "Discrepancy replicate data", frame.plot = FALSE)
 abline(0, 1, lwd = 2, col = "black")
