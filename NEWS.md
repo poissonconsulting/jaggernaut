@@ -1,5 +1,9 @@
 # NEWS
 
+# jaggernaut 1.7
+
+* refer to git history...
+
 # jaggernaut 1.6
 
 * refer to git history...
