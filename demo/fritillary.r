@@ -66,13 +66,15 @@ data$Day <- factor(data$Day)
 data$Replicate <- factor(data$Replicate)
 
 opts_jagr(nchains = 3, nsims = 3000)
-analysis <- jags_analysis(model, data, niters = 10^4) 
+opts_jagr(mode = "debug")
+analysis <- jags_analysis(model, data, niters = 10^2) 
 # Convergence can be elusive, even for niters = 10^5 -- needs fixing!
 
 summary(analysis)
 
+coef(analysis, parm = "fit", level = "no")
+
 # predict(analysis, parm = "fit")
-# coef(analysis, parm = "fit", level = )
 # 
 # plot(analysis$analyses$Model1$chains$samples$fit, analysis$analyses$Model1$chains$samples$fit.new, main = "", xlab = "Discrepancy actual data", ylab = "Discrepancy replicate data", frame.plot = FALSE)
 # abline(0, 1, lwd = 2, col = "black")

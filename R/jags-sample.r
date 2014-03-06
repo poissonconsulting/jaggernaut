@@ -3,7 +3,7 @@
 #' @description 
 #' An object of class \code{jags_sample}.
 #' 
-#' @param chains a \code{jagr_sample} object.
+#' @param chains \code{jagr_chains} object.
 #' @param parm a character scalar.
 #' @param data a data.frame.
 #' @return A jags_sample object.

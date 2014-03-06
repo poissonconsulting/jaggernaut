@@ -5,7 +5,7 @@
 jags_sample(chains, parm, data)
 }
 \arguments{
-  \item{chains}{a \code{jagr_sample} object.}
+  \item{chains}{\code{jagr_chains} object.}
 
   \item{parm}{a character scalar.}
 

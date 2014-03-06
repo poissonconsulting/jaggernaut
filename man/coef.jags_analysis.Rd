@@ -15,7 +15,8 @@
   level or a character scalar specifying which mode the
   level should be taken from. By default the level is as
   currently specified by \code{opts_jagr} in the global
-  options.}
+  options. If level = "no" then returns a jags_sample
+  object.}
 
   \item{estimate}{a character scalar specifying whether the
   point estimate should be the "mean" or the "median" or a

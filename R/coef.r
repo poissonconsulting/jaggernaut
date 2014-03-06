@@ -93,17 +93,22 @@ coef_matrix <- function(object, level, estimate, as_list) {
 coef.jagr_chains <- function (object, parm, level, estimate, 
                               as_list, ...) {
   
-  stopifnot(is_numeric_scalar(level))
-  stopifnot(is_bounded(level, 0.5, 1.0))
+  assert_that(is.number(level))
   
   mat <- as.matrix(object)
-
+  
   parm <- expand_parm(object, parm = parm)
   
   mat <- mat[,colnames(mat) %in% parm,drop = FALSE]
-    
-  coef_matrix (mat, level = level, estimate = estimate, 
-                       as_list = as_list)
+  
+  if (level > 0) {
+  return (coef_matrix (mat, level = level, estimate = estimate, 
+               as_list = as_list))
+  }
+  print(parm)
+  stop()
+  data <- data.frame(row = 1:nrow(samples))
+  jags_sample(object, parm = parm, )
 }
 
 #' @title Coefficients
@@ -151,7 +156,7 @@ coef.jags_sample <- function (object, level = "current", estimate = "current",
   if(!estimate %in% c("mean","median")) {
     estimate <- opts_jagr("estimate")
   }
-    
+  
   coef <- coef_matrix(t(samples(object)), level = level, estimate = estimate,
                       as_list = as_list)
   
@@ -163,16 +168,16 @@ coef.jags_sample <- function (object, level = "current", estimate = "current",
 
 coef.jagr_power_analysis <- function (object, parm, level, estimate, 
                                       as_list, ...) {
-  return (coef(as.jagr_chains(object), parm = parm, 
-               level = level, estimate = estimate, 
-               as_list = as_list, ...))
+  coef(as.jagr_chains(object), parm = parm, 
+       level = level, estimate = estimate, 
+       as_list = as_list, ...)
 }
 
 coef_jagr_power_analysis <- function (object, parm, level, estimate, 
                                       as_list, ...) {
   stopifnot(is.jagr_power_analysis(object))
-  return (coef(object, parm = parm, level = level, estimate = estimate,
-               as_list = as_list, ...))
+  coef(object, parm = parm, level = level, estimate = estimate,
+       as_list = as_list, ...)
 }
 
 coef_jagr_analysis <- function (object, parm, level, estimate, as_list, ...) {
@@ -191,6 +196,7 @@ coef_jagr_analysis <- function (object, parm, level, estimate, as_list, ...) {
 #' @param level a numeric scalar specifying the significance level or a character
 #' scalar specifying which mode the level should be taken from. By default the
 #' level is as currently specified by \code{opts_jagr} in the global options.
+#' If level = "no" then returns a jags_sample object.
 #' @param estimate a character scalar specifying whether the point estimate should
 #' be the "mean" or the "median" or a character scalar which mode the level should be 
 #' taken from. By default the
@@ -214,8 +220,12 @@ coef.jags_analysis <- function (object, parm = "fixed", level = "current",
   assert_that(is.flag(as_list) && noNA(as_list))
   
   if (!is.numeric(level) && level != "current") {
-    old_opts <- opts_jagr(mode = level)
-    on.exit(opts_jagr(old_opts))
+    if (level == "no") {
+      level <- 0
+    } else {
+      old_opts <- opts_jagr(mode = level)
+      on.exit(opts_jagr(old_opts))
+    }
   }
   
   if (!is.numeric(level)) {
@@ -227,11 +237,11 @@ coef.jags_analysis <- function (object, parm = "fixed", level = "current",
     if(is.null(sys.on.exit()))
       on.exit(opts_jagr(old_opts))
   }
-
+  
   if(!estimate %in% c("mean","median")) {
     estimate <- opts_jagr("estimate")
   }
-    
+  
   if(is_one_model(object)) {
     return (coef(analysis(object), parm = parm, level = level, 
                  estimate = estimate, 
@@ -264,21 +274,21 @@ coef.jags_power_analysis <- function (object, parm = "fixed", combine = TRUE, co
     if(is.null(sys.on.exit()))
       on.exit(opts_jagr(old_opts))
   }
-
+  
   if (!estimate %in% c("mean","median")) {
     estimate <- opts_jagr("estimate")
   }
-
+  
   if (!is.numeric(power_level) && power_level != "current") {
     old_opts <- opts_jagr(mode = level)
     if(is.null(sys.on.exit()))
       on.exit(opts_jagr(old_opts))
   }
-
+  
   if (!is.numeric(power_level)) {
     power_level <- opts_jagr("power_level")
   }
-    
+  
   rhat_threshold <- rhat_threshold(object)
   
   coef_jagr_power_analysis_converged <- function (object, parm, level, 
@@ -288,13 +298,13 @@ coef.jags_power_analysis <- function (object, parm = "fixed", combine = TRUE, co
     
     coef <- coef(object, parm = parm, level = level, estimate = estimate,
                  as_list = FALSE, ...)
-        
+    
     attr(coef,"converged") <- !converged ||
       is_converged(object, rhat_threshold = rhat_threshold)
-      
+    
     return (coef)
   }
-      
+  
   analyses <- analyses(object)
   
   coef <- llply_jg(analyses, coef_jagr_power_analysis_converged, parm = parm, 
@@ -310,7 +320,7 @@ coef.jags_power_analysis <- function (object, parm = "fixed", combine = TRUE, co
   melt_coef <- function (object) {
     
     converged <- attr(object,"converged")
-        
+    
     object <- subset(object,select = c("estimate","lower","upper","error"))
     object$parameter <- rownames(object) 
     melt <- melt(object, id.vars = c("parameter"), variable.name = "statistic", value.name = "number")
@@ -330,10 +340,10 @@ coef.jags_power_analysis <- function (object, parm = "fixed", combine = TRUE, co
   value <- parameter <- statistic <- replicate <- NULL
   
   coef <- dcast(coef,value + parameter + statistic ~ replicate,
-                          value.var = "number")
+                value.var = "number")
   
   get_estimates <- function (d, power_level, level, estimate, converged) {
-        
+    
     est <- d[d$statistic == "estimate",substr(colnames(d),1,9) == "replicate",drop=TRUE]
     
     niters <- length(est)
@@ -344,57 +354,57 @@ coef.jags_power_analysis <- function (object, parm = "fixed", combine = TRUE, co
     
     if (estimate == "median") {  
       est <- median(unlist(d[d$statistic == "estimate",
-                         substr(colnames(d),1,9) == "replicate",drop = TRUE]),
-                       na.rm = TRUE)
+                             substr(colnames(d),1,9) == "replicate",drop = TRUE]),
+                    na.rm = TRUE)
     } else if (estimate == "mean"){
       est <- mean(unlist(d[d$statistic == "estimate",
-                                  substr(colnames(d),1,9) == "replicate",drop = TRUE]),
-                         na.rm = TRUE)     
+                           substr(colnames(d),1,9) == "replicate",drop = TRUE]),
+                  na.rm = TRUE)     
     } else
       stop()
     
     lower <- quantile(unlist(d[d$statistic == "lower",
-                         substr(colnames(d),1,9) == "replicate",drop = TRUE]),
+                               substr(colnames(d),1,9) == "replicate",drop = TRUE]),
                       probs = (1 - power_level) / 2, na.rm = TRUE)   
     
     upper <- quantile(unlist(d[d$statistic == "upper",
-                        substr(colnames(d),1,9) == "replicate",drop = TRUE]),
+                               substr(colnames(d),1,9) == "replicate",drop = TRUE]),
                       probs = power_level + ((1 - power_level) / 2), na.rm = TRUE)
     
     error <- (unlist(d[d$statistic == "upper",
-                      substr(colnames(d),1,9) == "replicate",drop = TRUE]) -
-      unlist(d[d$statistic == "lower",
-               substr(colnames(d),1,9) == "replicate",drop = TRUE])) / 2 /
-     abs(unlist(d[d$statistic == "estimate",
-               substr(colnames(d),1,9) == "replicate",drop = TRUE]))
+                       substr(colnames(d),1,9) == "replicate",drop = TRUE]) -
+                unlist(d[d$statistic == "lower",
+                         substr(colnames(d),1,9) == "replicate",drop = TRUE])) / 2 /
+      abs(unlist(d[d$statistic == "estimate",
+                   substr(colnames(d),1,9) == "replicate",drop = TRUE]))
     
     error <- error * 100
-
+    
     error <- quantile(error,
                       probs = c((1 - power_level) / 2, 0.5, 
                                 power_level + ((1 - power_level) / 2)), na.rm = TRUE)
-        
+    
     error.lower <- error[1]
     error.upper <- error[3]
     error <- error[2]
     
     p <- t(d[d$statistic %in% c("lower","upper"),
-                        substr(colnames(d),1,9) == "replicate"])
+             substr(colnames(d),1,9) == "replicate"])
     
     p <- na.omit(p)
-            
+    
     p <- (p[,1,drop=TRUE] > 0 & p[,2,drop=TRUE] > 0) | (p[,1,drop=TRUE] < 0 & p[,2,drop=TRUE] < 0)
-        
+    
     significance <-  length(p[!p]) / length(p)
-        
+    
     significance <- round(significance, 4)
-            
+    
     data <- data.frame(niters = niters, converged = conv, samples = samples, 
                        estimate = est, lower = lower, upper = upper, 
                        error = error, error.lower = error.lower, 
                        error.upper = error.upper,
                        significance = significance)
-
+    
     return (data)
   }
   
