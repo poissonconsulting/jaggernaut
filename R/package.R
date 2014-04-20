@@ -63,7 +63,7 @@
 #' @docType package
 #' @import assertthat datalist abind reshape2 plyr coda rjags doParallel itertools
 #' @name jaggernaut
-#' @aliases package-jaggernaut
+#' @aliases package-jaggernaut jaggernaut-package
 #' @seealso \code{\link{jags_model}},
 #' \code{\link{jags_analysis}}, \code{\link{jags_data_model}}, 
 #' \code{\link{jags_simulation}}, \code{\link{jags_power_analysis}} 
