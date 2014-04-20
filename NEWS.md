@@ -1,8 +1,13 @@
 # NEWS
 
+# jaggernaut 1.7.1
+
+- added `fritillary` demo
+
 # jaggernaut 1.7
 
-* refer to git history...
+- on load package sets up mode reporting by default
+- max number of simulations saved now 6,000 (was 2,000)
 
 # jaggernaut 1.6
 

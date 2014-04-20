@@ -1,6 +1,6 @@
 Package: jaggernaut
-Version: 1.7
-Date: 2014-03-05
+Version: 1.7.1
+Date: 2014-03-20
 Title: Bayesian analyses using JAGS
 Author: Joe Thorley [aut, cre]
 Maintainer: Joe Thorley <joe@poissonconsulting.ca>
@@ -22,18 +22,18 @@ SystemRequirements: jags (>= 3.3.0)
 NeedsCompilation: yes
 LinkingTo: Rcpp
 Depends:
-    R (>= 3.0.2),
-    doParallel
+    R (>= 3.0.3),
+    doParallel (>= 1.0.8)
 Imports:
     assertthat (>= 0.1),
-    abind,
-    reshape2,
-    plyr,
-    datalist (>= 0.3),
+    abind (>= 1.4-0),
+    reshape2 (>= 1.2.2),
+    plyr (>= 1.8.1),
+    datalist (>= 0.4),
     coda (>= 0.16),
     rjags (>= 3-11),
-    itertools
+    itertools (>= 0.1-3)
 Suggests:
     testthat (>= 0.7),
-    ggplot2,
-    scales
+    ggplot2 (>= 0.9.3.1),
+    scales (>= 0.2.3)
