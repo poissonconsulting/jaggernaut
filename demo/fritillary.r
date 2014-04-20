@@ -1,9 +1,10 @@
 # Simple Poisson model for fritillary butterfly data set (Kery & Schaub, 2011, 12.3.1)
 # Patrick M. Hogan, 01 March 2014
 
-library(jaggernaut)
 library(plyr)
 library(reshape2)
+library(ggplot2)
+library(scales) 
 
 # We apply an open-population binomial mixture model to estimate population during each day.
 # Count for sites i = 1..95, replicates j = 1,2 and days k = 1..7
@@ -66,15 +67,18 @@ data$Day <- factor(data$Day)
 data$Replicate <- factor(data$Replicate)
 
 opts_jagr(nchains = 3, nsims = 3000)
-opts_jagr(mode = "debug")
-analysis <- jags_analysis(model, data, niters = 10^2) 
+analysis <- jags_analysis(model, data, niters = 10^4) 
 # Convergence can be elusive, even for niters = 10^5 -- needs fixing!
 
 summary(analysis)
 
-coef(analysis, parm = "fit", level = "no")
+fit <- coef(analysis, parm = c("fit","fit.new"), level = "no")
+fit <- as.data.frame(t(fit))
 
-# predict(analysis, parm = "fit")
-# 
-# plot(analysis$analyses$Model1$chains$samples$fit, analysis$analyses$Model1$chains$samples$fit.new, main = "", xlab = "Discrepancy actual data", ylab = "Discrepancy replicate data", frame.plot = FALSE)
-# abline(0, 1, lwd = 2, col = "black")
+gp <- ggplot(data = fit, aes(x = fit, y = fit.new))
+gp <- gp + geom_abline(intercept = 0, slope = 1)
+gp <- gp + geom_point()
+gp <- gp + scale_x_continuous(name = "Discrepancy actual data")
+gp <- gp + scale_y_continuous(name = "Discrepancy replicate data")
+
+print(gp)
