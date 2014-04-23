@@ -1,0 +1,102 @@
+#' @title Get aggregation code from a JAGS object
+#'
+#' @description
+#' Gets the aggregation_code component of a JAGS object.  
+#' aggregation code tracks scalar parameters.
+#' 
+#' @param object a JAGS object.
+#' @param ... further arguments passed to or from other methods.
+#' @return The aggregation_code component of object.
+#' @seealso \code{\link{jaggernaut}}  
+#' @importFrom juggler jg_check
+#' @export
+aggregation_code <- function (object, ...) {
+  UseMethod("aggregation_code", object)
+}
+
+#' @title Set aggregation code in a JAGS object
+#'
+#' @description
+#' Sets the aggregation_code component of a JAGS object.  
+#' 
+#' @usage
+#' aggregation_code(object) <- value
+#' @param object a JAGS object.
+#' @param value a character element or NULL.
+#' @return The replacement method changes the aggregation_code component of the object.
+#' @seealso \code{\link{aggregation_code}} and \code{\link{jaggernaut}}  
+#' @export
+"aggregation_code<-" <- function (object, value) {
+  UseMethod("aggregation_code<-", object)
+}
+
+aggregation_code.jagr_analysis_model <- function (object, ...) {
+  return (object$aggregation_code)
+}
+
+aggregation_code_jagr_analysis_model <- function (object, ...) {
+  stopifnot(is.jagr_analysis_model(object))
+  return (aggregation_code(object, ...))
+}
+
+#' @method aggregation_code jags_model
+#' @export
+aggregation_code.jags_model <- function (object, ...) {
+  
+  if(is_one_model(object))
+    return (aggregation_code(model(object), ...))
+  
+  models <- models(object)
+  models <- lapply(models, aggregation_code_jagr_analysis_model, ...)
+  models <- name_object(models, "Model")
+  return (models) 
+}
+
+#' @method aggregation_code jags_analysis
+#' @export
+aggregation_code.jags_analysis <- function (object, ...) {
+  return (aggregation_code(as.jags_model(object), ...))
+}  
+
+"aggregation_code<-.jagr_analysis_model" <- function (object, value) {
+  
+  if(!jg_check(value))
+    stop("aggregation code is not valid JAGS model code")
+  
+  object$aggregation_code <- value
+  
+  return (object)
+}
+
+#' @method aggregation_code<- jags_model
+#' @export
+"aggregation_code<-.jags_model" <- function (object, value) {
+  
+  if(is.list(value) && length(value) != nmodels(object))
+    stop("if value is a list it must be the same length as the number of models in object")
+  
+  if(is.list(value))
+    names(value) <- NULL
+  
+  models <- models(object)
+  
+  for (i in 1:length(models)) {
+    if(!is.list(value)) {
+      aggregation_code(models[[i]]) <- value
+    } else
+      aggregation_code(models[[i]]) <- value[[i]]
+  }
+  
+  models(object) <- models
+  return (object)
+}
+
+#' @method aggregation_code<- jags_analysis
+#' @export
+"aggregation_code<-.jags_analysis" <- function (object, value) {
+    
+  for (i in 1:nmodels(object))
+    aggregation_code(object$analyses[[i]]) <- value
+  
+  return (object)
+}

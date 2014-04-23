@@ -1,4 +1,3 @@
-
 #' @title Create a JAGS model
 #'
 #' @description 
@@ -26,6 +25,9 @@
 #' data set being analysed (can also specify variables to transform and/or centre)
 #' @param modify_data_derived a function to modify the derived data set 
 #' (after it has been converted to list form)
+#' @param aggregation_code string of JAGS code defining aggregated parameters
+#' such as posterior predictive checking discrepancy values for original and 
+#' simulated data.
 #' @details 
 #' The \code{jags_model} function defines a JAGS model that can then be passed to the 
 #' \code{jags_analysis} function together with a data frame to perform a Bayesian analysis.
@@ -107,14 +109,14 @@
 #' print(model)
 #' nmodels(model)
 #' model_code(model)
-#'
 #' @export 
 jags_model <- function (model_code, monitor = NULL, select = NULL, 
                         modify_data = NULL, gen_inits = NULL, 
                         derived_code = NULL, random_effects = NULL,
                         select_derived = NULL,
-                        modify_data_derived = NULL) {  
-
+                        modify_data_derived = NULL,
+                        aggregation_code = NULL) { 
+  
   model <- jagr_analysis_model(model_code = model_code, 
                       monitor = monitor, 
                       select = select,
@@ -123,7 +125,8 @@ jags_model <- function (model_code, monitor = NULL, select = NULL,
                       derived_code = derived_code,
                       random_effects = random_effects,
                       select_derived = select_derived,
-                      modify_data_derived = modify_data_derived)
+                      modify_data_derived = modify_data_derived,
+                      aggregation_code = aggregation_code)
   
   object <- list(
     models = list(model)

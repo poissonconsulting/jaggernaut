@@ -4,7 +4,8 @@
 \usage{
 jags_model(model_code, monitor = NULL, select = NULL, modify_data = NULL,
   gen_inits = NULL, derived_code = NULL, random_effects = NULL,
-  select_derived = NULL, modify_data_derived = NULL)
+  select_derived = NULL, modify_data_derived = NULL,
+  aggregation_code = NULL)
 }
 \arguments{
   \item{model_code}{a character element defining the model
@@ -40,6 +41,11 @@ jags_model(model_code, monitor = NULL, select = NULL, modify_data = NULL,
   \item{modify_data_derived}{a function to modify the
   derived data set (after it has been converted to list
   form)}
+
+  \item{aggregation_code}{string of JAGS code defining
+  aggregated parameters such as posterior predictive
+  checking discrepancy values for original and simulated
+  data.}
 }
 \value{
 a \code{jags_model} object

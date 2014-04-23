@@ -1,10 +1,10 @@
-
 jagr_analysis_model <- function (model_code, monitor = NULL, select = NULL, 
                                  modify_data = NULL, gen_inits = NULL, 
                                  derived_code = NULL, 
                                  random_effects = NULL,
                                  select_derived = NULL,
-                                 modify_data_derived = NULL) {  
+                                 modify_data_derived = NULL,
+                                 aggregation_code = NULL) {  
   
   if(!is.null(select_derived))
     select <- select_derived
@@ -24,6 +24,8 @@ jagr_analysis_model <- function (model_code, monitor = NULL, select = NULL,
     modify_data_derived <- modify_data
   
   modify_data_derived(object) <- modify_data_derived
+  if(!is.null(aggregation_code))
+    aggregation_code(object) <- aggregation_code
   
   return (object)
 }

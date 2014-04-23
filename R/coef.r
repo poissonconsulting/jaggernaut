@@ -254,6 +254,13 @@ coef.jags_analysis <- function (object, parm = "fixed", level = "current",
   return (analyses) 
 }
 
+#' @method coef jags_discrepancies
+#' @export
+coef.jags_discrepancies <- function (object, level = "current", estimate = "current", ...) {
+  object <- ddply_jags_sample(object, by = "parameter", fun = diff)
+  coef(object, level = "current", estimate = "current", ...)
+}
+
 #' @method coef jags_power_analysis
 #' @export
 coef.jags_power_analysis <- function (object, parm = "fixed", combine = TRUE, converged = TRUE, level = "current", power_level = "current", estimate = "current", ...) {

@@ -1,0 +1,20 @@
+\name{dataset.jags_discrepancies}
+\alias{dataset.jags_discrepancies}
+\title{Convert jags_discrepancies object to a data.frame}
+\usage{
+\method{dataset}{jags_discrepancies}(object, ...)
+}
+\arguments{
+  \item{object}{a \code{jags_discrepancies} object.}
+
+  \item{...}{further arguments passed to or from other
+  methods.}
+}
+\value{
+data.frame
+}
+\description{
+Returns dataset for plotting posterior predictive checks
+from a \code{jags_analysis} object.
+}
+

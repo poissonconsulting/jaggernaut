@@ -133,3 +133,16 @@ is.jags_simulation <- function (x) {
 is.jags_power_analysis <- function (x) {
   return (inherits(x, "jags_power_analysis"))
 }
+
+#' @title Test for objects of class jags_aggregation
+#'
+#' @description
+#' Tests for objects of class \code{jags_aggregation}.  
+#' 
+#' @param x the object to be tested.
+#' @return a logical element indicating whether or not \code{x} is of 
+#' class \code{jags_aggregation}.
+#' @export
+is.jags_aggregation <- function (x) {
+  return (inherits(x, "jags_aggregation"))
+}
