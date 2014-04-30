@@ -1,5 +1,11 @@
 # NEWS
 
+# jaggernaut 1.8.0
+
+- added `jags_discrepancies()` function and `aggregative_code` argument
+to allow calculation of posterior predictive checking
+- sets mode to report on load
+
 # jaggernaut 1.7.1
 
 - added `fritillary` demo
