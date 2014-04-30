@@ -5,6 +5,7 @@
 #' 
 #' @param x jags_analysis
 #' @param model_number integer scalar of model number
+#' @param data data.frame to aggregate over
 #' @param aggregation_code string of aggregation_code to replace analyse's aggregation code
 #' @param ... arguments passed to nowhere
 #' @method aggregate jags_analysis 

@@ -10,6 +10,8 @@
 
   \item{model_number}{integer scalar of model number}
 
+  \item{data}{data.frame to aggregate over}
+
   \item{aggregation_code}{string of aggregation_code to
   replace analyse's aggregation code}
 
