@@ -21,13 +21,15 @@ particular variables with the other variables held constant
 * power analyses with both the simulation and analytic models defined using BUGS 
 code (in the JAGS dialect)
 
-## Development
+## Install
 
-To install the development version of jaggernaut, it's easiest to use the `devtools` package:
+To install the latest version of jaggernaut:
 
     # install.packages("devtools")
     library(devtools)
-    install_github("jaggernaut", "joethorley")
+    install_github("joethorley/datalist@v0.4")
+    install_github("poissonconsulting/juggler@v0.1.1")
+    install_github("joethorley/jaggernaut@v1.8.0")
     
 ## Contact
 
