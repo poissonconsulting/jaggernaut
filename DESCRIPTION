@@ -33,7 +33,7 @@ Imports:
     plyr (>= 1.8.1),
     ggplot2 (>= 0.9.3.1),
     datalist (>= 0.4),
-    juggler (>= 0.1.1),
+    juggler (>= 0.1.2),
     coda (>= 0.16),
     rjags (>= 3-11),
     itertools (>= 0.1-3)
