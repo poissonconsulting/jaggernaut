@@ -146,5 +146,4 @@ jags_discrepancies <- function (object, model_number = 1, aggregation_code = NUL
   agg <- jaggregate (object, parameters = parameters, data = data)
   agg <- ags_sample(agg)
   agg <- discrepancies(agg)
-  print(agg)
 }
