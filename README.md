@@ -1,6 +1,6 @@
 # jaggernaut
 
-jaggernaut is an R package to facilitate Bayesian analyses using JAGS 
+jaggernaut is a prototype R package to facilitate Bayesian analyses using JAGS 
 (Just Another Gibbs Sampler).
 
 Key features include 
@@ -27,17 +27,17 @@ To install the latest version of jaggernaut:
 
     # install.packages("devtools")
     library(devtools)
-    install_github("poissonconsulting/tulip@v0.0.8")
-    install_github("joethorley/datalist@v0.4")
-    install_github("poissonconsulting/juggler@v0.1.2")
-    install_github("joethorley/jaggernaut@v1.8.0")
+    install_github("poissonconsulting/tulip")
+    install_github("poissonconsulting/datalist")
+    install_github("poissonconsulting/juggler")
+    install_github("poissonconsulting/jaggernaut")
     library(jaggernaut)
     
 ## Contact
 
 You are welcome to:
 
-* submit suggestions and bug-reports at: https://github.com/joethorley/jaggernaut/issues
-* send a pull request on: https://github.com/joethorley/jaggernaut/
+* submit suggestions and bug-reports at: https://github.com/poissonconsulting/jaggernaut/issues
+* send a pull request on: https://github.com/poissonconsulting/jaggernaut/
 * compose a friendly e-mail to: joe@poissonconsulting.ca
 

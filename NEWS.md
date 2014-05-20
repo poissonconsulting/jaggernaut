@@ -1,5 +1,10 @@
 # NEWS
 
+# jaggernaut 1.8.1
+
+- fixed minor bug where printing aggregation object
+- updated loaded package versions
+
 # jaggernaut 1.8.0
 
 - added `jags_discrepancies()` function and `aggregative_code` argument
