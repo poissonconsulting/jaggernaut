@@ -1,6 +1,6 @@
 # jaggernaut
 
-jaggernaut is a prototype R package to facilitate Bayesian analyses using JAGS 
+jaggernaut is an R package to facilitate Bayesian analyses using JAGS 
 (Just Another Gibbs Sampler).
 
 Key features include 
@@ -39,5 +39,3 @@ You are welcome to:
 
 * submit suggestions and bug-reports at: https://github.com/poissonconsulting/jaggernaut/issues
 * send a pull request on: https://github.com/poissonconsulting/jaggernaut/
-* compose a friendly e-mail to: joe@poissonconsulting.ca
-

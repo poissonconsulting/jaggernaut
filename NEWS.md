@@ -1,5 +1,9 @@
 # NEWS
 
+# jaggernaut 1.8.2
+
+- now uses `select_derived` when defined for predictions
+
 # jaggernaut 1.8.1
 
 - fixed minor bug where printing aggregation object
