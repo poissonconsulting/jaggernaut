@@ -33,7 +33,7 @@ geweke.jagr_chains <- function (object, parm = "all", combine = TRUE, ...) {
     if(nchains(object) > 1) {
       geweke <- numeric()
       for (i in seq(along = vars)) {
-        geweke[i] <- geweke.diag(mcmc[,vars[i]])[[1]][[1]]
+        geweke[i] <- abs(geweke.diag(mcmc[,vars[i]])[[1]][[1]])
       }
     } else {
       geweke <- rep(NA,length(vars))
@@ -48,7 +48,7 @@ geweke.jagr_chains <- function (object, parm = "all", combine = TRUE, ...) {
   geweke <- geweke[row.names(geweke) %in% parm,,drop = FALSE]
   
   if (combine)
-    return (max(abs(geweke$geweke), na.rm = TRUE))
+    return (max(geweke$geweke, na.rm = TRUE))
   
   return (geweke)
 }
