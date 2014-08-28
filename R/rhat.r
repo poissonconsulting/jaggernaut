@@ -6,13 +6,13 @@
 #' 
 #' @param object a JAGS object
 #' @param parm a character vector indicating the parameters for which to calculate
-#' the R-hat values
+#' the R-hat values. Either list the parmeters or use all, fixed or random.
 #' @param combine a logical element indicating whether or not to summarise by 
 #' the maximum R-hat value.
 #' @param ... passed to and from other functions
 #' @return a vector, matrix or array of rhat values
 #' @export
-rhat <- function (object, parm, combine, ...) {
+rhat <- function (object, parm = "all", combine = TRUE, ...) {
   UseMethod("rhat", object)
 }
 
@@ -33,7 +33,8 @@ rhat.jagr_chains <- function (object, parm = "all", combine = TRUE, ...) {
     if(nchains(object) > 1) {
       rhat <- numeric()
       for (i in seq(along = vars)) {
-        rhat[i] <- round(gelman.diag(mcmc[,vars[i]])$psrf[1],2)
+        rhat[i] <- round(gelman.diag(mcmc[,vars[i]], transform = TRUE, 
+          autoburnin = FALSE)$psrf[1],2)
       }
     } else {
       rhat <- rep(NA,length(vars))
@@ -89,6 +90,24 @@ rhat.jags_analysis <- function (object, parm = "all", combine = TRUE, ...) {
                      combine = combine, ...)  
   analyses <- name_object(analyses, "model")
   return (analyses) 
+}
+
+#' @method rhat jags_analysis
+#' @export 
+rhat.jags_sample <- function (object, parm = "all", combine = TRUE, ...) {
+  
+  if(!is_character_vector(parm))
+    stop("parm must be a character vector with no missing values")
+  
+  if(!is_logical_scalar(combine))
+    stop("combine must be TRUE or FALSE")
+  
+  if(any(c("fixed", "random") %in% parm)) {
+    warning("fixed or random not defined for jags_sample - replacing with all")
+    parm <- "all"
+  }
+    
+  rhat(as.jagr_chains(object), parm = parm, combine = combine, ...)  
 }
 
 #' @method rhat jags_power_analysis
