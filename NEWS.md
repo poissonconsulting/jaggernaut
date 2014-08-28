@@ -1,5 +1,9 @@
 # NEWS
 
+#### jaggernaut 1.8.4
+
+- `geweke` function now implemented using `coda::geweke.diag`
+
 #### jaggernaut 1.8.3
 
 - `coda::gelman.diag` now has `transform = TRUE` and `autoburnin = FALSE`
