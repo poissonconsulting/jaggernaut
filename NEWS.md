@@ -2,7 +2,7 @@
 
 #### jaggernaut 1.8.4
 
-- `geweke` function now implemented using `coda::geweke.diag`
+- `geweke` function now implemented using `abs(coda::geweke.diag)`
 
 #### jaggernaut 1.8.3
 
