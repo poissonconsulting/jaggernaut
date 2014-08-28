@@ -92,7 +92,7 @@ rhat.jags_analysis <- function (object, parm = "all", combine = TRUE, ...) {
   return (analyses) 
 }
 
-#' @method rhat jags_analysis
+#' @method rhat jags_sample
 #' @export 
 rhat.jags_sample <- function (object, parm = "all", combine = TRUE, ...) {
   
