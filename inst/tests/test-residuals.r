@@ -12,7 +12,7 @@ test_that("residuals works", {
     Volume[i] ~ dnorm(eVolume[i], sVolume^-2) 
     } 
 }",
-derived_code = "model {
+derived_code = "data {
     for (i in 1:length(Volume)) {
     prediction[i] <- bIntercept + bGirth * Girth[i] 
     residual[i] <- (Volume[i] - prediction[i]) / sVolume
@@ -32,7 +32,7 @@ select = c("Volume","Girth")
     Volume[i] ~ dnorm(eVolume[i], sVolume^-2) 
     } 
     }",
-derived_code = "model {
+derived_code = "data {
     for (i in 1:length(Volume)) {
     prediction[i] <- bIntercept + bGirth * Girth[i] + bHeight * Height[i]
     residual[i] <- (Volume[i] - prediction[i]) / sVolume

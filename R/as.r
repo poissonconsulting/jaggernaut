@@ -132,6 +132,10 @@ as.jagr_model.jagr_analysis_model <- function (x, ...) {
   x$select_derived <- NULL
   x$derived_code <- NULL
   x$random_effects <- NULL
+
+  x$modify_data_aggregation <- NULL
+  x$select_aggregation <- NULL
+  x$aggregation_code <- NULL
   
   class(x) <- "jagr_model"
   return (x)

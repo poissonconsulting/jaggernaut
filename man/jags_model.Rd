@@ -4,9 +4,10 @@
 \title{Create a JAGS model}
 \usage{
 jags_model(model_code, monitor = NULL, select = NULL, modify_data = NULL,
-  gen_inits = NULL, derived_code = NULL, random_effects = NULL,
-  select_derived = NULL, modify_data_derived = NULL,
-  aggregation_code = NULL)
+  gen_inits = NULL, derived_code = NULL, aggregation_code = NULL,
+  random_effects = NULL, select_derived = NULL,
+  modify_data_derived = NULL, select_aggregation = NULL,
+  modify_data_aggregation = NULL)
 }
 \arguments{
 \item{model_code}{a character element defining the model in the JAGS dialect of
@@ -32,7 +33,13 @@ related data as values}
 \item{select_derived}{a character vector of the variables to select from the
 data set being analysed (can also specify variables to transform and/or centre)}
 
+\item{select_aggregation}{a character vector of the variables to select from the
+data set being analysed (can also specify variables to transform and/or centre)}
+
 \item{modify_data_derived}{a function to modify the derived data set
+(after it has been converted to list form)}
+
+\item{modify_data_aggregation}{a function to modify the derived data set
 (after it has been converted to list form)}
 
 \item{aggregation_code}{string of JAGS code defining aggregated parameters

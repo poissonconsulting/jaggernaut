@@ -23,7 +23,11 @@
 #' related data as values
 #' @param select_derived a character vector of the variables to select from the 
 #' data set being analysed (can also specify variables to transform and/or centre)
+#' @param select_aggregation a character vector of the variables to select from the 
+#' data set being analysed (can also specify variables to transform and/or centre)
 #' @param modify_data_derived a function to modify the derived data set 
+#' (after it has been converted to list form)
+#' @param modify_data_aggregation a function to modify the derived data set 
 #' (after it has been converted to list form)
 #' @param aggregation_code string of JAGS code defining aggregated parameters
 #' such as posterior predictive checking discrepancy values for original and 
@@ -112,10 +116,12 @@
 #' @export 
 jags_model <- function (model_code, monitor = NULL, select = NULL, 
                         modify_data = NULL, gen_inits = NULL, 
-                        derived_code = NULL, random_effects = NULL,
+                        derived_code = NULL, aggregation_code = NULL, 
+                        random_effects = NULL,
                         select_derived = NULL,
                         modify_data_derived = NULL,
-                        aggregation_code = NULL) { 
+                        select_aggregation = NULL,
+                        modify_data_aggregation = NULL) { 
   
   model <- jagr_analysis_model(model_code = model_code, 
                       monitor = monitor, 
@@ -123,10 +129,12 @@ jags_model <- function (model_code, monitor = NULL, select = NULL,
                       modify_data = modify_data,
                       gen_inits = gen_inits,
                       derived_code = derived_code,
+                      aggregation_code = aggregation_code,
                       random_effects = random_effects,
                       select_derived = select_derived,
                       modify_data_derived = modify_data_derived,
-                      aggregation_code = aggregation_code)
+                      select_aggregation = select_aggregation,
+                      modify_data_aggregation = modify_data_aggregation)
   
   object <- list(
     models = list(model)

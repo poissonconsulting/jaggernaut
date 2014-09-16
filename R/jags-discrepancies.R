@@ -2,12 +2,13 @@ jaggregate <- function (object, parameters, data) {
   
   stopifnot(is.jags_analysis(object))
   
-  data <- translate_data(select(object), dataset(object), data) 
-  
   chains <- zero_random (object, data)
   
   file <- tempfile(fileext=".bug")
-  cat(aggregation_code(object), file=file)
+  code <- aggregation_code(object) 
+  code <- paste(code,"model { deviance <- 1}")
+  
+  cat(code, file=file)
   
   nchains <- nchains (chains)
   nsims <- nsims (chains) / nchains
@@ -143,6 +144,13 @@ jags_discrepancies <- function (object, model_number = 1, aggregation_code = NUL
   
   data <- dataset(object)
   
+  data <- translate_data(select(object), data) 
+  
+  if (is.function(modify_data(object))) 
+    data <- modify_data(object)(data)
+  
+  assert_that(is_converted_data(data))
+    
   agg <- jaggregate (object, parameters = parameters, data = data)
   agg <- ags_sample(agg)
   agg <- discrepancies(agg)

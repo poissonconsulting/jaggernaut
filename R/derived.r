@@ -6,6 +6,8 @@ get_samples <- function (sims, chains, data, parm, file) {
     warn <- options('warn')
     options(warn = -1)
     
+    data$deviance <- NULL
+    
     jags <- jags.model (file = file, data = data, 
                         n.chains = 1, n.adapt = 0, quiet = TRUE
     )
@@ -77,7 +79,10 @@ derived <- function (object, parm, data, nworkers) {
     data <- modify_data_derived(object)(data)
   
   file <- tempfile(fileext=".bug")
-  cat(derived_code(object), file=file)
+  code <- derived_code(object) 
+  code <- paste(code,"model { deviance <- 1}")
+  
+  cat(code, file=file)
     
   nchains <- nchains (chains)
   nsims <- nsims (chains) / nchains

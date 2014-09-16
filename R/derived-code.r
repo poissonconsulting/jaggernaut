@@ -24,6 +24,7 @@ derived_code <- function (object, ...) {
 #' @param value a character element or NULL.
 #' @return The replacement method changes the derived_code component of the object.
 #' @seealso \code{\link{derived_code}} and \code{\link{jaggernaut}}  
+#' @importFrom juggler jg_check jg_nblock jg_block_names "jg_block_names<-"
 #' @export
 "derived_code<-" <- function (object, value) {
   UseMethod("derived_code<-", object)
@@ -59,12 +60,14 @@ derived_code.jags_analysis <- function (object, ...) {
 
 "derived_code<-.jagr_analysis_model" <- function (object, value) {
   
-  if (!is.null (value)) {
-    if(!is.character(value)) {
-      stop("derived_code must be NULL or a character")
-    }
-    if (length(value) != 1) {
-      stop ("derived_code must be define a single model block")
+  if(!is.null(value)) {
+    
+    if(jg_nblock(value) != 1)
+      stop ("derived code must define a single model block")
+    
+    if(!identical(jg_block_names(value),"data")) {
+      message("derived code converted to data block")
+      jg_block_names(value) <- "data"
     }
   }
   

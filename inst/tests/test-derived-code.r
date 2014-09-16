@@ -11,7 +11,7 @@ test_that("derived_code works", {
   
   expect_that(is.null(derived_code(model)), is_true())
   
-  derived_code <- " model { 
+  derived_code <- " data { 
       for (i in 1:nrow) { 
         predict[i] <- bLambda
     } 
@@ -19,4 +19,13 @@ test_that("derived_code works", {
   
   derived_code(model) <- derived_code
   expect_that(derived_code(model),is_identical_to(derived_code))
+  
+  derived_code <- "model { 
+    for (i in 1:nrow) { 
+      predict[i] <- bLambda
+    } 
+  } "
+  
+  expect_message(derived_code(model) <- derived_code, "derived code converted to data block")
+  
 })

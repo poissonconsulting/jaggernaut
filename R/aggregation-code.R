@@ -8,7 +8,6 @@
 #' @param ... further arguments passed to or from other methods.
 #' @return The aggregation_code component of object.
 #' @seealso \code{\link{jaggernaut}}  
-#' @importFrom juggler jg_check
 #' @export
 aggregation_code <- function (object, ...) {
   UseMethod("aggregation_code", object)
@@ -24,7 +23,8 @@ aggregation_code <- function (object, ...) {
 #' @param object a JAGS object.
 #' @param value a character element or NULL.
 #' @return The replacement method changes the aggregation_code component of the object.
-#' @seealso \code{\link{aggregation_code}} and \code{\link{jaggernaut}}  
+#' @seealso \code{\link{aggregation_code}} and \code{\link{jaggernaut}} 
+#' @importFrom juggler jg_check jg_nblock jg_block_names "jg_block_names<-"
 #' @export
 "aggregation_code<-" <- function (object, value) {
   UseMethod("aggregation_code<-", object)
@@ -60,9 +60,16 @@ aggregation_code.jags_analysis <- function (object, ...) {
 
 "aggregation_code<-.jagr_analysis_model" <- function (object, value) {
   
-  if(!jg_check(value))
-    stop("aggregation code is not valid JAGS model code")
-  
+  if(!is.null(value)) {
+        
+    if(jg_nblock(value) != 1)
+      stop ("aggregation code must define a single model block")
+    
+    if(!identical(jg_block_names(value), "data")) {
+      message("aggregation code converted to data block")
+      jg_block_names(value) <- "data"
+    }
+  }
   object$aggregation_code <- value
   
   return (object)
@@ -94,7 +101,7 @@ aggregation_code.jags_analysis <- function (object, ...) {
 #' @method aggregation_code<- jags_analysis
 #' @export
 "aggregation_code<-.jags_analysis" <- function (object, value) {
-    
+  
   for (i in 1:nmodels(object))
     aggregation_code(object$analyses[[i]]) <- value
   

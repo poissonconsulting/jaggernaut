@@ -1,5 +1,10 @@
 # NEWS
 
+#### jaggernaut 1.8.5
+
+- added `select_aggregation` and `modify_data_aggregation` arguments to `jags_model()`
+- aggregation and derived code now convered to data block
+
 #### jaggernaut 1.8.4
 
 - `geweke` function now implemented using `abs(coda::geweke.diag)`
