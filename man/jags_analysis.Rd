@@ -58,10 +58,11 @@ print(analysis)
 
 analysis <- update(analysis, mode = "demo")
 
+auto_corr(analysis)
+cross_corr(analysis)
 nchains(analysis)
 nsamples(analysis)
 rhat(analysis)
-geweke(analysis)
 }
 \references{
 Plummer M (2012) JAGS Version 3.3.0 User Manual \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}

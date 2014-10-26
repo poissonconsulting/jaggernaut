@@ -50,10 +50,11 @@
 #' 
 #' analysis <- update(analysis, mode = "demo")
 #' 
+#' auto_corr(analysis)
+#' cross_corr(analysis)
 #' nchains(analysis)
 #' nsamples(analysis)
 #' rhat(analysis)
-#' geweke(analysis)
 #' 
 #' @export
 jags_analysis <- function (model, data, niters = 10^3, mode = "current") {
