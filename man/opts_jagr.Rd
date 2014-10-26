@@ -54,7 +54,7 @@ until convergence is achieved (default = 3)}
 
 By default a JAGS analysis will retain a minumum of 1,000 MCMC samples
 thinned from the second halves of three chains. For example
-if \code{niter = 1000} in the analysis then by default 334 samples will be
+if \code{niters = 1000} in the analysis then by default 334 samples will be
 thinned from the last 500 iterations of each chain.
 
 Convergence is considered to have been achieved when all the monitored
@@ -63,7 +63,7 @@ which
 by default is 1.1 (Kery & Schaub 2011). If the initial number of iterations
 are performed and the convergence target has not been achieved and
 \code{nresample > 0}
-then the value of \code{niter} is doubled, the MCMC sampling to date is
+then the value of \code{niters} is doubled, the MCMC sampling to date is
 considered the burn in period, the saved MCMC samples are discarded and
 MCMC sampling continues.  This process is repeated until the convergence target is
 achieved or resampling would exceed the value of the \code{nresample} argument.
