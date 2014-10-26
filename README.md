@@ -10,16 +10,13 @@ Key features include
 * the option to automatically update a model (increase the length of the MCMC chains)
 until convergence is achieved
 
-* the option to run MCMC chains on separate processes
+* the option to run MCMC chains on parallel processes
 
 * the ability to extract derived parameters from an existing model using BUGS code 
 (in the JAGS dialect) without additional MCMC sampling
 
 * simple generation of data frames quantifying the effect (and effect size) of 
 particular variables with the other variables held constant
-
-* power analyses with both the simulation and analytic models defined using BUGS 
-code (in the JAGS dialect)
 
 ## Install
 
