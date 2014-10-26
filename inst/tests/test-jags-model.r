@@ -38,7 +38,7 @@ test_that("jags_model returns object of correct class", {
   gen_inits(model) <-function (data) list()
   expect_that(gen_inits(model), is_a("function"))
 
-  derived_code(model) <- "model { for (i in 1:nrow) {prediction[i] <- bLambda} }"
+  derived_code(model) <- "data { for (i in 1:nrow) {prediction[i] <- bLambda} }"
   expect_that(derived_code(model), is_a("character"))
   
   random_effects(model) <- list(bLambda = "x")
