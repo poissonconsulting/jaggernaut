@@ -222,7 +222,7 @@ gp <- gp + theme(legend.position = "none")
 
 print(gp)
 
-analysis <- jags_analysis (models, data, niter = 10^4, mode = "demo")
+analysis <- jags_analysis (models, data, niters = 10^4, mode = "demo")
 
 summary(analysis)
 

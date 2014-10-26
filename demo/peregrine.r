@@ -140,6 +140,6 @@ data(peregrine)
 data <- peregrine
 
 data$C <- data$Pairs
-analysis <- jags_analysis (model, data, niter = 10^4, mode = "demo")
+analysis <- jags_analysis (model, data, niters = 10^4, mode = "demo")
 coef(analysis)
 coef(analysis, parm = "random")

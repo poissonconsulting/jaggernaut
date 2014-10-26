@@ -146,7 +146,7 @@ log_cbrt <- function (x) {
   return (log(x^(1/3)))
 }
 
-analysis <- jags_analysis (models, data, niter = 10^5, mode = "demo")
+analysis <- jags_analysis (models, data, niters = 10^5, mode = "demo")
 
 summary(analysis)
 

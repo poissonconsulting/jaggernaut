@@ -32,7 +32,7 @@ test_that("expand_parm returns correct values", {
   dat <- peregrine
 
   dat$C <- dat$Pairs
-  an <- jags_analysis (mod, dat, niter = 10^4, mode = "test")
+  an <- jags_analysis (mod, dat, niters = 10^4, mode = "test")
     
   expect_that(expand_parm(chains(analysis(an)),"all"), equals(sort(c("alpha","beta1","beta2","beta3",paste0("eps[",1:40,"]"),"sd"))))
   expect_that(expand_parm(chains(analysis(an)),"fixed"), equals(c("alpha","beta1","beta2","beta3","sd")))

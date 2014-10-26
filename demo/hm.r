@@ -39,7 +39,7 @@ data <- data.frame(C = C, year = year)
 
 data$year <- factor(data$year)
 
-analysis <- jags_analysis (model, data, niter = 10^5, mode = "demo")
+analysis <- jags_analysis (model, data, niters = 10^5, mode = "demo")
 
 coef(analysis, parm = c("mean.r","sigma.obs","sigma.proc"))
 
