@@ -30,12 +30,12 @@ derived_code <- function (object, ...) {
   UseMethod("derived_code<-", object)
 }
 
-derived_code.jagr_analysis_model <- function (object, ...) {
+derived_code.jagr_model <- function (object, ...) {
   return (object$derived_code)
 }
 
-derived_code_jagr_analysis_model <- function (object, ...) {
-  stopifnot(is.jagr_analysis_model(object))
+derived_code_jagr_model <- function (object, ...) {
+  stopifnot(is.jagr_model(object))
   return (derived_code(object, ...))
 }
 
@@ -47,7 +47,7 @@ derived_code.jags_model <- function (object, ...) {
     return (derived_code(model(object), ...))
   
   models <- models(object)
-  models <- lapply(models, derived_code_jagr_analysis_model, ...)
+  models <- lapply(models, derived_code_jagr_model, ...)
   models <- name_object(models, "Model")
   return (models) 
 }
@@ -58,7 +58,7 @@ derived_code.jags_analysis <- function (object, ...) {
   return (derived_code(as.jags_model(object), ...))
 }  
 
-"derived_code<-.jagr_analysis_model" <- function (object, value) {
+"derived_code<-.jagr_model" <- function (object, value) {
   
   if(!is.null(value)) {
     

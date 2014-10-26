@@ -131,7 +131,6 @@ test_that("jags_model returns object of correct class", {
   expect_true(identical(select_derived(model2), select_derived(model)))
   
   expect_that(model(model), is_a("jagr_model"))
-  expect_that(model(model), is_a("jagr_analysis_model"))
   
   model <- subset(model, model_number = c(1,1))
   expect_that(model, is_a("jags_model"))

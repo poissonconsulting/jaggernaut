@@ -10,10 +10,6 @@ as.jagr_power_analysis <- function (x, ...) {
   UseMethod("as.jagr_power_analysis", x)
 }
 
-as.jagr_analysis_model<- function (x, ...) {
-  UseMethod("as.jagr_analysis_model", x)
-}
-
 #' @title Coerce to a JAGS model object
 #'
 #' @description
@@ -88,28 +84,6 @@ as.mcmc.list.jagr_chains <- function (x, ...) {
   return (mcmc.list(ans))
 }
 
-as.jagr_model.jagr_analysis_model <- function (x, ...) {
-  
-  x$modify_data_derived <- NULL
-  x$select_derived <- NULL
-  x$derived_code <- NULL
-  x$random_effects <- NULL
-
-  x$modify_data_aggregation <- NULL
-  x$select_aggregation <- NULL
-  x$aggregation_code <- NULL
-  
-  class(x) <- "jagr_model"
-  return (x)
-}
-
-as.jagr_model.jagr_analysis <- function (x, ...) {
-  
-  x <- as.jagr_analysis_model(x, ...)
-  
-  return (as.jagr_model(x, ...))
-}
-
 as.jagr_power_analysis.jagr_analysis <- function (x, ...) {
   
   x$model_code <- NULL
@@ -127,21 +101,21 @@ as.jagr_power_analysis.jagr_analysis <- function (x, ...) {
   return (x)
 }
 
-as.jagr_analysis_model.jagr_analysis<- function (x, ...) {
+as.jagr_model.jagr_analysis<- function (x, ...) {
   
   x$init_values <- NULL
   x$chains <- NULL
   x$niters <- NULL
   x$time_interval <- NULL
   
-  class(x) <- c("jagr_analysis_model","jagr_model")
+  class(x) <- c("jagr_model")
   
   return (x)
 }
 
-as.jagr_analysis_model_jagr_analysis <- function (x, ...) {
+as.jagr_model_jagr_analysis <- function (x, ...) {
   stopifnot(is.jagr_analysis(x))
-  return (as.jagr_analysis_model(x, ...))
+  return (as.jagr_model(x, ...))
 }
 
 #' @method as.jags_model jags_analysis
@@ -149,7 +123,7 @@ as.jagr_analysis_model_jagr_analysis <- function (x, ...) {
 as.jags_model.jags_analysis <- function (x, ...) {
   analyses <- analyses(x)
   
-  models <- lapply(analyses, as.jagr_analysis_model_jagr_analysis, ...)
+  models <- lapply(analyses, as.jagr_model_jagr_analysis, ...)
   
   x <- list()
   class(x) <- "jags_model"

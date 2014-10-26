@@ -1,6 +1,6 @@
 jagr_analysis <- function (model, data, niters, nworkers) {    
   
-  assert_that(is.jagr_analysis_model(model))
+  assert_that(is.jagr_model(model))
   assert_that(is_convertible_data(data))
   assert_that(is.count(niters) && noNA(niters))
   assert_that(is.count(nworkers) && noNA(nworkers))
@@ -40,7 +40,7 @@ jagr_analysis <- function (model, data, niters, nworkers) {
   
   object <- c(model,analysis)
   
-  class(object) <- c("jagr_analysis","jagr_analysis_model",
+  class(object) <- c("jagr_analysis",
                      "jagr_model","jagr_power_analysis")
     
   while (!is_converged (object, rhat_threshold = rhat_threshold) && resample > 0)  {

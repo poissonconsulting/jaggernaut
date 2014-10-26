@@ -28,12 +28,12 @@ random_effects <- function (object, ...) {
   UseMethod("random_effects<-", object)
 }
 
-random_effects.jagr_analysis_model <- function (object, ...) {
+random_effects.jagr_model <- function (object, ...) {
   return (object$random_effects)
 }
 
-random_effects_jagr_analysis_model <- function (object, ...) {
-  stopifnot(is.jagr_analysis_model(object))
+random_effects_jagr_model <- function (object, ...) {
+  stopifnot(is.jagr_model(object))
   return (random_effects(object, ...))
 }
 
@@ -45,7 +45,7 @@ random_effects.jags_model <- function (object, ...) {
     return (random_effects(model(object), ...))
   
   models <- models(object)
-  models <- lapply(models, random_effects_jagr_analysis_model, ...)
+  models <- lapply(models, random_effects_jagr_model, ...)
   models <- name_object(models, "Model")
   return (models) 
 }
@@ -56,7 +56,7 @@ random_effects.jags_analysis <- function (object, ...) {
   return (random_effects(as.jags_model(object), ...))
 }
 
-"random_effects<-.jagr_analysis_model" <- function (object, value) {
+"random_effects<-.jagr_model" <- function (object, value) {
   
   if (!is.null(value)) {    
     if (!is.list(value)) {      

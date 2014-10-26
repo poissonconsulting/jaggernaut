@@ -28,12 +28,12 @@ modify_data_derived <- function (object, ...) {
   UseMethod("modify_data_derived<-", object)
 }
 
-modify_data_derived.jagr_analysis_model <- function (object, ...) {
+modify_data_derived.jagr_model <- function (object, ...) {
   return (object$modify_data_derived)
 }
 
-modify_data_derived_jagr_analysis_model <- function (object, ...) {
-  stopifnot(is.jagr_analysis_model(object))
+modify_data_derived_jagr_model <- function (object, ...) {
+  stopifnot(is.jagr_model(object))
   return (modify_data_derived(object, ...))
 }
 
@@ -45,7 +45,7 @@ modify_data_derived.jags_model <- function (object, ...) {
     return (modify_data_derived(model(object), ...))
   
   models <- models(object)
-  models <- lapply(models, modify_data_derived_jagr_analysis_model, ...)
+  models <- lapply(models, modify_data_derived_jagr_model, ...)
   models <- name_object(models, "Model")
   return (models) 
 }
@@ -56,7 +56,7 @@ modify_data_derived.jags_analysis <- function (object, ...) {
   return (modify_data_derived(as.jags_model(object), ...))
 }  
 
-"modify_data_derived<-.jagr_analysis_model" <- function (object, value) {
+"modify_data_derived<-.jagr_model" <- function (object, value) {
   
   if(!is.null(value)) {
     if (!is.function(value)) {

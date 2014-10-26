@@ -37,10 +37,6 @@ is.jags_sample <- function (x) {
 is.jagr_model <- function (x) {
   return (inherits(x, "jagr_model"))
 }
-  
-is.jagr_analysis_model <- function (x) {
-  return (inherits(x, "jagr_analysis_model"))
-}
 
 #' @title Test for objects of class jags_model
 #'

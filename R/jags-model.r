@@ -122,7 +122,7 @@ jags_model <- function (model_code, monitor = NULL, select = NULL,
                         select_aggregation = NULL,
                         modify_data_aggregation = NULL) { 
   
-  model <- jagr_analysis_model(model_code = model_code, 
+  model <- jagr_model(model_code = model_code, 
                       monitor = monitor, 
                       select = select,
                       modify_data = modify_data,

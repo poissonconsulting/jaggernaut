@@ -30,12 +30,12 @@ aggregation_code <- function (object, ...) {
   UseMethod("aggregation_code<-", object)
 }
 
-aggregation_code.jagr_analysis_model <- function (object, ...) {
+aggregation_code.jagr_model <- function (object, ...) {
   return (object$aggregation_code)
 }
 
-aggregation_code_jagr_analysis_model <- function (object, ...) {
-  stopifnot(is.jagr_analysis_model(object))
+aggregation_code_jagr_model <- function (object, ...) {
+  stopifnot(is.jagr_model(object))
   return (aggregation_code(object, ...))
 }
 
@@ -47,7 +47,7 @@ aggregation_code.jags_model <- function (object, ...) {
     return (aggregation_code(model(object), ...))
   
   models <- models(object)
-  models <- lapply(models, aggregation_code_jagr_analysis_model, ...)
+  models <- lapply(models, aggregation_code_jagr_model, ...)
   models <- name_object(models, "Model")
   return (models) 
 }
@@ -58,7 +58,7 @@ aggregation_code.jags_analysis <- function (object, ...) {
   return (aggregation_code(as.jags_model(object), ...))
 }  
 
-"aggregation_code<-.jagr_analysis_model" <- function (object, value) {
+"aggregation_code<-.jagr_model" <- function (object, value) {
   
   if(!is.null(value)) {
         

@@ -27,12 +27,12 @@ select_aggregation <- function (object, ...) {
   UseMethod("select_aggregation<-", object)
 }
 
-select_aggregation.jagr_analysis_model <- function (object, ...) {
+select_aggregation.jagr_model <- function (object, ...) {
   return (object$select_aggregation)
 }
 
-select_aggregation_jagr_analysis_model <- function (object, ...) {
-  stopifnot(is.jagr_analysis_model(object))
+select_aggregation_jagr_model <- function (object, ...) {
+  stopifnot(is.jagr_model(object))
   return (select_aggregation(object, ...))
 }
 
@@ -44,7 +44,7 @@ select_aggregation.jags_model <- function (object, ...) {
     return (select_aggregation(model(object), ...))
   
   models <- models(object)
-  models <- lapply(models, select_aggregation_jagr_analysis_model, ...)
+  models <- lapply(models, select_aggregation_jagr_model, ...)
   models <- name_object(models, "Model")
   return (models) 
 }
@@ -55,7 +55,7 @@ select_aggregation.jags_analysis <- function (object, ...) {
   return (select_aggregation(as.jags_model(object), ...))
 }  
 
-"select_aggregation<-.jagr_analysis_model" <- function (object, value) {
+"select_aggregation<-.jagr_model" <- function (object, value) {
   
   if(!is.null(value)) {
     if (!is.character(value)) {

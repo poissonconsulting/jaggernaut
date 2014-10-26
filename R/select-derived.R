@@ -27,12 +27,12 @@ select_derived <- function (object, ...) {
   UseMethod("select_derived<-", object)
 }
 
-select_derived.jagr_analysis_model <- function (object, ...) {
+select_derived.jagr_model <- function (object, ...) {
   return (object$select_derived)
 }
 
-select_derived_jagr_analysis_model <- function (object, ...) {
-  stopifnot(is.jagr_analysis_model(object))
+select_derived_jagr_model <- function (object, ...) {
+  stopifnot(is.jagr_model(object))
   return (select_derived(object, ...))
 }
 
@@ -44,7 +44,7 @@ select_derived.jags_model <- function (object, ...) {
     return (select_derived(model(object), ...))
   
   models <- models(object)
-  models <- lapply(models, select_derived_jagr_analysis_model, ...)
+  models <- lapply(models, select_derived_jagr_model, ...)
   models <- name_object(models, "Model")
   return (models) 
 }
@@ -55,7 +55,7 @@ select_derived.jags_analysis <- function (object, ...) {
   return (select_derived(as.jags_model(object), ...))
 }  
 
-"select_derived<-.jagr_analysis_model" <- function (object, value) {
+"select_derived<-.jagr_model" <- function (object, value) {
   
   if(!is.null(value)) {
     if (!is.character(value)) {

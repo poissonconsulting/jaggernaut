@@ -56,7 +56,7 @@ print.jagr_power_analysis <- function (x, ...) {
 
 print.jagr_analysis <- function (x, ...) {
   
-  print(as.jagr_analysis_model(x), ...)
+  print(as.jagr_model(x), ...)
   print(as.jagr_power_analysis(x), ...)
   
   return(invisible(x))
