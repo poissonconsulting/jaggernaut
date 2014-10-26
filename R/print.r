@@ -46,18 +46,11 @@ print.jags_model <- function (x, ...) {
   return(invisible(x))
 }
 
-print.jagr_power_analysis <- function (x, ...) {
+print.jagr_analysis <- function (x, ...) {
     
+  print(as.jagr_model(x), ...)  
   print(as.jagr_chains(x), ...)
   cat(paste("\niterations:",niters(x),"\n"))
-  
-  return(invisible(x))
-}
-
-print.jagr_analysis <- function (x, ...) {
-  
-  print(as.jagr_model(x), ...)
-  print(as.jagr_power_analysis(x), ...)
   
   return(invisible(x))
 }

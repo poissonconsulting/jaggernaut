@@ -31,12 +31,12 @@ nsims.jags_samples <- function (object) {
   return (ncol(object))
 }
 
-nsims.jagr_power_analysis <- function (object) {
+nsims.jagr_analysis <- function (object) {
   return (nsims(chains(object)))
 }
 
-nsims_jagr_power_analysis <- function (object) {
-  stopifnot(is.jagr_power_analysis(object))
+nsims_jagr_analysis <- function (object) {
+  stopifnot(is.jagr_analysis(object))
   return (nsims (object))
 }
 
@@ -47,7 +47,7 @@ nsims.jags_analysis <- function (object) {
     return (nsims(analysis(object)))
   
   analyses <- analyses(object)
-  analyses <- lapply(analyses, nsims_jagr_power_analysis)
+  analyses <- lapply(analyses, nsims_jagr_analysis)
   analyses <- name_object(analyses, "Model")
   return (analyses)  
 }

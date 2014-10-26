@@ -22,7 +22,7 @@ zero_random.jagr_chains <- function (object, names_random, ...) {
   return (object)
 }
 
-zero_random.jagr_power_analysis <- function (object, data, ...) {
+zero_random.jagr_analysis <- function (object, data, ...) {
   stopifnot(is_converted_data(data))
   
   names_data <- names(data)

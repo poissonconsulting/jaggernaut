@@ -164,24 +164,18 @@ coef.jags_sample <- function (object, level = "current", estimate = "current",
   cbind(dataset(object), coef)
 }
 
-coef.jagr_power_analysis <- function (object, parm, level, estimate, 
+coef.jagr_analysis <- function (object, parm, level, estimate, 
                                       as_list, ...) {
   coef(as.jagr_chains(object), parm = parm, 
        level = level, estimate = estimate, 
        as_list = as_list, ...)
 }
 
-coef_jagr_power_analysis <- function (object, parm, level, estimate, 
+coef_jagr_analysis <- function (object, parm, level, estimate, 
                                       as_list, ...) {
-  stopifnot(is.jagr_power_analysis(object))
+  stopifnot(is.jagr_analysis(object))
   coef(object, parm = parm, level = level, estimate = estimate,
        as_list = as_list, ...)
-}
-
-coef_jagr_analysis <- function (object, parm, level, estimate, as_list, ...) {
-  stopifnot(is.jagr_analysis(object))
-  return (coef(object, parm = parm, level = level, estimate = estimate,
-               as_list = as_list, ...))
 }
 
 #' @title Calculate parameter estimates

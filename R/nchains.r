@@ -24,12 +24,12 @@ nchains.jagr_chains <- function (object) {
   return (nchains (samples(object)[[1]]))
 }
 
-nchains.jagr_power_analysis <- function (object) {
+nchains.jagr_analysis <- function (object) {
   return (nchains (as.jagr_chains(object)))
 }
 
-nchains_jagr_power_analysis <- function (object) {
-  stopifnot(is.jagr_power_analysis(object))
+nchains_jagr_analysis <- function (object) {
+  stopifnot(is.jagr_analysis(object))
   return (nchains (object))
 }
 
@@ -40,7 +40,7 @@ nchains.jags_analysis <- function (object) {
     return (nchains(analysis(object)))
   
   analyses <- analyses(object)
-  nchains <- sapply(analyses, nchains_jagr_power_analysis)
+  nchains <- sapply(analyses, nchains_jagr_analysis)
   stopifnot(all(nchains == nchains[1]))
   return (nchains[1]) 
 }

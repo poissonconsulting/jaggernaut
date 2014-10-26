@@ -19,7 +19,7 @@ jagr_analysis <- function (model, data, niters, nworkers) {
     data <- modify_data(model)(data)
   
   assert_that(is_converted_data(data))
-    
+  
   if (is.function(gen_inits(model))) {
     inits <- list()
     for (i in 1:nchains) {   
@@ -28,21 +28,64 @@ jagr_analysis <- function (model, data, niters, nworkers) {
   } else
     inits <- NULL
   
-  analysis <- jagr_power_analysis(model_code = model_code(model), 
-                                  data = data, 
-                                  niters = niters,
-                                  inits = inits,
-                                  nworkers = nworkers,
-                                  monitor = monitor(model),
-                                  random = names(random_effects(model)))
-    
-  monitor(model) <- monitor(analysis) 
+  assert_that(is_converted_data(data))
+  assert_that(is.count(niters) && noNA(niters))
+  assert_that(is.count(nworkers) && noNA(nworkers))
   
-  object <- c(model,analysis)
+  nsims <- opts_jagr("nsims")  
   
-  class(object) <- c("jagr_analysis",
-                     "jagr_model","jagr_power_analysis")
+  niters <- ceiling(max(niters, nsims * 2 / nchains))
+  
+  n.adapt <- 100
+  n.burnin <- as.integer(niters / 2)
+  n.thin <- max(1, floor(nchains * n.burnin / nsims))
+  nsims <- as.integer(niters /2)
+  
+  ptm <- proc.time()
+  
+  rngs <- parallel.seeds("base::BaseRNG", nchains)
+  
+  if (!is.null (inits)) {
+    for (i in 1:nchains)
+      inits[[i]] <- c(inits[[i]],rngs[[i]])
+  } else
+    inits <- rngs
+  
+  file <- tempfile(fileext=".bug")
+  cat(model_code(model), file=file)
+  
+  if(nchains == 1 || nworkers == 1) {
+    chains <- jags_analysis_internal(inits, data, file = file, 
+                                     monitor = monitor(model),
+                                     n.adapt = n.adapt, 
+                                     n.burnin = n.burnin, n.chain = nchains, 
+                                     n.sim = nsims, n.thin = n.thin, 
+                                     random = names(random_effects(model)))
+  } else {
+    i <- NULL
+    chains <- foreach(i = isplitIndices(n = nchains, chunks = nworkers),
+                      .combine = combine_jagr_chains, 
+                      .export = "jags_analysis_internal") %dopar% {
+                        jags_analysis_internal(inits[i], data, file = file, 
+                                               monitor = monitor(model),
+                                               n.adapt = n.adapt, 
+                                               n.burnin = n.burnin, n.chain = length(i),
+                                               n.sim = nsims, n.thin = n.thin, 
+                                               random = names(random_effects(model)))
+                      } 
+  }
     
+  monitor(model) <- monitor(chains)
+
+  object <- model
+  
+  class(object) <- c("jagr_analysis", "jagr_model")
+  
+  init_values(object) <- inits
+  chains(object) <- chains
+  niters(object) <- niters
+  time_interval(object) <- ((proc.time () - ptm)[3]) / (60 * 60)
+  
   while (!is_converged (object, rhat_threshold = rhat_threshold) && resample > 0)  {
     if(!quiet) {
       cat ("Resampling due to convergence failure")
@@ -63,7 +106,7 @@ jagr_analysis <- function (model, data, niters, nworkers) {
       cat_convergence (object)      
     }
   }
-    
+  
   return (object)
 }
 

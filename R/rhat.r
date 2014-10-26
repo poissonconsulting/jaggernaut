@@ -54,13 +54,8 @@ rhat.jagr_chains <- function (object, parm = "all", combine = TRUE, ...) {
   return (rhat)
 }
 
-rhat.jagr_power_analysis <- function (object, parm = "all", combine = TRUE, ...) {
+rhat.jagr_analysis <- function (object, parm = "all", combine = TRUE, ...) {
   return (rhat(as.jagr_chains(object), parm = parm, combine = combine, ...))
-}
-
-rhat_jagr_power_analysis <- function (object, parm = "all", combine = TRUE, ...) {
-  stopifnot(is.jagr_power_analysis(object))
-  return (rhat(object, parm = parm, combine = combine, ...))
 }
 
 rhat_jagr_analysis <- function (object, parm = "all", combine = TRUE, ...) {

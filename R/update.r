@@ -59,7 +59,7 @@ update.jagr_chains <- function (object, niters, nworkers, ...) {
   return (chains)
 }
 
-update.jagr_power_analysis <- function (object, nworkers, ...) {  
+update.jagr_analysis <- function (object, nworkers, ...) {  
     
   niters <- niters(object)
   ptm <- proc.time()
@@ -71,8 +71,8 @@ update.jagr_power_analysis <- function (object, nworkers, ...) {
   return (object)
 }
 
-update_jagr_power_analysis <- function (object, nworkers, ...) {
-  stopifnot(is.jagr_power_analysis(object))
+update_jagr_analysis <- function (object, nworkers, ...) {
+  stopifnot(is.jagr_analysis(object))
   return (update(object, nworkers = nworkers, ...))
 }
 
@@ -105,7 +105,7 @@ update.jags_analysis <- function (object, mode = "current", ...) {
   chunks <- floor(nworkers / nchains)
   chunks <- min(nmodels, chunks)
   if (chunks <= 1) {
-    analyses <- lapply(analyses(object), update_jagr_power_analysis, 
+    analyses <- lapply(analyses(object), update_jagr_analysis, 
                       nworkers = nworkers)
   } else { 
     i <- NULL
@@ -124,8 +124,8 @@ update.jags_analysis <- function (object, mode = "current", ...) {
     analyses <- foreach(i = isplitIndices(n = nmodels, 
                                           chunks = chunks),
                         .combine = fun, 
-                        .export = "update_jagr_power_analysis") %dopar% {
-                          update_jagr_power_analysis(analyses[i], 
+                        .export = "update_jagr_analysis") %dopar% {
+                          update_jagr_analysis(analyses[i], 
                                                      nworkers = nchains)
                         }
   }

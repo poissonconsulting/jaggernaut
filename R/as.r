@@ -6,10 +6,6 @@ as.jagr_model<- function (x, ...) {
   UseMethod("as.jagr_model", x)
 }
 
-as.jagr_power_analysis <- function (x, ...) {
-  UseMethod("as.jagr_power_analysis", x)
-}
-
 #' @title Coerce to a JAGS model object
 #'
 #' @description
@@ -51,7 +47,7 @@ as.list.jagr_chains <- function (x, ...) {
   return (list)
 }
 
-as.jagr_chains.jagr_power_analysis <- function (x, ...) {
+as.jagr_chains.jagr_analysis <- function (x, ...) {
   return (chains(x))
 }
 
@@ -84,23 +80,6 @@ as.mcmc.list.jagr_chains <- function (x, ...) {
   return (mcmc.list(ans))
 }
 
-as.jagr_power_analysis.jagr_analysis <- function (x, ...) {
-  
-  x$model_code <- NULL
-  x$monitor <- NULL
-  x$select <- NULL
-  x$modify_data <- NULL
-  x$gen_inits <- NULL
-  x$select_derived <- NULL
-  x$modify_data_derived <- NULL
-  x$derived_code <- NULL
-  x$random_effects <- NULL
-  
-  class(x) <- c("jagr_power_analysis")
-  
-  return (x)
-}
-
 as.jagr_model.jagr_analysis<- function (x, ...) {
   
   x$init_values <- NULL
@@ -129,23 +108,6 @@ as.jags_model.jags_analysis <- function (x, ...) {
   class(x) <- "jags_model"
   
   models(x) <- models
-  
-  return (x)
-}
-
-as.jagr_power_analysis.jagr_analysis <- function (x, ...) {
-
-  x$model_code <- NULL
-  x$monitor <- NULL
-  x$select <- NULL
-  x$modify_data <- NULL
-  x$gen_inits <- NULL
-  x$select_derived <- NULL
-  x$modify_data_derived <- NULL
-  x$derived_code <- NULL
-  x$random_effects <- NULL
-  
-  class(x) <- c("jagr_power_analysis")
   
   return (x)
 }

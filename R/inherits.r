@@ -57,10 +57,6 @@ on_failure(is.jags_model) <- function(call, env) {
   paste0(deparse(call$x), " is not a jags_model")
 }
   
-is.jagr_power_analysis <- function (x) {
-  return (inherits(x, "jagr_power_analysis"))
-}
-  
 is.jagr_analysis <- function (x) {
   return (inherits(x, "jagr_analysis"))
 }

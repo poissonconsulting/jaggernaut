@@ -16,12 +16,12 @@ niters <- function (object) {
   UseMethod("niters<-", object)
 }
 
-niters.jagr_power_analysis <- function (object) {
+niters.jagr_analysis <- function (object) {
   return (object$niters)
 }
 
-niters_jagr_power_analysis <- function (object) {
-  stopifnot(is.jagr_power_analysis(object))
+niters_jagr_analysis <- function (object) {
+  stopifnot(is.jagr_analysis(object))
   return (niters (object))
 }
 
@@ -32,7 +32,7 @@ niters.jags_analysis <- function (object) {
     return (niters(analysis(object)))
   
   analyses <- analyses(object)
-  analyses <- lapply(analyses, niters_jagr_power_analysis)
+  analyses <- lapply(analyses, niters_jagr_analysis)
   analyses <- name_object(analyses, "Model")
   return (analyses)
 }
@@ -42,7 +42,7 @@ niters_jags_analysis <- function (object) {
   return (niters (object))
 }
 
-"niters<-.jagr_power_analysis" <- function (object, value) {
+"niters<-.jagr_analysis" <- function (object, value) {
   
   stopifnot(is_integer_scalar(value))
   stopifnot(is_bounded(value, min = 1))

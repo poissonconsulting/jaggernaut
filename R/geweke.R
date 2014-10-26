@@ -53,13 +53,8 @@ geweke.jagr_chains <- function (object, parm = "all", combine = TRUE, ...) {
   return (geweke)
 }
 
-geweke.jagr_power_analysis <- function (object, parm = "all", combine = TRUE, ...) {
+geweke.jagr_analysis <- function (object, parm = "all", combine = TRUE, ...) {
   return (geweke(as.jagr_chains(object), parm = parm, combine = combine, ...))
-}
-
-geweke_jagr_power_analysis <- function (object, parm = "all", combine = TRUE, ...) {
-  stopifnot(is.jagr_power_analysis(object))
-  return (geweke(object, parm = parm, combine = combine, ...))
 }
 
 geweke_jagr_analysis <- function (object, parm = "all", combine = TRUE, ...) {

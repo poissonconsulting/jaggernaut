@@ -53,7 +53,7 @@ monitor.jags_model <- function (object, ...) {
   return (models)   
 }
 
-monitor.jagr_power_analysis <- function (object, ...) {
+monitor.jagr_analysis <- function (object, ...) {
   return (monitor(as.jagr_chains(object), ...))
 }
 
