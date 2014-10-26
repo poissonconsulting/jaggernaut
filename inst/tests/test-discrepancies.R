@@ -22,7 +22,7 @@ aggregation_code = "data {
   VolumeDiscrepancy[1] <- sum(VolumeDensity)
   VolumeDiscrepancy[2] <- sum(NewVolumeDensity)
 }",
-select = c("Volume","Girth")
+select_data = c("Volume","Girth")
 )
   
   models <- combine(model1)

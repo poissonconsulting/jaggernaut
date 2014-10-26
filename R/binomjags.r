@@ -12,7 +12,7 @@ binomjags <- function (n,s) {
       s[i] ~ dbin(p[i],n[i])
     }
   }",
-  select = c("n","s"))
+  select_data = c("n","s"))
   
   data <- data.frame(n = n, s = s)
   

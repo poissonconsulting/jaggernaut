@@ -25,7 +25,7 @@ test_that("expand_parm returns correct values", {
                     }
  }",
   random_effects = list(eps = "Year"),
-  select = c("C","Year*")
+  select_data = c("C","Year*")
   )
 
   data(peregrine)

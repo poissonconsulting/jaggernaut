@@ -1,7 +1,7 @@
 
 jagr_model <- function (model_code, 
                         monitor = NULL, 
-                        select = NULL, 
+                        select_data = NULL, 
                         modify_data = NULL, 
                         gen_inits = NULL, 
                         derived_code = NULL, 
@@ -19,7 +19,7 @@ jagr_model <- function (model_code,
   
   model_code(object) <- model_code
   monitor(object) <- monitor
-  select(object) <- select
+  select_data(object) <- select_data
   modify_data(object) <- modify_data
   gen_inits(object) <- gen_inits
   derived_code(object) <- derived_code
@@ -31,10 +31,10 @@ jagr_model <- function (model_code,
   modify_data_aggregation(object) <- modify_data_aggregation
   
   if(is.null(select_derived))
-    select_derived <- select
+    select_derived <- select_data
   
   if(is.null(select_aggregation))
-    select_aggregation <- select
+    select_aggregation <- select_data
   
   if(is.null(modify_data_derived))
     modify_data_derived <- modify_data

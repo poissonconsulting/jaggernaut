@@ -53,7 +53,7 @@ gen_inits = function (data) {
     return (inits)
 },
 monitor = c("totalN", "mean.abundance", "alpha.lam", "p", "fit", "fit.new"),
-select = c("Count", "Site", "Day")
+select_data = c("Count", "Site", "Day")
 )
 
 # In Kery & Schaub's code, the data is passed as a 3-dim array. Instead, we melt the data into long format, as preferred in jaggernaut. However, we retain this 3-dim structure in the priors for convenience.

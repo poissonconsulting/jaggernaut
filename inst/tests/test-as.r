@@ -12,7 +12,7 @@ test_that("as returns correct classes", {
     Volume[i] ~ dnorm(eVolume[i], sVolume^-2) 
     } 
 }",
-select = c("Volume","Girth")
+select_data = c("Volume","Girth")
   )
   
   model2 <- jags_model(
@@ -26,7 +26,7 @@ select = c("Volume","Girth")
     Volume[i] ~ dnorm(eVolume[i], sVolume^-2) 
   } 
 }",
-    select = c("Volume","Girth","Height")
+    select_data = c("Volume","Girth","Height")
   )
   
   models <- combine(model1, model2)

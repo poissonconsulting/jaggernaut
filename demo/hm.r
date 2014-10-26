@@ -26,7 +26,7 @@ model <- jags_model("
              }
  }",
 random_effects = list(r = "year", logN.est = "year"),
-select = c("C","year")
+select_data = c("C","year")
 )
 
 data(hm)

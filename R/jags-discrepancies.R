@@ -102,7 +102,7 @@ discrepancies <- function (object) {
 #'EE[1] <- sum(E)
 #'EE[2] <- sum(E2)
 #'}",
-#'select = c("Volume","Girth")
+#'select_data = c("Volume","Girth")
 #'  )
 #'  
 #'  models <- combine(model1)
@@ -144,7 +144,7 @@ jags_discrepancies <- function (object, model_number = 1, aggregation_code = NUL
   
   data <- dataset(object)
   
-  data <- translate_data(select(object), data) 
+  data <- translate_data(select_data(object), data) 
   
   if (is.function(modify_data(object))) 
     data <- modify_data(object)(data)

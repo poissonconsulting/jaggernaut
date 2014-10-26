@@ -18,7 +18,7 @@ test_that("jags_model returns object of correct class", {
   expect_that(length(model_code(model)), is_equivalent_to(1))
   
   expect_that(monitor(model), equals(NULL))
-  expect_that(select(model), equals(NULL))
+  expect_that(select_data(model), equals(NULL))
   expect_that(modify_data(model), equals(NULL))
   expect_that(gen_inits(model), equals(NULL))
   expect_that(derived_code(model), equals(NULL))
@@ -29,8 +29,8 @@ test_that("jags_model returns object of correct class", {
   monitor(model) <- c("bLambda")
   expect_that(monitor(model), equals("bLambda"))
   
-  select(model) <- c("x")
-  expect_that(select(model), equals("x"))
+  select_data(model) <- c("x")
+  expect_that(select_data(model), equals("x"))
   
   modify_data(model) <-function (data) data
   expect_that(modify_data(model), is_a("function"))
@@ -70,10 +70,10 @@ test_that("jags_model returns object of correct class", {
   expect_that(length(monitor(model)), is_equivalent_to(2))
   expect_that(monitor(model)[[2]], is_a("character"))
   
-  expect_that(select(model), is_a("list"))
-  expect_that(names(select(model)), equals(c("Model1","Model2")))
-  expect_that(length(select(model)), is_equivalent_to(2))
-  expect_that(select(model)[[2]], is_a("character"))
+  expect_that(select_data(model), is_a("list"))
+  expect_that(names(select_data(model)), equals(c("Model1","Model2")))
+  expect_that(length(select_data(model)), is_equivalent_to(2))
+  expect_that(select_data(model)[[2]], is_a("character"))
   
   expect_that(modify_data(model), is_a("list"))
   expect_that(names(modify_data(model)), equals(c("Model1","Model2")))
@@ -97,7 +97,7 @@ test_that("jags_model returns object of correct class", {
   
   model3 <- combine(model2, model2)
   model_code(model3) <- model_code(model)
-  select(model3) <- select(model)
+  select_data(model3) <- select_data(model)
   monitor(model3) <- monitor(model)
   gen_inits(model3) <- gen_inits(model)
   modify_data_derived(model3) <- modify_data_derived(model)
@@ -105,7 +105,7 @@ test_that("jags_model returns object of correct class", {
   random_effects(model3) <- random_effects(model)
   
   expect_true(identical(model_code(model3), model_code(model)))
-  expect_true(identical(select(model3), select(model)))
+  expect_true(identical(select_data(model3), select_data(model)))
   expect_true(identical(monitor(model3), monitor(model)))
   expect_true(identical(gen_inits(model3), gen_inits(model)))
   expect_true(identical(modify_data_derived(model3), modify_data_derived(model)))
@@ -120,7 +120,7 @@ test_that("jags_model returns object of correct class", {
   expect_equal(nmodels(model), 1)
   
   expect_true(identical(model_code(model2), model_code(model)))
-  expect_true(identical(select(model2), select(model)))
+  expect_true(identical(select_data(model2), select_data(model)))
   expect_true(identical(monitor(model2), monitor(model)))
   expect_true(identical(gen_inits(model2), gen_inits(model)))
   expect_true(identical(modify_data_derived(model2), modify_data_derived(model)))

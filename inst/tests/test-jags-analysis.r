@@ -47,7 +47,7 @@ test_that("checks input", {
 })
 
 
-test_that("select check", {
+test_that("select_data check", {
   
   code <- " model { 
                       bLambda ~ dlnorm(0,10^-2) 
@@ -57,23 +57,23 @@ test_that("select check", {
 }"
   
   data <- data.frame(x = rpois(100,1))
-  mod <- jags_model(code, select = "x") 
+  mod <- jags_model(code, select_data = "x") 
   expect_that(jags_analysis (mod, data, mode = "test"), is_a("jags_analysis"))
-  mod <- jags_model(code, select = "y") 
+  mod <- jags_model(code, select_data = "y") 
   expect_that(jags_analysis (mod, data, mode = "test"), throws_error())
-  mod <- jags_model(code, select = c("y","x")) 
+  mod <- jags_model(code, select_data = c("y","x")) 
   expect_that(jags_analysis (mod, data, mode = "test"), throws_error())
   
   data <- as.list(data)
-  mod <- jags_model(code, select = c("x")) 
+  mod <- jags_model(code, select_data = c("x")) 
   expect_that(jags_analysis (mod, data, mode = "test"), is_a("jags_analysis"))
-  mod <- jags_model(code, select = c("y")) 
+  mod <- jags_model(code, select_data = c("y")) 
   expect_that(jags_analysis (mod, data, mode = "test"), throws_error())
-  mod <- jags_model(code, select = c("y","x")) 
+  mod <- jags_model(code, select_data = c("y","x")) 
   expect_that(jags_analysis (mod, data, mode = "test"), throws_error())  
 })
 
-test_that("select check transform", {
+test_that("select_data check transform", {
   
   code <- " model { 
   bLambda ~ dlnorm(0,10^-2) 
@@ -86,18 +86,18 @@ test_that("select check transform", {
     return (x + 1)
   }
   data <- data.frame(x = rpois(100,1))
-  mod <- jags_model(code, select = "x") 
+  mod <- jags_model(code, select_data = "x") 
   expect_that(jags_analysis (mod, data, mode = "test"), is_a("jags_analysis"))
-  mod <- jags_model(code, select = "trans(y)") 
+  mod <- jags_model(code, select_data = "trans(y)") 
   expect_that(jags_analysis (mod, data, mode = "test"), throws_error())
-  mod <- jags_model(code, select = c("trans(y)","trans(x)")) 
+  mod <- jags_model(code, select_data = c("trans(y)","trans(x)")) 
   expect_that(jags_analysis (mod, data, mode = "test"), throws_error())
   
   data <- as.list(data)
-  mod <- jags_model(code, select = c("trans(x)")) 
+  mod <- jags_model(code, select_data = c("trans(x)")) 
   expect_that(jags_analysis (mod, data, mode = "test"), is_a("jags_analysis"))
-  mod <- jags_model(code, select = c("trans(y)")) 
+  mod <- jags_model(code, select_data = c("trans(y)")) 
   expect_that(jags_analysis (mod, data, mode = "test"), throws_error())
-  mod <- jags_model(code, select = c("trans(y)","trans(x)")) 
+  mod <- jags_model(code, select_data = c("trans(y)","trans(x)")) 
   expect_that(jags_analysis (mod, data, mode = "test"), throws_error())  
 })

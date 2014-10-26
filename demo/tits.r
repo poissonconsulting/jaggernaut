@@ -46,7 +46,7 @@ model1 <- jags_model ("
               }
  }",
 random_effects = list(alpha = "site", eps = "nyearFac", gamma = "obs"),
-select = c("C","site","year*","yearFac","obs","first")
+select_data = c("C","site","year*","yearFac","obs","first")
 )
 
 # GLMM4 (Kery & Schaub 2011 p.106-107)
@@ -79,7 +79,7 @@ model2 <- jags_model("
               }
  }",
 random_effects = list(alpha = "site", eps = "nyearFac"),
-select = c("C","site","year*","yearFac","first")
+select_data = c("C","site","year*","yearFac","first")
 )
 
 # GLMM3 (Kery & Schaub 2011 p.105)
@@ -111,7 +111,7 @@ model3 <- jags_model("
               }
  }",
 random_effects = list(alpha = "site", eps = "nyearFac"),
-select = c("C","site","yearFac","first")
+select_data = c("C","site","yearFac","first")
 )
 
 # GLMM2 (Kery & Schaub 2011 p.103-104)
@@ -140,7 +140,7 @@ model4 <- jags_model("
               }
  }",
 random_effects = list(alpha = "site", eps = "nyearFac"),
-select = c("C","site","yearFac")
+select_data = c("C","site","yearFac")
 )
 
 # GLMM1 (Kery & Schaub 2011 p.102)
@@ -164,7 +164,7 @@ model5 <- jags_model("
               }
  }",
 random_effects = list(alpha = "site"),
-select = c("C","site")
+select_data = c("C","site")
 )
 
 #' # GLM0 (Kery & Schaub 2011 p.102)
@@ -182,7 +182,7 @@ model6 <- jags_model ("
               log(prediction[i]) <- mu
               }
  }",
-select = c("C")
+select_data = c("C")
 )
 
 models <- combine(model1, model2, model3, model4, model5, model6)

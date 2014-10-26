@@ -41,7 +41,7 @@ E2[i] <- pow(newVolume[i] - prediction[i], 2) / prediction[i]
 EE[1] <- sum(E)
 EE[2] <- sum(E2)
 }",
-select = c("Volume","Girth")
+select_data = c("Volume","Girth")
  )
 
  models <- combine(model1)

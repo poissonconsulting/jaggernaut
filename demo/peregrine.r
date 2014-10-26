@@ -23,7 +23,7 @@ model <- jags_model("
         + beta2 * Year[i]^2 + beta3 * Year[i]^3
     }
  }",
-select = c("C","Year*")
+select_data = c("C","Year*")
 )
 
 data(peregrine)
@@ -84,7 +84,7 @@ model <- jags_model("
              logit(prediction[i]) <- alpha + beta1 * Year[i] + beta2 * Year[i]^2
              }
  }",
-select = c("C","N","Year*")
+select_data = c("C","N","Year*")
 )
 
 data(peregrine)
@@ -133,7 +133,7 @@ model <- jags_model("
              }
  }",
 random_effects = list(eps = "Year"),
-select = c("C","Year*")
+select_data = c("C","Year*")
 )
 
 data(peregrine)

@@ -13,7 +13,7 @@ jagr_analysis <- function (model, data, niters, nworkers) {
   if(!is.null(monitor(model)))
     monitor(model) <- sort(unique(monitor(model)))
   
-  data <- translate_data(select(model), data) 
+  data <- translate_data(select_data(model), data) 
   
   if (is.function(modify_data(model))) 
     data <- modify_data(model)(data)

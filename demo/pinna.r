@@ -52,7 +52,7 @@ gen_inits = function (data) {
                       return (inits)
                     },
 random_effects = list(z = NULL, eps = NULL, p = NULL),
-select = c("y", "size+", "prior.sd.upper")                                      
+select_data = c("y", "size+", "prior.sd.upper")                                      
 )
 
 data(pinna)

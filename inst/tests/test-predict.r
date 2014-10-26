@@ -18,7 +18,7 @@ derived_code = "data {
       residual[i] <- (Volume[i] - prediction[i]) / sVolume
     }
 }",
-select = c("Volume","Girth")
+select_data = c("Volume","Girth")
   )
   
   model2 <- jags_model(
@@ -38,7 +38,7 @@ derived_code = "data {
       residual[i] <- (Volume[i] - prediction[i]) / sVolume
     }
 }",
-  select = c("Volume","Girth","Height")
+select_data = c("Volume","Girth","Height")
   )
   
   models <- combine(model1, model2)

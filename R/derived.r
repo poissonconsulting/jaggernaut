@@ -66,7 +66,7 @@ derived <- function (object, parm, data, nworkers) {
   }  
   
   if(is.null(select_derived(object))) {
-    data <- translate_data(select(object), dataset(object), data) 
+    data <- translate_data(select_data(object), dataset(object), data) 
   } else {
     data <- translate_data(select_derived(object), dataset(object), data) 
   }

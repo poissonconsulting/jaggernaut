@@ -3,9 +3,9 @@
 \alias{jags_model}
 \title{Create a JAGS model}
 \usage{
-jags_model(model_code, monitor = NULL, select = NULL, modify_data = NULL,
-  gen_inits = NULL, derived_code = NULL, aggregation_code = NULL,
-  random_effects = NULL, select_derived = NULL,
+jags_model(model_code, monitor = NULL, select_data = NULL,
+  modify_data = NULL, gen_inits = NULL, derived_code = NULL,
+  aggregation_code = NULL, random_effects = NULL, select_derived = NULL,
   modify_data_derived = NULL, select_aggregation = NULL,
   modify_data_aggregation = NULL)
 }
@@ -15,7 +15,7 @@ the BUGS language}
 
 \item{monitor}{a character vector of the parameters to monitor}
 
-\item{select}{a character vector of the variables to select from the
+\item{select_data}{a character vector of the variables to select from the
 data set being analysed (can also specify variables to transform and/or centre)}
 
 \item{modify_data}{a function to modify the data set being analysed
@@ -72,24 +72,24 @@ are monitored except those that begin with the character d, e or i and are follo
 any upper case character, i.e., \code{eCount} would not be monitored while \code{bIntercept}
 and \code{ecount} would.
 
-If \code{select} is \code{NULL} (the default) all variables in the
-data frame are passed to the analysis.  If select is defined then only those
-variables named in select are passed to the analysis. As a warning is given if a
-variable named in select is not in the data frame this can be useful for ensuring
+If \code{select_data} is \code{NULL} (the default) all variables in the
+data frame are passed to the analysis.  If select_data is defined then only those
+variables named in select_data are passed to the analysis. As a warning is given if a
+variable named in select_data is not in the data frame this can be useful for ensuring
 all the required variables are present in the data frame.
 
 In addition if
 a variable name in select is followed by a * then the variables is standardised by
 substracting its mean and then dividing by its standard deviation
 before
-it is passed to the analysis i.e., \code{select=c("Weight", "Length*")}
+it is passed to the analysis i.e., \code{select_data=c("Weight", "Length*")}
  would result in \code{Length} being
-standardised in the analysis while \code{select=c("Weight", "Length")} would not. A transformation can also
+standardised in the analysis while \code{select_data=c("Weight", "Length")} would not. A transformation can also
 be applied to a variable - for example the
- argument \code{select=c("Weight", "log(Length)*")} would result in
+ argument \code{select_data=c("Weight", "log(Length)*")} would result in
 \code{Length} being logged and then standardised.
 
-Once the \code{select} argument has been applied to the the data, dates and factors are converted
+Once the \code{select_data} argument has been applied to the the data, dates and factors are converted
 into integers and the data frame is converted into list form for input into JAGS.
 As well as each variable the list also contains a named element for each
 factor that gives the number of levels of the factor. For example if the factor

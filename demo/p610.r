@@ -42,7 +42,7 @@ gen_inits = function (data) {
   return (inits)
 },
 random_effects = list(z = NULL, eps = NULL, p = NULL),
-select = c("y")
+select_data = c("y")
 )
 
 # M0 (Kery and Schaub 2011 p.160-161)
@@ -72,7 +72,7 @@ gen_inits = function (data) {
   return (inits)
 },
 random_effects = list(z = NULL),
-select = c("y")                  
+select_data = c("y")                  
 )
 
 # M_t+X (Kery and Schaub 2011 164-165)
@@ -123,7 +123,7 @@ modify_data_derived = function (data) {
    return (inits)
  },
 random_effects = list(z = NULL, eps = NULL, p = NULL),
-select = c("y","log_cbrt(size)*","prior.sd.upper")                                      
+select_data = c("y","log_cbrt(size)*","prior.sd.upper")                                      
 )
 
 
