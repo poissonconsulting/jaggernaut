@@ -37,21 +37,6 @@ is.jags_sample <- function (x) {
 is.jagr_model <- function (x) {
   return (inherits(x, "jagr_model"))
 }
-
-#' @title Test for objects of class jags_data_model
-#'
-#' @description
-#' Tests for objects of class \code{jags_data_model}.  
-#' 
-#' @param x the object to be tested.
-#' @return a logical element indicating whether or not \code{x} is of 
-#' class \code{jags_data_model}.
-#' @seealso \code{\link{jags_data_model}} and 
-#' \code{\link{jaggernaut}}.
-#' @export
-is.jags_data_model <- function (x) {
-  return (inherits(x, "jags_data_model"))
-}
   
 is.jagr_analysis_model <- function (x) {
   return (inherits(x, "jagr_analysis_model"))
@@ -101,37 +86,6 @@ is.jags_analysis <- function (x) {
 
 on_failure(is.jags_analysis) <- function(call, env) {
   paste0(deparse(call$x), " is not a jags_analysis")
-}
-
-
-#' @title Test for objects of class jags_simulation
-#'
-#' @description
-#' Tests for objects of class \code{jags_simulation}.  
-#' 
-#' @param x the object to be tested.
-#' @return a logical element indicating whether or not \code{x} is of 
-#' class \code{jags_simulation}.
-#' @seealso \code{\link{jags_simulation}} and 
-#' \code{\link{jaggernaut}}.
-#' @export
-is.jags_simulation <- function (x) {
-  return (inherits(x, "jags_simulation"))
-}
-
-#' @title Test for objects of class jags_power_analysis
-#'
-#' @description
-#' Tests for objects of class \code{jags_power_analysis}.  
-#' 
-#' @param x the object to be tested.
-#' @return a logical element indicating whether or not \code{x} is of 
-#' class \code{jags_power_analysis}.
-#' @seealso \code{\link{jags_power_analysis}} and 
-#' \code{\link{jaggernaut}}.
-#' @export
-is.jags_power_analysis <- function (x) {
-  return (inherits(x, "jags_power_analysis"))
 }
 
 #' @title Test for objects of class jags_aggregation

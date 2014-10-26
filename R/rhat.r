@@ -109,27 +109,3 @@ rhat.jags_sample <- function (object, parm = "all", combine = TRUE, ...) {
     
   rhat(as.jagr_chains(object), parm = parm, combine = combine, ...)  
 }
-
-#' @method rhat jags_power_analysis
-#' @export 
-rhat.jags_power_analysis <- function (object, parm = "all", combine = TRUE, ...) {
-
-  lapply_rhat_jagr_power_analysis <- function (object, parm, combine) {    
-    return (lapply(object, rhat_jagr_power_analysis, 
-                   parm = parm, 
-                   combine = combine, ...))
-  }
-    
-  analyses <- analyses(object)
-    
-  rhat <- lapply(analyses, lapply_rhat_jagr_power_analysis, 
-                 parm = parm, 
-                 combine = combine, ...)
-
-  if(combine) {
-    rhat <- matrixise(rhat)
-    rhat <- name_object(t(rhat),c("replicate","value"))
-  } else
-    rhat <- name_object(rhat,c("value","replicate"))
-  return (rhat)
-}

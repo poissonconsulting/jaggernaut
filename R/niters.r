@@ -42,23 +42,6 @@ niters_jags_analysis <- function (object) {
   return (niters (object))
 }
 
-#' @method niters jags_power_analysis
-#' @export
-niters.jags_power_analysis <- function (object) {
-    
-  lapply_niters_jagr_power_analysis <- function (object) {    
-    return (lapply(object, niters_jagr_power_analysis))
-  }
-  
-  analyses <- analyses(object)
-  
-  niters <- lapply(analyses, lapply_niters_jagr_power_analysis)
-
-  niters <- matrixise(niters)
-  niters <- name_object(t(niters),c("replicate","value"))
-  return (niters)
-}
-
 "niters<-.jagr_power_analysis" <- function (object, value) {
   
   stopifnot(is_integer_scalar(value))

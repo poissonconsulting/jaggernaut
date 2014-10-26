@@ -56,20 +56,3 @@ nsims_jags_analysis <- function (object) {
   stopifnot(is.jags_analysis(object))
   return (nsims(object))
 }
-
-#' @method nsims jags_power_analysis
-#' @export
-nsims.jags_power_analysis <- function (object) {
-  
-  lapply_nsims_jagr_power_analysis <- function (object) {    
-    return (lapply(object, nsims_jagr_power_analysis))
-  }
-  
-  analyses <- analyses(object)
-  
-  nsims <- lapply(analyses, lapply_nsims_jagr_power_analysis)
-  
-  nsims <- matrixise(nsims)
-  nsims <- name_object(t(nsims),c("replicate","value"))
-  return (nsims)
-}

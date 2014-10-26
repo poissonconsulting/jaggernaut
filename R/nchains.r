@@ -49,22 +49,3 @@ nchains_jags_analysis <- function (object) {
   stopifnot(is.jags_analysis(object))
   return (nchains (object))
 }
-
-#' @method nchains jags_power_analysis
-#' @export
-nchains.jags_power_analysis <- function (object) {
-  
-  lapply_nchains_jagr_power_analysis <- function (object) {    
-    return (lapply(object, nchains_jagr_power_analysis))
-  }
-  
-  analyses <- analyses(object)
-    
-  nchains <- lapply(analyses, lapply_nchains_jagr_power_analysis)
-    
-  nchains <- matrixise(nchains)
-  
-  stopifnot(all(nchains == nchains[1,1]))
-  
-  return (nchains[1,1])
-}

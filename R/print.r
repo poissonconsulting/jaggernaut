@@ -28,15 +28,6 @@ print.jagr_model <- function (x, ...) {
   return(invisible(x))
 }
 
-#' @method print jags_data_model
-#' @export
-print.jags_data_model <- function (x, ...) {
-  
-  print(as.jagr_model(x), ...)
-  
-  return(invisible(x))
-}
-
 #' @method print jags_model
 #' @export
 print.jags_model <- function (x, ...) {
@@ -90,36 +81,6 @@ print.jags_analysis <- function (x, ...) {
   }
   cat(paste0("\nrhat threshold: ", rhat_threshold(x),"\n"))
   
-  return(invisible(x))
-}
-
-#' @method print jags_simulation
-#' @export
-print.jags_simulation <- function (x, ...) {
-  
-  print(as.jags_data_model(x), ...)
-
-  cat("\nvalues:\n")
-  print(values(x), ...)
-  
-  cat("\ndata head (value:1 rep:1):\n")  
-  print(head(dataset(x)[[1]][[1]]))
-  
-  cat(paste0("\nnvalues: ", nvalues(x),"\n"))
-  cat(paste0("\nnreps: ", nreps(x),"\n"))
-  return(invisible(x))
-}
-
-#' @method print jags_power_analysis
-#' @export
-print.jags_power_analysis <- function (x, ...) {
-  
-  print(as.jags_simulation (x))
-  
-  cat("\nanalysis model:\n")
-  print(as.jags_data_model(x), ...)
-
-  cat(paste0("\nrhat threshold: ", rhat_threshold(x),"\n"))
   return(invisible(x))
 }
 

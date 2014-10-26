@@ -23,22 +23,7 @@ rhat_threshold.jags_analysis <- function (object, ...) {
   return (object$rhat_threshold)
 }
 
-#' @method rhat_threshold jags_power_analysis
-#' @export
-rhat_threshold.jags_power_analysis <- function (object, ...) {
-  return (object$rhat_threshold)
-}
-
 "rhat_threshold<-.jags_analysis" <- function (object, value) {
-  stopifnot(is_numeric_scalar(value))
-  stopifnot(is_bounded(value, 1.0, 2.0))
-  
-  object$rhat_threshold <- value
-  
-  return (object)
-}
-
-"rhat_threshold<-.jags_power_analysis" <- function (object, value) {
   stopifnot(is_numeric_scalar(value))
   stopifnot(is_bounded(value, 1.0, 2.0))
   

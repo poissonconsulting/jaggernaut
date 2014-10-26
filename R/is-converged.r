@@ -34,33 +34,3 @@ is_converged.default <- function (object, rhat_threshold, ...) {
 is_converged.jags_analysis <- function (object, ...) {
   return (rhat (object, parm = "all", combine = TRUE) <= rhat_threshold(object))
 }
-
-#' @title Test convergence
-#'
-#' @description
-#' Tests the convergence of a JAGS power analysis.  
-#' 
-#' @param object a \code{jags_power_analysis} object.
-#' @param combine a logical element indicating whether or not to calculate the 
-#' percent convergence by \code{jags_power_analysis} values.
-#' @param ... further arguments passed to or from other methods.
-#' @return A logical matrix indicating or not each analysis has converged 
-#' or a data.frame indicating the percent convergence rate.
-#' @seealso \code{\link{rhat_threshold}}, \code{\link{jags_power_analysis}} 
-#' and \code{\link{jaggernaut}}  
-#' @method is_converged jags_power_analysis
-#' @export 
-is_converged.jags_power_analysis <- function (object, combine = TRUE, ...) { 
-  rhat <- rhat(object, parm = "all", combine = TRUE)
-  rhat <- rhat <= rhat_threshold(object)
-  if(!combine) {
-    return (rhat)
-  }
-  
-  percent_fun <- function (x) {
-    return (round(length(x[x]) / length(x) * 100))
-  }
-  
-  rhat <- apply(rhat, 2, percent_fun)
-  return (rhat)
-}
