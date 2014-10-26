@@ -5,9 +5,9 @@
 \usage{
 jags_model(model_code, monitor = NULL, select_data = NULL,
   modify_data = NULL, gen_inits = NULL, derived_code = NULL,
-  aggregation_code = NULL, random_effects = NULL, select_derived = NULL,
-  modify_data_derived = NULL, select_aggregation = NULL,
-  modify_data_aggregation = NULL)
+  aggregation_code = NULL, random_effects = NULL,
+  select_data_derived = NULL, modify_data_derived = NULL,
+  select_data_aggregation = NULL, modify_data_aggregation = NULL)
 }
 \arguments{
 \item{model_code}{a character element defining the model in the JAGS dialect of
@@ -34,13 +34,13 @@ simulated data.}
 \item{random_effects}{a named list of parameters to be treated as random effects with the
 related data as values}
 
-\item{select_derived}{a character vector of the variables to select from the
+\item{select_data_derived}{a character vector of the variables to select from the
 data set being analysed (can also specify variables to transform and/or centre)}
 
 \item{modify_data_derived}{a function to modify the derived data set
 (after it has been converted to list form)}
 
-\item{select_aggregation}{a character vector of the variables to select from the
+\item{select_data_aggregation}{a character vector of the variables to select from the
 data set being analysed (can also specify variables to transform and/or centre)}
 
 \item{modify_data_aggregation}{a function to modify the derived data set

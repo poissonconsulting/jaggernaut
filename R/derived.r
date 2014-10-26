@@ -65,10 +65,10 @@ derived <- function (object, parm, data, nworkers) {
     on.exit(options("jags.pb" = jags.pb))
   }  
   
-  if(is.null(select_derived(object))) {
+  if(is.null(select_data_derived(object))) {
     data <- translate_data(select_data(object), dataset(object), data) 
   } else {
-    data <- translate_data(select_derived(object), dataset(object), data) 
+    data <- translate_data(select_data_derived(object), dataset(object), data) 
   }
   
   chains <- zero_random (object, data)

@@ -6,7 +6,7 @@
 \method{predict}{jags_analysis}(object, newdata = NULL, parm = "prediction",
   base = FALSE, values = NULL, model_number = 1,
   modify_data_derived = NULL, derived_code = NULL, random_effects = NULL,
-  select_derived = NULL, level = "current", estimate = "current",
+  select_data_derived = NULL, level = "current", estimate = "current",
   obs_by = FALSE, length_out = 50, ...)
 }
 \arguments{
@@ -43,7 +43,7 @@ the JAGS analysis was performed.}
 as random variables in the derived code. If NULL random_effects is as defined
 by the JAGS model for which the JAGS analysis was performed.}
 
-\item{select_derived}{a character vector of the variables to select from the
+\item{select_data_derived}{a character vector of the variables to select from the
 data set being analysed (can also specify variables to transform and/or centre)}
 
 \item{level}{a numeric scalar specifying the significance level or a character
