@@ -55,7 +55,7 @@ jagr_analysis <- function (model, data, niters, nworkers) {
   cat(model_code(model), file=file)
   
   if(nchains == 1 || nworkers == 1) {
-    chains <- jags_analysis_internal(inits, data, file = file, 
+    chains <- analysis_internal(inits, data, file = file, 
                                      monitor = monitor(model),
                                      n.adapt = n.adapt, 
                                      n.burnin = n.burnin, n.chain = nchains, 
@@ -65,8 +65,8 @@ jagr_analysis <- function (model, data, niters, nworkers) {
     i <- NULL
     chains <- foreach(i = isplitIndices(n = nchains, chunks = nworkers),
                       .combine = combine_jagr_chains, 
-                      .export = "jags_analysis_internal") %dopar% {
-                        jags_analysis_internal(inits[i], data, file = file, 
+                      .export = "analysis_internal") %dopar% {
+                        analysis_internal(inits[i], data, file = file, 
                                                monitor = monitor(model),
                                                n.adapt = n.adapt, 
                                                n.burnin = n.burnin, n.chain = length(i),
