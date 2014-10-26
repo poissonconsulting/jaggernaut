@@ -23,7 +23,7 @@ Performs a JAGS analysis by fitting a
 to a data frame using JAGS (Plummer 2012).
 The resultant \code{jags_analysis} object can then be
 passed to other functions to
-to get the \code{rhat} of particular parameters, parameter \code{coefficients}
+to get the \code{convergence} of particular parameters, parameter \code{coefficients}
 with credible intervals and \code{predict} derived parameter
 estimates.
 }
@@ -62,7 +62,7 @@ auto_corr(analysis)
 cross_corr(analysis)
 nchains(analysis)
 nsamples(analysis)
-rhat(analysis)
+convergence(analysis)
 }
 \references{
 Plummer M (2012) JAGS Version 3.3.0 User Manual \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}

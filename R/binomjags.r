@@ -16,7 +16,7 @@ binomjags <- function (n,s) {
   
   data <- data.frame(n = n, s = s)
   
-  opts_jagr(rhat = 1.05, resample = 3, nsamples = 1000, 
+  opts_jagr(convergence = 1.05, resample = 3, nsamples = 1000, 
             quiet = TRUE, level = 0.95, nchains = 2)
   
   analysis <- jags_analysis(model, data)

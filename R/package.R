@@ -15,7 +15,7 @@
 #' perform the actual MCMC
 #' sampling.  The resultant \code{jags_analysis} object can then be passed
 #' to the \code{\link{plot.jags_analysis}} function to view the MCMC traces, the 
-#' \code{\link{rhat}} function to check the Rhat values of individual parameters
+#' \code{\link{convergence}} function to check the Rhat values of individual parameters
 #' and the \code{\link{coef.jags_analysis}} function to get the parameter estimates
 #' with  credible limits.  The \code{\link{predict.jags_analysis}} function can
 #' then be used to extract derived parameter estimates with credible intervals
@@ -69,7 +69,7 @@
 #' an <- jags_analysis (mod, dat, mode = "demo")
 #' 
 #' plot(an)
-#' rhat(an)
+#' convergence(an)
 #' coef(an)
 #' summary(an)
 #'  

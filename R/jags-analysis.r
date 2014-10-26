@@ -6,7 +6,7 @@
 #' to a data frame using JAGS (Plummer 2012). 
 #' The resultant \code{jags_analysis} object can then be 
 #' passed to other functions to
-#' to get the \code{rhat} of particular parameters, parameter \code{coefficients}
+#' to get the \code{convergence} of particular parameters, parameter \code{coefficients}
 #' with credible intervals and \code{predict} derived parameter
 #' estimates.
 #' 
@@ -54,7 +54,7 @@
 #' cross_corr(analysis)
 #' nchains(analysis)
 #' nsamples(analysis)
-#' rhat(analysis)
+#' convergence(analysis)
 #' 
 #' @export
 jags_analysis <- function (model, data, niters = 10^3, mode = "current") {
@@ -124,7 +124,7 @@ jags_analysis <- function (model, data, niters = 10^3, mode = "current") {
   }
   
   analyses(object) <- analyses
-  rhat_threshold(object) <- opts_jagr("rhat")
+  convergence_threshold(object) <- opts_jagr("convergence")
       
   return (object)
 }

@@ -1,4 +1,3 @@
-
 #' @title Test convergence
 #'
 #' @description
@@ -14,9 +13,9 @@ is_converged <- function (object, ...) {
   UseMethod("is_converged", object)
 }
 
-is_converged.default <- function (object, rhat_threshold, ...) {
-  stopifnot(is_scalar(rhat_threshold))  
-  return (rhat(object, parm = "all", combine = TRUE) <= rhat_threshold) 
+is_converged.default <- function (object, convergence_threshold, ...) {
+  stopifnot(is_scalar(convergence_threshold))  
+  return (convergence(object, parm = "all", combine = TRUE) <= convergence_threshold) 
 }
 
 #' @title Test convergence
@@ -28,9 +27,9 @@ is_converged.default <- function (object, rhat_threshold, ...) {
 #' @param ... further arguments passed to or from other methods.
 #' @return A logical element or vector whether or not analysis or analyses have
 #' converged.
-#' @seealso \code{\link{rhat_threshold}} and \code{\link{jaggernaut}}  
+#' @seealso \code{\link{convergence_threshold}} and \code{\link{jaggernaut}}  
 #' @method is_converged jags_analysis
 #' @export 
 is_converged.jags_analysis <- function (object, ...) {
-  return (rhat (object, parm = "all", combine = TRUE) <= rhat_threshold(object))
+  return (convergence (object, parm = "all", combine = TRUE) <= convergence_threshold(object))
 }

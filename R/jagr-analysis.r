@@ -8,7 +8,7 @@ jagr_analysis <- function (model, data, niters, nworkers) {
   resample <- opts_jagr("nresample")
   nchains <- opts_jagr("nchains")
   quiet <- opts_jagr("quiet")
-  rhat_threshold <- opts_jagr("rhat")
+  convergence_threshold <- opts_jagr("convergence")
   
   if(!is.null(monitor(model)))
     monitor(model) <- sort(unique(monitor(model)))
@@ -86,7 +86,7 @@ jagr_analysis <- function (model, data, niters, nworkers) {
   niters(object) <- niters
   time_interval(object) <- ((proc.time () - ptm)[3]) / (60 * 60)
   
-  while (!is_converged (object, rhat_threshold = rhat_threshold) && resample > 0)  {
+  while (!is_converged (object, convergence_threshold = convergence_threshold) && resample > 0)  {
     if(!quiet) {
       cat ("Resampling due to convergence failure")
       cat_convergence (object)  
@@ -98,7 +98,7 @@ jagr_analysis <- function (model, data, niters, nworkers) {
   }
   
   if(!quiet) {
-    if (is_converged (object, rhat_threshold = rhat_threshold)) {
+    if (is_converged (object, convergence_threshold = convergence_threshold)) {
       cat ('Analysis converged')
       cat_convergence (object)
     }  else {

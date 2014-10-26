@@ -14,7 +14,7 @@ print.jagr_chains <- function (x, ...) {
   
   cat(paste("\nchains:",nchains(x),"\n"))
   cat(paste("\nsamples:",nsamples(x),"\n"))
-  cat(paste("\nrhat:",rhat(x, parm = "all", combine = TRUE),"\n"))
+  cat(paste("\nconvergence:",convergence(x, parm = "all", combine = TRUE),"\n"))
   
   return(invisible(x))
 }
@@ -72,7 +72,7 @@ print.jags_analysis <- function (x, ...) {
       print(analyses[[i]], ...)
     }
   }
-  cat(paste0("\nrhat threshold: ", rhat_threshold(x),"\n"))
+  cat(paste0("\nconvergence threshold: ", convergence_threshold(x),"\n"))
   
   return(invisible(x))
 }

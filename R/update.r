@@ -100,7 +100,7 @@ update.jags_analysis <- function (object, mode = "current", ...) {
   
   quiet <- opts_jagr("quiet")
   
-  rhat_threshold <- opts_jagr("rhat")
+  convergence_threshold <- opts_jagr("convergence")
   
   chunks <- floor(nworkers / nchains)
   chunks <- min(nmodels, chunks)
@@ -134,7 +134,7 @@ update.jags_analysis <- function (object, mode = "current", ...) {
     for (i in 1:nmodels) {
       cat(paste("\n\nModel",i,"of",nmodels,"\n\n"))
       
-      if (is_converged (analyses[[i]], rhat_threshold = rhat_threshold)) {
+      if (is_converged (analyses[[i]], convergence_threshold = convergence_threshold)) {
         cat ("Analysis converged")
       } else 
         cat ("Analysis failed to converge")
@@ -143,7 +143,7 @@ update.jags_analysis <- function (object, mode = "current", ...) {
   }
   
   analyses(object) <- analyses
-  rhat_threshold(object) <- rhat_threshold
+  convergence_threshold(object) <- convergence_threshold
     
   return (object)
 }

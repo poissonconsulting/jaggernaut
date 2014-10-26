@@ -8,7 +8,7 @@
   nsamples = 100,
   parallel = FALSE, 
   quiet = FALSE,
-  rhat = 2
+  convergence = 2
 )
 
 .opts_jagr_explore<- list(
@@ -20,7 +20,7 @@
   nsamples = 500,
   parallel = FALSE, 
   quiet = FALSE,
-  rhat = 1.5
+  convergence = 1.5
 )
 
 .opts_jagr_test<- list(
@@ -32,7 +32,7 @@
   nsamples = 500,
   parallel = FALSE, 
   quiet = TRUE,
-  rhat = 1.5
+  convergence = 1.5
 )
 
 .opts_jagr_demo<- list(
@@ -44,7 +44,7 @@
   nsamples = 500,
   parallel = FALSE, 
   quiet = FALSE,
-  rhat = 1.1
+  convergence = 1.1
 )
 
 .opts_jagr_report <- list(
@@ -56,7 +56,7 @@
   nsamples = 1000,
   parallel = FALSE, 
   quiet = FALSE,
-  rhat = 1.1
+  convergence = 1.1
 )
 
 .opts_jagr_paper <- list(
@@ -68,7 +68,7 @@
   nsamples = 2000,
   parallel = FALSE, 
   quiet = FALSE,
-  rhat = 1.05
+  convergence = 1.05
 )
 
 .opts_jagr_def <- .opts_jagr_report
@@ -123,7 +123,7 @@ opts_jagr_set <- .opts_jagr$set
 #' \item{nsamples}{the total number of MCMC samples to thin from the second halves of the MCMC chains (default = 1000)}
 #' \item{parallel}{whether in parallel.}
 #' \item{quiet}{whether to suppress messages (default = FALSE)}
-#' \item{rhat}{the R-hat threshold for convergence (default = 1.1)}
+#' \item{convergence}{the R-hat threshold for convergence (default = 1.1)}
 #' }
 #' 
 #' By default a JAGS analysis will retain a minumum of 1,000 MCMC samples 
@@ -132,7 +132,7 @@ opts_jagr_set <- .opts_jagr$set
 #' thinned from the last 500 iterations of each chain.  
 #'  
 #' Convergence is considered to have been achieved when all the monitored
-#' parameters have an R-hat less than the value of the \code{rhat} option
+#' parameters have an R-hat less than the value of the \code{convergence} option
 #' which
 #' by default is 1.1 (Kery & Schaub 2011). If the initial number of iterations
 #' are performed and the convergence target has not been achieved and
@@ -269,7 +269,7 @@ assign_opts_jagr <- function (opts) {
   assert_that(is.flag(opts$parallel) && noNA(opts$parallel))
   assert_that(is.flag(opts$quiet) && noNA(opts$quiet))
   
-  if (length(opts$rhat) != 1) {
+  if (length(opts$convergence) != 1) {
     stop("option convergence must be length 1")
   }
   
@@ -293,8 +293,8 @@ assign_opts_jagr <- function (opts) {
     stop("option nsamples must lie between 100 and 6000")
   } 
   
-  if (!(opts$rhat >= 1 &&  opts$rhat <= 2))
-    stop("option rhat must lie between 1 and 2")
+  if (!(opts$convergence >= 1 &&  opts$convergence <= 2))
+    stop("option convergence must lie between 1 and 2")
   
   if(opts$parallel && getDoParWorkers() == 1) {
     warning(paste0("chains and models will not be run",

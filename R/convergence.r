@@ -1,4 +1,3 @@
-
 #' @title Get R-hat value(s)
 #'
 #' @description
@@ -10,13 +9,13 @@
 #' @param combine a logical element indicating whether or not to summarise by 
 #' the maximum R-hat value.
 #' @param ... passed to and from other functions
-#' @return a vector, matrix or array of rhat values
+#' @return a vector, matrix or array of convergence values
 #' @export
-rhat <- function (object, parm = "all", combine = TRUE, ...) {
-  UseMethod("rhat", object)
+convergence <- function (object, parm = "all", combine = TRUE, ...) {
+  UseMethod("convergence", object)
 }
 
-rhat.jagr_chains <- function (object, parm = "all", combine = TRUE, ...) {
+convergence.jagr_chains <- function (object, parm = "all", combine = TRUE, ...) {
   
   assert_that(is.string(parm) && noNA(parm))
   assert_that(is.flag(combine) && noNA(combine))
@@ -29,43 +28,43 @@ rhat.jagr_chains <- function (object, parm = "all", combine = TRUE, ...) {
   
   vars <- sort(vars)
   
-  if (is.null(object$rhat)) {
+  if (is.null(object$convergence)) {
     if(nchains(object) > 1) {
-      rhat <- numeric()
+      convergence <- numeric()
       for (i in seq(along = vars)) {
-        rhat[i] <- round(gelman.diag(mcmc[,vars[i]], transform = TRUE, 
+        convergence[i] <- round(gelman.diag(mcmc[,vars[i]], transform = TRUE, 
           autoburnin = FALSE)$psrf[1],2)
       }
     } else {
-      rhat <- rep(NA,length(vars))
+      convergence <- rep(NA,length(vars))
     }
-    rhat <- data.frame(rhat = rhat, row.names = vars)
-    rhat$rhat <- rhat
+    convergence <- data.frame(convergence = convergence, row.names = vars)
+    convergence$convergence <- convergence
   } else
-    rhat <- object$rhat
+    convergence <- object$convergence
   
   parm <- expand_parm(object, parm)
   
-  rhat <- rhat[row.names(rhat) %in% parm,,drop = FALSE]
+  convergence <- convergence[row.names(convergence) %in% parm,,drop = FALSE]
     
   if (combine)
-    return (max(rhat$rhat, na.rm = TRUE))
+    return (max(convergence$convergence, na.rm = TRUE))
   
-  return (rhat)
+  return (convergence)
 }
 
-rhat.jagr_analysis <- function (object, parm = "all", combine = TRUE, ...) {
-  return (rhat(as.jagr_chains(object), parm = parm, combine = combine, ...))
+convergence.jagr_analysis <- function (object, parm = "all", combine = TRUE, ...) {
+  return (convergence(as.jagr_chains(object), parm = parm, combine = combine, ...))
 }
 
-rhat_jagr_analysis <- function (object, parm = "all", combine = TRUE, ...) {
+convergence_jagr_analysis <- function (object, parm = "all", combine = TRUE, ...) {
   stopifnot(is.jagr_analysis(object))
-  return (rhat(object, parm = parm, combine = combine, ...))
+  return (convergence(object, parm = parm, combine = combine, ...))
 }
 
-#' @method rhat jags_analysis
+#' @method convergence jags_analysis
 #' @export 
-rhat.jags_analysis <- function (object, parm = "all", combine = TRUE, ...) {
+convergence.jags_analysis <- function (object, parm = "all", combine = TRUE, ...) {
   
   if(!is_character_vector(parm))
     stop("parm must be a character vector with no missing values")
@@ -74,22 +73,22 @@ rhat.jags_analysis <- function (object, parm = "all", combine = TRUE, ...) {
     stop("combine must be TRUE or FALSE")
   
   if(is_one_model(object))
-    return (rhat(analysis(object), 
+    return (convergence(analysis(object), 
                  parm = parm, 
                  combine = combine, ...))
   
   analyses <- analyses(object)
   analyses <- lapply(analyses, 
-                     rhat_jagr_analysis, 
+                     convergence_jagr_analysis, 
                      parm = parm, 
                      combine = combine, ...)  
   analyses <- name_object(analyses, "model")
   return (analyses) 
 }
 
-#' @method rhat jags_sample
+#' @method convergence jags_sample
 #' @export 
-rhat.jags_sample <- function (object, parm = "all", combine = TRUE, ...) {
+convergence.jags_sample <- function (object, parm = "all", combine = TRUE, ...) {
   
   if(!is_character_vector(parm))
     stop("parm must be a character vector with no missing values")
@@ -102,5 +101,5 @@ rhat.jags_sample <- function (object, parm = "all", combine = TRUE, ...) {
     parm <- "all"
   }
     
-  rhat(as.jagr_chains(object), parm = parm, combine = combine, ...)  
+  convergence(as.jagr_chains(object), parm = parm, combine = combine, ...)  
 }

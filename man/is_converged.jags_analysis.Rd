@@ -18,6 +18,6 @@ converged.
 Tests the convergence of a JAGS analysis.
 }
 \seealso{
-\code{\link{rhat_threshold}} and \code{\link{jaggernaut}}
+\code{\link{convergence_threshold}} and \code{\link{jaggernaut}}
 }
 

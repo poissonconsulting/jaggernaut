@@ -49,7 +49,7 @@ until convergence is achieved (default = 3)}
 \item{nsamples}{the total number of MCMC samples to thin from the second halves of the MCMC chains (default = 1000)}
 \item{parallel}{whether in parallel.}
 \item{quiet}{whether to suppress messages (default = FALSE)}
-\item{rhat}{the R-hat threshold for convergence (default = 1.1)}
+\item{convergence}{the R-hat threshold for convergence (default = 1.1)}
 }
 
 By default a JAGS analysis will retain a minumum of 1,000 MCMC samples
@@ -58,7 +58,7 @@ if \code{niters = 1000} in the analysis then by default 334 samples will be
 thinned from the last 500 iterations of each chain.
 
 Convergence is considered to have been achieved when all the monitored
-parameters have an R-hat less than the value of the \code{rhat} option
+parameters have an R-hat less than the value of the \code{convergence} option
 which
 by default is 1.1 (Kery & Schaub 2011). If the initial number of iterations
 are performed and the convergence target has not been achieved and

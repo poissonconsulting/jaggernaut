@@ -19,7 +19,7 @@ samples.jags_sample <- function (object) {
   
   stopifnot(is_list_mcarray(value))
   
-  object$rhat <- NULL  
+  object$convergence <- NULL  
   object$samples <- value
   
   return (object)

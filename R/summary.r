@@ -11,7 +11,7 @@ summary.jagr_analysis <- function (object, level, estimate, ...) {
   
   summ[["Dimensions"]] <- c(samples = nsamples(object), chains = nchains(object))
 
-  summ[["Convergence"]] <- c(rhat = rhat(object, parm = "all", combine = TRUE))
+  summ[["Convergence"]] <- c(convergence = convergence(object, parm = "all", combine = TRUE))
 
   summ[["Estimates"]] <- coef(object, parm = "fixed", level = level, 
                               estimate = estimate, as_list = FALSE)
