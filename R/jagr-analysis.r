@@ -11,7 +11,7 @@ jagr_analysis <- function (model, data, niters, nworkers) {
   rhat_threshold <- opts_jagr("rhat")
   
   if(!is.null(monitor(model)))
-    monitor(model) <- sort(unique(c(monitor(model),"deviance")))
+    monitor(model) <- sort(unique(monitor(model)))
   
   data <- translate_data(select(model), data) 
   

@@ -5,9 +5,7 @@ get_samples <- function (sims, chains, data, parm, file) {
     # could remove unnecessary data so not need to suppress warning messages...
     warn <- options('warn')
     options(warn = -1)
-    
-    data$deviance <- NULL
-    
+        
     jags <- jags.model (file = file, data = data, 
                         n.chains = 1, n.adapt = 0, quiet = TRUE
     )

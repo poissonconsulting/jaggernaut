@@ -8,8 +8,7 @@
 \arguments{
 \item{x}{a jags_analysis object}
 
-\item{model_number}{an integer element specifying the model to select.
-If model_number = 0 then it selects the model with the lowest DIC.}
+\item{model_number}{an integer element specifying the model to select.}
 
 \item{parm}{a character vector of the parameters to plot.}
 

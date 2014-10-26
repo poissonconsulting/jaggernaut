@@ -56,7 +56,6 @@ summary.jags_analysis <- function (object, level = "current",
     summ[[paste0("Model",i)]] <- summary(analyses[[i]], level = level, 
                                          estimate = estimate)
   }
-  summ[["Model Comparison"]] <- dic_jags(object)
 
   class (summ) <- "summary_jags_analysis"
   

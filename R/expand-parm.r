@@ -28,7 +28,6 @@ expand_parm.jagr_chains <- function (object, parm, ...) {
   }
   if ("fixed" %in% parm) {
     fixed <- svars[!svars %in% random(object)]
-    fixed <- fixed[fixed != "deviance"]
   } 
   if ("random" %in% parm) {
     random <- svars[svars %in% random(object)]

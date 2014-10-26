@@ -9,7 +9,6 @@
 #' @param parm a character element naming the derived parameter for which 
 #' the estimates should be calculated by default = "residual"
 #' @param model_number an integer vector specifying the model to select. 
-#' If model_number = 0 then it selects the model with the lowest DIC.
 #' @param derived_code a character element defining a block in the JAGS dialect of 
 #' the BUGS language that defines one or more derived parameters for each row of data. 
 #' If NULL derived_code is as defined by the JAGS model for which the JAGS analysis was performed. 

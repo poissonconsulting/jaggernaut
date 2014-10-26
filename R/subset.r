@@ -122,8 +122,8 @@ subset.jags_analysis <- function (x, model_number = NULL, ...) {
     if (length(model_number) != 1) {
       stop("model_number must be a single value")
     }
-    if (model_number < 0 || model_number > nmodels(x)) {
-      stop(paste("model_number must lie between 0 and the number of models (in this case",nmodels(x),")"))
+    if (model_number < 1 || model_number > nmodels(x)) {
+      stop(paste("model_number must lie between 1 and the number of models (in this case",nmodels(x),")"))
     }
   } else {
     stop ("model_number must be an integer")
@@ -133,10 +133,7 @@ subset.jags_analysis <- function (x, model_number = NULL, ...) {
   
   if (nmodels(x) == 1)
     return (x)
-  
-  if(model_number == 0)
-    model_number <- as.integer(substr(rownames(dic_jags(x))[1],6,8))
-  
+    
   analyses <- analyses(x)
   
   analyses(x) <- analyses[model_number]

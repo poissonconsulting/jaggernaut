@@ -13,8 +13,7 @@
 \item{parm}{a character element naming the derived parameter for which
 the estimates should be calculated by default = "residual"}
 
-\item{model_number}{an integer vector specifying the model to select.
-If model_number = 0 then it selects the model with the lowest DIC.}
+\item{model_number}{an integer vector specifying the model to select.}
 
 \item{derived_code}{a character element defining a block in the JAGS dialect of
 the BUGS language that defines one or more derived parameters for each row of data.

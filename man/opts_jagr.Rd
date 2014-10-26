@@ -42,7 +42,6 @@ internally when testing the package and running demos respectively.
 Available options are
 \describe{
 \item{level}{the credible interval level (default = 0.95)}
-\item{power_level}{the power analysis level (default = 0.80)}
 \item{estimate}{the type ("mean" or "median") of the point estimate (default = "mean")}
 \item{nchains}{the number of MCMC chains (default = 3)}
 \item{nresample}{the number of times to resample

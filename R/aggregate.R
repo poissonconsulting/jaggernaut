@@ -14,7 +14,7 @@ aggregate.jags_analysis <- function (x, model_number = 1, data = dataset(x),
   
   object <- x
   rm(x)
-  assert_that(is.count(model_number) || model_number == 0)
+  assert_that(is.count(model_number))
   assert_that(is.string(aggregation_code))
   
   object <- subset(object, model_number = model_number)

@@ -20,7 +20,6 @@
 #' of particular variables. The variables in the arguments newdata and base are
 #' replaced by the corresponding values.
 #' @param model_number an integer scalar specifying the jags model to select. 
-#' If model_number = 0 then it selects the model with the lowest DIC.
 #' @param select_derived a character vector of the variables to select from the 
 #' data set being analysed (can also specify variables to transform and/or centre)
 #' @param modify_data_derived a function to modify the derived data set 
@@ -86,8 +85,8 @@ predict.jags_analysis <- function (object, newdata = NULL,
   if(!is_null(values) && !(is_convertible_data_frame(values) && nrow(values) == 1))
     stop("values must be NULL or a data.frame with a single row of data")
 
-  if(!is_integer_scalar(model_number) && !is_bounded(model_number,0))
-    stop("model_number must be an integer scalar of 0 or greater")
+  if(!is_integer_scalar(model_number) && !is_bounded(model_number,1))
+    stop("model_number must be an integer scalar of 1 or greater")
 
   if(!is_null(modify_data_derived) && !is_function(modify_data_derived))
     stop("modify_data_derived must be NULL or a function")

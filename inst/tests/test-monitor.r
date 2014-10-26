@@ -40,8 +40,8 @@ select = c("Volume","Girth")
   expect_that(monitor(models), is_a("list"))
   expect_that(monitor(analysis), is_a("list"))
   expect_that(length(monitor(analysis)), is_equivalent_to(2))
-  expect_that(monitor(subset(analysis,1)), is_identical_to(c("bGirth","bIntercept","deviance", "sVolume")))
-  expect_that(monitor(subset(analysis,2)), is_identical_to(c("bGirth","bHeight","bIntercept","deviance", "sVolume")))
+  expect_that(monitor(subset(analysis,1)), is_identical_to(c("bGirth","bIntercept","sVolume")))
+  expect_that(monitor(subset(analysis,2)), is_identical_to(c("bGirth","bHeight","bIntercept","sVolume")))
   
   monitor(model1) <- "bGirth"
   expect_that(monitor(model1), is_identical_to("bGirth"))

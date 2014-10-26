@@ -6,8 +6,5 @@ if(!"basemod" %in% list.modules())
 if(!"bugs" %in% list.modules())
   load.module("bugs")
 
-if(!"dic" %in% list.modules())
-  load.module("dic")
-
  invisible()
 }

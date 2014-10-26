@@ -29,8 +29,7 @@ defining the base level.}
 of particular variables. The variables in the arguments newdata and base are
 replaced by the corresponding values.}
 
-\item{model_number}{an integer scalar specifying the jags model to select.
-If model_number = 0 then it selects the model with the lowest DIC.}
+\item{model_number}{an integer scalar specifying the jags model to select.}
 
 \item{modify_data_derived}{a function to modify the derived data set
 (after it has been converted to list form)}

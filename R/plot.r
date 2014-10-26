@@ -24,7 +24,6 @@ plot.jagr_analysis <- function (x, parm, ...) {
 #'   
 #' @param x a jags_analysis object
 #' @param model_number an integer element specifying the model to select. 
-#' If model_number = 0 then it selects the model with the lowest DIC.
 #' @param parm a character vector of the parameters to plot.
 #' @param ... arguments to pass to coda::plot.mcmc
 #' @seealso \code{\link{jags_analysis}} and \code{\link[coda]{plot.mcmc}}
