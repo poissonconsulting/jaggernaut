@@ -1,7 +1,6 @@
 
 .opts_jagr_debug <- list(
   level = 0.80,
-  power_level = 0.80,
   estimate = "median",
   mode = "debug",
   nchains = 2,
@@ -14,7 +13,6 @@
 
 .opts_jagr_explore<- list(
   level = 0.95,
-  power_level = 0.80,
   estimate = "median",
   mode = "explore",
   nchains = 3,
@@ -27,7 +25,6 @@
 
 .opts_jagr_test<- list(
   level = 0.95,
-  power_level = 0.80,
   estimate = "median",
   mode = "test",
   nchains = 2,
@@ -40,7 +37,6 @@
 
 .opts_jagr_demo<- list(
   level = 0.95,
-  power_level = 0.80,
   estimate = "median",
   mode = "demo",
   nchains = 2,
@@ -53,7 +49,6 @@
 
 .opts_jagr_report <- list(
   level = 0.95,
-  power_level = 0.80,
   estimate = "mean",
   mode = "report",
   nchains = 3,
@@ -66,7 +61,6 @@
 
 .opts_jagr_paper <- list(
   level = 0.95,
-  power_level = 0.80,
   estimate = "mean",
   mode = "paper",
   nchains = 4,
@@ -122,7 +116,6 @@ opts_jagr_set <- .opts_jagr$set
 #' Available options are
 #' \describe{
 #' \item{level}{the credible interval level (default = 0.95)}
-#' \item{power_level}{the power analysis level (default = 0.80)}
 #' \item{estimate}{the type ("mean" or "median") of the point estimate (default = "mean")}
 #' \item{nchains}{the number of MCMC chains (default = 3)}
 #' \item{nresample}{the number of times to resample 
@@ -261,9 +254,6 @@ assign_opts_jagr <- function (opts) {
   if (length(opts$level) != 1) {
     stop("option level must be length 1")
   }
-  if (length(opts$power_level) != 1) {
-    stop("option power_level must be length 1")
-  }
   if (length(opts$estimate) != 1) {
     stop("option estimate must be length 1")
   }
@@ -290,11 +280,8 @@ assign_opts_jagr <- function (opts) {
   if (!(opts$level >= 0.75 && opts$level <= 0.99)) {
     stop("option level must lie between 0.75 and 0.99")
   }  
-  if (!(opts$power_level >= 0.5 && opts$power_level <= 0.95)) {
-    stop("option power_level must lie between 0.5 and 0.95")
-  }  
   if (!opts$estimate %in% c("mean","median")) {
-    stop("option power_level must be 'mean' or 'median'")
+    stop("option estimate must be 'mean' or 'median'")
   }
   if (!opts$nchains %in% 2:6) {
     stop("option nchains must lie between 2 and 6")
