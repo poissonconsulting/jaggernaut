@@ -9,7 +9,7 @@ summary.jagr_analysis <- function (object, level, estimate, ...) {
   
   summ <- list()
   
-  summ[["Dimensions"]] <- c(simulations = nsims(object), chains = nchains(object))
+  summ[["Dimensions"]] <- c(samples = nsamples(object), chains = nchains(object))
 
   summ[["Convergence"]] <- c(rhat = rhat(object, parm = "all", combine = TRUE))
 

@@ -25,8 +25,8 @@
 #' The \code{niters} argument specifies the total number of iterations including adaptive 
 #' and burn in periods for each chain. The only exceptions are when the analysis is in 
 #' debug mode in which case \code{niters} is set to be 100 or if \code{niters} is less
-#' than \code{nsims * 2 / nchain} (where nsims is set by the mode) in which case 
-#' \code{niters} is set to be \code{nsims * 2 / nchain} so that \code{nsims} can be 
+#' than \code{nsamples * 2 / nchain} (where nsamples is set by the mode) in which case 
+#' \code{niters} is set to be \code{nsamples * 2 / nchain} so that \code{nsamples} can be 
 #' drawn from the second halves of the chains.
 #' @return a \code{jags_analysis} object
 #' @references 
@@ -51,7 +51,7 @@
 #' analysis <- update(analysis, mode = "demo")
 #' 
 #' nchains(analysis)
-#' nsims(analysis)
+#' nsamples(analysis)
 #' rhat(analysis)
 #' geweke(analysis)
 #' 

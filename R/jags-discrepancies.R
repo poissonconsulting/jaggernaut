@@ -11,9 +11,9 @@ jaggregate <- function (object, parameters, data) {
   cat(code, file=file)
   
   nchains <- nchains (chains)
-  nsims <- nsims (chains) / nchains
+  nsamples <- nsamples (chains) / nchains
   
-  samples <- get_samples(sims = 1:nsims, chains = chains, data = data, 
+  samples <- get_samples(samples = 1:nsamples, chains = chains, data = data, 
     parm = parameters, file = file)
   
   newobject <- list()

@@ -1,22 +1,22 @@
-subset.mcarray <- function (x, sim = NULL, chain = NULL, ...) {
+subset.mcarray <- function (x, sample = NULL, chain = NULL, ...) {
   
-  if(is.null(sim) & is.null(chain))
+  if(is.null(sample) & is.null(chain))
     return (x)
   
-  if(!(is.null(sim))) {
-    if(!is.numeric(sim))
-      stop("sim must be class integer")
-    if(length(sim) == 0)
-      stop("sim must at least one value")
-    if(any(is.na(sim)))
-      stop("sim must not contain missing values")
-    if(max(sim) > nsims(x) /nchains(x))
-      stop("sim must not exceed the number of MCMC simulations per chain")
+  if(!(is.null(sample))) {
+    if(!is.numeric(sample))
+      stop("sample must be class integer")
+    if(length(sample) == 0)
+      stop("sample must at least one value")
+    if(any(is.na(sample)))
+      stop("sample must not contain missing values")
+    if(max(sample) > nsamples(x) /nchains(x))
+      stop("sample must not exceed the number of MCMC samples per chain")
     
-    sim <- as.integer(sim)
-    sim <- sort(unique(sim))
+    sample <- as.integer(sample)
+    sample <- sort(unique(sample))
   } else {
-    sim <- 1:(nsims(x)/nchains(x))
+    sample <- 1:(nsamples(x)/nchains(x))
   }
   
   if(!(is.null(chain))) {
@@ -39,9 +39,9 @@ subset.mcarray <- function (x, sim = NULL, chain = NULL, ...) {
   dnames <- dimnames(dim(x))
   
   commas <- paste0(rep(',',ndim - 2),collapse = "")   
-  sim <- paste0("c(",paste0(sim,collapse = ","),")")
+  sample <- paste0("c(",paste0(sample,collapse = ","),")")
   chain <- paste0("c(",paste0(chain,collapse = ","),")")
-  cmd <- paste0('x<-x[', commas ,sim, ',' ,chain, ',drop=F]')
+  cmd <- paste0('x<-x[', commas ,sample, ',' ,chain, ',drop=F]')
   eval(parse(text = cmd))
   
   dimnames(x) <- dnames
@@ -50,14 +50,14 @@ subset.mcarray <- function (x, sim = NULL, chain = NULL, ...) {
   return (x)
 }
 
-subset_mcarray <- function (x, sim = NULL, chain = NULL, ...) {
+subset_mcarray <- function (x, sample = NULL, chain = NULL, ...) {
   stopifnot(is.mcarray(x))
-  return (subset(x, sim = sim, chain = chain, ...))
+  return (subset(x, sample = sample, chain = chain, ...))
 }
 
-subset.jagr_chains <- function (x, sim = NULL, chain = NULL) {
+subset.jagr_chains <- function (x, sample = NULL, chain = NULL) {
   
-  samples(x) <- lapply(samples(x), FUN = subset_mcarray, sim=sim, chain=chain)
+  samples(x) <- lapply(samples(x), FUN = subset_mcarray, sample=sample, chain=chain)
   
   jags(x) <- jags(x)[chain]
   

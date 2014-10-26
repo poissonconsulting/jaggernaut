@@ -1,5 +1,5 @@
 
-get_samples <- function (sims, chains, data, parm, file) {
+get_samples <- function (samples, chains, data, parm, file) {
   
   fun <- function (parm, data, file) {
     # could remove unnecessary data so not need to suppress warning messages...
@@ -10,12 +10,12 @@ get_samples <- function (sims, chains, data, parm, file) {
                         n.chains = 1, n.adapt = 0, quiet = TRUE
     )
     
-    samples <- jags.samples(
+    samps <- jags.samples(
       model = jags, variable.names = parm, n.iter = 1
     )
     options (warn)
     
-    return (samples)
+    return (samps)
   }
   
   nchains <- nchains (chains)
@@ -25,31 +25,31 @@ get_samples <- function (sims, chains, data, parm, file) {
     
     list[[j]] <- fun(parm, data = c(data, 
                                     as.list(subset(chains, 
-                                                   sim = sims[1], 
+                                                   sample = samples[1], 
                                                    chain = j))),
                      file = file)    
     
-    if (length(sims) > 1) {
-      for (i in 2:length(sims)) {
-        samples <- fun (parm,
+    if (length(samples) > 1) {
+      for (i in 2:length(samples)) {
+        samps <- fun (parm,
                         data = c(data, 
                                  as.list(subset(chains, 
-                                                sim = sims[i], 
+                                                sample = samples[i], 
                                                 chain = j))), 
                         file = file)
         
-        list[[j]] <- combine(list[[j]], samples, by = "sims")
+        list[[j]] <- combine(list[[j]], samps, by = "samples")
       }
     }
   }
   
-  samples <- list [[1]]
+  samps <- list [[1]]
   
   if (nchains > 1) {
     for (j in 2:nchains)
-      samples <- combine(samples, list[[j]], by = "chains")
+      samps <- combine(samps, list[[j]], by = "chains")
   }
-  return (samples)
+  return (samps)
 }
 
 derived <- function (object, parm, data, nworkers) {
@@ -83,15 +83,15 @@ derived <- function (object, parm, data, nworkers) {
   cat(code, file=file)
     
   nchains <- nchains (chains)
-  nsims <- nsims (chains) / nchains
+  nsamples <- nsamples (chains) / nchains
   
   if(nworkers == 1) {
-    samples <- get_samples(sims = 1:nsims, chains = chains, data = data, 
+    samps <- get_samples(samples = 1:nsamples, chains = chains, data = data, 
                  parm = parm, file = file)
   } else {
     i <- NULL
-    samples <- foreach(i = isplitIndices(n = nsims, chunks = nworkers),
-                       .combine = combine_lists_by_sims, 
+    samps <- foreach(i = isplitIndices(n = nsamples, chunks = nworkers),
+                       .combine = combine_lists_by_samples, 
                        .export = "get_samples") %dopar% {
                          get_samples(i, chains = chains, data = data, 
                                      parm = parm, file = file)
@@ -101,7 +101,7 @@ derived <- function (object, parm, data, nworkers) {
   newobject <- list()
   class(newobject) <- "jagr_chains"
   
-  samples(newobject) <- samples
+  samples(newobject) <- samps
   jags(newobject) <- list(NULL)
   random(newobject) <- names(random_effects(object))
     

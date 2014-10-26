@@ -13,7 +13,7 @@ print.mcarray <- function (x, ...) {
 print.jagr_chains <- function (x, ...) {
   
   cat(paste("\nchains:",nchains(x),"\n"))
-  cat(paste("\nsimulations:",nsims(x),"\n"))
+  cat(paste("\nsamples:",nsamples(x),"\n"))
   cat(paste("\nrhat:",rhat(x, parm = "all", combine = TRUE),"\n"))
   
   return(invisible(x))

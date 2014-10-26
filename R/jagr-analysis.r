@@ -32,14 +32,14 @@ jagr_analysis <- function (model, data, niters, nworkers) {
   assert_that(is.count(niters) && noNA(niters))
   assert_that(is.count(nworkers) && noNA(nworkers))
   
-  nsims <- opts_jagr("nsims")  
+  nsamples <- opts_jagr("nsamples")  
   
-  niters <- ceiling(max(niters, nsims * 2 / nchains))
+  niters <- ceiling(max(niters, nsamples * 2 / nchains))
   
   n.adapt <- 100
   n.burnin <- as.integer(niters / 2)
-  n.thin <- max(1, floor(nchains * n.burnin / nsims))
-  nsims <- as.integer(niters /2)
+  n.thin <- max(1, floor(nchains * n.burnin / nsamples))
+  nsamples <- as.integer(niters /2)
   
   ptm <- proc.time()
   
@@ -59,7 +59,7 @@ jagr_analysis <- function (model, data, niters, nworkers) {
                                      monitor = monitor(model),
                                      n.adapt = n.adapt, 
                                      n.burnin = n.burnin, n.chain = nchains, 
-                                     n.sim = nsims, n.thin = n.thin, 
+                                     n.sample = nsamples, n.thin = n.thin, 
                                      random = names(random_effects(model)))
   } else {
     i <- NULL
@@ -70,7 +70,7 @@ jagr_analysis <- function (model, data, niters, nworkers) {
                                                monitor = monitor(model),
                                                n.adapt = n.adapt, 
                                                n.burnin = n.burnin, n.chain = length(i),
-                                               n.sim = nsims, n.thin = n.thin, 
+                                               n.sample = nsamples, n.thin = n.thin, 
                                                random = names(random_effects(model)))
                       } 
   }

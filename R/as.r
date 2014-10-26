@@ -25,7 +25,7 @@ as.array.mcarray <- function (x, ...) {
 
   dim <- dim(x)
   dim <- dim[-length(dim)]
-  dim[length(dim)] <- nsims(x)
+  dim[length(dim)] <- nsamples(x)
   dim(x) <- dim
   names(dim) <- NULL
   class(x)<-"array"

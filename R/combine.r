@@ -11,7 +11,7 @@ combine <- function (object, ...) {
   UseMethod("combine", object)
 }
 
-combine.mcarray <- function (object, ..., by = "sims") {
+combine.mcarray <- function (object, ..., by = "samples") {
   
   args <- list(...)
   
@@ -28,15 +28,15 @@ combine.mcarray <- function (object, ..., by = "sims") {
   if(is.na(by))
     stop("by must not be a missing value")
   
-  if(!by %in% c("sims","chains"))
-    stop("by must be 'sims' or 'chains'")
+  if(!by %in% c("samples","chains"))
+    stop("by must be 'samples' or 'chains'")
   
   if(by == "chains") {
     
     if (!inherits (object2, "mcarray"))
       stop ("objects should be class mcarray")
-    if (nsims (object) / nchains(object) != nsims(object2) / nchains(object2))
-      stop ("objects should have the same number of sims")
+    if (nsamples (object) / nchains(object) != nsamples(object2) / nchains(object2))
+      stop ("objects should have the same number of samples")
     
     dimobj <- dim (object)
     dimobject2 <- dim (object2)
@@ -51,7 +51,7 @@ combine.mcarray <- function (object, ..., by = "sims") {
     
     names(dim(object)) <- dnames
     class(object)<-"mcarray"
-  } else if(by == "sims") {
+  } else if(by == "samples") {
     
     if (!inherits (object, "mcarray"))
       stop ("objects should be class mcarray")
@@ -65,7 +65,7 @@ combine.mcarray <- function (object, ..., by = "sims") {
     dnames <- names(dim (object))
     
     if (!identical(dimobj[-(length(dimobj)-1)],dimiter[-(length(dimiter)-1)]))
-      stop ("object and object2 should have the same dimensions (except sims)")
+      stop ("object and object2 should have the same dimensions (except samples)")
     
     class(object)<-"array"
     class(object2)<-"array"
@@ -105,7 +105,7 @@ combine_list <- function (object, ...) {
   eval(parse(text = cmd))
 }
 
-combine.list <- function (object, ..., by = "sims") {
+combine.list <- function (object, ..., by = "samples") {
   
   args <- list(...)
   
@@ -127,9 +127,9 @@ combine.list <- function (object, ..., by = "sims") {
   return (object)
 }
 
-combine_lists_by_sims <- function (object, ...) {
+combine_lists_by_samples <- function (object, ...) {
   assert_that(is.list(object))
-  return (combine(object, ..., by = "sims"))
+  return (combine(object, ..., by = "samples"))
 }
 
 combine.jagr_chains <- function (object, ...) {

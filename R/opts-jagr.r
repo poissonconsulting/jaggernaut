@@ -5,7 +5,7 @@
   mode = "debug",
   nchains = 2,
   nresample = 0,
-  nsims = 100,
+  nsamples = 100,
   parallel = FALSE, 
   quiet = FALSE,
   rhat = 2
@@ -17,7 +17,7 @@
   mode = "explore",
   nchains = 3,
   nresample = 2,
-  nsims = 500,
+  nsamples = 500,
   parallel = FALSE, 
   quiet = FALSE,
   rhat = 1.5
@@ -29,7 +29,7 @@
   mode = "test",
   nchains = 2,
   nresample = 2,
-  nsims = 500,
+  nsamples = 500,
   parallel = FALSE, 
   quiet = TRUE,
   rhat = 1.5
@@ -41,7 +41,7 @@
   mode = "demo",
   nchains = 2,
   nresample = 1,
-  nsims = 500,
+  nsamples = 500,
   parallel = FALSE, 
   quiet = FALSE,
   rhat = 1.1
@@ -53,7 +53,7 @@
   mode = "report",
   nchains = 3,
   nresample = 3,
-  nsims = 1000,
+  nsamples = 1000,
   parallel = FALSE, 
   quiet = FALSE,
   rhat = 1.1
@@ -65,7 +65,7 @@
   mode = "paper",
   nchains = 4,
   nresample = 4,
-  nsims = 2000,
+  nsamples = 2000,
   parallel = FALSE, 
   quiet = FALSE,
   rhat = 1.05
@@ -120,7 +120,7 @@ opts_jagr_set <- .opts_jagr$set
 #' \item{nchains}{the number of MCMC chains (default = 3)}
 #' \item{nresample}{the number of times to resample 
 #' until convergence is achieved (default = 3)}
-#' \item{nsims}{the total number of MCMC samples to thin from the second halves of the MCMC chains (default = 1000)}
+#' \item{nsamples}{the total number of MCMC samples to thin from the second halves of the MCMC chains (default = 1000)}
 #' \item{parallel}{whether in parallel.}
 #' \item{quiet}{whether to suppress messages (default = FALSE)}
 #' \item{rhat}{the R-hat threshold for convergence (default = 1.1)}
@@ -263,8 +263,8 @@ assign_opts_jagr <- function (opts) {
   if (length(opts$nresample) != 1) {
     stop("option nresample must be length 1")
   }  
-  if (length(opts$nsims) != 1) {
-    stop("option nsims must be length 1")
+  if (length(opts$nsamples) != 1) {
+    stop("option nsamples must be length 1")
   }
   assert_that(is.flag(opts$parallel) && noNA(opts$parallel))
   assert_that(is.flag(opts$quiet) && noNA(opts$quiet))
@@ -275,7 +275,7 @@ assign_opts_jagr <- function (opts) {
   
   opts$nchains <- as.integer(opts$nchains)
   opts$nresample <- as.integer(opts$nresample)
-  opts$nsims <- as.integer(opts$nsims)
+  opts$nsamples <- as.integer(opts$nsamples)
   
   if (!(opts$level >= 0.75 && opts$level <= 0.99)) {
     stop("option level must lie between 0.75 and 0.99")
@@ -289,8 +289,8 @@ assign_opts_jagr <- function (opts) {
   if (!opts$nresample %in% 0:4) {
     stop("option nresample must lie between 0 and 4")
   } 
-  if (!(opts$nsims >= 100 &&  opts$nsims <= 6000)) {
-    stop("option nsims must lie between 100 and 6000")
+  if (!(opts$nsamples >= 100 &&  opts$nsamples <= 6000)) {
+    stop("option nsamples must lie between 100 and 6000")
   } 
   
   if (!(opts$rhat >= 1 &&  opts$rhat <= 2))

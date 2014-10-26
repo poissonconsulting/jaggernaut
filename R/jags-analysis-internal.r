@@ -1,6 +1,6 @@
 
 jags_analysis_internal <- function (inits, data, file, monitor, n.chain = 1, 
-                                    n.adapt = 0, n.burnin = 0, n.sim = 1, 
+                                    n.adapt = 0, n.burnin = 0, n.sample = 1, 
                                     n.thin = 1, random = NULL) {
   stopifnot(is.null(monitor) || is.character(monitor))
   stopifnot(is_converted_data(data))
@@ -12,7 +12,7 @@ jags_analysis_internal <- function (inits, data, file, monitor, n.chain = 1,
   
   n.adapt <- as.integer(n.adapt)
   n.burnin <- as.integer(n.burnin)
-  n.sim <- as.integer(n.sim)
+  n.sample <- as.integer(n.sample)
   n.chain <- as.integer(n.chain)
   
   jags.model_jg <- function (..., inits) {
@@ -39,7 +39,7 @@ jags_analysis_internal <- function (inits, data, file, monitor, n.chain = 1,
   monitor <- sort(unique(monitor))
   
   samples <- jags.samples(
-    model = jags, variable.names = monitor, n.iter = n.sim, thin = n.thin
+    model = jags, variable.names = monitor, n.iter = n.sample, thin = n.thin
   )
   
   object <- list()

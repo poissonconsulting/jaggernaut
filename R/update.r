@@ -32,7 +32,7 @@ update_jags <- function (jags, monitor, n.sim, n.thin, recompile) {
 update.jagr_chains <- function (object, niters, nworkers, ...) {
   
   nchains <- nchains(object)
-  n.thin <- max(1, floor(nchains * niters / nsims(object)))
+  n.thin <- max(1, floor(nchains * niters / nsamples(object)))
   
   monitor <- monitor(object)
 

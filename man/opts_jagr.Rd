@@ -46,7 +46,7 @@ Available options are
 \item{nchains}{the number of MCMC chains (default = 3)}
 \item{nresample}{the number of times to resample
 until convergence is achieved (default = 3)}
-\item{nsims}{the total number of MCMC samples to thin from the second halves of the MCMC chains (default = 1000)}
+\item{nsamples}{the total number of MCMC samples to thin from the second halves of the MCMC chains (default = 1000)}
 \item{parallel}{whether in parallel.}
 \item{quiet}{whether to suppress messages (default = FALSE)}
 \item{rhat}{the R-hat threshold for convergence (default = 1.1)}
