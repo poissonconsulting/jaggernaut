@@ -1,4 +1,4 @@
-context("dicrepancies")
+context("discrepancies")
 
 test_that("discrepancies works", {
   
