@@ -10,6 +10,7 @@
 #' 
 #' @param model_code a character element defining the model in the JAGS dialect of 
 #' the BUGS language
+#' @param model_name string of name for model.
 #' @param monitor a character vector of the parameters to monitor or a 
 #' Perl regular expression as a string of the parameters to monitor
 #' @param select_data a character vector of the variables to select from the 
@@ -114,7 +115,8 @@
 #' nmodels(model)
 #' model_code(model)
 #' @export 
-jags_model <- function (model_code, 
+jags_model <- function (model_code,
+                        model_name = NULL,                        
                         monitor = "^([^dei]|.[^A-Z])", 
                         select_data = NULL, 
                         modify_data = NULL, 
@@ -125,9 +127,11 @@ jags_model <- function (model_code,
                         select_data_derived = NULL,
                         modify_data_derived = NULL,
                         select_data_aggregation = NULL,
-                        modify_data_aggregation = NULL) { 
+                        modify_data_aggregation = NULL
+                        ) { 
   
   model <- jagr_model(model_code = model_code, 
+                      model_name = model_name,                      
                       monitor = monitor, 
                       select_data = select_data,
                       modify_data = modify_data,
@@ -138,7 +142,8 @@ jags_model <- function (model_code,
                       select_data_derived = select_data_derived,
                       modify_data_derived = modify_data_derived,
                       select_data_aggregation = select_data_aggregation,
-                      modify_data_aggregation = modify_data_aggregation)
+                      modify_data_aggregation = modify_data_aggregation
+                      )
   
   object <- list(models = list(model))
   

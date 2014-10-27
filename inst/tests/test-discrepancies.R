@@ -29,7 +29,7 @@ select_data = c("Volume","Girth")
   
   data <- trees
   
-  analysis <- jags_analysis(models, data = data, mode = "test")
+  analysis <- jags_analysis(models, data = data, niters = 10^2, mode = "test")
   
   discrepancies <- jags_discrepancies(analysis)
   coef <- coef(discrepancies)
