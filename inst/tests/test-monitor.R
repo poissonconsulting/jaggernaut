@@ -35,8 +35,8 @@ select_data = c("Volume","Girth")
   
   analysis <- jags_analysis(models, data = data, mode = "test")
   
-  expect_that(is.null(monitor(model1)), is_true())
-  expect_that(is.null(monitor(model2)), is_true())
+  expect_equal(monitor(model1), "^([^dei]|.[^A-Z])")
+  expect_equal(monitor(model2), "^([^dei]|.[^A-Z])")
   expect_that(monitor(models), is_a("list"))
   expect_that(monitor(analysis), is_a("list"))
   expect_that(length(monitor(analysis)), is_equivalent_to(2))

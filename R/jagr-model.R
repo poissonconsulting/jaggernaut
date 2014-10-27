@@ -1,6 +1,5 @@
-
 jagr_model <- function (model_code, 
-                        monitor = NULL, 
+                        monitor, 
                         select_data = NULL, 
                         modify_data = NULL, 
                         gen_inits = NULL, 

@@ -17,7 +17,7 @@ test_that("jags_model returns object of correct class", {
   expect_that(names(model_code(model)), equals(NULL))
   expect_that(length(model_code(model)), is_equivalent_to(1))
   
-  expect_that(monitor(model), equals(NULL))
+  expect_equal(monitor(model), "^([^dei]|.[^A-Z])")
   expect_that(select_data(model), equals(NULL))
   expect_that(modify_data(model), equals(NULL))
   expect_that(gen_inits(model), equals(NULL))

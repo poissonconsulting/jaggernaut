@@ -3,7 +3,7 @@
 \alias{jags_model}
 \title{Create a JAGS model}
 \usage{
-jags_model(model_code, monitor = NULL, select_data = NULL,
+jags_model(model_code, monitor = "^([^dei]|.[^A-Z])", select_data = NULL,
   modify_data = NULL, gen_inits = NULL, derived_code = NULL,
   aggregation_code = NULL, random_effects = NULL,
   select_data_derived = NULL, modify_data_derived = NULL,
@@ -13,7 +13,8 @@ jags_model(model_code, monitor = NULL, select_data = NULL,
 \item{model_code}{a character element defining the model in the JAGS dialect of
 the BUGS language}
 
-\item{monitor}{a character vector of the parameters to monitor}
+\item{monitor}{a character vector of the parameters to monitor or a
+Perl regular expression as a string of the parameters to monitor}
 
 \item{select_data}{a character vector of the variables to select from the
 data set being analysed (can also specify variables to transform and/or centre)}

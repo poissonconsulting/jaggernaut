@@ -55,7 +55,7 @@ discrepancies <- function (object) {
   parameters <- object$parameter[duplicated(object$parameter)]
   parameters <- parameters[!duplicated(parameters)]
   
-  if(is.empty(parameters))
+  if(!not_empty(parameters))
     stop("object does not contain any paired aggregative parameters")
   
   object <- object[object$parameter %in% parameters,]
@@ -139,7 +139,7 @@ jags_discrepancies <- function (object, model_number = 1, aggregation_code = NUL
   parameters <- gsub("[[](1|2)[]]", "", parameters)
   parameters <- parameters[duplicated(parameters)]
   
-  if(is.empty(parameters))
+  if(!not_empty(parameters))
     stop("aggregation code does not contain any paired aggregative parameters")
   
   data <- dataset(object)

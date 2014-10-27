@@ -1,15 +1,14 @@
-
 analysis_internal <- function (inits, data, file, monitor, n.chain = 1, 
                                     n.adapt = 0, n.burnin = 0, n.sample = 1, 
                                     n.thin = 1, random = NULL) {
-  stopifnot(is.null(monitor) || is.character(monitor))
+  
+  stopifnot(is.character(monitor) && not_empty(monitor))
   stopifnot(is_converted_data(data))
   
   assert_that(is.count(n.chain) && noNA(n.chain))
   assert_that(is.null(inits) || is.list(inits))
   assert_that(is.null(inits) || length(inits) == n.chain)
 
-  
   n.adapt <- as.integer(n.adapt)
   n.burnin <- as.integer(n.burnin)
   n.sample <- as.integer(n.sample)
@@ -29,14 +28,15 @@ analysis_internal <- function (inits, data, file, monitor, n.chain = 1,
   if (n.burnin > 0) 
     update(jags, n.iter = n.burnin)
   
-  if(is.null(monitor)) {
-    monitor <- variable.names(jags)
-    monitor <- monitor[!monitor %in% names(data)]
-    bol <- substr(monitor,1,1) %in% c('d','e','i')
-    bol <- bol & substr(monitor,2,2) == toupper(substr(monitor,2,2))
-    monitor <- monitor[!bol]
-  }
-  monitor <- sort(unique(monitor))
+  vars <- variable.names(jags)
+  vars <- vars[!vars %in% names(data)]
+  
+  if(is.string(monitor)) {
+    vars <- vars[grepl(monitor, vars, perl = TRUE)]
+  } else
+    vars <- vars[vars %in% monitor]
+  
+  monitor <- sort(unique(vars))
   
   samples <- jags.samples(
     model = jags, variable.names = monitor, n.iter = n.sample, thin = n.thin

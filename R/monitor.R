@@ -29,16 +29,16 @@ monitor <- function (object, ...) {
 }
 
 monitor.jagr_chains <- function (object, ...) {
-  return (names(samples(object)))
+  names(samples(object))
 }
 
 monitor.jagr_model <- function (object, ...) {
-  return (object$monitor)
+  object$monitor
 }
 
 monitor_jagr_model <- function (object, ...) {
   stopifnot(is.jagr_model(object))
-  return (monitor(object, ...))
+  monitor(object, ...)
 }
 
 #' @method monitor jags_model
@@ -49,37 +49,26 @@ monitor.jags_model <- function (object, ...) {
   
   models <- models(object)
   models <- lapply(models, monitor_jagr_model, ...)
-  models <- name_object(models, "Model")
-  return (models)   
+  name_object(models, "Model")
 }
 
 monitor.jagr_analysis <- function (object, ...) {
-  return (monitor(as.jagr_chains(object), ...))
+  monitor(as.jagr_chains(object), ...)
 }
 
 #' @method monitor jags_analysis
 #' @export
 monitor.jags_analysis <- function (object, ...) {
-  return (monitor(as.jags_model(object), ...))
+  monitor(as.jags_model(object), ...)
 }
 
 "monitor<-.jagr_model" <- function (object, value) {
   
-  if(!is.null(value))
-    value <- sort(unique(value))
+  assert_that(is.character(value) && not_empty(value))
+    
+  object$monitor <- sort(unique(value))
   
-  if (!is.null(value)) {
-    if (!is.character(value)) {
-      stop ("monitor must be NULL or class character")
-    }
-    if (!length(value)) {
-      stop ("monitor must be NULL or define at least one parameter to monitor")
-    } 
-  }
-  
-  object$monitor <- value
-  
-  return (object)
+  object
 }
 
 #' @method monitor<- jags_model
@@ -102,9 +91,5 @@ monitor.jags_analysis <- function (object, ...) {
   }
   
   models(object) <- models
-  return (object)
-}
-
-"monitor<-.jagr_analysis" <- function (object, value) {
-  stop()
+  object
 }
