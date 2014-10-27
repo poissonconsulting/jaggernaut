@@ -1,4 +1,3 @@
-
 models <- function (object, ...) {
   UseMethod("models", object)
 }
@@ -8,9 +7,7 @@ models <- function (object, ...) {
 }
 
 models.jags_model <- function (object, ...) {
-  models <- object$models
-  models <- name_object(models, "Model")
-  return (models)
+  object$models
 }
 
 "models<-.jags_model" <- function (object, value) {
@@ -18,5 +15,5 @@ models.jags_model <- function (object, ...) {
   stopifnot(all(unlist(lapply(value, is.jagr_model))))
   
   object$models <- value
-  return (object)
+  rename_models(object)
 }

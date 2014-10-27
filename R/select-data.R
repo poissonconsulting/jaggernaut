@@ -43,10 +43,7 @@ select_data.jags_model <- function (object, ...) {
   if(is_one_model(object))
     return (select_data(model(object, ...)))
   
-  models <- models(object)
-  models <- lapply(models, select_data_jagr_model, ...)
-  models <- name_object(models, "Model")
-  return (models)   
+  lapply(models(object), select_data_jagr_model, ...)
 }
 
 select_data.jagr_analysis <- function (object, ...) {

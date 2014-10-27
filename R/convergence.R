@@ -77,13 +77,10 @@ convergence.jags_analysis <- function (object, parm = "all", combine = TRUE, ...
                  parm = parm, 
                  combine = combine, ...))
   
-  analyses <- analyses(object)
-  analyses <- lapply(analyses, 
+  lapply(analyses(object), 
                      convergence_jagr_analysis, 
                      parm = parm, 
                      combine = combine, ...)  
-  analyses <- name_object(analyses, "model")
-  return (analyses) 
 }
 
 #' @method convergence jags_sample

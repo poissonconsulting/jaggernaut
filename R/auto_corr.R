@@ -55,13 +55,7 @@ auto_corr.jags_analysis <- function (object, parm = "all", lags = c(0, 1, 5, 10,
                      lags = lags,
                      ...))
   }
-  analyses <- analyses(object)
-  analyses <- lapply(analyses, 
-                     auto_corr_jagr_analysis, 
-                     parm = parm, 
-                     lags = lags,
-                     ...)  
-  name_object(analyses, "model")
+  lapply(analyses(object), auto_corr_jagr_analysis, parm = parm, lags = lags, ...)  
 }
 
 #' @method auto_corr jags_sample

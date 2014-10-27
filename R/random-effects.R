@@ -44,10 +44,7 @@ random_effects.jags_model <- function (object, ...) {
   if(is_one_model(object))
     return (random_effects(model(object), ...))
   
-  models <- models(object)
-  models <- lapply(models, random_effects_jagr_model, ...)
-  models <- name_object(models, "Model")
-  return (models) 
+  lapply(models(object), random_effects_jagr_model, ...)
 }
 
 #' @method random_effects jags_analysis

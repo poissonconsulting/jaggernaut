@@ -116,7 +116,7 @@
 #' model_code(model)
 #' @export 
 jags_model <- function (model_code,
-                        model_name = NULL,                        
+                        model_name = NA,                        
                         monitor = "^([^dei]|.[^A-Z])", 
                         select_data = NULL, 
                         modify_data = NULL, 
@@ -148,6 +148,6 @@ jags_model <- function (model_code,
   object <- list(models = list(model))
   
   class(object) <- "jags_model"
-
-  return (object)
+  
+  rename_models(object)
 }

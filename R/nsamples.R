@@ -46,10 +46,7 @@ nsamples.jags_analysis <- function (object) {
   if(is_one_model(object))
     return (nsamples(analysis(object)))
   
-  analyses <- analyses(object)
-  analyses <- lapply(analyses, nsamples_jagr_analysis)
-  analyses <- name_object(analyses, "Model")
-  return (analyses)  
+  lapply(analyses(object), nsamples_jagr_analysis)
 }
 
 nsamples_jags_analysis <- function (object) {

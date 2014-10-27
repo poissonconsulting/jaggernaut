@@ -46,10 +46,7 @@ aggregation_code.jags_model <- function (object, ...) {
   if(is_one_model(object))
     return (aggregation_code(model(object), ...))
   
-  models <- models(object)
-  models <- lapply(models, aggregation_code_jagr_model, ...)
-  models <- name_object(models, "Model")
-  return (models) 
+  lapply(models(object), aggregation_code_jagr_model, ...)
 }
 
 #' @method aggregation_code jags_analysis

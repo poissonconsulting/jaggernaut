@@ -1,4 +1,3 @@
-
 analyses <- function (object) {
   UseMethod("analyses", object)
 }
@@ -8,9 +7,7 @@ analyses <- function (object) {
 }
 
 analyses.jags_analysis <- function (object) {
-  analyses <- object$analyses
-  analyses <- name_object(analyses, "analysis")
-  return (analyses)
+  object$analyses
 }
 
 "analyses<-.jags_analysis" <- function (object, value) {
@@ -18,6 +15,5 @@ analyses.jags_analysis <- function (object) {
   stopifnot(all(unlist(lapply(value, is.jagr_analysis))))
   
   object$analyses <- value
-  
-  return (object)
+  rename_analyses(object)
 }

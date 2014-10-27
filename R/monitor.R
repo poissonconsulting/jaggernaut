@@ -47,9 +47,7 @@ monitor.jags_model <- function (object, ...) {
   if(is_one_model(object))
     return (monitor(model(object), ...))
   
-  models <- models(object)
-  models <- lapply(models, monitor_jagr_model, ...)
-  name_object(models, "Model")
+  lapply(models(object), monitor_jagr_model, ...)
 }
 
 monitor.jagr_analysis <- function (object, ...) {

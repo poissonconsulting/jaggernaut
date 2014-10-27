@@ -22,12 +22,29 @@ test_that("model_name updates simple model", {
 
   model_name(model) <- mname2
   expect_equal(model_name(model), mname2)
+  expect_equal(model_name(model, reference = TRUE), mname2)
+  
   
   analysis <- jags_analysis (model, data, mode = "test") 
   expect_equal(model_name(analysis), mname2)
+  expect_equal(model_name(analysis, reference = TRUE), mname2)
+  
+  model_name(model) <- NA
+  expect_true(is.na(model_name(model)))
+  expect_equal(model_name(model, reference = TRUE), "Model1")
+  
+  analysis <- jags_analysis (model, data, mode = "test") 
+  expect_true(is.na(model_name(analysis)))
+  expect_equal(model_name(analysis, reference = TRUE), "Model1")
+  
+  expect_error(model_name(model) <- NULL)  
+  expect_error(model_name(analysis) <- NA)  
+  expect_error(model_name(analysis) <- NULL)
+  expect_error(model_name(analysis) <- "xx")
+  expect_error(model_name(model) <- c("xx","x"))
 })
 
-test_that("analysis updates glm - two model", {
+test_that("four models", {
   
   model1 <- jags_model("
                        model {
@@ -62,12 +79,40 @@ model2 <- jags_model("
 select_data = c("C","Year*")
 )
 
+model3 <- jags_model("
+                     model {
+                     alpha ~ dunif(-20, 20)
+                     beta1 ~ dunif(-10, 10)
+                     
+                     for (i in 1:length(Year)) {
+                     log(eC[i]) <- alpha + beta1 * Year[i] 
+                     C[i] ~ dpois(eC[i])
+                     }
+                     }",
+                     model_name = "md22",                     
+                     select_data = c("C","Year*")
+)
+
+model4 <- jags_model("
+                     model {
+                     alpha ~ dunif(-20, 20)
+                     
+                     for (i in 1:length(Year)) {
+                     log(eC[i]) <- alpha
+                     C[i] ~ dpois(eC[i])
+                     }
+                     }",
+                     select_data = c("C")
+)
+
 data(peregrine)
 data <- peregrine
 
 data$C <- data$Pairs
 
-models <- combine(model1, model2)
+models <- combine(model1, model2, model3, model4)
+
+model_name(models)
 
 analysis <- jags_analysis (combine(model1, model2), data, mode = "test")
 

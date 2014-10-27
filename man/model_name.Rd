@@ -3,10 +3,13 @@
 \alias{model_name}
 \title{Get model name}
 \usage{
-model_name(object, ...)
+model_name(object, reference = FALSE, ...)
 }
 \arguments{
 \item{object}{a JAGS object.}
+
+\item{reference}{flag indicating whether to return the assigned unique reference
+names or the original names (the default)}
 
 \item{...}{further arguments passed to or from other methods.}
 }

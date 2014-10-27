@@ -46,18 +46,17 @@ dataset.jags_sample <- function (object, ...) {
 #' @export
 dataset.jags_analysis <- function (object, converted = FALSE, ...) {
   assert_that(is.flag(converted) && noNA(converted))
-  
-  data <- object$data
-  
+    
   if(!converted)
-    return (data)
-  
+    return (object$data)
+    
   data_list <- list()
   
-  for(i in 1:length(object$analyses)) {
-    model <- object$analyses[[i]]
+  analyses <- analyses(object)
+  for(i in 1:nanalyses(object)) {
+    model <- analyses[[i]]
     
-    data <- translate_data(select_data(model), data) 
+    data <- translate_data(select_data(model), object$data) 
     
     if (is.function(modify_data(model))) 
       data <- modify_data(model)(data)
@@ -68,9 +67,9 @@ dataset.jags_analysis <- function (object, converted = FALSE, ...) {
   if(length(data_list) == 1)
     return (data_list[[1]])
 
-  models <- name_object(models, "Model")
+  names(data_list) <- model_names(object, reference = TRUE)
   
-  return (data_list)
+  data_list
 }
 
 #' @title Convert jags_discrepancies object to a data.frame

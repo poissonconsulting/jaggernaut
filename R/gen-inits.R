@@ -44,10 +44,7 @@ gen_inits.jags_model <- function (object, ...) {
   if(is_one_model(object))
     return (gen_inits(model(object), ...))
   
-  models <- models(object)
-  models <- lapply(models, gen_inits_jagr_model, ...)
-  models <- name_object(models, "Model")
-  return (models)  
+  lapply(models(object), gen_inits_jagr_model, ...)
 }
 
 #' @method gen_inits jags_analysis

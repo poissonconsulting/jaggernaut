@@ -43,10 +43,7 @@ select_data_derived.jags_model <- function (object, ...) {
   if(is_one_model(object))
     return (select_data_derived(model(object), ...))
   
-  models <- models(object)
-  models <- lapply(models, select_data_derived_jagr_model, ...)
-  models <- name_object(models, "Model")
-  return (models) 
+  lapply(models(object), select_data_derived_jagr_model, ...)
 }
 
 #' @method select_data_derived jags_analysis

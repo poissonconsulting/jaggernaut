@@ -240,12 +240,9 @@ coef.jags_analysis <- function (object, parm = "fixed", level = "current",
                  as_list = as_list, ...))
   }
   
-  analyses <- analyses(object)
-  analyses <- lapply(analyses, coef_jagr_analysis, 
+  lapply(analyses(object), coef_jagr_analysis, 
                      parm = parm, level = level, estimate = estimate,
                      as_list = as_list, ...)
-  analyses <- name_object(analyses, "Model")
-  return (analyses) 
 }
 
 #' @method coef jags_discrepancies

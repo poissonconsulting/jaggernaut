@@ -31,10 +31,7 @@ niters.jags_analysis <- function (object) {
   if(is_one_model(object))
     return (niters(analysis(object)))
   
-  analyses <- analyses(object)
-  analyses <- lapply(analyses, niters_jagr_analysis)
-  analyses <- name_object(analyses, "Model")
-  return (analyses)
+  lapply(analyses(object), niters_jagr_analysis)
 }
 
 niters_jags_analysis <- function (object) {

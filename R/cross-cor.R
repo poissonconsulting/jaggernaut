@@ -45,16 +45,9 @@ cross_corr_jagr_analysis <- function (object, parm, ...) {
 cross_corr.jags_analysis <- function (object, parm = "all", ...) {
   
   if(is_one_model(object)) {
-    return (cross_corr(analysis(object), 
-                      parm = parm,
-                      ...))
+    return (cross_corr(analysis(object), parm = parm, ...))
   }
-  analyses <- analyses(object)
-  analyses <- lapply(analyses, 
-                     cross_corr_jagr_analysis, 
-                     parm = parm, 
-                     ...)  
-  name_object(analyses, "model")
+  lapply(analyses(object), cross_corr_jagr_analysis, parm = parm, ...)  
 }
 
 #' @method cross_corr jags_sample

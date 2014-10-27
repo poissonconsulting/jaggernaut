@@ -44,10 +44,7 @@ modify_data.jags_model <- function (object, ...) {
   if(is_one_model(object))
     return (modify_data(model(object), ...))
   
-  models <- models(object)
-  models <- lapply(models, modify_data_jagr_model, ...)
-  models <- name_object(models, "Model")
-  return (models)   
+  lapply(models(object), modify_data_jagr_model, ...)
 }
 
 modify_data.jagr_analysis <- function (object, ...) {
@@ -101,9 +98,5 @@ modify_data.jags_analysis <- function (object, ...) {
       modify_data(models[[i]]) <- value[[i]]
   }
   models(object) <- models
-  return (object)
-}
-
-"modify_data<-.jagr_analysis" <- function (object, value) {
-  stop()
+  object
 }

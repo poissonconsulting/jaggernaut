@@ -1,4 +1,3 @@
-
 #' @title Get model code
 #'
 #' @description
@@ -30,12 +29,12 @@ model_code <- function (object, ...) {
 }
 
 model_code.jagr_model <- function (object, ...) {
-  return (object$model_code)
+  object$model_code
 }
 
 model_code_jagr_model <- function (object, ...) {
   stopifnot(is.jagr_model(object))
-  return (model_code(object, ...))
+  model_code(object, ...)
 }
 
 #' @method model_code jags_model
@@ -45,36 +44,18 @@ model_code.jags_model <- function (object, ...) {
   if(is_one_model(object))
     return (model_code(model(object), ...))
   
-  models <- models(object)
-  models <- lapply(models, model_code_jagr_model, ...)
-  models <- name_object(models, "Model")
-  return (models)  
-}
-
-model_code.jagr_analysis <- function (object) {
-  return (model_code(as.jagr_model(object)))
-}
-
-model_code_jagr_analysis <- function (object) {
-  stopifnot(is.jagr_analysis(object))
-  return (model_code(object))
+  lapply(models(object), model_code_jagr_model, ...) 
 }
 
 #' @method model_code jags_analysis
 #' @export
 model_code.jags_analysis <- function (object, ...) {
-  return (model_code(as.jags_model(object), ...))
+  model_code(as.jags_model(object), ...)
 }
 
 "model_code<-.jagr_model" <- function (object, value) {
   
-  if (is.character (value)) {
-    if (length(value) != 1) {
-      stop ("model_code must define a single model - for multiple models use combine to add multiple jags_models")
-    }
-  } else {
-    stop ("model_code must be class character")
-  }
+  assert_that(jg_check(value))
   
   object$model_code <- value
   
@@ -101,9 +82,5 @@ model_code.jags_analysis <- function (object, ...) {
   }
   
   models(object) <- models
-  return (object)
-}
-
-"model_code<-.jagr_analysis" <- function (object, value) {
-  stop()
+  object
 }

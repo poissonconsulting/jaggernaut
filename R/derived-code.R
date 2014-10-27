@@ -46,10 +46,7 @@ derived_code.jags_model <- function (object, ...) {
   if(is_one_model(object))
     return (derived_code(model(object), ...))
   
-  models <- models(object)
-  models <- lapply(models, derived_code_jagr_model, ...)
-  models <- name_object(models, "Model")
-  return (models) 
+  lapply(models(object), derived_code_jagr_model, ...)
 }
   
 #' @method derived_code jags_analysis

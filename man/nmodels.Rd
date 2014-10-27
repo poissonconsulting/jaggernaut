@@ -4,10 +4,12 @@
 \alias{nmodels}
 \title{Number of models in a JAGS object}
 \usage{
-nmodels(object)
+nmodels(object, ...)
 }
 \arguments{
 \item{object}{a JAGS object}
+
+\item{...}{further arguments passed to or from other methods.}
 }
 \value{
 an integer element indicating the number of models in object
