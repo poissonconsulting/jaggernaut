@@ -3,9 +3,9 @@
 \alias{fitted.jags_analysis}
 \title{JAGS analysis fitted values}
 \usage{
-\method{fitted}{jags_analysis}(object, parm = "prediction",
-  model_number = 1, derived_code = NULL, random_effects = NULL,
-  level = "current", estimate = "current", data = NULL, ...)
+\method{fitted}{jags_analysis}(object, parm = "prediction", model = 1,
+  derived_code = NULL, random_effects = NULL, level = "current",
+  estimate = "current", data = NULL, ...)
 }
 \arguments{
 \item{object}{a jags_analysis object.}
@@ -13,7 +13,7 @@
 \item{parm}{a character scalar naming the derived parameter for which
 the estimates should be calculated (default = "prediction").}
 
-\item{model_number}{a count or string specifying the jags model to select.}
+\item{model}{a count or string specifying the jags model to select.}
 
 \item{derived_code}{a character scalar defining a block in the
 JAGS dialect of  the BUGS language that defines one or more derived

@@ -115,7 +115,7 @@ test_that("jags_model returns object of correct class", {
   expect_true(identical(select_data_aggregation(model3), select_data_aggregation(model)))
   expect_true(identical(select_data_derived(model3), select_data_derived(model)))
   
-  model <- subset(model,model_number = 2)
+  model <- subset(model,model = 2)
   expect_that(model, is_a("jags_model"))
   expect_equal(nmodels(model), 1)
   
@@ -132,7 +132,7 @@ test_that("jags_model returns object of correct class", {
   
   expect_that(model(model), is_a("jagr_model"))
   
-  model <- subset(model, model_number = c(1,1))
+  model <- subset(model, model = c(1,1))
   expect_that(model, is_a("jags_model"))
   expect_equal(nmodels(model), 2)  
   

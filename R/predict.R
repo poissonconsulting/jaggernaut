@@ -19,7 +19,7 @@
 #' @param values NULL or a data frame with a single row that defines the value 
 #' of particular variables. The variables in the arguments newdata and base are
 #' replaced by the corresponding values.
-#' @param model_number a count or string specifying the jags model to select. 
+#' @param model a count or string specifying the jags model to select. 
 #' @param select_data_derived a character vector of the variables to select from the 
 #' data set being analysed (can also specify variables to transform and/or centre)
 #' @param modify_data_derived a function to modify the derived data set 
@@ -65,7 +65,7 @@
 #' @export 
 predict.jags_analysis <- function (object, newdata = NULL, 
                                    parm = "prediction", base = FALSE, 
-                                   values = NULL, model_number = 1,
+                                   values = NULL, model = 1,
                                    modify_data_derived = NULL,
                                    derived_code = NULL, random_effects = NULL, 
                                    select_data_derived = NULL,
@@ -85,8 +85,8 @@ predict.jags_analysis <- function (object, newdata = NULL,
   if(!is_null(values) && !(is_convertible_data_frame(values) && nrow(values) == 1))
     stop("values must be NULL or a data.frame with a single row of data")
 
-  if(!is_integer_scalar(model_number) && !is_bounded(model_number,1))
-    stop("model_number must be an integer scalar of 1 or greater")
+  if(!is_integer_scalar(model) && !is_bounded(model,1))
+    stop("model must be an integer scalar of 1 or greater")
 
   if(!is_null(modify_data_derived) && !is_function(modify_data_derived))
     stop("modify_data_derived must be NULL or a function")
@@ -145,7 +145,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
   if(!opts_jagr("parallel"))
     nworkers <- 1
   
-  object <- subset(object, model_number = model_number)
+  object <- subset(object, model = model)
 
   if(!is_null(select_data_derived))
     select_data_derived(object) <- select_data_derived

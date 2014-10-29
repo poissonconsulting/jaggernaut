@@ -3,13 +3,13 @@
 \alias{aggregate.jags_analysis}
 \title{Aggregate jags_analysis iterations}
 \usage{
-\method{aggregate}{jags_analysis}(x, model_number = 1, data = dataset(x),
+\method{aggregate}{jags_analysis}(x, model = 1, data = dataset(x),
   aggregation_code = aggregation_code(x), ...)
 }
 \arguments{
 \item{x}{jags_analysis}
 
-\item{model_number}{a count or string specifying the jags model to select.}
+\item{model}{a count or string specifying the jags model to select.}
 
 \item{data}{data.frame to aggregate over}
 

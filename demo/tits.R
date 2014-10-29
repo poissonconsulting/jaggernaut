@@ -236,7 +236,7 @@ gp <- gp + expand_limits(y = 0)
 
 print(gp)
 
-prediction <- predict(analysis, newdata = "site", model_number = 2)
+prediction <- predict(analysis, newdata = "site", model = 2)
 
 gp <- gp %+% prediction
 

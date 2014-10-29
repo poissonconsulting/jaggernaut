@@ -76,7 +76,7 @@ discrepancies <- function (object) {
 #' coef or extract data frame using dataset for own plotting. 
 #' 
 #' @param object jags_analysis
-#' @param model_number a count or string specifying the jags model to select.
+#' @param model a count or string specifying the jags model to select.
 #' @param aggregation_code string of JAGS model code defining paired
 #' posterior predictive checking aggregation parameters
 #' parameters
@@ -119,11 +119,11 @@ discrepancies <- function (object) {
 #'  plot(discrepancies)
 #'  }
 #' @export
-jags_discrepancies <- function (object, model_number = 1, aggregation_code = NULL) {
+jags_discrepancies <- function (object, model = 1, aggregation_code = NULL) {
   
   assert_that(is.jags_analysis(object))
 
-  object <- subset(object, model_number = model_number)
+  object <- subset(object, model = model)
   
   if(!is.null(aggregation_code)) {
     aggregation_code(object) <- aggregation_code

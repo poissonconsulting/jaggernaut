@@ -3,12 +3,12 @@
 \alias{plot.jags_analysis}
 \title{Plot a JAGS analysis}
 \usage{
-\method{plot}{jags_analysis}(x, model_number = 1, parm = "fixed", ...)
+\method{plot}{jags_analysis}(x, model = 1, parm = "fixed", ...)
 }
 \arguments{
 \item{x}{a jags_analysis object}
 
-\item{model_number}{a count or string specifying the jags model to select.}
+\item{model}{a count or string specifying the jags model to select.}
 
 \item{parm}{a character vector of the parameters to plot.}
 

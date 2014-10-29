@@ -1,4 +1,3 @@
-
 #' @title Residuals
 #'
 #' @description
@@ -8,7 +7,7 @@
 #' @param object a jags_analysis object.
 #' @param parm a character element naming the derived parameter for which 
 #' the estimates should be calculated by default = "residual"
-#' @param model_number a count or string specifying the jags model to select.  
+#' @param model a count or string specifying the jags model to select.  
 #' @param derived_code a character element defining a block in the JAGS dialect of 
 #' the BUGS language that defines one or more derived parameters for each row of data. 
 #' If NULL derived_code is as defined by the JAGS model for which the JAGS analysis was performed. 
@@ -27,7 +26,7 @@
 #' @seealso \code{\link{jags_model}} and \code{\link{jags_analysis}}
 #' @method residuals jags_analysis
 #' @export 
-residuals.jags_analysis <- function (object, parm = "residual", model_number = 1, 
+residuals.jags_analysis <- function (object, parm = "residual", model = 1, 
                                      derived_code = NULL, random_effects = NULL, 
                                      level = "current", estimate = "current",
                                      data = NULL, ...) {
@@ -49,7 +48,7 @@ residuals.jags_analysis <- function (object, parm = "residual", model_number = 1
       stop("as original dataset is a data list data must be NULL or a data list")
   }
   
-  return (predict(object, newdata = data, parm = parm, model = model_number, 
+  return (predict(object, newdata = data, parm = parm, model = model, 
                   derived_code = derived_code, random_effects = random_effects, 
                   level = level, estimate = estimate, ...))
 }

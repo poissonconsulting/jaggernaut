@@ -63,39 +63,38 @@ subset.jagr_chains <- function (x, sample = NULL, chain = NULL) {
   
   return (x)
 }
-
 #' @title Subset a JAGS model
 #'
 #' @description
 #' Subset a JAGS model x.  
 #' 
 #' @param x a jags_model x.
-#' @param model_number an integer or character vector specifying the jags models to select. 
+#' @param model an integer or character vector specifying the jags models to select. 
 #' @param ... other arguments passed to generic function.
 #' @return the subsetted jags_analysis x
 #' @seealso \code{\link{subset}} and \code{\link{jags_analysis}}
 #' @method subset jags_model
 #' @export 
-subset.jags_model <- function (x, model_number, ...) {   
+subset.jags_model <- function (x, model, ...) {   
   
-  if (!is.numeric(model_number)) 
-    stop("model_number must be an integer vector")
+  if (!is.numeric(model)) 
+    stop("model must be an integer vector")
   
-  model_number <- na.omit(model_number)
+  model <- na.omit(model)
   
-  if (length(model_number) == 0)
-    stop("model_number must have at least one non-missing value")
+  if (length(model) == 0)
+    stop("model must have at least one non-missing value")
   
-  model_number <- as.integer(model_number)
+  model <- as.integer(model)
   
-  if (max(model_number) > nmodels(x))
+  if (max(model) > nmodels(x))
     stop("model must be less than the number of models in x")  
   
-  if (min(model_number) < 1)
+  if (min(model) < 1)
     stop("model must be positive")  
   
   models <- models(x)
-  models <- models[model_number] 
+  models <- models[model] 
   models(x) <- models
   
   return (x)
@@ -107,36 +106,36 @@ subset.jags_model <- function (x, model_number, ...) {
 #' Subset a JAGS analysis x.  
 #' 
 #' @param x a jags_analysis x.
-#' @param model_number an integer or character vector specifying the jags models to select. 
+#' @param model an integer or character vector specifying the jags models to select. 
 #' @param ... other arguments passed to generic function.
 #' @return the subsetted jags_analysis x
 #' @seealso \code{\link{subset}} and \code{\link{jags_analysis}} 
 #' @method subset jags_analysis
 #' @export 
-subset.jags_analysis <- function (x, model_number = NULL, ...) {   
+subset.jags_analysis <- function (x, model = NULL, ...) {   
   
-  if(is.null(model_number))
+  if(is.null(model))
     return (x)
   
-  if (is.numeric(model_number)) {
-    if (length(model_number) != 1) {
-      stop("model_number must be a single value")
+  if (is.numeric(model)) {
+    if (length(model) != 1) {
+      stop("model must be a single value")
     }
-    if (model_number < 1 || model_number > nmodels(x)) {
-      stop(paste("model_number must lie between 1 and the number of models (in this case",nmodels(x),")"))
+    if (model < 1 || model > nmodels(x)) {
+      stop(paste("model must lie between 1 and the number of models (in this case",nmodels(x),")"))
     }
   } else {
-    stop ("model_number must be an integer")
+    stop ("model must be an integer")
   }
   
-  model_number <- as.integer(model_number)
+  model <- as.integer(model)
   
   if (nmodels(x) == 1)
     return (x)
     
   analyses <- analyses(x)
   
-  analyses(x) <- analyses[model_number]
+  analyses(x) <- analyses[model]
   
   return (x)
 }

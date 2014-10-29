@@ -3,9 +3,9 @@
 \alias{residuals.jags_analysis}
 \title{Residuals}
 \usage{
-\method{residuals}{jags_analysis}(object, parm = "residual",
-  model_number = 1, derived_code = NULL, random_effects = NULL,
-  level = "current", estimate = "current", data = NULL, ...)
+\method{residuals}{jags_analysis}(object, parm = "residual", model = 1,
+  derived_code = NULL, random_effects = NULL, level = "current",
+  estimate = "current", data = NULL, ...)
 }
 \arguments{
 \item{object}{a jags_analysis object.}
@@ -13,7 +13,7 @@
 \item{parm}{a character element naming the derived parameter for which
 the estimates should be calculated by default = "residual"}
 
-\item{model_number}{a count or string specifying the jags model to select.}
+\item{model}{a count or string specifying the jags model to select.}
 
 \item{derived_code}{a character element defining a block in the JAGS dialect of
 the BUGS language that defines one or more derived parameters for each row of data.

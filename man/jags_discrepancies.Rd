@@ -3,12 +3,12 @@
 \alias{jags_discrepancies}
 \title{JAGS analysis discrepancies}
 \usage{
-jags_discrepancies(object, model_number = 1, aggregation_code = NULL)
+jags_discrepancies(object, model = 1, aggregation_code = NULL)
 }
 \arguments{
 \item{object}{jags_analysis}
 
-\item{model_number}{a count or string specifying the jags model to select.}
+\item{model}{a count or string specifying the jags model to select.}
 
 \item{aggregation_code}{string of JAGS model code defining paired
 posterior predictive checking aggregation parameters
