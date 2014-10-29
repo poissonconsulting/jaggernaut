@@ -104,7 +104,7 @@ subset.jags_model <- function (x, model = 1:nmodels(x), ...) {
 #' @seealso \code{\link{subset}} and \code{\link{jags_analysis}} 
 #' @method subset jags_analysis
 #' @export 
-subset.jags_analysis <- function (x, model = 1:nmodel(x), ...) {   
+subset.jags_analysis <- function (x, model = 1:nmodels(x), ...) {   
   
   assert_that((is.numeric(model) || is.character(model)) && noNA(model) && not_empty(model))
   

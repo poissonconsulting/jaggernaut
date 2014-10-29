@@ -15,7 +15,7 @@ aggregate.jags_analysis <- function (x, model = 1, data = dataset(x),
   assert_that(is.count(model) || is.string(model))  
   assert_that(is.string(aggregation_code))
   
-  x <- subset_one(x, model = model)
+  x <- subset(x, model = model)
   aggregation_code(x) <- aggregation_code
   
   x <- jaggregate (x, data = data) 
