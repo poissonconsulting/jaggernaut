@@ -132,11 +132,10 @@ test_that("jags_model returns object of correct class", {
   
   expect_that(model(model), is_a("jagr_model"))
   
-  model <- subset(model, model = c(1,1))
+  model <- subset(model, model = c("Model1"))
   expect_that(model, is_a("jags_model"))
-  expect_equal(nmodels(model), 2)  
+  expect_equal(nmodels(model), 1)  
   
-  expect_that(model(model), throws_error())
   expect_that(update_jags(model), throws_error())
   expect_that(dataset(model), throws_error())
 })

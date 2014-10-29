@@ -43,7 +43,7 @@ test_that("subset.jags_analysis subsets", {
   expect_that(nmodels(subset(an, 2)), is_equivalent_to(1))
   expect_that(nmodels(subset(an, 1)), is_equivalent_to(1))
   expect_that(nmodels(subset(an, 1:2)), is_equivalent_to(2))  
-  expect_that(nmodels(subset(an, c(1,1,2,2))), is_equivalent_to(4))    
+  expect_that(nmodels(subset(an, c(1,1,2,2))), is_equivalent_to(2))    
   expect_that(subset(subset(an, 1:2), 1:2), is_a("jags_analysis"))
   expect_that(subset(an, 3), throws_error())
   expect_that(subset(an, 0), throws_error())  
