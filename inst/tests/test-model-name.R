@@ -37,6 +37,7 @@ test_that("model_name updates simple model", {
   expect_true(is.na(model_name(analysis)))
   expect_equal(model_name(analysis, reference = TRUE), "Model1")
   
+  expect_error(model_name(model) <- "Model1")    
   expect_error(model_name(model) <- NULL)  
   expect_error(model_name(analysis) <- NA)  
   expect_error(model_name(analysis) <- NULL)
@@ -97,7 +98,7 @@ model4 <- jags_model("
                      model {
                      alpha ~ dunif(-20, 20)
                      
-                     for (i in 1:length(Year)) {
+                     for (i in 1:length(C)) {
                      log(eC[i]) <- alpha
                      C[i] ~ dpois(eC[i])
                      }
@@ -110,15 +111,27 @@ data <- peregrine
 
 data$C <- data$Pairs
 
-models <- combine(model1, model2, model3, model4)
+expect_equal(model_name(model1, reference = TRUE), c("md 1"))
+expect_equal(model_name(model2, reference = TRUE), c("md22"))
+expect_equal(model_name(model3, reference = TRUE), c("md22"))
+expect_equal(model_name(model4, reference = TRUE), c("Model1"))
+expect_equal(model_name(combine(model1, model2, model3, model4), reference = TRUE), c("md 1", "Model2", "Model3", "Model4"))
 
-model_name(models)
+expect_equal(model_name(model1), c("md 1"))
+expect_equal(model_name(model2), c("md22"))
+expect_equal(model_name(model3), c("md22"))
+expect_true(is.na(model_name(model4)))
 
-analysis <- jags_analysis (combine(model1, model2), data, mode = "test")
+expect_is(model_name(combine(model1, model2)), "list")
+expect_equal(names(model_name(combine(model1, model2))), c("md 1", "md22"))
+expect_equal(unlist(model_name(combine(model1, model2)), use.names = FALSE), c("md 1", "md22"))
+expect_equal(names(model_name(combine(model1, model2, model3))), c("md 1", "Model2", "Model3"))
+expect_equal(unlist(model_name(combine(model1, model2, model3)), use.names = FALSE), c("md 1", "md22", "md22"))
 
-expect_equal(model_name(models), model_name(analysis))
-expect_equal(model_name(models)$Model1, "md 1")
-expect_equal(model_name(models)$Model2, "md22")
+
+expect_equal(model_name(combine(model2)), model_name(jags_analysis (combine(model2), data, mode = "test")))
+expect_equal(model_name(combine(model1, model2)), model_name(jags_analysis (combine(model1, model2), data, mode = "test")))
+expect_equal(model_name(combine(model1, model2, model4)), model_name(jags_analysis (combine(model1, model2, model4), data, mode = "test")))
 })
 
 

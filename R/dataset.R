@@ -67,7 +67,7 @@ dataset.jags_analysis <- function (object, converted = FALSE, ...) {
   if(length(data_list) == 1)
     return (data_list[[1]])
 
-  names(data_list) <- model_names(object, reference = TRUE)
+  names(data_list) <- model_name(object, reference = TRUE)
   
   data_list
 }

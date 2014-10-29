@@ -188,7 +188,7 @@ combine.jags_model <- function (object, ...) {
       object <- combine(object, args[[i]])
     }
   }
-  rename_analyses(object)
+  rename_models(object)
 }
 
 

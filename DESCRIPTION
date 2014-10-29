@@ -23,7 +23,9 @@ NeedsCompilation: yes
 LinkingTo: Rcpp
 Depends:
     R (>= 3.1.0),
-    doParallel (>= 1.0.8)
+    doParallel (>= 1.0.8),
+    coda (>= 0.16),
+    rjags (>= 3-13)    
 Imports:
     assertthat (>= 0.1),
     stats (>= 3.0.3),
@@ -33,8 +35,6 @@ Imports:
     ggplot2 (>= 0.9.3.1),
     datalist (>= 0.4),
     juggler (>= 0.1.3),
-    coda (>= 0.16),
-    rjags (>= 3-11),
     itertools (>= 0.1-3)
 Suggests:
     testthat (>= 0.7),
