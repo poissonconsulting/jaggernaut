@@ -6,8 +6,5 @@ if(!"basemod" %in% list.modules())
 if(!"bugs" %in% list.modules())
   load.module("bugs")
 
-if(!"glm" %in% list.modules())
-  load.module("glm")
-
  invisible()
 }
