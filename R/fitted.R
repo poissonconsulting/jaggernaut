@@ -1,4 +1,3 @@
-
 #' @title JAGS analysis fitted values
 #'
 #' @description

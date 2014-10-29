@@ -31,6 +31,8 @@ plot.jagr_analysis <- function (x, parm, ...) {
 #' @export
 plot.jags_analysis <- function (x, model = 1, parm = "fixed", ...) {
 
+  assert_that(is.count(model) || is.string(model))
+  
   x <- subset(x, model = model)
   
   return (plot(analysis(x), parm = parm, ...))

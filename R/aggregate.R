@@ -12,16 +12,13 @@
 aggregate.jags_analysis <- function (x, model = 1, data = dataset(x),
   aggregation_code = aggregation_code(x), ...) {
   
-  object <- x
-  rm(x)
-  assert_that(is.count(model))
+  assert_that(is.count(model) || is.string(model))  
   assert_that(is.string(aggregation_code))
   
-  object <- subset(object, model = model)
-  aggregation_code(object) <- aggregation_code
+  x <- subset_one(x, model = model)
+  aggregation_code(x) <- aggregation_code
   
-  agg <- jaggregate (object, data = data) 
-  agg <- ags_sample(agg)
-  agg
+  x <- jaggregate (x, data = data) 
+  ags_sample(x)
   # needs work - see jags_discrepancies
 }

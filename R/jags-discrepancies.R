@@ -122,7 +122,8 @@ discrepancies <- function (object) {
 jags_discrepancies <- function (object, model = 1, aggregation_code = NULL) {
   
   assert_that(is.jags_analysis(object))
-
+  assert_that(is.count(model) || is.string(model))
+  
   object <- subset(object, model = model)
   
   if(!is.null(aggregation_code)) {

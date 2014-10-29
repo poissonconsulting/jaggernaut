@@ -75,29 +75,16 @@ subset.jagr_chains <- function (x, sample = NULL, chain = NULL) {
 #' @seealso \code{\link{subset}} and \code{\link{jags_analysis}}
 #' @method subset jags_model
 #' @export 
-subset.jags_model <- function (x, model, ...) {   
+subset.jags_model <- function (x, ...) {   
   
-  if (!is.numeric(model)) 
-    stop("model must be an integer vector")
+  assert_that((is.numeric(model) || is.character(model)) && noNA(model) && not_empty(model))
+
+  assert_that(is.character(model) || (max(model) <= nmodels(x) && min(model) >= 1))
+
+  assert_that(is.numeric(model) || (all(model %in% model_name(x, reference = TRUE))))
   
-  model <- na.omit(model)
-  
-  if (length(model) == 0)
-    stop("model must have at least one non-missing value")
-  
-  model <- as.integer(model)
-  
-  if (max(model) > nmodels(x))
-    stop("model must be less than the number of models in x")  
-  
-  if (min(model) < 1)
-    stop("model must be positive")  
-  
-  models <- models(x)
-  models <- models[model] 
-  models(x) <- models
-  
-  return (x)
+  models(x) <- models(x)[model]
+  x
 }
 
 #' @title Subset a JAGS analysis
@@ -112,30 +99,15 @@ subset.jags_model <- function (x, model, ...) {
 #' @seealso \code{\link{subset}} and \code{\link{jags_analysis}} 
 #' @method subset jags_analysis
 #' @export 
-subset.jags_analysis <- function (x, model = NULL, ...) {   
+subset.jags_analysis <- function (x, model, ...) {   
   
-  if(is.null(model))
-    return (x)
   
-  if (is.numeric(model)) {
-    if (length(model) != 1) {
-      stop("model must be a single value")
-    }
-    if (model < 1 || model > nmodels(x)) {
-      stop(paste("model must lie between 1 and the number of models (in this case",nmodels(x),")"))
-    }
-  } else {
-    stop ("model must be an integer")
-  }
+  assert_that((is.numeric(model) || is.character(model)) && noNA(model) && not_empty(model))
   
-  model <- as.integer(model)
+  assert_that(is.character(model) || (max(model) <= nmodels(x) && min(model) >= 1))
   
-  if (nmodels(x) == 1)
-    return (x)
+  assert_that(is.numeric(model) || (all(model %in% model_name(x, reference = TRUE))))
     
-  analyses <- analyses(x)
-  
-  analyses(x) <- analyses[model]
-  
-  return (x)
+  analyses(x) <- analyses(x)[model]
+  x
 }
