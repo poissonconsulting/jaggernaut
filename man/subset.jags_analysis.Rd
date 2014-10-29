@@ -3,7 +3,7 @@
 \alias{subset.jags_analysis}
 \title{Subset a JAGS analysis}
 \usage{
-\method{subset}{jags_analysis}(x, model, ...)
+\method{subset}{jags_analysis}(x, model = 1:nmodel(x), ...)
 }
 \arguments{
 \item{x}{a jags_analysis x.}
