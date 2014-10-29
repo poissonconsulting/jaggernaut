@@ -61,8 +61,8 @@
 #' 
 #' demo(peregrine, ask= FALSE)
 #' demo(hm, ask = FALSE)
+#' demo(fritillary, ask= FALSE)
 #' demo(pinna, ask = FALSE)
-#' demo(woodchat, ask = FALSE)
 #' demo(tits, ask = FALSE)
 #' demo(p610, ask = FALSE)
 #' 

@@ -6,7 +6,7 @@ library(scales)
 # M_tbh (Kery and Schaub 2011 p.158-159)
 model1 <- jags_model(" model {
   omega ~ dunif(0, 1)
-  sd ~ dunif(0, 3)
+  sigma ~ dunif(0, 3)
   gamma ~ dnorm(0, 10^-2)
 
   for (j in 1:ncol) {
@@ -16,7 +16,7 @@ model1 <- jags_model(" model {
 
   for (i in 1:nrow) {
     z[i] ~ dbern(omega)
-    eps[i] ~ dnorm(0, sd^-2) T(-16, 16)
+    eps[i] ~ dnorm(0, sigma^-2) T(-16, 16)
     logit(p[i, 1]) <- alpha[1] + eps[i]
     eY[i, 1] <- z[i] * p[i, 1]
     y[i,1] ~ dbern(eY[i, 1])

@@ -8,6 +8,7 @@
 #' @param fun the function to using when combining samples (by default fun = sum). 
 #' @return a jags_sample object
 #' @seealso \code{\link{predict.jags_analysis}}
+#' @importFrom plyr ddply
 #' @export
 ddply_jags_sample <- function (object, by, fun = sum) {
   if(!is.jags_sample(object))

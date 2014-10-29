@@ -6,6 +6,7 @@
 #' @param object a JAGS object.
 #' @param ... additional JAGS objects to add to object.
 #' @return a JAGS object of the original class
+#' @importFrom abind abind
 #' @export
 combine <- function (object, ...) {
   UseMethod("combine", object)

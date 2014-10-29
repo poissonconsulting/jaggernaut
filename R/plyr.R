@@ -1,3 +1,4 @@
+#' @importFrom plyr ldply
 ldply_jg <- function (.data, .fun = NULL, ..., .recursive = 1) {
   
   .recursive <- as.integer(.recursive)
@@ -7,7 +8,7 @@ ldply_jg <- function (.data, .fun = NULL, ..., .recursive = 1) {
   stopifnot(is.integer(.recursive) && .recursive >= 1)
   
   if (.recursive == 1) {
-    x <- plyr::ldply(.data = .data, .fun = .fun, ...)
+    x <- ldply(.data = .data, .fun = .fun, ...)
   } else {
     fun1 <- function (.data, fun2, ..., recursive) {
       return (ldply_jg(.data = .data, .fun = fun2, ..., .recursive = recursive))      
@@ -19,6 +20,7 @@ ldply_jg <- function (.data, .fun = NULL, ..., .recursive = 1) {
   return (x)
 }
 
+#' @importFrom plyr llply
 llply_jg <- function (.data, .fun, ..., .recursive = 1) {
   
   .recursive <- as.integer(.recursive)
@@ -28,7 +30,7 @@ llply_jg <- function (.data, .fun, ..., .recursive = 1) {
   stopifnot(is.integer(.recursive) && .recursive >= 1)
   
   if (.recursive == 1) {
-    x <- plyr::llply(.data = .data, .fun = .fun, ...)
+    x <- llply(.data = .data, .fun = .fun, ...)
   } else {
     fun1 <- function (.data, fun2, ..., recursive) {
       return (llply_jg(.data = .data, .fun = fun2, ..., .recursive = recursive))      

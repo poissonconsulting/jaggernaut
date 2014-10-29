@@ -53,6 +53,7 @@ as_list_coef <- function (object) {
   estimates
 }
 
+#' @importFrom stats sd quantile
 coef_matrix <- function(object, level, estimate, as_list) {
   
   stopifnot(is.matrix(object))

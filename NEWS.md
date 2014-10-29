@@ -1,5 +1,31 @@
 # NEWS
 
+## jaggernaut v2.0.0
+
+#### New major version released. Major changes include
+
+* able to name models and specify using names
+* parameters to monitor can now be specified with a regular expression
+* now calculates autocor and crosscor
+* no longer calculates DIC as rarely useful
+* no longer calculates geweke as will allow through mcmc objects
+* no longer performs power analyses as slow in Bayesian framework
+* no longer generates datasets using bugs code
+
+#### Minor changes include
+
+* renamed argument `model_number` as `model`
+* renamed `rhat` as `convergence`
+* renamed `select` as `select_data` so not conflict with dplyr
+* renamed `select_derived` and `select_aggregation` as `select_data_derived`
+and `select_data_aggregation`
+* renamed `nsims` as `nsamples` so not ambiguous with `niters`
+
+#### Known Bugs
+
+* Throws error if attempts to update model that was initially
+run with chains in parallel but no in series (and vice versa)
+
 #### jaggernaut 1.8.5
 
 - added `select_aggregation` and `modify_data_aggregation` arguments to `jags_model()`
@@ -65,14 +91,14 @@ needed functions)
 
 * Upgraded to `datalist` 0.2.
 
-# Bug Reports 
+## Bug Reports 
 
 For more fine-grained list of changes or to report a bug, consult 
 
 * [The commit log](https://github.com/poissonconsulting/jaggernaut/commits/master)
 * [The issues log](https://github.com/poissonconsulting/jaggernaut/issues)
 
-# Versioning
+## Versioning
 
 Releases are numbered with the following semantic versioning format:
 
@@ -88,3 +114,4 @@ And constructed with the following guidelines:
 
 For more information on jaggernaut, please visit: 
 https://github.com/poissonconsulting/jaggernaut/wiki.
+

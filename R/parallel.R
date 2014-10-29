@@ -10,10 +10,11 @@
 #'  
 #' \dontrun{ 
 #' # run peregrine demo using registered parallel backend
+#' 
 #' registerDoParallel() 
 #' opts_jagr("parallel" = TRUE)
 #' 
-#' demo(woodchat)
+#' demo(peregrine)
 #' 
 #' # stop cluster if registered parallel backend in windows
 #' if(.Platform$OS.type == "windows") stopImplicitCluster()
@@ -21,8 +22,8 @@
 #' opts_jagr("parallel" = FALSE)
 #' registerDoSEQ()
 #' 
-#' # further information on the woodchat dataset and demo
-#' ?woodchat
+#' # further information on the peregrine dataset and demo
+#' ?peregrine
 #' }
 #'
 NULL

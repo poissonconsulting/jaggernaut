@@ -48,7 +48,8 @@
 #' Plummer M (2012) JAGS Version 3.3.0 User Manual \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
 #' 
 #' @docType package
-#' @import assertthat stats datalist abind plyr coda rjags doParallel itertools
+#' @import assertthat coda rjags doParallel itertools
+#' @importFrom datalist is_convertible_data is_convertible_data_frame is_convertible_data_list convert_data is_converted_data new_data
 #' @name jaggernaut
 #' @aliases package-jaggernaut jaggernaut-package
 #' @seealso \code{\link{jags_model}},

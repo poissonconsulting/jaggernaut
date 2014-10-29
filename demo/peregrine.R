@@ -116,10 +116,10 @@ model <- jags_model("
              beta1 ~ dunif(-10, 10)
              beta2 ~ dunif(-10, 10)
              beta3 ~ dunif(-10, 10)
-             sd ~ dunif(0, 5)
+             sigma ~ dunif(0, 5)
              
              for (i in 1:length(Year)) {
-             eps[i] ~ dnorm(0, sd^-2)
+             eps[i] ~ dnorm(0, sigma^-2)
              eLogC[i] <- alpha + beta1 * Year[i]
              + beta2 * Year[i]^2 + beta3 * Year[i]^3
              log(eC[i]) <- eLogC[i] + eps[i]
