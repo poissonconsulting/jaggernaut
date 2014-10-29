@@ -8,7 +8,7 @@
 \arguments{
 \item{x}{a jags_analysis x.}
 
-\item{model_number}{an integer element indicating the model(s) to select.}
+\item{model_number}{an integer or character vector specifying the jags models to select.}
 
 \item{...}{other arguments passed to generic function.}
 }

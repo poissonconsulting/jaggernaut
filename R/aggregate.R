@@ -4,7 +4,7 @@
 #' iterations - used for posterior predictive checking.
 #' 
 #' @param x jags_analysis
-#' @param model_number integer scalar of model number
+#' @param model_number a count or string specifying the jags model to select. 
 #' @param data data.frame to aggregate over
 #' @param aggregation_code string of aggregation_code to replace analyse's aggregation code
 #' @param ... arguments passed to nowhere

@@ -150,7 +150,7 @@ analysis <- jags_analysis (models, data, niters = 10^5, mode = "demo")
 
 summary(analysis)
 
-plot(analysis, model_number = 1, parm = "N")
+plot(analysis, parm = "N")
 plot(analysis, model_number = 2, parm = "N")
 
 newdata <- data.frame(size = seq(from = min(data$size), to = 2000, length.out = 50))

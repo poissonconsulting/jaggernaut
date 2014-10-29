@@ -25,7 +25,7 @@ Depends:
     R (>= 3.1.0),
     doParallel (>= 1.0.8),
     coda (>= 0.16),
-    rjags (>= 3-13)    
+    rjags (>= 3-13)
 Imports:
     assertthat (>= 0.1),
     stats (>= 3.0.3),

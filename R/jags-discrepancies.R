@@ -76,7 +76,7 @@ discrepancies <- function (object) {
 #' coef or extract data frame using dataset for own plotting. 
 #' 
 #' @param object jags_analysis
-#' @param model_number integer scalar of model to get discrepancies for
+#' @param model_number a count or string specifying the jags model to select.
 #' @param aggregation_code string of JAGS model code defining paired
 #' posterior predictive checking aggregation parameters
 #' parameters

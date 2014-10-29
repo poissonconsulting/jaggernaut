@@ -19,7 +19,7 @@
 #' @param values NULL or a data frame with a single row that defines the value 
 #' of particular variables. The variables in the arguments newdata and base are
 #' replaced by the corresponding values.
-#' @param model_number an integer scalar specifying the jags model to select. 
+#' @param model_number a count or string specifying the jags model to select. 
 #' @param select_data_derived a character vector of the variables to select from the 
 #' data set being analysed (can also specify variables to transform and/or centre)
 #' @param modify_data_derived a function to modify the derived data set 

@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{jags_analysis}
 
-\item{model_number}{integer scalar of model number}
+\item{model_number}{a count or string specifying the jags model to select.}
 
 \item{data}{data.frame to aggregate over}
 

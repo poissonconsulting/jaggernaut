@@ -13,7 +13,7 @@
 \item{parm}{a character scalar naming the derived parameter for which
 the estimates should be calculated (default = "prediction").}
 
-\item{model_number}{an integer scalar specifying the model to select.}
+\item{model_number}{a count or string specifying the jags model to select.}
 
 \item{derived_code}{a character scalar defining a block in the
 JAGS dialect of  the BUGS language that defines one or more derived

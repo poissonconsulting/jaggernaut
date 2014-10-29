@@ -8,7 +8,7 @@
 \arguments{
 \item{x}{a jags_analysis object}
 
-\item{model_number}{an integer element specifying the model to select.}
+\item{model_number}{a count or string specifying the jags model to select.}
 
 \item{parm}{a character vector of the parameters to plot.}
 

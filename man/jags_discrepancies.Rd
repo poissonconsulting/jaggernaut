@@ -8,7 +8,7 @@ jags_discrepancies(object, model_number = 1, aggregation_code = NULL)
 \arguments{
 \item{object}{jags_analysis}
 
-\item{model_number}{integer scalar of model to get discrepancies for}
+\item{model_number}{a count or string specifying the jags model to select.}
 
 \item{aggregation_code}{string of JAGS model code defining paired
 posterior predictive checking aggregation parameters

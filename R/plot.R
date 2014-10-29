@@ -23,7 +23,7 @@ plot.jagr_analysis <- function (x, parm, ...) {
 #' using the coda::plot.mcmc function.
 #'   
 #' @param x a jags_analysis object
-#' @param model_number an integer element specifying the model to select. 
+#' @param model_number a count or string specifying the jags model to select. 
 #' @param parm a character vector of the parameters to plot.
 #' @param ... arguments to pass to coda::plot.mcmc
 #' @seealso \code{\link{jags_analysis}} and \code{\link[coda]{plot.mcmc}}

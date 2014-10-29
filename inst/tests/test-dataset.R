@@ -32,5 +32,15 @@ data$C <- data$Pairs
 analysis <- jags_analysis (model, data, mode = "test")
 
 expect_equal(dataset(analysis), data)
+
+analysis <- jags_analysis (combine(model,model), data, mode = "test")
+
+expect_equal(dataset(analysis), data)
+x <- dataset(analysis, converted = TRUE)
+expect_is(x, "list")
+expect_equal(names(x), c("Model1", "Model2"))
+expect_equal(x[["Model1"]], x[["Model2"]])
+expect_equal(names(x[["Model1"]]), c("C", "Year"))
+expect_equal(names(x[["Model2"]]), c("C", "Year"))
 })
 

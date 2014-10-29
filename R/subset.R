@@ -70,7 +70,7 @@ subset.jagr_chains <- function (x, sample = NULL, chain = NULL) {
 #' Subset a JAGS model x.  
 #' 
 #' @param x a jags_model x.
-#' @param model_number an integer element indicating the model(s) to select.
+#' @param model_number an integer or character vector specifying the jags models to select. 
 #' @param ... other arguments passed to generic function.
 #' @return the subsetted jags_analysis x
 #' @seealso \code{\link{subset}} and \code{\link{jags_analysis}}
@@ -107,7 +107,7 @@ subset.jags_model <- function (x, model_number, ...) {
 #' Subset a JAGS analysis x.  
 #' 
 #' @param x a jags_analysis x.
-#' @param model_number an integer element indicating the model(s) to select.
+#' @param model_number an integer or character vector specifying the jags models to select. 
 #' @param ... other arguments passed to generic function.
 #' @return the subsetted jags_analysis x
 #' @seealso \code{\link{subset}} and \code{\link{jags_analysis}} 
