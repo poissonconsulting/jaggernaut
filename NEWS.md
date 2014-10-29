@@ -2,7 +2,7 @@
 
 ## jaggernaut v2.0.0
 
-#### New major version released. Major changes include
+#### New major version released. Major changes include:
 
 * able to name models and specify using names
 * parameters to monitor can now be specified with a regular expression
