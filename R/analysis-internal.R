@@ -34,7 +34,7 @@ analysis_internal <- function (inits, data, file, monitor, n.chain = 1,
   if(is.string(monitor)) {
     vars <- vars[grepl(monitor, vars, perl = TRUE)]
   } else
-    vars <- vars[vars %in% monitor]
+    vars <- vars[vars %in% sub("-$", "", monitor)]
   
   monitor <- sort(unique(vars))
   

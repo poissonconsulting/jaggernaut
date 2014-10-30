@@ -1,9 +1,9 @@
-
-expand_parm <- function (object, ...) {
-  UseMethod("expand_parm", object)
-}
-
-expand_parm.jagr_chains <- function (object, parm, ...) {
+expand_parm <- function (object, parm, ...) {
+  
+  assert_that(is.jagr_chains(object))
+  assert_that(is.character(parm))
+  
+  parm <- unique(parm)
   
   mcmc <- as.mcmc.list (object)
   

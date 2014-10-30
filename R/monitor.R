@@ -1,4 +1,3 @@
-
 #' @title Get monitor
 #'
 #' @description
@@ -21,7 +20,17 @@ monitor <- function (object, ...) {
 #' @usage
 #' monitor(object) <- value
 #' @param object a JAGS object.
-#' @param value a character vector of the parameters to monitor.
+#' @param value a character vector of the parameters to monitor or a 
+#' Perl regular expression as a string of the parameters to monitor.
+#'  
+#' @details
+#' #' Parameter names that have a '-' suffix are monitored
+#' but not included in the calculation of convergence. 
+#' This can be useful when, for example, a parameter is Bernoulli distributed.
+#' 
+#' Duplicates are removed and the parameters sorted. If a parameter
+#' is specified with and without a '-' suffix then it is assumed 
+#' that it is to be included in the calculation of convergence.
 #' @seealso \code{\link{jaggernaut}}  
 #' @export
 "monitor<-" <- function (object, value) {
@@ -32,13 +41,20 @@ monitor.jagr_chains <- function (object, ...) {
   names(samples(object))
 }
 
-monitor.jagr_model <- function (object, ...) {
-  object$monitor
+monitor.jagr_model <- function (object, type = "suffixed", ...) {
+  assert_that(is.string(type))
+  
+  switch(type, 
+         suffixed = object$monitor,
+         suffixless = sub("-$", "", object$monitor),
+         convergence = object$monitor[!grepl("-$", object$monitor)],
+         nonconvergence = sub("-$", object$monitor[grepl("-$", object$monitor)]),
+         stop())
 }
 
-monitor_jagr_model <- function (object, ...) {
+monitor_jagr_model <- function (object, type = "suffixed", ...) {
   stopifnot(is.jagr_model(object))
-  monitor(object, ...)
+  monitor(object, type = "suffixed", ...)
 }
 
 #' @method monitor jags_model
@@ -50,10 +66,6 @@ monitor.jags_model <- function (object, ...) {
   lapply(models(object), monitor_jagr_model, ...)
 }
 
-monitor.jagr_analysis <- function (object, ...) {
-  monitor(as.jagr_chains(object), ...)
-}
-
 #' @method monitor jags_analysis
 #' @export
 monitor.jags_analysis <- function (object, ...) {
@@ -63,9 +75,14 @@ monitor.jags_analysis <- function (object, ...) {
 "monitor<-.jagr_model" <- function (object, value) {
   
   assert_that(is.character(value) && not_empty(value))
-    
-  object$monitor <- sort(unique(value))
   
+  value <- sort(unique(value))
+  
+  sub <- sub("-$", "", object$monitor)
+  sub <- unique(sub[duplicated(sub)])
+  sub <- paste0(sub, "-")
+  
+  object$monitor <- value[!value %in% sub]
   object
 }
 

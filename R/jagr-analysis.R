@@ -10,9 +10,6 @@ jagr_analysis <- function (model, data, niters, nworkers) {
   quiet <- opts_jagr("quiet")
   convergence_threshold <- opts_jagr("convergence")
   
-  if(!is.null(monitor(model)))
-    monitor(model) <- sort(unique(monitor(model)))
-  
   data <- translate_data(select_data(model), data) 
   
   if (is.function(modify_data(model))) 
@@ -75,7 +72,7 @@ jagr_analysis <- function (model, data, niters, nworkers) {
                       } 
   }
     
-  monitor(model) <- monitor(chains)
+  monitor(model) <- monitor(model)[monitor(model, type = "suffixless") %in% monitor(chains)]
 
   object <- model
   

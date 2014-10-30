@@ -17,10 +17,8 @@ convergence <- function (object, parm = "all", combine = TRUE, ...) {
 
 convergence.jagr_chains <- function (object, parm = "all", combine = TRUE, ...) {
   
-  assert_that(is.string(parm) && noNA(parm))
+  assert_that(is.string(parm))
   assert_that(is.flag(combine) && noNA(combine))
-  
-  parm <- unique(parm)
   
   mcmc <- as.mcmc.list (object)
   
@@ -50,16 +48,24 @@ convergence.jagr_chains <- function (object, parm = "all", combine = TRUE, ...) 
   if (combine)
     return (max(convergence$convergence, na.rm = TRUE))
   
-  return (convergence)
+  convergence
 }
 
 convergence.jagr_analysis <- function (object, parm = "all", combine = TRUE, ...) {
-  return (convergence(as.jagr_chains(object), parm = parm, combine = combine, ...))
+  convergence <- convergence(as.jagr_chains(object), parm = parm, combine = FALSE, ...)
+  assert_that(is.flag(combine) && noNA(combine))
+  
+  parm <- c(parm, monitor(object, type = "convergence"))
+  parm <- sort(unique(parm))
+
+  convergence <- convergence[row.names(convergence) %in% parm,,drop = FALSE]
+  
+  ifelse(combine, max(convergence$convergence, na.rm = TRUE), convergence)
 }
 
 convergence_jagr_analysis <- function (object, parm = "all", combine = TRUE, ...) {
   stopifnot(is.jagr_analysis(object))
-  return (convergence(object, parm = parm, combine = combine, ...))
+  convergence(object, parm = parm, combine = combine, ...)
 }
 
 #' @method convergence jags_analysis
@@ -73,14 +79,9 @@ convergence.jags_analysis <- function (object, parm = "all", combine = TRUE, ...
     stop("combine must be TRUE or FALSE")
   
   if(is_one_model(object))
-    return (convergence(analysis(object), 
-                 parm = parm, 
-                 combine = combine, ...))
+    return (convergence(analysis(object), parm = parm, combine = combine, ...))
   
-  lapply(analyses(object), 
-                     convergence_jagr_analysis, 
-                     parm = parm, 
-                     combine = combine, ...)  
+  lapply(analyses(object), convergence_jagr_analysis, parm = parm, combine = combine, ...)  
 }
 
 #' @method convergence jags_sample
