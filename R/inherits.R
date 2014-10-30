@@ -79,16 +79,3 @@ is.jags_analysis <- function (x) {
 on_failure(is.jags_analysis) <- function(call, env) {
   paste0(deparse(call$x), " is not a jags_analysis")
 }
-
-#' @title Test for objects of class jags_aggregation
-#'
-#' @description
-#' Tests for objects of class \code{jags_aggregation}.  
-#' 
-#' @param x the object to be tested.
-#' @return a logical element indicating whether or not \code{x} is of 
-#' class \code{jags_aggregation}.
-#' @export
-is.jags_aggregation <- function (x) {
-  return (inherits(x, "jags_aggregation"))
-}

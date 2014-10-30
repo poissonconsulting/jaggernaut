@@ -20,7 +20,7 @@ model <- jags_model("
              C[i] ~ dlnorm(logN.est[year[i]], sigma.obs^-2)
              }
              }",
- derived_code = "model{
+ derived_code = "data{
              for (i in 1:length(year)) {
              log(prediction[i]) <- logN.est[year[i]]
              }

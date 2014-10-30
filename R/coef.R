@@ -245,10 +245,3 @@ coef.jags_analysis <- function (object, parm = "fixed", level = "current",
                      parm = parm, level = level, estimate = estimate,
                      as_list = as_list, ...)
 }
-
-#' @method coef jags_discrepancies
-#' @export
-coef.jags_discrepancies <- function (object, level = "current", estimate = "current", ...) {
-  object <- ddply_jags_sample(object, by = "parameter", fun = diff)
-  coef(object, level = "current", estimate = "current", ...)
-}

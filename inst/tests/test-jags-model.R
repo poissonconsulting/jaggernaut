@@ -111,8 +111,6 @@ test_that("jags_model returns object of correct class", {
   expect_true(identical(modify_data_derived(model3), modify_data_derived(model)))
   expect_true(identical(derived_code(model3), derived_code(model)))
   expect_true(identical(random_effects(model3), random_effects(model)))
-  expect_true(identical(modify_data_aggregation(model3), modify_data_aggregation(model)))
-  expect_true(identical(select_data_aggregation(model3), select_data_aggregation(model)))
   expect_true(identical(select_data_derived(model3), select_data_derived(model)))
   
   model <- subset(model,model = 2)
@@ -126,8 +124,6 @@ test_that("jags_model returns object of correct class", {
   expect_true(identical(modify_data_derived(model2), modify_data_derived(model)))
   expect_true(identical(derived_code(model2), derived_code(model)))
   expect_true(identical(random_effects(model2), random_effects(model)))
-  expect_true(identical(modify_data_aggregation(model2), modify_data_aggregation(model)))
-  expect_true(identical(select_data_aggregation(model2), select_data_aggregation(model)))
   expect_true(identical(select_data_derived(model2), select_data_derived(model)))
   
   expect_that(model(model), is_a("jagr_model"))

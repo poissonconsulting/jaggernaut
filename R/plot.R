@@ -37,23 +37,3 @@ plot.jags_analysis <- function (x, model = 1, parm = "fixed", ...) {
   
   return (plot(analysis(x), parm = parm, ...))
 }
-
-#' @title Plot a JAGS discrepancies object
-#'
-#' @description 
-#' Plots a JAGS discrepancies object
-#'   
-#' @param x a jags_discrepancies object
-#' @param ... additional arguments
-#' @importFrom ggplot2 ggplot aes_string geom_point geom_abline facet_wrap expand_limits
-#' @method plot jags_discrepancies
-#' @export
-plot.jags_discrepancies <- function (x, ...) {
-  x <- dataset(x)
-  
-  gp <- ggplot(x, aes_string(x = "Actual", y = "Replicate"))
-  gp <- gp + facet_wrap(~parameter, scales = "free")
-  gp <- gp + geom_abline(intercept = 0, slope = 1)
-  gp <- gp + geom_point()
-  return(gp)
-}

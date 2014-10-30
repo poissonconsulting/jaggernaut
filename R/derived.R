@@ -1,4 +1,3 @@
-
 get_samples <- function (samples, chains, data, parm, file) {
   
   fun <- function (parm, data, file) {

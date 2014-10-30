@@ -25,15 +25,8 @@
 #' related data as values
 #' @param select_data_derived a character vector of the variables to select from the 
 #' data set being analysed (can also specify variables to transform and/or centre)
-#' @param select_data_aggregation a character vector of the variables to select from the 
-#' data set being analysed (can also specify variables to transform and/or centre)
 #' @param modify_data_derived a function to modify the derived data set 
 #' (after it has been converted to list form)
-#' @param modify_data_aggregation a function to modify the derived data set 
-#' (after it has been converted to list form)
-#' @param aggregation_code string of JAGS code defining aggregated parameters
-#' such as posterior predictive checking discrepancy values for original and 
-#' simulated data.
 #' @details 
 #' The \code{jags_model} function defines a JAGS model that can then be passed to the 
 #' \code{jags_analysis} function together with a data frame to perform a Bayesian analysis.
@@ -122,12 +115,9 @@ jags_model <- function (model_code,
                         modify_data = NULL, 
                         gen_inits = NULL, 
                         derived_code = NULL, 
-                        aggregation_code = NULL, 
                         random_effects = NULL,
                         select_data_derived = NULL,
-                        modify_data_derived = NULL,
-                        select_data_aggregation = NULL,
-                        modify_data_aggregation = NULL
+                        modify_data_derived = NULL
                         ) { 
   
   model <- jagr_model(model_code = model_code, 
@@ -137,12 +127,9 @@ jags_model <- function (model_code,
                       modify_data = modify_data,
                       gen_inits = gen_inits,
                       derived_code = derived_code,
-                      aggregation_code = aggregation_code,
                       random_effects = random_effects,
                       select_data_derived = select_data_derived,
-                      modify_data_derived = modify_data_derived,
-                      select_data_aggregation = select_data_aggregation,
-                      modify_data_aggregation = modify_data_aggregation
+                      modify_data_derived = modify_data_derived
                       )
   
   object <- list(models = list(model))

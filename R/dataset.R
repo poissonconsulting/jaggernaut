@@ -72,26 +72,6 @@ dataset.jags_analysis <- function (object, converted = FALSE, ...) {
   data_list
 }
 
-#' @title Convert jags_discrepancies object to a data.frame
-#'
-#' @description
-#' Returns dataset for plotting posterior predictive checks
-#' from a \code{jags_analysis} object.  
-#' 
-#' @param object a \code{jags_discrepancies} object.
-#' @param ... further arguments passed to or from other methods.
-#' @return data.frame
-#' @importFrom reshape2 melt dcast
-#' @method dataset jags_discrepancies
-#' @export
-dataset.jags_discrepancies <- function (object, ...) {
-  
-  object <- reshape2::melt(object, id.vars = c("parameter", "index"),
-    variable.name = "iteration")
-  object <- reshape2::dcast(object, ... ~ index)
-  object
-}
-
 "dataset<-.jags_analysis" <- function (object, value) {
   stopifnot(is_convertible_data(value))
   

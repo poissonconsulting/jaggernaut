@@ -30,6 +30,14 @@ jags_sample <- function (chains, parm, data) {
     } else
       data <- data.frame(row = 1:nrow(samples))
   }
+  
+  if(nrow(samples) == 1 && nrow(data) > 1) {
+    data <- unique(delete_variable_variables(data))
+    
+    if(nrow(data) == 0)
+      data <- data.frame(Parameter = parm)
+  }
+  
   stopifnot(nrow(samples) == nrow(data))
   
   object <- cbind(data, samples)

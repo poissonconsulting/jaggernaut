@@ -1,4 +1,3 @@
-
 predict_jagr <- function (object, parm, data, base, level, estimate, 
                           nworkers, ...) {
   

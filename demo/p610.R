@@ -98,7 +98,7 @@ model3 <- jags_model (" model {
   }
   N <- sum(z[])
 }",
-derived_code = "model {
+derived_code = "data {
   for (i in 1:nrow) {
     logit(prediction[i]) <- alpha[1] + beta * size[i] 
   }
