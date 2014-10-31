@@ -1,8 +1,21 @@
 # NEWS
 
+### jaggernaut v2.1.0
+
+* renamed `jags_discrepancies` as `predictive_check` and now
+returns coef table and can be used for multiple discrepancy measures
+* now use `derived_code`, `modify_data_derived` and `select_data_derived`
+instead of `aggregation_code`, `modify_data_aggregation` and
+`select_data_aggregation`
+* convergence now uses parallel chains
+* use suffix '-' to specify parameters in monitor that monitor
+but not use to calculate convergence - useful for parameters with 
+bernoulli distribution
+
+
 ## jaggernaut v2.0.0
 
-#### New major version released. Major changes include:
+#### Major changes include:
 
 * able to name models and specify using names
 * parameters to monitor can now be specified with a regular expression
@@ -12,7 +25,7 @@
 * no longer performs power analyses as slow in Bayesian framework
 * no longer generates datasets using bugs code
 
-#### Minor changes include
+#### Minor changes include:
 
 * renamed argument `model_number` as `model`
 * renamed `rhat` as `convergence`
@@ -24,7 +37,7 @@ and `select_data_aggregation`
 #### Known Bugs
 
 * Throws error if attempts to update model that was initially
-run with chains in parallel but no in series (and vice versa)
+run with chains in parallel but not in series (and vice versa)
 
 #### jaggernaut 1.8.5
 
