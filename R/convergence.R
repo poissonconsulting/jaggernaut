@@ -15,26 +15,37 @@ convergence <- function (object, parm = "all", combine = TRUE, ...) {
   UseMethod("convergence", object)
 }
 
+convergence.mcmc.list <- function (object, vars) {
+  convergence <- round(gelman.diag(object[,vars], transform = TRUE, autoburnin = FALSE, multivariate = FALSE)$psrf[,"Point est.", drop = FALSE], 2)
+  rownames(convergence) <- vars
+  colnames(convergence) <- "convergence"
+  as.data.frame(convergence)
+}
+
 convergence.jagr_chains <- function (object, parm = "all", combine = TRUE, ...) {
   
   assert_that(is.flag(combine) && noNA(combine))
   
-  mcmc <- as.mcmc.list (object)
-  
-  vars <- varnames(mcmc)
-  
-  vars <- sort(vars)
-  
   if (is.null(object$convergence)) {
-    convergence <- numeric()
-    for (i in seq(along = vars)) {
-      convergence[i] <- round(gelman.diag(mcmc[,vars[i]], transform = TRUE, 
-                                          autoburnin = FALSE)$psrf[1],2)
+    
+    mcmc <- as.mcmc.list (object)
+    
+    vars <- sort(varnames(mcmc))
+    nvars <- length(vars)
+    
+    nworkers <- ifelse(opts_jagr("parallel"), getDoParWorkers(), 1)
+    
+    if(getDoParWorkers() == 1) {
+      object$convergence <- convergence(mcmc, vars = vars)
+    } else {
+      v <- NULL
+      object$convergence <- foreach(v = isplitVector(vars, chunks = nworkers),
+                                    .combine = rbind) %dopar% {
+                                      convergence(mcmc, vars = v)
+                                    } 
     }
-    convergence <- data.frame(convergence = convergence, row.names = vars)
-    convergence$convergence <- convergence
-  } else
-    convergence <- object$convergence
+  }
+  convergence <- object$convergence
   
   convergence <- convergence[row.names(convergence) %in% parm,,drop = FALSE]
   
