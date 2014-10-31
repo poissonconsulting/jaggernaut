@@ -40,10 +40,21 @@ select_data = c("Volume","Girth")
   expect_that(monitor(models), is_a("list"))
   expect_that(monitor(analysis), is_a("list"))
   expect_that(length(monitor(analysis)), is_equivalent_to(2))
-  expect_that(monitor(subset(analysis,1)), is_identical_to(c("bGirth","bIntercept","sVolume")))
-  expect_that(monitor(subset(analysis,2)), is_identical_to(c("bGirth","bHeight","bIntercept","sVolume")))
-  
+
   monitor(model1) <- "bGirth"
   expect_that(monitor(model1), is_identical_to("bGirth"))
   expect_that(monitor(analysis) <- "bGirth", throws_error())
+
+  monitor(model1) <- c("bGirth", "sVolume-")
+  expect_equal(monitor(model1), c("bGirth", "sVolume-"))
+  monitor(model1) <- c("sVolume-", "bGirth")
+  expect_equal(monitor(model1), c("bGirth", "sVolume-"))
+  expect_equal(monitor(model1, trim_suffix = TRUE), c("bGirth", "sVolume"))
+  expect_equal(monitor(model1, drop_suffixed = TRUE), c("bGirth"))
+
+
+
+
+
+
 })

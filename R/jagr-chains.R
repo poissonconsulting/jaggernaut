@@ -1,6 +1,6 @@
-analysis_internal <- function (inits, data, file, monitor, n.chain = 1, 
+jagr_chains <- function (inits, data, file, monitor, n.chain = 1, 
                                     n.adapt = 0, n.burnin = 0, n.sample = 1, 
-                                    n.thin = 1, random = NULL) {
+                                    n.thin = 1) {
   
   stopifnot(is.character(monitor) && not_empty(monitor))
   stopifnot(is_converted_data(data))
@@ -36,10 +36,10 @@ analysis_internal <- function (inits, data, file, monitor, n.chain = 1,
   } else
     vars <- vars[vars %in% sub("-$", "", monitor)]
   
-  monitor <- sort(unique(vars))
+  vars <- sort(unique(vars))
   
   samples <- jags.samples(
-    model = jags, variable.names = monitor, n.iter = n.sample, thin = n.thin
+    model = jags, variable.names = vars, n.iter = n.sample, thin = n.thin
   )
   
   object <- list()
@@ -47,8 +47,7 @@ analysis_internal <- function (inits, data, file, monitor, n.chain = 1,
   
   samples(object) <- samples
   jags(object) <- list(jags)
-  random(object) <- random
-  
+    
   return (object)
 }
 

@@ -3,8 +3,6 @@ plot.jagr_chains <- function (x, parm = "all", ...) {
 
   stopifnot(is.character(parm) && is_vector(parm))
   stopifnot(length(parm) > 0)
-  
-  parm <- expand_parm(x, parm = parm)
     
   mcmc <- as.mcmc.list (x)
   mcmc <- mcmc[,varnames(mcmc) %in% parm, drop = FALSE]
@@ -13,6 +11,9 @@ plot.jagr_chains <- function (x, parm = "all", ...) {
 }
 
 plot.jagr_analysis <- function (x, parm, ...) {  
+  
+  parm <- expand_parm(x, parm = parm)
+  
   return (plot(as.jagr_chains(x), parm = parm, ...))
 }
 

@@ -1,24 +1,13 @@
-#' @title JAGS sample
-#'
-#' @description 
-#' An object of class \code{jags_sample}.
-#' 
-#' @param chains \code{jagr_chains} object.
-#' @param parm a character scalar.
-#' @param data a data.frame.
-#' @return A jags_sample object.
-#' @seealso \code{\link{predict.jags_analysis}} and \code{\link{jaggernaut}}.
 jags_sample <- function (chains, parm, data) {
   
   stopifnot(is.jagr_chains(chains))
-  stopifnot(is_character_scalar(parm))
+  stopifnot(is.string(parm))
   stopifnot(parm %in% names(chains$samples))  
   stopifnot(is_convertible_data(data))
-  
-  parm <- expand_parm(chains, parm = parm)
-  
+    
   samples <- t(as.matrix(chains))
-  samples <- samples[rownames(samples) %in% parm, , drop = FALSE]
+  
+  samples <- samples[substr(rownames(samples), 1, nchar(parm)) == parm, , drop = FALSE]
   
   stopifnot(nrow(samples) >= 1)
   

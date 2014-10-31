@@ -17,11 +17,7 @@ auto_corr <- function (object, parm = "all", lags = c(0, 1, 5, 10, 50), ...) {
   
 auto_corr.jagr_chains <- function (object, parm, lags, ...) {
   
-  assert_that(is.string(parm) && noNA(parm))  
-  
-  parm <- unique(parm)
-  
-  parm <- expand_parm(object, parm)
+  assert_that(is.character(parm) && noNA(parm) && not_empty(parm))  
   
   autocorr <- list()
   for(i in 1:nchains(object)) {
@@ -37,6 +33,11 @@ auto_corr.jagr_chains <- function (object, parm, lags, ...) {
 }
 
 auto_corr.jagr_analysis <- function (object, parm, lags, ...) {
+  
+  parm <- unique(parm)
+  
+  parm <- expand_parm(object, parm)
+  
   auto_corr(as.jagr_chains(object), parm = parm, lags = lags, ...)
 }
 

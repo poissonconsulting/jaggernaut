@@ -34,7 +34,7 @@ update.jagr_chains <- function (object, niters, nworkers, ...) {
   nchains <- nchains(object)
   n.thin <- max(1, floor(nchains * niters / nsamples(object)))
   
-  monitor <- monitor(object)
+  monitor <- monitor(object, trim_suffix = TRUE)
 
   jags <- jags(object)
   
@@ -55,7 +55,6 @@ update.jagr_chains <- function (object, niters, nworkers, ...) {
                       } 
   }
   
-  random(chains) <- random(object)
   return (chains)
 }
 

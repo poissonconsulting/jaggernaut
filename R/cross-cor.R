@@ -16,12 +16,8 @@ cross_corr <- function (object, parm = "all", ...) {
 
 cross_corr.jagr_chains <- function (object, parm, ...) {
   
-  assert_that(is.string(parm) && noNA(parm))  
-  
-  parm <- unique(parm)
-  
-  parm <- expand_parm(object, parm)
-  
+  assert_that(is.character(parm) && noNA(parm) && not_empty(parm))  
+    
   crosscorr <- crosscorr(as.mcmc.list(object))
     
   crosscorr <- crosscorr[rownames(crosscorr) %in% parm,
@@ -32,6 +28,11 @@ cross_corr.jagr_chains <- function (object, parm, ...) {
 }
 
 cross_corr.jagr_analysis <- function (object, parm, ...) {
+  
+  parm <- unique(parm)
+  
+  parm <- expand_parm(object, parm)
+  
   cross_corr(as.jagr_chains(object), parm = parm, ...)
 }
 

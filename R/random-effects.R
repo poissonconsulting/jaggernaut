@@ -1,4 +1,3 @@
-
 #' @title Get random effects
 #'
 #' @description
@@ -28,29 +27,33 @@ random_effects <- function (object, ...) {
   UseMethod("random_effects<-", object)
 }
 
-random_effects.jagr_model <- function (object, ...) {
-  return (object$random_effects)
+random_effects.jagr_model <- function (object, names = FALSE, ...) {
+  assert_that(is.flag(names) && noNA(names))
+  
+  if(names)
+    return(names(object$random_effects))
+  object$random_effects
 }
 
-random_effects_jagr_model <- function (object, ...) {
+random_effects_jagr_model <- function (object, names = FALSE, ...) {
   stopifnot(is.jagr_model(object))
-  return (random_effects(object, ...))
+  return (random_effects(object, names = names, ...))
 }
 
 #' @method random_effects jags_model
 #' @export
-random_effects.jags_model <- function (object, ...) {
+random_effects.jags_model <- function (object, names = FALSE, ...) {
   
   if(is_one_model(object))
-    return (random_effects(model(object), ...))
+    return (random_effects(model(object), names = names, ...))
   
-  lapply(models(object), random_effects_jagr_model, ...)
+  lapply(models(object), random_effects_jagr_model, names = names, ...)
 }
 
 #' @method random_effects jags_analysis
 #' @export
-random_effects.jags_analysis <- function (object, ...) {
-  return (random_effects(as.jags_model(object), ...))
+random_effects.jags_analysis <- function (object, names = FALSE, ...) {
+  random_effects(as.jags_model(object), names = names, ...)
 }
 
 "random_effects<-.jagr_model" <- function (object, value) {
@@ -69,7 +72,7 @@ random_effects.jags_analysis <- function (object, ...) {
   }
   object$random_effects <- value
   
-  return (object)
+  object
 }
 
 #' @method random_effects<- jags_model
@@ -95,14 +98,14 @@ random_effects.jags_analysis <- function (object, ...) {
   }
   
   models(object) <- models
-  return (object)
+  object
 }
 
 "random_effects<-.jagr_analysis" <- function (object, value) {
 
   random_effects(object$model) <- value
   
-  return (object)
+  object
 }
 
 #' @method random_effects<- jags_analysis
@@ -112,5 +115,5 @@ random_effects.jags_analysis <- function (object, ...) {
   for (i in 1:nmodels(object))
     random_effects(object$analyses[[i]]) <- value
   
-  return (object)
+  object
 }

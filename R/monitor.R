@@ -41,20 +41,21 @@ monitor.jagr_chains <- function (object, ...) {
   names(samples(object))
 }
 
-monitor.jagr_model <- function (object, type = "suffixed", ...) {
-  assert_that(is.string(type))
+monitor.jagr_model <- function (object, trim_suffix = FALSE, drop_suffixed = FALSE, ...) {
+  assert_that(is.flag(trim_suffix) && noNA(trim_suffix))
+  assert_that(is.flag(drop_suffixed) && noNA(trim_suffix))
   
-  switch(type, 
-         suffixed = object$monitor,
-         suffixless = sub("-$", "", object$monitor),
-         convergence = object$monitor[!grepl("-$", object$monitor)],
-         nonconvergence = sub("-$", object$monitor[grepl("-$", object$monitor)]),
-         stop())
+  monitor <- object$monitor
+  if(trim_suffix)
+    monitor <- sub("-$", "", monitor)
+  if(drop_suffixed)
+    monitor <- monitor[!grepl("-$", object$monitor)]
+  monitor
 }
 
-monitor_jagr_model <- function (object, type = "suffixed", ...) {
+monitor_jagr_model <- function (object, trim_suffix = FALSE, drop_suffixed = FALSE, ...) {
   stopifnot(is.jagr_model(object))
-  monitor(object, type = "suffixed", ...)
+  monitor(object, trim_suffix = trim_suffix, drop_suffixed = drop_suffixed, ...)
 }
 
 #' @method monitor jags_model

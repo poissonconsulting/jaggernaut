@@ -17,7 +17,6 @@ convergence <- function (object, parm = "all", combine = TRUE, ...) {
 
 convergence.jagr_chains <- function (object, parm = "all", combine = TRUE, ...) {
   
-  assert_that(is.string(parm))
   assert_that(is.flag(combine) && noNA(combine))
   
   mcmc <- as.mcmc.list (object)
@@ -40,9 +39,7 @@ convergence.jagr_chains <- function (object, parm = "all", combine = TRUE, ...) 
     convergence$convergence <- convergence
   } else
     convergence <- object$convergence
-  
-  parm <- expand_parm(object, parm)
-  
+    
   convergence <- convergence[row.names(convergence) %in% parm,,drop = FALSE]
     
   if (combine)
@@ -52,15 +49,11 @@ convergence.jagr_chains <- function (object, parm = "all", combine = TRUE, ...) 
 }
 
 convergence.jagr_analysis <- function (object, parm = "all", combine = TRUE, ...) {
-  convergence <- convergence(as.jagr_chains(object), parm = parm, combine = FALSE, ...)
   assert_that(is.flag(combine) && noNA(combine))
   
-  parm <- c(parm, monitor(object, type = "convergence"))
-  parm <- sort(unique(parm))
+  parm <- expand_parm(object, parm, drop_suffixed = TRUE)
 
-  convergence <- convergence[row.names(convergence) %in% parm,,drop = FALSE]
-  
-  ifelse(combine, max(convergence$convergence, na.rm = TRUE), convergence)
+  convergence(as.jagr_chains(object), parm = parm, combine = combine, ...)
 }
 
 convergence_jagr_analysis <- function (object, parm = "all", combine = TRUE, ...) {

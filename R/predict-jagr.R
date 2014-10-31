@@ -41,7 +41,7 @@ predict_jagr <- function (object, parm, data, base, level, estimate,
   if(level == 0)
     return (data_sample)
   
-  coef <- coef (data_sample, parm = parm, level = level, estimate = estimate)
+  coef <- coef (data_sample, level = level, estimate = estimate)
   
   return (coef)
 }

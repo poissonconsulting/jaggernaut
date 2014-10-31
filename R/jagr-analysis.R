@@ -51,29 +51,26 @@ jagr_analysis <- function (model, data, niters, nworkers) {
   file <- tempfile(fileext=".bug")
   cat(model_code(model), file=file)
   
+  monitor <- monitor(model, trim_suffix = TRUE)
+  
   if(nchains == 1 || nworkers == 1) {
-    chains <- analysis_internal(inits, data, file = file, 
-                                     monitor = monitor(model),
-                                     n.adapt = n.adapt, 
-                                     n.burnin = n.burnin, n.chain = nchains, 
-                                     n.sample = nsamples, n.thin = n.thin, 
-                                     random = names(random_effects(model)))
+    chains <- jagr_chains(inits, data, file = file, monitor = monitor, 
+                          n.adapt = n.adapt, 
+                          n.burnin = n.burnin, n.chain = nchains, 
+                          n.sample = nsamples, n.thin = n.thin)
   } else {
     i <- NULL
     chains <- foreach(i = isplitIndices(n = nchains, chunks = nworkers),
                       .combine = combine_jagr_chains, 
-                      .export = "analysis_internal") %dopar% {
-                        analysis_internal(inits[i], data, file = file, 
-                                               monitor = monitor(model),
-                                               n.adapt = n.adapt, 
-                                               n.burnin = n.burnin, n.chain = length(i),
-                                               n.sample = nsamples, n.thin = n.thin, 
-                                               random = names(random_effects(model)))
+                      .export = "jagr_chains") %dopar% {
+                        jagr_chains(inits[i], data, file = file, 
+                                    monitor = monitor,
+                                    n.adapt = n.adapt, 
+                                    n.burnin = n.burnin, n.chain = length(i),
+                                    n.sample = nsamples, n.thin = n.thin)
                       } 
   }
-    
-  monitor(model) <- monitor(model)[monitor(model, type = "suffixless") %in% monitor(chains)]
-
+  
   object <- model
   
   class(object) <- c("jagr_analysis", "jagr_model")

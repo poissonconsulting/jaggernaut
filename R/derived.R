@@ -102,7 +102,6 @@ derived <- function (object, parm, data, nworkers) {
   
   samples(newobject) <- samps
   jags(newobject) <- list(NULL)
-  random(newobject) <- names(random_effects(object))
     
   return (newobject)
 }

@@ -59,7 +59,7 @@
 #' @return the \code{coef} table for the derived parameter of interest 
 #' or if level = "no" an object of class \code{jags_samples}
 #' @seealso \code{\link{jags_model}}, \code{\link{jags_analysis}},
-#' \code{\link{coef.jags_analysis}}, \code{\link{jags_sample}}
+#' \code{\link{coef.jags_analysis}}
 #'  and \code{\link{jaggernaut}}
 #' @method predict jags_analysis
 #' @export 

@@ -1,11 +1,12 @@
-expand_parm <- function (object, parm, ...) {
+expand_parm <- function (object, parm, drop_suffixed = FALSE) {
   
-  assert_that(is.jagr_chains(object))
-  assert_that(is.character(parm))
-  
-  parm <- unique(parm)
-  
-  mcmc <- as.mcmc.list (object)
+  assert_that(is.jagr_analysis(object))
+  assert_that(is.character(parm) && noNA(parm) && not_empty(parm))
+  assert_that(is.flag(drop_suffixed) && noNA(drop_suffixed))
+    
+  parm <- sort(unique(parm))
+    
+  mcmc <- as.mcmc.list (as.jagr_chains(object))
   
   vars <- varnames(mcmc)
   
@@ -27,14 +28,19 @@ expand_parm <- function (object, parm, ...) {
     all <- svars
   }
   if ("fixed" %in% parm) {
-    fixed <- svars[!svars %in% random(object)]
+    fixed <- svars[!svars %in% random_effects(object, names = TRUE)]
   } 
   if ("random" %in% parm) {
-    random <- svars[svars %in% random(object)]
+    random <- svars[svars %in% random_effects(object, names = TRUE)]
   }
   pars <- svars[svars %in% parm]
   
   pars <- sort(unique(c(all,fixed,random,pars)))
   
-  return (vars[svars %in% pars])
+  vars <- vars[svars %in% pars]
+  
+  if(drop_suffixed && length(monitor(object)) > 2)
+    vars <- vars[svars %in% monitor(object, drop_suffixed = TRUE)]
+  
+  vars
 }

@@ -8,10 +8,20 @@ monitor(object) <- value
 \arguments{
 \item{object}{a JAGS object.}
 
-\item{value}{a character vector of the parameters to monitor.}
+\item{value}{a character vector of the parameters to monitor or a
+Perl regular expression as a string of the parameters to monitor.}
 }
 \description{
 Set the monitor component of a JAGS object.
+}
+\details{
+#' Parameter names that have a '-' suffix are monitored
+but not included in the calculation of convergence.
+This can be useful when, for example, a parameter is Bernoulli distributed.
+
+Duplicates are removed and the parameters sorted. If a parameter
+is specified with and without a '-' suffix then it is assumed
+that it is to be included in the calculation of convergence.
 }
 \seealso{
 \code{\link{jaggernaut}}

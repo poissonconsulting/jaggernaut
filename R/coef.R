@@ -97,16 +97,15 @@ coef.jagr_chains <- function (object, parm, level, estimate,
   assert_that(is.number(level))
   
   mat <- as.matrix(object)
-  
-  ex_parm <- expand_parm(object, parm = parm)
-  
-  mat <- mat[,colnames(mat) %in% ex_parm,drop = FALSE]
+    
+  mat <- mat[,colnames(mat) %in% parm,drop = FALSE]
   
   if (level > 0) {
   return (coef_matrix (mat, level = level, estimate = estimate, 
                as_list = as_list))
   }
   data <- data.frame(row = 1:ncol(mat))
+  
   jags_sample(object, parm, data)
 }
 
@@ -167,6 +166,9 @@ coef.jags_sample <- function (object, level = "current", estimate = "current",
 
 coef.jagr_analysis <- function (object, parm, level, estimate, 
                                       as_list, ...) {
+  
+  parm <- expand_parm(object, parm = parm)
+  
   coef(as.jagr_chains(object), parm = parm, 
        level = level, estimate = estimate, 
        as_list = as_list, ...)

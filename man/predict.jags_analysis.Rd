@@ -87,7 +87,7 @@ are unaltered, i.e., as they are in new_data(dataset(object)).
 }
 \seealso{
 \code{\link{jags_model}}, \code{\link{jags_analysis}},
-\code{\link{coef.jags_analysis}}, \code{\link{jags_sample}}
+\code{\link{coef.jags_analysis}}
  and \code{\link{jaggernaut}}
 }
 
