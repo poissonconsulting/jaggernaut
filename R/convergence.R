@@ -26,22 +26,18 @@ convergence.jagr_chains <- function (object, parm = "all", combine = TRUE, ...) 
   vars <- sort(vars)
   
   if (is.null(object$convergence)) {
-    if(nchains(object) > 1) {
-      convergence <- numeric()
-      for (i in seq(along = vars)) {
-        convergence[i] <- round(gelman.diag(mcmc[,vars[i]], transform = TRUE, 
-          autoburnin = FALSE)$psrf[1],2)
-      }
-    } else {
-      convergence <- rep(NA,length(vars))
+    convergence <- numeric()
+    for (i in seq(along = vars)) {
+      convergence[i] <- round(gelman.diag(mcmc[,vars[i]], transform = TRUE, 
+                                          autoburnin = FALSE)$psrf[1],2)
     }
     convergence <- data.frame(convergence = convergence, row.names = vars)
     convergence$convergence <- convergence
   } else
     convergence <- object$convergence
-    
+  
   convergence <- convergence[row.names(convergence) %in% parm,,drop = FALSE]
-    
+  
   if (combine)
     return (max(convergence$convergence, na.rm = TRUE))
   
@@ -51,8 +47,8 @@ convergence.jagr_chains <- function (object, parm = "all", combine = TRUE, ...) 
 convergence.jagr_analysis <- function (object, parm = "all", combine = TRUE, ...) {
   assert_that(is.flag(combine) && noNA(combine))
   
-  parm <- expand_parm(object, parm, drop_suffixed = TRUE)
-
+  parm <- expand_parm(object, parm)
+  
   convergence(as.jagr_chains(object), parm = parm, combine = combine, ...)
 }
 
@@ -91,6 +87,6 @@ convergence.jags_sample <- function (object, parm = "all", combine = TRUE, ...) 
     warning("fixed or random not defined for jags_sample - replacing with all")
     parm <- "all"
   }
-    
+  
   convergence(as.jagr_chains(object), parm = parm, combine = combine, ...)  
 }

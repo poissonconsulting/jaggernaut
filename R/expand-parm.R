@@ -1,8 +1,7 @@
-expand_parm <- function (object, parm, drop_suffixed = FALSE) {
+expand_parm <- function (object, parm) {
   
   assert_that(is.jagr_analysis(object))
   assert_that(is.character(parm) && noNA(parm) && not_empty(parm))
-  assert_that(is.flag(drop_suffixed) && noNA(drop_suffixed))
     
   parm <- sort(unique(parm))
     
@@ -37,10 +36,9 @@ expand_parm <- function (object, parm, drop_suffixed = FALSE) {
   
   pars <- sort(unique(c(all,fixed,random,pars)))
   
-  vars <- vars[svars %in% pars]
+  if(length(monitor(object)) > 1) {
+    pars <- pars[pars %in% parm | pars %in% monitor(object, drop_suffixed = TRUE)]
+  }
   
-  if(drop_suffixed && length(monitor(object)) > 2)
-    vars <- vars[svars %in% monitor(object, drop_suffixed = TRUE)]
-  
-  vars
+  vars[svars %in% pars]
 }
