@@ -1,5 +1,10 @@
 # NEWS
 
+#### jaggernaut v2.1.1
+
+* `predictive_check` now returns parameter names as rownnames as opposed
+to a columnn
+
 ### jaggernaut v2.1.0
 
 * renamed `jags_discrepancies` as `predictive_check` and now

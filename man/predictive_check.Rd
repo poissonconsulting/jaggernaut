@@ -33,6 +33,37 @@ a coef table of the posterior predictive check p-values(s)
 \description{
 Calculate posterior predictive check p-value for a JAGS analysis
 }
+\examples{
+\dontrun{
+model1 <- jags_model("model {
+alpha ~ dnorm(0, 50^-2)
+beta ~ dnorm(0, 10^-2)
+sigma ~ dunif(0, 10)
+
+for(i in 1:length(Volume)) {
+  eMu[i] <- alpha + beta * Girth[i]
+  Volume[i] ~ dnorm(eMu[i], sigma^-2)
+}
+}",
+derived_code = "data {
+for(i in 1:length(Volume)) {
+  prediction[i] <- alpha + beta * Girth[i]
+
+  simulated[i] ~ dnorm(prediction[i], sigma^-2)
+
+  D_observed[i] <- log(dnorm(Volume[i], prediction[i], sigma^-2))
+  D_simulated[i] <- log(dnorm(simulated[i], prediction[i], sigma^-2))
+}
+discrepancy <- sum(D_observed) - sum(D_simulated)
+
+}",
+select_data = c("Volume", "Girth*"))
+
+data(trees)
+analysis1 <- jags_analysis(model1, data = trees)
+predictive_check(analysis1)
+}
+}
 \seealso{
 \code{\link{jags_model}}, \code{\link{jags_analysis}}
 ,\code{\link{predict.jags_analysis}} and \code{\link{coef.jags_analysis}}
