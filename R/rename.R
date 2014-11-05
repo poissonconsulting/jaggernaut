@@ -1,7 +1,7 @@
 rename_models <- function (object) {
   stopifnot(is.jags_model(object))
   
-  names <- sapply(models(object), model_name_jagr_model)
+  names <- sapply(models(object), model_id_jagr_model)
   names(names) <- NULL  
   duplicates <- names[duplicated(names)]
   is.na(names[names %in% duplicates]) <- TRUE
@@ -13,7 +13,7 @@ rename_models <- function (object) {
 rename_analyses <- function (object) {
   stopifnot(is.jags_analysis (object))
   
-  names <- sapply(analyses(object), model_name_jagr_model)
+  names <- sapply(analyses(object), model_id_jagr_model)
   names(names) <- NULL  
   duplicates <- names[duplicated(names)]
   is.na(names[names %in% duplicates]) <- TRUE

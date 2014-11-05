@@ -86,9 +86,9 @@ subset.jags_model <- function (x, model = 1:nmodels(x), ...) {
     return (x)
   }
   
-  assert_that(all(model %in% model_name(x, reference = TRUE)))
+  assert_that(all(model %in% model_id(x, reference = TRUE)))
   
-  models(x) <- models(x)[model_name(x, reference = TRUE) %in% model]
+  models(x) <- models(x)[model_id(x, reference = TRUE) %in% model]
   x  
 }
 
@@ -115,8 +115,8 @@ subset.jags_analysis <- function (x, model = 1:nmodels(x), ...) {
     return (x)
   }
   
-  assert_that(all(model %in% model_name(x, reference = TRUE)))
+  assert_that(all(model %in% model_id(x, reference = TRUE)))
   
-  analyses(x) <- analyses(x)[model_name(x, reference = TRUE) %in% model]
+  analyses(x) <- analyses(x)[model_id(x, reference = TRUE) %in% model]
   x 
 }

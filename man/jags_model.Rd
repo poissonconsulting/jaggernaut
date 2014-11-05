@@ -3,7 +3,7 @@
 \alias{jags_model}
 \title{Create a JAGS model}
 \usage{
-jags_model(model_code, model_name = NA, monitor = "^([^dei]|.[^A-Z])",
+jags_model(model_code, model_id = NA, monitor = "^([^dei]|.[^A-Z])",
   select_data = NULL, modify_data = NULL, gen_inits = NULL,
   derived_code = NULL, random_effects = NULL, select_data_derived = NULL,
   modify_data_derived = NULL)
@@ -12,7 +12,7 @@ jags_model(model_code, model_name = NA, monitor = "^([^dei]|.[^A-Z])",
 \item{model_code}{a character element defining the model in the JAGS dialect of
 the BUGS language}
 
-\item{model_name}{string of name for model.}
+\item{model_id}{string of name for model.}
 
 \item{monitor}{a character vector of the parameters to monitor or a
 Perl regular expression as a string of the parameters to monitor}

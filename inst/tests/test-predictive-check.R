@@ -33,7 +33,7 @@ select_data = c("Volume","Girth")
   check <- predictive_check(analysis)
   expect_that(is.data.frame(check), is_true())
   expect_equal(nrow(check), 1)
-  expect_that(colnames(check), is_identical_to(c("parameter", "estimate", "lower", "upper", "sd", "error", "significance")))
+  expect_that(colnames(check), is_identical_to(c("estimate", "lower", "upper", "sd", "error", "significance")))
 })
 
 test_that("predictive_check works 2 checks", {
@@ -70,7 +70,7 @@ select_data = c("Volume","Girth")
   check <- predictive_check(analysis, parm = c("discrepancy", "ppc2"))
   expect_that(is.data.frame(check), is_true())
   expect_equal(nrow(check), 2)
-expect_that(colnames(check), is_identical_to(c("parameter", "estimate", "lower", "upper", "sd", "error", "significance")))
-  expect_equal(check$parameter, c("discrepancy", "ppc2"))
+expect_that(colnames(check), is_identical_to(c("estimate", "lower", "upper", "sd", "error", "significance")))
+  expect_equal(rownames(check), c("discrepancy", "ppc2"))
 
 })

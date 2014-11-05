@@ -1,5 +1,5 @@
 jagr_model <- function (model_code, 
-                        model_name,                        
+                        model_id,                        
                         monitor, 
                         select_data, 
                         modify_data, 
@@ -15,7 +15,7 @@ jagr_model <- function (model_code,
   class(object) <- "jagr_model"
   
   model_code(object) <- model_code
-  model_name(object) <- model_name
+  model_id(object) <- model_id
   monitor(object) <- monitor
   select_data(object) <- select_data
   modify_data(object) <- modify_data

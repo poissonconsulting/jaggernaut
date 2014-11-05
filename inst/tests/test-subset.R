@@ -22,7 +22,7 @@ test_that("subset.jags_analysis subsets", {
                       x[i]~dpois(bLambda) 
                       } 
 }",
-                     model_name = "m1")
+                     model_id = "m1")
 
   mod2 <- jags_model(" model { 
                       bLambda ~ dlnorm(0,2^-2) 
