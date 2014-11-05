@@ -3,9 +3,10 @@
 \alias{fitted.jags_analysis}
 \title{JAGS analysis fitted values}
 \usage{
-\method{fitted}{jags_analysis}(object, parm = "prediction", model_id = 1,
-  derived_code = NULL, random_effects = NULL, level = "current",
-  estimate = "current", data = NULL, ...)
+\method{fitted}{jags_analysis}(object, parm = "prediction",
+  model_id = default_model_id(object), derived_code = NULL,
+  random_effects = NULL, level = "current", estimate = "current",
+  data = NULL, ...)
 }
 \arguments{
 \item{object}{a jags_analysis object.}

@@ -13,6 +13,7 @@
 #' @param model a \code{jags_model} specifying the JAGS model(s).
 #' @param data the data.frame or list of data to analyse.
 #' @param niters an integer element of the number of iterations to run per MCMC chain.
+#' @param default_model_id a string or number defining the default model id to use in predictions etc
 #' @param mode a character element indicating the mode for the analysis.
 #' @details 
 #' The \code{jags_analysis} function performs a Bayesian analysis of a data frame
@@ -57,13 +58,18 @@
 #' convergence(analysis)
 #' 
 #' @export
-jags_analysis <- function (model, data, niters = 10^3, mode = "current") {
+jags_analysis <- function (model, data, niters = 10^3, 
+                           default_model_id = model_id(model, reference = TRUE)[1],
+                           mode = "current") {
 
   assert_that(is.jags_model(model))
   assert_that(is_convertible_data(data))
   assert_that(is.count(niters))
   assert_that(niters >= 100 && niters <= 10^6)
   assert_that(is.string(mode))
+  
+  assert_that(is.string(default_model_id) && noNA(default_model_id))
+  assert_that(default_model_id %in% model_id(model, reference = TRUE))
   
   if (options()$jags.pb != "none") {
     jags.pb <- options()$jags.pb
@@ -98,6 +104,7 @@ jags_analysis <- function (model, data, niters = 10^3, mode = "current") {
   chunks <- floor(nworkers / nchains)
   chunks <- min(nmodels, chunks)
   if (chunks <= 1) {
+    
     analyses <- jagr_analysis_list(models, data = data, niters = niters, 
                                    nworkers = nworkers)
   } else { 
@@ -124,6 +131,7 @@ jags_analysis <- function (model, data, niters = 10^3, mode = "current") {
   }
   
   analyses(object) <- analyses
+  default_model_id(object) <- default_model_id
   convergence_threshold(object) <- opts_jagr("convergence")
       
   return (object)

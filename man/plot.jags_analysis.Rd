@@ -3,7 +3,8 @@
 \alias{plot.jags_analysis}
 \title{Plot a JAGS analysis}
 \usage{
-\method{plot}{jags_analysis}(x, model_id = 1, parm = "fixed", ...)
+\method{plot}{jags_analysis}(x, model_id = default_model_id(x),
+  parm = "fixed", ...)
 }
 \arguments{
 \item{x}{a jags_analysis object}

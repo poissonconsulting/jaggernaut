@@ -4,10 +4,10 @@
 \title{Predict}
 \usage{
 \method{predict}{jags_analysis}(object, newdata = NULL, parm = "prediction",
-  base = FALSE, values = NULL, model_id = 1, modify_data_derived = NULL,
-  derived_code = NULL, random_effects = NULL, select_data_derived = NULL,
-  level = "current", estimate = "current", obs_by = FALSE,
-  length_out = 50, ...)
+  base = FALSE, values = NULL, model_id = default_model_id(object),
+  modify_data_derived = NULL, derived_code = NULL, random_effects = NULL,
+  select_data_derived = NULL, level = "current", estimate = "current",
+  obs_by = FALSE, length_out = 50, ...)
 }
 \arguments{
 \item{object}{a jags_analysis object.}

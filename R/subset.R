@@ -75,7 +75,7 @@ subset.jagr_chains <- function (x, sample = NULL, chain = NULL) {
 #' @seealso \code{\link{subset}} and \code{\link{jags_analysis}}
 #' @method subset jags_model
 #' @export 
-subset.jags_model <- function (x, model_id = 1:nmodels(x), ...) {   
+subset.jags_model <- function (x, model_id = default_model_id(x), ...) {   
     
   assert_that((is.numeric(model_id) || is.character(model_id)) && noNA(model_id) && not_empty(model_id))
   
@@ -104,7 +104,7 @@ subset.jags_model <- function (x, model_id = 1:nmodels(x), ...) {
 #' @seealso \code{\link{subset}} and \code{\link{jags_analysis}} 
 #' @method subset jags_analysis
 #' @export 
-subset.jags_analysis <- function (x, model_id = 1:nmodels(x), ...) {   
+subset.jags_analysis <- function (x, model_id = default_model_id(x), ...) {   
     
   assert_that((is.numeric(model_id) || is.character(model_id)) && noNA(model_id) && not_empty(model_id))
   

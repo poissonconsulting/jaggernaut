@@ -30,7 +30,7 @@ plot.jagr_analysis <- function (x, parm, ...) {
 #' @seealso \code{\link{jags_analysis}} and \code{\link[coda]{plot.mcmc}}
 #' @method plot jags_analysis
 #' @export
-plot.jags_analysis <- function (x, model_id = 1, parm = "fixed", ...) {
+plot.jags_analysis <- function (x, model_id = default_model_id(x), parm = "fixed", ...) {
 
   assert_that(is.scalar(model))
   

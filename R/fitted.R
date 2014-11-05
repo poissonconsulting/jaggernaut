@@ -31,7 +31,8 @@
 #' and \code{\link{predict.jags_analysis}}
 #' @method fitted jags_analysis
 #' @export 
-fitted.jags_analysis <- function (object, parm = "prediction",  model_id = 1, 
+fitted.jags_analysis <- function (object, parm = "prediction",  
+                                  model_id = default_model_id(object),
                                   derived_code = NULL, random_effects = NULL, 
                                   level = "current", estimate = "current",
                                   data = NULL, ...) {

@@ -3,8 +3,9 @@
 \alias{predictive_check}
 \title{JAGS analysis posterior predictive checks}
 \usage{
-predictive_check(object, parm = "discrepancy", model_id = 1,
-  derived_code = NULL, level = "current", estimate = "current", ...)
+predictive_check(object, parm = "discrepancy",
+  model_id = default_model_id(object), derived_code = NULL,
+  level = "current", estimate = "current", ...)
 }
 \arguments{
 \item{object}{a jags_analysis object.}
