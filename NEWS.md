@@ -1,5 +1,9 @@
 # NEWS
 
+### jaggernaut v2.2.1
+
+* `summary.jags_analysis` get model names and lists convergence as rhat
+
 ### jaggernaut v2.2.0
 
 * `model_name` and `model` replaced with `model_id`
