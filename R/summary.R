@@ -11,7 +11,7 @@ summary.jagr_analysis <- function (object, level, estimate, ...) {
   
   summ[["Dimensions"]] <- c(samples = nsamples(object), chains = nchains(object))
 
-  summ[["Convergence"]] <- c(convergence = convergence(object, parm = "all", combine = TRUE))
+  summ[["Convergence"]] <- c(rhat = convergence(object, parm = "all", combine = TRUE))
 
   summ[["Estimates"]] <- coef(object, parm = "fixed", level = level, 
                               estimate = estimate, as_list = FALSE)
@@ -53,7 +53,7 @@ summary.jags_analysis <- function (object, level = "current",
   summ <- list()
   
   for (i in 1:nmodels(object)) {
-    summ[[paste0("Model",i)]] <- summary(analyses[[i]], level = level, 
+    summ[[paste(model_id(object, reference = TRUE)[[i]])]] <- summary(analyses[[i]], level = level, 
                                          estimate = estimate)
   }
 

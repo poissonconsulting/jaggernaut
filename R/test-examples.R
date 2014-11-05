@@ -13,7 +13,8 @@
 #'  for (i in 1:length(x)) { 
 #'    x[i] ~ dpois(bLambda) 
 #'  } 
-#'}")
+#'}",
+#'model_id = "First Model")
 #'
 #' model2 <- jags_model("
 #' model { 
@@ -21,7 +22,8 @@
 #'  for (i in 1:length(x)) { 
 #'    x[i] ~ dpois(bLambda) 
 #'  } 
-#'}")
+#'}",
+#'model_id = "Second Model")
 #'
 #' models <- combine(model1, model2)
 #' data <- data.frame(x = rpois(100,1))
