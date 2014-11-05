@@ -35,7 +35,7 @@ update.jagr_chains <- function (object, niters, nworkers, ...) {
   n.thin <- max(1, floor(nchains * niters / nsamples(object)))
   
   monitor <- monitor(object, trim_suffix = TRUE)
-
+  
   jags <- jags(object)
   
   if(nworkers == 1) {
@@ -59,7 +59,7 @@ update.jagr_chains <- function (object, niters, nworkers, ...) {
 }
 
 update.jagr_analysis <- function (object, nworkers, ...) {  
-    
+  
   niters <- niters(object)
   ptm <- proc.time()
   
@@ -83,7 +83,7 @@ update.jags_analysis <- function (object, mode = "current", ...) {
     old_opts <- opts_jagr(mode = mode)
     on.exit(opts_jagr(old_opts))
   }
-    
+  
   if (options()$jags.pb != "none") {
     jags.pb <- options()$jags.pb
     options(jags.pb = "none")
@@ -104,8 +104,22 @@ update.jags_analysis <- function (object, mode = "current", ...) {
   chunks <- floor(nworkers / nchains)
   chunks <- min(nmodels, chunks)
   if (chunks <= 1) {
-    analyses <- lapply(analyses(object), update_jagr_analysis, 
-                      nworkers = nworkers)
+    analyses_object <- analyses(object)
+    analyses <- list()
+    for(i in 1:length(analyses_object)) {
+      analyses[[i]] <- update_jagr_analysis(analyses_object[[i]], nworkers = nworkers)
+      
+      if(!quiet) {
+        if(length(analyses_object) > 1)
+          cat(paste0("\n", model_id(object, reference = TRUE)[i]))  
+        cat("\n")            
+        if (is_converged (analyses[[i]], convergence_threshold = convergence_threshold)) {
+          cat ("Analysis converged")
+        } else 
+          cat ("Analysis failed to converge")
+        cat_convergence (analyses[[i]])
+      }      
+    }
   } else { 
     i <- NULL
     
@@ -125,24 +139,24 @@ update.jags_analysis <- function (object, mode = "current", ...) {
                         .combine = fun, 
                         .export = "update_jagr_analysis") %dopar% {
                           update_jagr_analysis(analyses[i], 
-                                                     nworkers = nchains)
+                                               nworkers = nchains)
                         }
-  }
-  
-  if(!quiet) {
-    for (i in 1:nmodels) {
-      cat(paste("\n\nModel",i,"of",nmodels,"\n\n"))
-      
-      if (is_converged (analyses[[i]], convergence_threshold = convergence_threshold)) {
-        cat ("Analysis converged")
-      } else 
-        cat ("Analysis failed to converge")
-      cat_convergence (analyses[[i]])
+    if(!quiet) {
+      for (i in 1:nmodels) {
+        
+        cat(paste0("\n", model_id(object, reference = TRUE)[i], "\n"))  
+        
+        if (is_converged (analyses[[i]], convergence_threshold = convergence_threshold)) {
+          cat ("Analysis converged")
+        } else 
+          cat ("Analysis failed to converge")
+        cat_convergence (analyses[[i]])
+      }
     }
   }
   
   analyses(object) <- analyses
   convergence_threshold(object) <- convergence_threshold
-    
+  
   return (object)
 }

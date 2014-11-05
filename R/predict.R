@@ -65,7 +65,8 @@
 #' @export 
 predict.jags_analysis <- function (object, newdata = NULL, 
                                    parm = "prediction", base = FALSE, 
-                                   values = NULL, model_id = 1,
+                                   values = NULL, 
+                                   model_id = default_model_id(object),
                                    modify_data_derived = NULL,
                                    derived_code = NULL, random_effects = NULL, 
                                    select_data_derived = NULL,

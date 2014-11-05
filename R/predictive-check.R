@@ -52,7 +52,8 @@
 #' }
 #'
 #' @export
-predictive_check <- function (object, parm = "discrepancy",  model_id = 1, 
+predictive_check <- function (object, parm = "discrepancy",  
+                              model_id = default_model_id(object),
                               derived_code = NULL,
                               level = "current", estimate = "current",
                               ...) {

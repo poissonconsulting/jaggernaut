@@ -17,7 +17,7 @@ model <- jags_model("
              C[i] ~ dpois(eC[i])
              }
              }",
- derived_code = "model{
+ derived_code = "data{
   for (i in 1:length(Year)) {
     log(prediction[i]) <- alpha + beta1 * Year[i]
         + beta2 * Year[i]^2 + beta3 * Year[i]^3
@@ -79,7 +79,7 @@ model <- jags_model("
              C[i] ~ dbin(eP[i], N[i])
              }
              }",
- derived_code = "model{
+ derived_code = "data{
              for (i in 1:length(Year)) {
              logit(prediction[i]) <- alpha + beta1 * Year[i] + beta2 * Year[i]^2
              }
@@ -126,7 +126,7 @@ model <- jags_model("
              C[i] ~ dpois(eC[i])
              }
              }",
- derived_code = "model{
+ derived_code = "data{
              for (i in 1:length(Year)) {
              log(prediction[i]) <- alpha + beta1 * Year[i]
              + beta2 * Year[i]^2 + beta3 * Year[i]^3

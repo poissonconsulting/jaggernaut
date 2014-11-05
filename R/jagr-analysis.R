@@ -80,9 +80,12 @@ jagr_analysis <- function (model, data, niters, nworkers) {
   niters(object) <- niters
   time_interval(object) <- ((proc.time () - ptm)[3]) / (60 * 60)
   
+  if(!quiet && !is.na(model_id(model)))
+      cat(paste0(model_id(model), "\n"))
+  
   while (!is_converged (object, convergence_threshold = convergence_threshold) && resample > 0)  {
     if(!quiet) {
-      cat ("Resampling due to convergence failure")
+      cat("Resampling due to convergence failure")
       cat_convergence (object)  
     }
     
@@ -93,10 +96,10 @@ jagr_analysis <- function (model, data, niters, nworkers) {
   
   if(!quiet) {
     if (is_converged (object, convergence_threshold = convergence_threshold)) {
-      cat ('Analysis converged')
+      cat("Analysis converged")
       cat_convergence (object)
     }  else {
-      cat ('Analysis failed to converge')
+      cat("Analysis failed to converge")
       cat_convergence (object)      
     }
   }

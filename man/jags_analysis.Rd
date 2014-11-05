@@ -3,7 +3,8 @@
 \alias{jags_analysis}
 \title{Perform a JAGS analysis}
 \usage{
-jags_analysis(model, data, niters = 10^3, mode = "current")
+jags_analysis(model, data, niters = 10^3, default_model_id = model_id(model,
+  reference = TRUE)[1], mode = "current")
 }
 \arguments{
 \item{model}{a \code{jags_model} specifying the JAGS model(s).}
@@ -11,6 +12,8 @@ jags_analysis(model, data, niters = 10^3, mode = "current")
 \item{data}{the data.frame or list of data to analyse.}
 
 \item{niters}{an integer element of the number of iterations to run per MCMC chain.}
+
+\item{default_model_id}{a string or number defining the default model id to use in predictions etc}
 
 \item{mode}{a character element indicating the mode for the analysis.}
 }

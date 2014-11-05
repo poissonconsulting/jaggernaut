@@ -26,7 +26,8 @@
 #' @seealso \code{\link{jags_model}} and \code{\link{jags_analysis}}
 #' @method residuals jags_analysis
 #' @export 
-residuals.jags_analysis <- function (object, parm = "residual", model_id = 1, 
+residuals.jags_analysis <- function (object, parm = "residual", 
+                                     model_id = default_model_id(object),
                                      derived_code = NULL, random_effects = NULL, 
                                      level = "current", estimate = "current",
                                      data = NULL, ...) {
