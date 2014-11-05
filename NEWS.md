@@ -1,5 +1,11 @@
 # NEWS
 
+### jaggernaut v2.2.0
+
+* `model_name` and `model` replaced with `model_id`
+* added `default_model_id` argument and function to specify which model
+to use for default predictions, residuals etc
+
 #### jaggernaut v2.1.1
 
 * `predictive_check` now returns parameter names as rownnames as opposed
