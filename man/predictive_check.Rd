@@ -3,7 +3,7 @@
 \alias{predictive_check}
 \title{JAGS analysis posterior predictive checks}
 \usage{
-predictive_check(object, parm = "discrepancy", model = 1,
+predictive_check(object, parm = "discrepancy", model_id = 1,
   derived_code = NULL, level = "current", estimate = "current", ...)
 }
 \arguments{
@@ -12,7 +12,7 @@ predictive_check(object, parm = "discrepancy", model = 1,
 \item{parm}{a character vector specifying the discrepancy
 derived parameters (default = "discrepancy").}
 
-\item{model}{a count or string specifying the jags model to select.}
+\item{model_id}{a count or string specifying the jags model to select.}
 
 \item{derived_code}{a character scalar defining a block in the
 JAGS dialect of  the BUGS language that defines the discrepancy(s).}

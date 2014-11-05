@@ -109,7 +109,7 @@
 #' model_code(model)
 #' @export 
 jags_model <- function (model_code,
-                        model_id = NA,                        
+                        model_id = NULL,                        
                         monitor = "^([^dei]|.[^A-Z])", 
                         select_data = NULL, 
                         modify_data = NULL, 

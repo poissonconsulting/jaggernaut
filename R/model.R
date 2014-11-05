@@ -1,4 +1,3 @@
-
 #' @title Get model
 #'
 #' @description

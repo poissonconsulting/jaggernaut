@@ -69,26 +69,26 @@ subset.jagr_chains <- function (x, sample = NULL, chain = NULL) {
 #' Subset a JAGS model x.  
 #' 
 #' @param x a jags_model x.
-#' @param model an integer or character vector specifying the jags models to select. 
+#' @param model_id an integer or character vector specifying the jags models to select. 
 #' @param ... other arguments passed to generic function.
 #' @return the subsetted jags_analysis x
 #' @seealso \code{\link{subset}} and \code{\link{jags_analysis}}
 #' @method subset jags_model
 #' @export 
-subset.jags_model <- function (x, model = 1:nmodels(x), ...) {   
+subset.jags_model <- function (x, model_id = 1:nmodels(x), ...) {   
     
-  assert_that((is.numeric(model) || is.character(model)) && noNA(model) && not_empty(model))
+  assert_that((is.numeric(model_id) || is.character(model_id)) && noNA(model_id) && not_empty(model_id))
   
-  if(is.numeric(model)) {    
-    assert_that(min(model) >= 1 && max(model) <= nmodels(x))    
+  if(is.numeric(model_id)) {    
+    assert_that(min(model_id) >= 1 && max(model_id) <= nmodels(x))    
     
-    models(x) <- models(x)[sort(unique(floor(model)))]
+    models(x) <- models(x)[sort(unique(floor(model_id)))]
     return (x)
   }
   
-  assert_that(all(model %in% model_id(x, reference = TRUE)))
+  assert_that(all(model_id %in% model_id(x, reference = TRUE)))
   
-  models(x) <- models(x)[model_id(x, reference = TRUE) %in% model]
+  models(x) <- models(x)[model_id(x, reference = TRUE) %in% model_id]
   x  
 }
 
@@ -98,25 +98,25 @@ subset.jags_model <- function (x, model = 1:nmodels(x), ...) {
 #' Subset a JAGS analysis x.  
 #' 
 #' @param x a jags_analysis x.
-#' @param model an integer or character vector specifying the jags models to select. 
+#' @param model_id an integer or character vector specifying the jags models to select. 
 #' @param ... other arguments passed to generic function.
 #' @return the subsetted jags_analysis x
 #' @seealso \code{\link{subset}} and \code{\link{jags_analysis}} 
 #' @method subset jags_analysis
 #' @export 
-subset.jags_analysis <- function (x, model = 1:nmodels(x), ...) {   
-  
-  assert_that((is.numeric(model) || is.character(model)) && noNA(model) && not_empty(model))
-  
-  if(is.numeric(model)) {    
-    assert_that(min(model) >= 1 && max(model) <= nmodels(x))    
+subset.jags_analysis <- function (x, model_id = 1:nmodels(x), ...) {   
     
-    analyses(x) <- analyses(x)[sort(unique(floor(model)))]
+  assert_that((is.numeric(model_id) || is.character(model_id)) && noNA(model_id) && not_empty(model_id))
+  
+  if(is.numeric(model_id)) {    
+    assert_that(min(model_id) >= 1 && max(model_id) <= nmodels(x))    
+    
+    analyses(x) <- analyses(x)[sort(unique(floor(model_id)))]
     return (x)
   }
   
-  assert_that(all(model %in% model_id(x, reference = TRUE)))
+  assert_that(all(model_id %in% model_id(x, reference = TRUE)))
   
-  analyses(x) <- analyses(x)[model_id(x, reference = TRUE) %in% model]
+  analyses(x) <- analyses(x)[model_id(x, reference = TRUE) %in% model_id]
   x 
 }

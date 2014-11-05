@@ -62,7 +62,10 @@ model_id.jags_analysis <- function (object, reference = FALSE, ...) {
 
 "model_id<-.jagr_model" <- function (object, value) {
   
-  assert_that(is.string(value) || (!is.null(value) && is.na(value)))
+  if(is.null(value))
+    value <- NA
+  
+  assert_that(is.string(value) || is.na(value))
   
   if(grepl("^Model\\d", value, perl = TRUE)) {
     stop("`Model` immediately followed by 1-9 is a reserved model name")

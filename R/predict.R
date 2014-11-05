@@ -19,7 +19,7 @@
 #' @param values NULL or a data frame with a single row that defines the value 
 #' of particular variables. The variables in the arguments newdata and base are
 #' replaced by the corresponding values.
-#' @param model a count or string specifying the jags model to select. 
+#' @param model_id a count or string specifying the jags model to select. 
 #' @param select_data_derived a character vector of the variables to select from the 
 #' data set being analysed (can also specify variables to transform and/or centre)
 #' @param modify_data_derived a function to modify the derived data set 
@@ -65,12 +65,14 @@
 #' @export 
 predict.jags_analysis <- function (object, newdata = NULL, 
                                    parm = "prediction", base = FALSE, 
-                                   values = NULL, model = 1,
+                                   values = NULL, model_id = 1,
                                    modify_data_derived = NULL,
                                    derived_code = NULL, random_effects = NULL, 
                                    select_data_derived = NULL,
                                    level = "current", estimate = "current", 
                                    obs_by = FALSE, length_out = 50, ...) {
+  
+  assert_that(is.scalar(model_id))
   
   if(!is_null(newdata) && !is_convertible_data(newdata) &&
        !identical(newdata, "") && !is_character_vector(newdata))
@@ -84,8 +86,6 @@ predict.jags_analysis <- function (object, newdata = NULL,
 
   if(!is_null(values) && !(is_convertible_data_frame(values) && nrow(values) == 1))
     stop("values must be NULL or a data.frame with a single row of data")
-
-  assert_that(is.count(model) || is.string(model))
   
   if(!is_null(modify_data_derived) && !is_function(modify_data_derived))
     stop("modify_data_derived must be NULL or a function")
@@ -144,7 +144,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
   if(!opts_jagr("parallel"))
     nworkers <- 1
   
-  object <- subset(object, model = model)
+  object <- subset(object, model_id = model_id)
 
   if(!is_null(select_data_derived))
     select_data_derived(object) <- select_data_derived

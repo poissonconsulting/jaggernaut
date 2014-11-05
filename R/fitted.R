@@ -6,7 +6,7 @@
 #' @param object a jags_analysis object.
 #' @param parm a character scalar naming the derived parameter for which 
 #' the estimates should be calculated (default = "prediction").
-#' @param model a count or string specifying the jags model to select.
+#' @param model_id a count or string specifying the jags model to select.
 #' @param derived_code a character scalar defining a block in the 
 #' JAGS dialect of  the BUGS language that defines one or more derived
 #' parameters for each row of data. 
@@ -31,7 +31,7 @@
 #' and \code{\link{predict.jags_analysis}}
 #' @method fitted jags_analysis
 #' @export 
-fitted.jags_analysis <- function (object, parm = "prediction",  model = 1, 
+fitted.jags_analysis <- function (object, parm = "prediction",  model_id = 1, 
                                   derived_code = NULL, random_effects = NULL, 
                                   level = "current", estimate = "current",
                                   data = NULL, ...) {
@@ -53,7 +53,7 @@ fitted.jags_analysis <- function (object, parm = "prediction",  model = 1,
       stop("as original dataset is a data list data must be NULL or a data list")
   }  
   
-  return (predict(object, newdata = data, parm = parm, model = model, 
+  return (predict(object, newdata = data, parm = parm, model_id = model_id, 
                   derived_code = derived_code, random_effects = random_effects, 
                   level = level, ...))
 }

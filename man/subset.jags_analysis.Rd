@@ -3,12 +3,12 @@
 \alias{subset.jags_analysis}
 \title{Subset a JAGS analysis}
 \usage{
-\method{subset}{jags_analysis}(x, model = 1:nmodels(x), ...)
+\method{subset}{jags_analysis}(x, model_id = 1:nmodels(x), ...)
 }
 \arguments{
 \item{x}{a jags_analysis x.}
 
-\item{model}{an integer or character vector specifying the jags models to select.}
+\item{model_id}{an integer or character vector specifying the jags models to select.}
 
 \item{...}{other arguments passed to generic function.}
 }

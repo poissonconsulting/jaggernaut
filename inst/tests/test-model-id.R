@@ -38,7 +38,6 @@ test_that("model_id updates simple model", {
   expect_equal(model_id(analysis, reference = TRUE), "Model1")
   
   expect_error(model_id(model) <- "Model1")    
-  expect_error(model_id(model) <- NULL)  
   expect_error(model_id(analysis) <- NA)  
   expect_error(model_id(analysis) <- NULL)
   expect_error(model_id(analysis) <- "xx")

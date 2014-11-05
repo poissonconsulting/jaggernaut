@@ -4,7 +4,7 @@
 \title{Predict}
 \usage{
 \method{predict}{jags_analysis}(object, newdata = NULL, parm = "prediction",
-  base = FALSE, values = NULL, model = 1, modify_data_derived = NULL,
+  base = FALSE, values = NULL, model_id = 1, modify_data_derived = NULL,
   derived_code = NULL, random_effects = NULL, select_data_derived = NULL,
   level = "current", estimate = "current", obs_by = FALSE,
   length_out = 50, ...)
@@ -29,7 +29,7 @@ defining the base level.}
 of particular variables. The variables in the arguments newdata and base are
 replaced by the corresponding values.}
 
-\item{model}{a count or string specifying the jags model to select.}
+\item{model_id}{a count or string specifying the jags model to select.}
 
 \item{modify_data_derived}{a function to modify the derived data set
 (after it has been converted to list form)}

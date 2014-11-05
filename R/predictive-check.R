@@ -6,7 +6,7 @@
 #' @param object a jags_analysis object.
 #' @param parm a character vector specifying the discrepancy 
 #' derived parameters (default = "discrepancy").
-#' @param model a count or string specifying the jags model to select.
+#' @param model_id a count or string specifying the jags model to select.
 #' @param derived_code a character scalar defining a block in the 
 #' JAGS dialect of  the BUGS language that defines the discrepancy(s).
 #' @param level a numeric scalar specifying the significance level or a character
@@ -52,7 +52,7 @@
 #' }
 #'
 #' @export
-predictive_check <- function (object, parm = "discrepancy",  model = 1, 
+predictive_check <- function (object, parm = "discrepancy",  model_id = 1, 
                               derived_code = NULL,
                               level = "current", estimate = "current",
                               ...) {
@@ -65,7 +65,7 @@ predictive_check <- function (object, parm = "discrepancy",  model = 1,
   
   x <- data.frame()
   for(pm in parm) {
-    p <- predict(object, parm = pm, model = model, 
+    p <- predict(object, parm = pm, model_id = model_id, 
                  derived_code = derived_code, 
                  level = level, estimate = estimate, ...)
     p <- p[,c("estimate", "lower", "upper", "sd", "error", "significance")]
