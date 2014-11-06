@@ -3,7 +3,7 @@
 \alias{auto_corr}
 \title{Get auto-correlation values (s)}
 \usage{
-auto_corr(object, parm = "all", lags = c(0, 1, 5, 10, 50), ...)
+auto_corr(object, parm = "all", lags = c(1, 5, 10, 50))
 }
 \arguments{
 \item{object}{a JAGS object}
@@ -12,8 +12,6 @@ auto_corr(object, parm = "all", lags = c(0, 1, 5, 10, 50), ...)
 the auto_corr values. Either list the parmeters or use all, fixed or random.}
 
 \item{lags}{a vector of lags at which to calculate the autocorrelation}
-
-\item{...}{passed to and from other functions}
 }
 \value{
 a vector, matrix or array of autocorr values
