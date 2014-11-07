@@ -83,9 +83,9 @@ test_that("expand_parm returns correct values", {
  expect_equal(rownames(convergence(an, parm = "sigma", combine = FALSE)), c("sigma"))
  expect_equal(rownames(convergence(an, parm = c("all", "sigma"), combine = FALSE)), c("beta[1]", "beta[2]", "beta[3]", "sigma"))
  
- expect_equal(dimnames(auto_corr(an)$chain1)[3][[1]], c("beta[1]", "beta[2]", "beta[3]"))
- expect_equal(dimnames(auto_corr(an, parm = "sigma")$chain1)[3][[1]], c("sigma"))
- expect_equal(dimnames(auto_corr(an, parm = c("sigma", "all"))$chain1)[3][[1]], c("beta[1]", "beta[2]", "beta[3]", "sigma"))  
+ expect_equal(colnames(auto_corr(an)), c("beta[1]", "beta[2]", "beta[3]"))
+ expect_equal(colnames(auto_corr(an, parm = "sigma")), c("sigma"))
+ expect_equal(colnames(auto_corr(an, parm = c("sigma", "all"))), c("beta[1]", "beta[2]", "beta[3]", "sigma"))  
 
 expect_equal(rownames(cross_corr(an)), c("beta[1]", "beta[2]", "beta[3]"))
 expect_equal(rownames(cross_corr(an, parm = "sigma")), c("sigma"))

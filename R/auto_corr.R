@@ -24,8 +24,14 @@ auto_corr.mcmc.list <- function (object, parm, lags) {
     acr <- abind(acr, acf[[i]], along = 4)
   }
   acr <- apply(acr, MARGIN = 1:3, FUN = mean)
-  acr <- apply(acr, MARGIN = 1, FUN = diag)
-  acr <- t(acr)
+  
+  if(dim(acr)[3] == 1) {
+    dimnames <- dimnames(acr)[1:2]
+    dim(acr) <- dim(acr)[1:2]
+    dimnames(acr) <- dimnames
+  } else {
+    acr <- t(apply(acr, MARGIN = 1, FUN = diag))
+  }
   acr <- acr[,colnames(acr) %in% parm, drop = FALSE]
   acr
 }

@@ -14,17 +14,9 @@ test_that("1 parameter", {
  
   x <- auto_corr(analysis)
   
-  expect_that(x, is_a("list"))
-  expect_that(names(x), is_a("character"))
-  expect_equal(names(x), c("chain1", "chain2"))
-  
-  x <- x[[1]]
-  
-  expect_that(x, is_a("array"))
-  expect_equal(dimnames(x)[[1]], c("Lag 0",  "Lag 1",  "Lag 5",  "Lag 10", "Lag 50"))
-  expect_equal(dimnames(x)[[2]], c("bLambda"))
-  expect_equal(dimnames(x)[[3]], c("bLambda"))
-  
+  expect_that(x, is_a("matrix"))
+  expect_equal(dimnames(x)[[1]], paste("Lag", c("1", "5", "10", "50")))
+  expect_equal(dimnames(x)[[2]], "bLambda")
 })
 
 
@@ -61,15 +53,12 @@ analysis <- jags_analysis (model, data, mode = "test")
 
 x <- auto_corr(analysis)
 
-expect_that(x, is_a("list"))
-expect_that(names(x), is_a("character"))
-expect_equal(names(x), c("chain1", "chain2"))
-
-x <- x[[1]]
-
-expect_that(x, is_a("array"))
-expect_equal(dimnames(x)[[1]], c("Lag 0",  "Lag 1",  "Lag 5",  "Lag 10", "Lag 50"))
+expect_that(x, is_a("matrix"))
+expect_equal(dimnames(x)[[1]], paste("Lag", c("1", "5", "10", "50")))
 expect_equal(dimnames(x)[[2]], c("alpha", "beta1", "beta2", "beta3"))
-expect_equal(dimnames(x)[[3]], c("alpha", "beta1", "beta2", "beta3"))
+expect_equal(dimnames(auto_corr(analysis, parm = "alpha"))[[2]], "alpha")
+expect_equal(dimnames(auto_corr(analysis, parm = c("alpha","beta2")))[[2]], c("alpha","beta2"))
+expect_equal(dimnames(auto_corr(analysis, parm = c("beta2","alpha")))[[2]], c("alpha","beta2"))
+expect_equal(dimnames(auto_corr(analysis, parm = c("beta2","zz")))[[2]], c("beta2"))
 })
 
