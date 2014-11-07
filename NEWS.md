@@ -1,5 +1,10 @@
 # NEWS
 
+### jaggernaut v2.2.2
+
+* `auto_corr` now produces matrix of lags by parameters by averaging chains
+and dropping cross-correlations
+
 ### jaggernaut v2.2.1
 
 * `summary.jags_analysis` get model names and lists convergence as rhat
