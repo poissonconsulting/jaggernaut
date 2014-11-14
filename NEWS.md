@@ -1,5 +1,9 @@
 # NEWS
 
+### jaggernaut v2.2.3
+
+* stripped out cpp code for internal function `bayesian_p_value` so easier to build from source
+
 ### jaggernaut v2.2.2
 
 * `auto_corr` now produces matrix of lags by parameters by averaging chains

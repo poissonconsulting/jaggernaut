@@ -61,6 +61,11 @@ coef_matrix <- function(object, level, estimate, as_list) {
   stopifnot(is_bounded(level, 0.5, 1.0))
   stopifnot(estimate %in% c("mean","median"))
   
+  bayesian_p_value<-function (x) {
+    x<-sum(as.integer(x>=0))/length(x)
+    return (min(x,1-x)*2)
+  }
+  
   est <- function (x, level) {
     
     lower <- (1 - level) / 2
