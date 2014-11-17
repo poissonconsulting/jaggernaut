@@ -75,10 +75,9 @@ coef_matrix <- function(object, level, estimate, as_list) {
     }
     
     pre <- (ci["upper"]-ci["lower"]) / 2 / abs(estimate)
-    pre <- pre * 100
+    pre <- round(pre * 100)
     
-    return (c(estimate ,ci, signif(sd(x),5), round(pre), 
-              round(bayesian_p_value(x),4)))
+    c(estimate ,ci, signif(sd(x),5), pre, bayesian_p_value(x))
   }
   
   estimates<-data.frame(t(apply(object,MARGIN=2,FUN = est, level = level)))
