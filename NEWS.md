@@ -1,5 +1,10 @@
 # NEWS
 
+### jaggernaut v2.2.4
+
+* significance values in coefficient tables cannot be less
+than 1 / number of samples
+
 ### jaggernaut v2.2.3
 
 * stripped out cpp code for internal function `bayesian_p_value` so easier to build from source
