@@ -24,6 +24,8 @@ cross_corr.jagr_chains <- function (object, parm, ...) {
                          colnames(crosscorr) %in% parm,
                          drop = FALSE]
   
+  crosscorr <- round(crosscorr, digits = 2)
+  
   crosscorr  
 }
 

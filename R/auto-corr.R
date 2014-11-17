@@ -33,6 +33,7 @@ auto_corr.mcmc.list <- function (object, parm, lags) {
     acr <- t(apply(acr, MARGIN = 1, FUN = diag))
   }
   acr <- acr[,colnames(acr) %in% parm, drop = FALSE]
+  acr <- round(acr, digits = 2)
   acr
 }
   

@@ -1,5 +1,11 @@
 # NEWS
 
+### jaggernaut v2.2.5
+
+* rounds coefficient table estimates, credible intervals and standard deviation
+depending on number of samples
+* rounds `auto_corr` and `cross_cor` estimates to decimal places
+
 ### jaggernaut v2.2.4
 
 * significance values in coefficient tables cannot be less

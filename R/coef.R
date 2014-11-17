@@ -61,26 +61,7 @@ coef_matrix <- function(object, level, estimate, as_list) {
   stopifnot(is_bounded(level, 0.5, 1.0))
   stopifnot(estimate %in% c("mean","median"))
   
-  est <- function (x, level) {
-    
-    lower <- (1 - level) / 2
-    upper <- level + lower
-    ci <- quantile(x,c(lower,upper),na.rm=T)
-    names (ci) <- c("lower","upper") 
-    
-    if (estimate == "mean") {
-      estimate <- mean(x, na.rm = T)
-    } else {
-      estimate <- median(x, na.rm = T)      
-    }
-    
-    pre <- (ci["upper"]-ci["lower"]) / 2 / abs(estimate)
-    pre <- round(pre * 100)
-    
-    c(estimate ,ci, signif(sd(x),5), pre, bayesian_p_value(x))
-  }
-  
-  estimates<-data.frame(t(apply(object,MARGIN=2,FUN = est, level = level)))
+  estimates<-data.frame(t(apply(object,MARGIN=2,FUN = get_estimates, level = level, estimate = estimate)))
   rownames(estimates)<-colnames(object)
   colnames(estimates)<-c("estimate","lower","upper","sd","error","significance")
   

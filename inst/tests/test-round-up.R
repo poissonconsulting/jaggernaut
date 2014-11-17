@@ -1,6 +1,6 @@
-context("bayesian_p_value")
+context("round_up")
 
-test_that("bayesian_p_value", {
+test_that("round_up", {
   
   expect_equal(round_up(0.111111, 0), 1)
   expect_equal(round_up(0.111111, 1), 0.2)

@@ -1,6 +1,6 @@
 Package: jaggernaut
-Version: 2.2.4
-Date: 2014-11-16
+Version: 2.2.5
+Date: 2014-11-17
 Title: Bayesian analyses using JAGS
 Author: Joe Thorley [aut, cre]
 Maintainer: Joe Thorley <joe@poissonconsulting.ca>
