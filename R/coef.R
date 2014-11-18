@@ -39,7 +39,7 @@ get_estimates <- function (x, level, estimate) {
   bound <- upper - lower
   
   error <- bound / 2 / abs(estimate)
-  error <- round(error * 100)
+  error <- signif(round(error * 100),2)
   
   n <- length(x)
   
