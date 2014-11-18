@@ -7,17 +7,24 @@ test_that("significance", {
   expect_equal(significance(c(rep(-1,100),rep(1,100))), 1)
   
   expect_equal(significance(c(rep(-1,0),rep(1,1))), 1)
+  expect_equal(significance(c(rep(-1,0),rep(1,5))), 0.2)
+  expect_equal(significance(c(rep(-1,0),rep(1,9))), 0.2)
   expect_equal(significance(c(rep(-1,0),rep(1,10))), 0.1)
+  expect_equal(significance(c(rep(-1,0),rep(1,11))), 0.1)
+  expect_equal(significance(c(rep(-1,0),rep(1,99))), 0.02)
   expect_equal(significance(c(rep(-1,0),rep(1,100))), 0.01)
   expect_equal(significance(c(rep(-1,0),rep(1,1000))), 0.001)
   
-  expect_equal(significance(c(rep(-1,0),rep(1,5))), 0.2)
   expect_equal(significance(c(rep(-1,0),rep(1,50))), 0.02)
   expect_equal(significance(c(rep(-1,0),rep(1,500))), 0.002)
+
+  expect_equal(significance(c(rep(-1,1),rep(1,499))), 0.004)
   
   expect_equal(significance(c(rep(-1,1),rep(1,9))), 0.2)
   expect_equal(significance(c(rep(-1,1),rep(1,99))), 0.02)
+  expect_equal(significance(c(rep(-1,0),rep(1,100))), 0.01)
   expect_equal(significance(c(rep(-1,1),rep(1,999))), 0.002)
+  expect_equal(significance(c(rep(-1,1),rep(1,1000))), 0.002)
   
   expect_equal(significance(c(rep(-1,0),rep(1,9))), 0.2)
   expect_equal(significance(c(rep(-1,0),rep(1,99))), 0.02)
@@ -30,6 +37,7 @@ test_that("significance", {
   expect_equal(significance(c(rep(-1,0),rep(1,899))), 0.002)
   expect_equal(significance(c(rep(-1,0),rep(1,998))), 0.002)
   expect_equal(significance(c(rep(-1,0),rep(1,999))), 0.002)
+  expect_equal(significance(c(rep(-1,1),rep(1,998))), 0.003)
   
   expect_equal(significance(c(rep(-1,1),rep(1,2))), 0.7)
   expect_equal(significance(c(rep(-1,10),rep(1,20))), 0.67)
