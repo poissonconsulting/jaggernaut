@@ -96,21 +96,21 @@ modify_data_derived.jags_analysis <- function (object, ...) {
 #' @method modify_data_derived<- jags_analysis
 #' @export
 "modify_data_derived<-.jags_analysis" <- function (object, value) {
+  if(is.list(value) && length(value) != nmodels(object))
+    stop("if value is a list it must be the same length as the number of models in object")
   
-  if (!is.null (value)) {
-    if(!is.character(value)) {
-      stop("modify_data_derived must be NULL or a character")
-    }
-    if (length(value) != 1) {
-      stop ("modify_data_derived must be define a single model block")
-    }
+  if(is.list(value))
+    names(value) <- NULL
+  
+  analyses <- analyses(object)
+  
+  for (i in 1:length(analyses)) {
+    if(!is.list(value)) {
+      modify_data_derived(analyses[[i]]) <- value
+    } else
+      modify_data_derived(analyses[[i]]) <- value[[i]]
   }
   
-  if(is.null(value))
-    is.na(value) <- TRUE
-  
-  for (i in 1:nmodels(object))
-    modify_data_derived(object$analyses[[i]]) <- value
-  
+  analyses(object) <- analyses
   return (object)
 }

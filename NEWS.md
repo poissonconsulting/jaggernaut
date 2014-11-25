@@ -1,5 +1,9 @@
 # NEWS
 
+### jaggernaut v2.2.6
+
+* `modify_data_derived(analysis) <-` no longer throws error when passed function
+
 ### jaggernaut v2.2.5
 
 * rounds coefficient table estimates, credible intervals and standard deviation
