@@ -44,7 +44,29 @@ test_that("bayesian_p_value", {
   expect_equivalent(get_estimates(x = seq(1,100,length.out = 1000) + 10000, level = level, estimate = estimate)["sd"], 28.62)
   expect_equivalent(get_estimates(x = seq(1,100,length.out = 1001) + 10000, level = level, estimate = estimate)["sd"], 28.62)
   
-  expect_equivalent(get_estimates(x = seq(0.0001,0.01,length.out = 1), level = level, estimate = estimate), c(0.0001,0.0001,0.0001,NA,0,1))
-  expect_equivalent(get_estimates(x = seq(0.0001,0.01,length.out = 10), level = level, estimate = estimate), c(0.005,0.0003,0.0098,0.0033,93,0.1)) 
-  expect_equivalent(get_estimates(x = seq(0.0001,0.01,length.out = 100), level = level, estimate = estimate), c(0.00505,0.00035,0.00975,0.0029,93,0.01))  
+  expect_equivalent(get_estimates(x = seq(0.0001,0.01,length.out = 1), level = level, estimate = estimate), c(0,0,0,NA,0,1))
+  expect_equivalent(get_estimates(x = seq(0.0001,0.01,length.out = 10), level = level, estimate = estimate), c(0.005,0,0.01,0.003,93,0.1)) 
+  expect_equivalent(get_estimates(x = seq(0.0001,0.01,length.out = 100), level = level, estimate = estimate), c(0.005,0.0003,0.0098,0.0029,93,0.01))  
+
+  expect_equivalent(get_estimates(x = seq(0.0001,0.01,length.out = 1) + 1, level = level, estimate = estimate), c(1,1,1,NA,0,1))
+  expect_equivalent(get_estimates(x = seq(0.0001,0.01,length.out = 10) + 1, level = level, estimate = estimate), c(1.005,1,1.01,0.003,0,0.1)) 
+  expect_equivalent(get_estimates(x = seq(0.0001,0.01,length.out = 100) + 1, level = level, estimate = estimate), c(1.005,1.0003,1.0098,0.0029,0,0.01))  
+
+  expect_equivalent(get_estimates(x = seq(0.000001,0.01,length.out = 100) + 1, level = level, estimate = estimate), c(1.005,1.0003,1.0098,0.0029,0,0.01))
 })
+
+test_that("distributions", {
+  
+  level <- 0.95
+  estimate <- "mean"
+  
+  set.seed(46)
+  x <- rnorm(1000)
+  
+  expect_equivalent(get_estimates(x, level = level, estimate = estimate), c(-0.010,-2.058,2.112,1.026, 21000, 0.976))
+  expect_equivalent(get_estimates(x[-1], level = level, estimate = estimate), c(-0.01,-2.06,2.11,1.03, 23000, 0.975))
+  expect_equivalent(get_estimates(x[1], level = level, estimate = estimate), c(-1,-1,-1,NA, 0, 1))
+  expect_equivalent(get_estimates(x[1:100], level = level, estimate = estimate), c(0.01,-1.99,2.15,0.96, 16000, 0.96))
+  expect_equivalent(get_estimates(x[1:99], level = level, estimate = estimate), c(0,-2.00,2.20,1.00, 23000, 0.97))
+})
+

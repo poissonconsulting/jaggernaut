@@ -1,3 +1,62 @@
+digits <- function (x) {
+  assert_that(is.number(x))
+  x <- log(abs(x), base = 10) * -1
+  if(is.infinite(x))
+    return (as.integer(0))
+  trunc(x)
+}
+
+#' @importFrom plyr round_any
+round_any_digits <- function (x, digits = 0, f = round) {
+  accuracy <- 0.1^trunc(digits)
+  round_any(x, accuracy = accuracy, f = f)
+}
+
+significance <- function (x) {
+  n <- length(x)
+  d <- sum(as.integer(x >= 0))
+  p <- min(d, n - d) * 2
+  p <- max(p, 1)
+  round_any_digits(p / n, digits(n) * -1 + 1, ceiling)
+}
+
+get_estimates <- function (x, level, estimate) {
+  
+  assert_that(is.numeric(x) && noNA(x))
+  assert_that(is.number(level))
+  assert_that(is.string(estimate) && estimate %in% c("mean", "median"))
+  
+  estimate <- ifelse(estimate == "mean", mean(x), median(x))
+  sd <- sd(x)
+  
+  lower <- (1 - level) / 2
+  upper <- level + lower
+  
+  quantiles <- quantile(x, c(lower, upper), names = FALSE)
+  lower <- quantiles[1]
+  upper <- quantiles[2]
+  
+  bound <- upper - lower
+  
+  error <- bound / 2 / abs(estimate)
+  error <- signif(round(error * 100),2)
+  
+  n <- length(x)
+  
+  digits <- digits(bound) - digits(length(x)) 
+  
+  estimate <- round(estimate, digits = digits)
+  lower <- round(lower, digits = digits)
+  upper <- round(upper, digits = digits)
+  sd <- round(sd, digits = digits)
+  
+  significance <- significance(x)
+  
+  estimates <- c(estimate, lower, upper, sd, error, significance)
+  names(estimates) <- c("estimate", "lower", "upper", "sd", "error", "significance")
+  estimates
+}
+
 as_list_coef <- function (object) {
   
   assert_that(is.data.frame(object))
