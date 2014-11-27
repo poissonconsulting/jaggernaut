@@ -3,7 +3,7 @@ digits <- function (x) {
   x <- log(abs(x), base = 10) * -1
   if(is.infinite(x))
     return (as.integer(0))
-  trunc(x)
+  ceiling(x)
 }
 
 #' @importFrom plyr round_any

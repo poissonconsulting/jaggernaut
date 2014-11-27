@@ -1,5 +1,10 @@
 # NEWS
 
+### jaggernaut v2.2.7
+
+* `coef` table estimates now rounded to equivalent number of significant digits
+whether or not fraction
+
 ### jaggernaut v2.2.6
 
 * `modify_data_derived(analysis) <-` no longer throws error when passed function
@@ -12,7 +17,7 @@ depending on number of samples
 
 ### jaggernaut v2.2.4
 
-* significance values in coefficient tables cannot be less
+* significance values in coefficient tables now cannot be less
 than 1 / number of samples
 
 ### jaggernaut v2.2.3

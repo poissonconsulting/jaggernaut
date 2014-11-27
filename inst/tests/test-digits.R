@@ -2,6 +2,7 @@ context("digits")
 
 test_that("digits", {
   expect_equal(digits(0.01), 2)
+  expect_equal(digits(0.3), 1)
   expect_equal(digits(0.1), 1)
   expect_equal(digits(0), 0)
   expect_equal(digits(1), 0)
