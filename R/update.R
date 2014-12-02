@@ -93,10 +93,16 @@ update.jags_analysis <- function (object, mode = "current", ...) {
   check_modules()
   
   nworkers <- getDoParWorkers()
-  
+   
   nchains <- nchains(object)[[1]]
   nmodels <- nmodels(object)
   
+  if(!is_parallel(object) && nworkers > 1) {
+    nworkers <- 1
+  } else if(is_parallel(object) && nworkers < nchains) {
+    stop("insufficient workers to run chains in parallel")
+  }
+        
   quiet <- opts_jagr("quiet")
   
   convergence_threshold <- opts_jagr("convergence")

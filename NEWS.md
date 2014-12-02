@@ -1,5 +1,9 @@
 # NEWS
 
+### jaggernaut v2.2.8
+
+* if chains run in parallel and not enough workers when updating gives informative error message
+* if chains run in series then continues to run in series when updating
 * added function `is_parallel` to test if parallel chains
 * changed definitions of various modes - "report" has 10^4 samples and 5 chains
 * now only runs chains in parallel if at least as many workers

@@ -103,4 +103,3 @@ expect_equal(niters(analysis)$Model1, niters$Model1 * 4)
 expect_equal(niters(analysis)$Model2, niters$Model2 * 4)
 expect_equal(niters(analysis)$Model1, niters(analysis)$Model2)
 })
-

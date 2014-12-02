@@ -8,6 +8,8 @@ Test examples to be run manually by package maintainer.
 \examples{
 \dontrun{
 
+library(testthat)
+
 model1 <- jags_model("
 model {
  bLambda ~ dlnorm(0, 10^-2)
@@ -35,20 +37,35 @@ analysis <- jags_analysis (model2, data, mode = "demo")
 analysis <- jags_analysis (models, data, mode = "demo")
 
 registerDoParallel(2)
-opts_jagr(parallel = TRUE)
+expect_warning(opts_jagr(parallel = TRUE))
 
-analysis <- jags_analysis (model1, data, mode = "demo")
-analysis <- jags_analysis (model2, data, mode = "demo")
-analysis <- jags_analysis (models, data, mode = "demo")
+expect_warning(analysis <- jags_analysis (model1, data, mode = "demo"))
+expect_warning(analysis <- jags_analysis (model2, data, mode = "demo"))
+expect_warning(analysis <- jags_analysis (models, data, mode = "demo"))
 
 #' # stop cluster if registered parallel backend in windows
 if(.Platform$OS.type == "windows") stopImplicitCluster()
 
+expect_true(is_parallel(analysis))
+
 opts_jagr(parallel = FALSE)
 registerDoSEQ()
 
+expect_true(is_parallel(analysis))
+expect_error(update(analysis))
+
+analysis <- jags_analysis (model1, data, mode = "demo")
+
+analysis <- update(analysis)
+
+expect_false(is_parallel(analysis))
+
 registerDoParallel(4)
 opts_jagr(parallel = TRUE)
+
+analysis <- update(analysis)
+
+expect_false(is_parallel(analysis))
 
 analysis <- jags_analysis (model1, data, mode = "demo")
 analysis <- jags_analysis (model2, data, mode = "demo")
@@ -97,7 +114,7 @@ mod <- jags_model("
  an <- jags_analysis (mod, dat, mode = "demo")
  an <- jags_analysis (mod, dat, mode = "explore")
  an <- jags_analysis (mod, dat, mode = "report")
- an <- jags_analysis (mod, dat, mode = "paper")
+ expect_warning(an <- jags_analysis (mod, dat, mode = "paper"))
  an <- jags_analysis (mod, dat, niters = 10^3)
 
 # stop cluster if registered parallel backend in windows
