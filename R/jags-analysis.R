@@ -90,7 +90,7 @@ jags_analysis <- function (model, data, niters = 10^3,
     nworkers <- 1
   
   if (opts_jagr("mode") == "debug")
-    niters <- 100
+    niters <- 5
     
   object <- list()
   class(object) <- "jags_analysis"
@@ -104,7 +104,6 @@ jags_analysis <- function (model, data, niters = 10^3,
   chunks <- floor(nworkers / nchains)
   chunks <- min(nmodels, chunks)
   if (chunks <= 1) {
-    
     analyses <- jagr_analysis_list(models, data = data, niters = niters, 
                                    nworkers = nworkers)
   } else { 

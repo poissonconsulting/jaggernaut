@@ -15,7 +15,7 @@ test_that("1 parameter", {
   x <- auto_corr(analysis)
   
   expect_that(x, is_a("matrix"))
-  expect_equal(dimnames(x)[[1]], paste("Lag", c("1", "5", "10", "50")))
+  expect_equal(dimnames(x)[[1]], paste("Lag", c("1", "5", "10")))
   expect_equal(dimnames(x)[[2]], "bLambda")
 })
 
@@ -54,7 +54,7 @@ analysis <- jags_analysis (model, data, mode = "test")
 x <- auto_corr(analysis)
 
 expect_that(x, is_a("matrix"))
-expect_equal(dimnames(x)[[1]], paste("Lag", c("1", "5", "10", "50")))
+expect_equal(dimnames(x)[[1]], paste("Lag", c("1", "5", "10")))
 expect_equal(dimnames(x)[[2]], c("alpha", "beta1", "beta2", "beta3"))
 expect_equal(dimnames(auto_corr(analysis, parm = "alpha"))[[2]], "alpha")
 expect_equal(dimnames(auto_corr(analysis, parm = c("alpha","beta2")))[[2]], c("alpha","beta2"))

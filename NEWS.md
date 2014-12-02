@@ -1,5 +1,9 @@
 # NEWS
 
+* changed definitions of various modes - "report" has 10^4 samples and 5 chains
+* now only runs chains in parallel if at least as many workers
+* renamed rhat as Rhat in output
+
 ### jaggernaut v2.2.7
 
 * `coef` table estimates now rounded to equivalent number of significant digits

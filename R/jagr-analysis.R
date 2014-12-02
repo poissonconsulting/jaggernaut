@@ -53,7 +53,7 @@ jagr_analysis <- function (model, data, niters, nworkers) {
   
   monitor <- monitor(model, trim_suffix = TRUE)
   
-  if(nchains == 1 || nworkers == 1) {
+  if(nchains == 1 || nworkers < nchains) {
     chains <- jagr_chains(inits, data, file = file, monitor = monitor, 
                           n.adapt = n.adapt, 
                           n.burnin = n.burnin, n.chain = nchains, 

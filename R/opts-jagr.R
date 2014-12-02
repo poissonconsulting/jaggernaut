@@ -1,23 +1,10 @@
-
 .opts_jagr_debug <- list(
   level = 0.80,
   estimate = "median",
   mode = "debug",
   nchains = 2,
   nresample = 0,
-  nsamples = 100,
-  parallel = FALSE, 
-  quiet = FALSE,
-  convergence = 2
-)
-
-.opts_jagr_explore<- list(
-  level = 0.95,
-  estimate = "median",
-  mode = "explore",
-  nchains = 3,
-  nresample = 2,
-  nsamples = 500,
+  nsamples = 10,
   parallel = FALSE, 
   quiet = FALSE,
   convergence = 1.5
@@ -28,11 +15,11 @@
   estimate = "median",
   mode = "test",
   nchains = 2,
-  nresample = 2,
-  nsamples = 500,
+  nresample = 0,
+  nsamples = 100,
   parallel = FALSE, 
   quiet = TRUE,
-  convergence = 1.5
+  convergence = 1.1
 )
 
 .opts_jagr_demo<- list(
@@ -45,6 +32,18 @@
   parallel = FALSE, 
   quiet = FALSE,
   convergence = 1.1
+)
+
+.opts_jagr_explore<- list(
+  level = 0.95,
+  estimate = "median",
+  mode = "explore",
+  nchains = 2,
+  nresample = 2,
+  nsamples = 200,
+  parallel = FALSE, 
+  quiet = FALSE,
+  convergence = 1.2
 )
 
 .opts_jagr_report <- list(
@@ -63,9 +62,9 @@
   level = 0.95,
   estimate = "mean",
   mode = "paper",
-  nchains = 4,
+  nchains = 5,
   nresample = 4,
-  nsamples = 2000,
+  nsamples = 10000,
   parallel = FALSE, 
   quiet = FALSE,
   convergence = 1.05
@@ -289,8 +288,8 @@ assign_opts_jagr <- function (opts) {
   if (!opts$nresample %in% 0:4) {
     stop("option nresample must lie between 0 and 4")
   } 
-  if (!(opts$nsamples >= 100 &&  opts$nsamples <= 6000)) {
-    stop("option nsamples must lie between 100 and 6000")
+  if (!(opts$nsamples >= 10 &&  opts$nsamples <= 10000)) {
+    stop("option nsamples must lie between 10 and 10^4")
   } 
   
   if (!(opts$convergence >= 1 &&  opts$convergence <= 2))
@@ -299,8 +298,11 @@ assign_opts_jagr <- function (opts) {
   if(opts$parallel && getDoParWorkers() == 1) {
     warning(paste0("chains and models will not be run",
     " in parallel until a parallel backend is registered"))
+  } else if(opts$parallel && getDoParWorkers() < opts$nchains) {
+    warning(paste0("chains will not be run in parallel 
+                   as the number of workers is less than the number of chains"))
   }
-
+  
   topts <- opts[!names(opts) %in% c("mode","parallel")]
   
   if (isTRUE(all.equal(topts, 

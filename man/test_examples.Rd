@@ -29,6 +29,7 @@ model_id = "Second Model")
 models <- combine(model1, model2)
 data <- data.frame(x = rpois(100,1))
 
+analysis <- jags_analysis (model1, data, mode = "paper")
 analysis <- jags_analysis (model1, data, mode = "demo")
 analysis <- jags_analysis (model2, data, mode = "demo")
 analysis <- jags_analysis (models, data, mode = "demo")
@@ -91,6 +92,12 @@ mod <- jags_model("
  data(peregrine)
  dat <- peregrine
  dat$C <- dat$Pairs
+ an <- jags_analysis (mod, dat, mode = "debug")
+ an <- jags_analysis (mod, dat, mode = "test")
+ an <- jags_analysis (mod, dat, mode = "demo")
+ an <- jags_analysis (mod, dat, mode = "explore")
+ an <- jags_analysis (mod, dat, mode = "report")
+ an <- jags_analysis (mod, dat, mode = "paper")
  an <- jags_analysis (mod, dat, niters = 10^3)
 
 # stop cluster if registered parallel backend in windows

@@ -38,7 +38,7 @@ update.jagr_chains <- function (object, niters, nworkers, ...) {
   
   jags <- jags(object)
   
-  if(nworkers == 1) {
+  if(nworkers == 1 || nworkers < nchains) {
     chains <- update_jags (jags = jags[[1]], monitor = monitor, 
                            n.sim = niters, 
                            n.thin = n.thin, 
