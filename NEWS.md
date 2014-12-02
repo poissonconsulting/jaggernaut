@@ -1,5 +1,6 @@
 # NEWS
 
+* added function `is_parallel` to test if parallel chains
 * changed definitions of various modes - "report" has 10^4 samples and 5 chains
 * now only runs chains in parallel if at least as many workers
 * renamed rhat as Rhat in output
