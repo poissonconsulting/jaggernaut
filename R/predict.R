@@ -238,7 +238,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
   }  
 
   if(is_character_vector(obs_by)) {
-    dat <- unique(data[, colnames(data) %in% obs_by])
+    dat <- unique(data[, colnames(data) %in% obs_by, drop = FALSE])
     newdata <- merge(newdata, dat, by = colnames(dat))
   }
   
