@@ -9,6 +9,7 @@ before_install:
 
 install:
   - ./travis-tool.sh install_deps
+  - ./travis-tool.sh install_github poissonconsulting/tulip
   - ./travis-tool.sh install_github poissonconsulting/datalist
   - ./travis-tool.sh install_github poissonconsulting/juggler
 
