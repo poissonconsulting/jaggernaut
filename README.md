@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/poissonconsulting/jaggernaut.png?branch=master)](https://travis-ci.org/poissonconsulting/jaggernaut)
+
 # jaggernaut
 
 jaggernaut is an R package to facilitate Bayesian analyses using JAGS 

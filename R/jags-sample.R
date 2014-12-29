@@ -1,13 +1,17 @@
 jags_sample <- function (chains, parm, data) {
   
   stopifnot(is.jagr_chains(chains))
-  stopifnot(is.string(parm))
-  stopifnot(parm %in% names(chains$samples))  
+  stopifnot(is.character(parm))
+  stopifnot(all(parm %in% names(chains$samples)))
   stopifnot(is_convertible_data(data))
     
   samples <- t(as.matrix(chains))
-  samples <- samples[grepl(paste0("^", parm,"([[].*|$)"), rownames(samples)), , drop = FALSE]
-  
+  bol <- rep(FALSE, nrow(samples))
+  for(p in parm) {
+    bol <- bol | grepl(paste0("^", p,"([[].*|$)"), rownames(samples))
+  }
+  samples <- samples[bol, , drop = FALSE]
+
   stopifnot(nrow(samples) >= 1)
   
   if(is_convertible_data_list(data)) {

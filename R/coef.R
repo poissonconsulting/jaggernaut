@@ -143,8 +143,7 @@ coef.jagr_chains <- function (object, parm, level, estimate,
   return (coef_matrix (mat, level = level, estimate = estimate, 
                as_list = as_list))
   }
-  data <- data.frame(row = 1:ncol(mat))
-  
+  data <- data.frame(row = 1:ncol(mat))  
   jags_sample(object, parm, data)
 }
 

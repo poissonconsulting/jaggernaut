@@ -1,5 +1,10 @@
 # NEWS
 
+### jaggernaut v2.2.9
+
+* implemeted travis checking
+* fixed bug `coef.jags_analysis` now works with `parm = "no"`
+
 ### jaggernaut v2.2.8
 
 * if chains run in parallel and not enough workers when updating gives informative error message
