@@ -6,8 +6,7 @@ jags_sample <- function (chains, parm, data) {
   stopifnot(is_convertible_data(data))
     
   samples <- t(as.matrix(chains))
-  
-  samples <- samples[substr(rownames(samples), 1, nchar(parm)) == parm, , drop = FALSE]
+  samples <- samples[grepl(paste0("^", parm,"([[].*|$)"), rownames(samples)), , drop = FALSE]
   
   stopifnot(nrow(samples) >= 1)
   
