@@ -69,7 +69,7 @@ derived <- function (object, parm, data, nworkers) {
   } else {
     data <- translate_data(select_data_derived(object), dataset(object), data) 
   }
-  
+    
   chains <- zero_random (object, data)
   
   if (is.function(modify_data_derived(object)))

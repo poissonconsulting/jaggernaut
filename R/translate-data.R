@@ -8,6 +8,11 @@ translate_data <- function (select, data, dat = NULL) {
 
   if (is.null(dat)) 
     dat <- data
+  
+  bol <- !names(dat) %in% names(data)
+  if(any(bol)) {
+    data <- merge(data, datalist::new_data(dat[bol]))
+  }
 
   vars <- names_select(select)
 

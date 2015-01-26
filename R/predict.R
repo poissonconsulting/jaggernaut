@@ -74,41 +74,41 @@ predict.jags_analysis <- function (object, newdata = NULL,
                                    obs_by = FALSE, length_out = 50, ...) {
   
   assert_that(is.scalar(model_id))
-  
+    
   if(!is_null(newdata) && !is_convertible_data(newdata) &&
        !identical(newdata, "") && !is_character_vector(newdata))
     stop("newdata must be NULL or a data.frame or list of data or a character vector")
-
+  
   if(!is_character_scalar(parm))
     stop("parm must be a character scalar")
-
+  
   if(!is_logical_scalar(base) && !(is_convertible_data_frame(base) && nrow(base) == 1))
     stop("base must be an logical scalar or a data.frame with one row")
-
+  
   if(!is_null(values) && !(is_convertible_data_frame(values) && nrow(values) == 1))
     stop("values must be NULL or a data.frame with a single row of data")
   
   if(!is_null(modify_data_derived) && !is_function(modify_data_derived))
     stop("modify_data_derived must be NULL or a function")
-
+  
   if(!is_null(select_data_derived) && !is.character(select_data_derived))
     stop("select_data_derived must be NULL or a character vector")
   
   if(!is_null(derived_code) && !is_character_scalar(derived_code))
     stop("derived_code must be NULL or a character scalar")
-
+  
   if(!is_null(random_effects) && !is_named_list(random_effects))
     stop("random_effects must be NULL or a named list")
-
+  
   if(!is_character_scalar(level) && !is_character_scalar(level))
     stop("level must be a character or numeric scalar")
-
+  
   if(!is_character_scalar(estimate))
     stop("estimate must be a character vector")
   
   if(!is_integer_scalar(length_out) || !is_bounded(length_out, 10, 100))
     stop("length_out must be a integer between 10 and 100")
-
+  
   if(!is_logical_scalar(obs_by) && !is_character_vector(obs_by))
     stop("obs_by must be a logical scalar or a character vector")
   
@@ -129,7 +129,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
     } else
       level <- opts_jagr("level")
   } else if (!is_bounded(level, 0.75, 0.99))
-      stop("level must lie between 0.75 and 0.99")
+    stop("level must lie between 0.75 and 0.99")
   
   if(!estimate %in% c("mean","median") && estimate != "current") {
     old_opts <- opts_jagr(mode = level)
@@ -146,7 +146,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
     nworkers <- 1
   
   object <- subset(object, model_id = model_id)
-
+  
   if(!is_null(select_data_derived))
     select_data_derived(object) <- select_data_derived
   
@@ -205,14 +205,14 @@ predict.jags_analysis <- function (object, newdata = NULL,
     if (any(bol)) {
       newdata <- c(newdata, data[bol])
     }
-    newdata <- newdata[names(data)]
+    newdata <- newdata[unique(c(names(data), names_select(select_data_derived(object))))]
   } else {
     dat <- new_data(data)
     bol <- !names(dat) %in% names(newdata)
     if (any(bol)) {
       newdata <- merge(newdata, dat[bol])
     }
-    newdata <- newdata[names(data)]
+    newdata <- newdata[unique(c(names(data), names_select(select_data_derived(object))))]
     
     if (is_convertible_data_frame(base)) {
       bol <- !names(dat) %in% names(base)
@@ -236,16 +236,16 @@ predict.jags_analysis <- function (object, newdata = NULL,
       }
     }
   }  
-
+  
   if(is_character_vector(obs_by)) {
     dat <- unique(data[, colnames(data) %in% obs_by, drop = FALSE])
     newdata <- merge(newdata, dat, by = colnames(dat))
   }
   
   pred <- predict_jagr(object, parm = parm, data = newdata, base = base, 
-                           level = level, estimate = estimate, 
+                       level = level, estimate = estimate, 
                        nworkers = nworkers, ...)
-      
+  
   rownames(pred) <- NULL
   
   return (pred)
