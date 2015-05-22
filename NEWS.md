@@ -1,3 +1,7 @@
+# jaggernaut v2.2.11
+
+- updated to `datalist` v0.4.1
+
 # jaggernaut v2.2.10
 
 - `predict.jags_analysis` now works with new columns in `select_data_derived`
