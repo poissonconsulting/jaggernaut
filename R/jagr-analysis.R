@@ -10,7 +10,7 @@ jagr_analysis <- function (model, data, niters, nworkers) {
   quiet <- opts_jagr("quiet")
   convergence_threshold <- opts_jagr("convergence")
   
-  data <- translate_data(select_data(model), data) 
+  data <- translate_data(select_data(model), data)$data 
   
   if (is.function(modify_data(model))) 
     data <- modify_data(model)(data)

@@ -65,9 +65,9 @@ derived <- function (object, parm, data, nworkers) {
   }  
   
   if(is.null(select_data_derived(object))) {
-    data <- translate_data(select_data(object), dataset(object), data) 
+    data <- translate_data(select_data(object), dataset(object), data)$data 
   } else {
-    data <- translate_data(select_data_derived(object), dataset(object), data) 
+    data <- translate_data(select_data_derived(object), dataset(object), data)$data 
   }
     
   chains <- zero_random (object, data)
@@ -83,6 +83,8 @@ derived <- function (object, parm, data, nworkers) {
     
   nchains <- nchains (chains)
   nsamples <- nsamples (chains) / nchains
+  
+  
   
   if(nworkers == 1) {
     samps <- get_samples(samples = 1:nsamples, chains = chains, data = data, 

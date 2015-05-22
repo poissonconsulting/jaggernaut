@@ -56,7 +56,7 @@ dataset.jags_analysis <- function (object, converted = FALSE, ...) {
   for(i in 1:nanalyses(object)) {
     model <- analyses[[i]]
     
-    data <- translate_data(select_data(model), object$data) 
+    data <- translate_data(select_data(model), object$data)$data 
     
     if (is.function(modify_data(model))) 
       data <- modify_data(model)(data)
