@@ -84,7 +84,7 @@ data list.
 
 Its also important to realize that values always replaces the corresponding
 values in base but only replaces the corresponding values in newdata if they
-are unaltered, i.e., as they are in new_data(dataset(object)).
+are unaltered, i.e., as they are in datalist::new_data(dataset(object)).
 }
 \seealso{
 \code{\link{jags_model}}, \code{\link{jags_analysis}},

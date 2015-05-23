@@ -50,7 +50,6 @@
 #' @docType package
 #' @import assertthat coda rjags doParallel itertools
 #' @importFrom foreach getDoParWorkers foreach %dopar% 
-#' @importFrom datalist is_convertible_data is_convertible_data_frame is_convertible_data_list convert_data is_converted_data new_data
 #' @name jaggernaut
 #' @aliases package-jaggernaut jaggernaut-package
 #' @seealso \code{\link{jags_model}},

@@ -38,14 +38,14 @@ residuals.jags_analysis <- function (object, parm = "residual",
   if(identical(as.character(level),"no"))
     stop("level must not be 'no'")
   
-  if(!is_null(data) && !is_convertible_data(data))
+  if(!is_null(data) && !datalist::is_convertible_data(data))
     stop("data must be NULL or a data.frame or list of data")
     
-  if(is_convertible_data_frame(dataset(object))) {
-    if(is_convertible_data_list(data))
+  if(datalist::is_convertible_data_frame(dataset(object))) {
+    if(datalist::is_convertible_data_list(data))
       stop("as original dataset is a data frame data must not be a data list")
   } else {
-    if(!is_null(data) || !is_convertible_data_list(data))
+    if(!is_null(data) || !datalist::is_convertible_data_list(data))
       stop("as original dataset is a data list data must be NULL or a data list")
   }
   

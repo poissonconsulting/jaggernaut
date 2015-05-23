@@ -2,9 +2,9 @@
 translate_data <- function (select, data, dat = NULL) {
   
   stopifnot(is_null(select) || is_character_vector(select))
-  stopifnot(is_convertible_data(data))
-  stopifnot(is_null(dat) || (is_convertible_data(dat) &&
-                               is_convertible_data_frame(dat) == is_convertible_data_frame(data)))
+  stopifnot(datalist::is_convertible_data(data))
+  stopifnot(is_null(dat) || (datalist::is_convertible_data(dat) &&
+                               datalist::is_convertible_data_frame(dat) == datalist::is_convertible_data_frame(data)))
 
   if (is.null(dat)) 
     dat <- data
@@ -63,10 +63,11 @@ translate_data <- function (select, data, dat = NULL) {
       facs[[paste0("n",name)]]<-nlevels(dat[[name]])
     }
   }
+  cterms <- datalist::conversion_terms(data, centre = centre, standardise = standardise, dat = dat)
 
-  data <- convert_data (data, centre = centre, standardise = standardise, dat = dat)
-  
+  data <- datalist::convert_data (data, centre = centre, standardise = standardise, dat = dat)
+
   data <- c(as.list(data), facs)
     
-  return (list(data = data))
+  list(data = data)#, cterms = cterms)
 }

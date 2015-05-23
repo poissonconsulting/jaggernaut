@@ -1,6 +1,6 @@
 Package: jaggernaut
-Version: 2.2.11
-Date: 2015-05-14
+Version: 2.3.0
+Date: 2015-05-22
 Title: Bayesian analyses using JAGS
 Author: Joe Thorley [aut, cre]
 Maintainer: Joe Thorley <joe@poissonconsulting.ca>
@@ -29,13 +29,13 @@ Imports:
     assertthat (>= 0.1),
     abind (>= 1.4-3),
     plyr (>= 1.8.2),
-    datalist (>= 0.4.1),
+    datalist (>= 0.5.0),
     juggler (>= 0.1.4),
     itertools (>= 0.1-3),
     coda (>= 0.17-1),
     rjags (>= 3-15)
 Suggests:
-    testthat (>= 0.9.1),
+    testthat (>= 0.10.0),
     datasets (>= 3.2.0),
     reshape2 (>= 1.4.1),
     ggplot2 (>= 1.0.1),

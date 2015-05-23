@@ -2,14 +2,14 @@ jags_sample_coef <- function (chains, parm, data) {
   
   stopifnot(is.jagr_chains(chains))
   stopifnot(is.character(parm))
-  stopifnot(is_convertible_data(data))
+  stopifnot(datalist::is_convertible_data(data))
     
   samples <- t(as.matrix(chains))
   samples <- samples[match(parm, rownames(samples)), , drop = FALSE]
 
   stopifnot(nrow(samples) >= 1)
   
-  if(is_convertible_data_list(data)) {
+  if(datalist::is_convertible_data_list(data)) {
     bol <- sapply(data, function (x, n) is.vector(x) && length(x) == n,
                   n = nrow(samples))
     if(any(bol)) {
@@ -39,7 +39,7 @@ jags_sample <- function (chains, parm, data) {
   stopifnot(is.jagr_chains(chains))
   stopifnot(is.string(parm))
   stopifnot(parm %in% names(chains$samples))  
-  stopifnot(is_convertible_data(data))
+  stopifnot(datalist::is_convertible_data(data))
     
   samples <- t(as.matrix(chains))
   
@@ -47,7 +47,7 @@ jags_sample <- function (chains, parm, data) {
   
   stopifnot(nrow(samples) >= 1)
   
-  if(is_convertible_data_list(data)) {
+  if(datalist::is_convertible_data_list(data)) {
     bol <- sapply(data, function (x, n) is.vector(x) && length(x) == n,
                   n = nrow(samples))
     if(any(bol)) {

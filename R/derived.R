@@ -55,7 +55,7 @@ derived <- function (object, parm, data, nworkers) {
   
   stopifnot(is.jags_analysis(object) && is_one_model(object))
   stopifnot(is_character_scalar(parm))
-  stopifnot(is_convertible_data(data))
+  stopifnot(datalist::is_convertible_data(data))
   assert_that(is.count(nworkers) && noNA(nworkers))
   
   if (options()$jags.pb != "none") {
@@ -65,9 +65,13 @@ derived <- function (object, parm, data, nworkers) {
   }  
   
   if(is.null(select_data_derived(object))) {
-    data <- translate_data(select_data(object), dataset(object), data)$data 
+    data <- translate_data(select_data(object), dataset(object), data)
+    cterms <- data$cterms
+    data <- data$data 
   } else {
-    data <- translate_data(select_data_derived(object), dataset(object), data)$data 
+    data <- translate_data(select_data_derived(object), dataset(object), data)
+    cterms <- data$cterms
+    data <- data$data 
   }
     
   chains <- zero_random (object, data)

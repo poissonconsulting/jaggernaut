@@ -1,3 +1,7 @@
+# jaggernaut v2.3.0
+
+- added ability to get mean and SD for centered predictors (#63)
+
 # jaggernaut v2.2.11
 
 - updated to `datalist` v0.4.1
