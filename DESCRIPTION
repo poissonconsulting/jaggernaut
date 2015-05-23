@@ -29,6 +29,7 @@ Imports:
     assertthat (>= 0.1),
     abind (>= 1.4-3),
     plyr (>= 1.8.2),
+    magrittr (>= 1.5),
     datalist (>= 0.5.0),
     juggler (>= 0.1.4),
     itertools (>= 0.1-3),

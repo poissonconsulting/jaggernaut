@@ -13,7 +13,7 @@ test_that("nmodels returns object of correct class and length", {
   analysis <- jags_analysis (model, data, mode = "test") 
   
   expect_that(nmodels(analysis), is_a("integer"))
-  expect_that(length(nmodels(analysis)), equals(1))
+  expect_equal(length(nmodels(analysis)), 1)
 })
 
 test_that("nmodels returns object of correct value", {
@@ -37,5 +37,5 @@ test_that("nmodels returns object of correct value", {
 
   an <- jags_analysis (mods, data, mode = "test") 
   
-  expect_that(nmodels(an), equals(2))
+  expect_equal(nmodels(an), 2)
 })

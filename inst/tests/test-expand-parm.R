@@ -34,10 +34,10 @@ test_that("expand_parm returns correct values", {
   dat$C <- dat$Pairs
   an <- jags_analysis (mod, dat, niters = 10^3, mode = "test")
     
-  expect_that(expand_parm(analysis(an),"all"), equals(sort(c("alpha","beta1","beta2","beta3",paste0("eps[",1:40,"]"),"sigma"))))
-  expect_that(expand_parm(analysis(an),"fixed"), equals(c("alpha","beta1","beta2","beta3","sigma")))
-  expect_that(expand_parm(analysis(an),"random"), equals(sort(paste0("eps[",1:40,"]"))))
-  expect_that(expand_parm(analysis(an), c("random","alpha")), equals(sort(c("alpha",paste0("eps[",1:40,"]")))))   
+  expect_equal(expand_parm(analysis(an),"all"), sort(c("alpha","beta1","beta2","beta3",paste0("eps[",1:40,"]"),"sigma")))
+  expect_equal(expand_parm(analysis(an),"fixed"), c("alpha","beta1","beta2","beta3","sigma"))
+  expect_equal(expand_parm(analysis(an),"random"), sort(paste0("eps[",1:40,"]")))
+  expect_equal(expand_parm(analysis(an), c("random","alpha")), sort(c("alpha",paste0("eps[",1:40,"]"))))   
 })
 
 test_that("expand_parm returns correct values", {

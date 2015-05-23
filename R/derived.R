@@ -51,6 +51,14 @@ get_samples <- function (samples, chains, data, parm, file) {
   return (samps)
 }
 
+cterm_to_list <- function (x) {
+  x1 <- as.list(x[, 1, drop = TRUE])
+  x2 <- as.list(x[, 2, drop = TRUE])
+  names(x1) %<>% paste0("_MU")
+  names(x2) %<>% paste0("_SD")
+  c(x1, x2)
+}
+
 derived <- function (object, parm, data, nworkers) {
   
   stopifnot(is.jags_analysis(object) && is_one_model(object))
@@ -73,11 +81,13 @@ derived <- function (object, parm, data, nworkers) {
     cterms <- data$cterms
     data <- data$data 
   }
-    
+      
   chains <- zero_random (object, data)
   
   if (is.function(modify_data_derived(object)))
     data <- modify_data_derived(object)(data)
+  
+  data %<>% c(cterm_to_list(cterms))
   
   file <- tempfile(fileext=".bug")
   code <- derived_code(object) 
@@ -87,8 +97,6 @@ derived <- function (object, parm, data, nworkers) {
     
   nchains <- nchains (chains)
   nsamples <- nsamples (chains) / nchains
-  
-  
   
   if(nworkers == 1) {
     samps <- get_samples(samples = 1:nsamples, chains = chains, data = data, 

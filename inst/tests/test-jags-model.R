@@ -14,23 +14,23 @@ test_that("jags_model returns object of correct class", {
   expect_true(is_one_model(model))
   
   expect_that(model_code(model), is_a("character"))
-  expect_that(names(model_code(model)), equals(NULL))
+  expect_equal(names(model_code(model)), NULL)
   expect_that(length(model_code(model)), is_equivalent_to(1))
   
   expect_equal(monitor(model), "^([^dei]|.[^A-Z])")
-  expect_that(select_data(model), equals(NULL))
-  expect_that(modify_data(model), equals(NULL))
-  expect_that(gen_inits(model), equals(NULL))
-  expect_that(derived_code(model), equals(NULL))
-  expect_that(random_effects(model), equals(NULL))
+  expect_equal(select_data(model), NULL)
+  expect_equal(modify_data(model), NULL)
+  expect_equal(gen_inits(model), NULL)
+  expect_equal(derived_code(model), NULL)
+  expect_equal(random_effects(model), NULL)
   
   expect_that(extract_data(model), throws_error())
   
   monitor(model) <- c("bLambda")
-  expect_that(monitor(model), equals("bLambda"))
+  expect_equal(monitor(model), "bLambda")
   
   select_data(model) <- c("x")
-  expect_that(select_data(model), equals("x"))
+  expect_equal(select_data(model), "x")
   
   modify_data(model) <-function (data) data
   expect_that(modify_data(model), is_a("function"))
@@ -43,7 +43,7 @@ test_that("jags_model returns object of correct class", {
   
   random_effects(model) <- list(bLambda = "x")
   expect_that(random_effects(model), is_a("list"))
-  expect_that(names(random_effects(model)), equals("bLambda"))
+  expect_equal(names(random_effects(model)), "bLambda")
   
   model2 <- model
   
@@ -61,37 +61,37 @@ test_that("jags_model returns object of correct class", {
   expect_false(is_one_model(model))
   
   expect_that(model_code(model), is_a("list"))
-  expect_that(names(model_code(model)), equals(c("Model1","Model2")))
+  expect_equal(names(model_code(model)), c("Model1","Model2"))
   expect_that(length(model_code(model)), is_equivalent_to(2))
   expect_that(model_code(model)[[2]], is_a("character"))
   
   expect_that(monitor(model), is_a("list"))
-  expect_that(names(monitor(model)), equals(c("Model1","Model2")))
+  expect_equal(names(monitor(model)), c("Model1","Model2"))
   expect_that(length(monitor(model)), is_equivalent_to(2))
   expect_that(monitor(model)[[2]], is_a("character"))
   
   expect_that(select_data(model), is_a("list"))
-  expect_that(names(select_data(model)), equals(c("Model1","Model2")))
+  expect_equal(names(select_data(model)), c("Model1","Model2"))
   expect_that(length(select_data(model)), is_equivalent_to(2))
   expect_that(select_data(model)[[2]], is_a("character"))
   
   expect_that(modify_data(model), is_a("list"))
-  expect_that(names(modify_data(model)), equals(c("Model1","Model2")))
+  expect_equal(names(modify_data(model)), c("Model1","Model2"))
   expect_that(length(modify_data(model)), is_equivalent_to(2))
   expect_that(modify_data(model)[[2]], is_a("function"))
   
   expect_that(gen_inits(model), is_a("list"))
-  expect_that(names(gen_inits(model)), equals(c("Model1","Model2")))
+  expect_equal(names(gen_inits(model)), c("Model1","Model2"))
   expect_that(length(gen_inits(model)), is_equivalent_to(2))
   expect_that(gen_inits(model)[[2]], is_a("function"))
   
   expect_that(derived_code(model), is_a("list"))
-  expect_that(names(derived_code(model)), equals(c("Model1","Model2")))
+  expect_equal(names(derived_code(model)), c("Model1","Model2"))
   expect_that(length(derived_code(model)), is_equivalent_to(2))
   expect_that(derived_code(model)[[2]], is_a("character"))
   
   expect_that(random_effects(model), is_a("list"))
-  expect_that(names(random_effects(model)), equals(c("Model1","Model2")))
+  expect_equal(names(random_effects(model)), c("Model1","Model2"))
   expect_that(length(random_effects(model)), is_equivalent_to(2))
   expect_that(random_effects(model)[[2]], is_a("list"))
   

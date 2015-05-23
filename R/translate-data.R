@@ -65,9 +65,9 @@ translate_data <- function (select, data, dat = NULL) {
   }
   cterms <- datalist::conversion_terms(data, centre = centre, standardise = standardise, dat = dat)
 
-  data <- datalist::convert_data (data, centre = centre, standardise = standardise, dat = dat)
+  data %<>% datalist::convert_data (centre = centre, standardise = standardise, dat = dat)
 
   data <- c(as.list(data), facs)
     
-  list(data = data)#, cterms = cterms)
+  list(data = data, cterms = cterms)
 }

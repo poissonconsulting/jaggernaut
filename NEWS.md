@@ -1,6 +1,7 @@
 # jaggernaut v2.3.0
 
-- added ability to get mean and SD for centered predictors (#63)
+- added ability to get mean and SD for centered predictor `Var` (#59,63) by
+specifying `Var_MU` and `Var_SD` in derived code
 
 # jaggernaut v2.2.11
 

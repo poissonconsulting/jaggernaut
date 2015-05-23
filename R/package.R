@@ -48,7 +48,7 @@
 #' Plummer M (2012) JAGS Version 3.3.0 User Manual \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
 #' 
 #' @docType package
-#' @import assertthat coda rjags doParallel itertools
+#' @import assertthat coda rjags doParallel itertools magrittr
 #' @importFrom foreach getDoParWorkers foreach %dopar% 
 #' @name jaggernaut
 #' @aliases package-jaggernaut jaggernaut-package
