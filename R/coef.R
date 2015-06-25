@@ -202,6 +202,19 @@ coef.jags_sample <- function (object, level = "current", estimate = "current",
   cbind(dataset(object), coef)
 }
 
+replace_coef_parameter_names <- function (coef, object) {
+  nodes <- juggler::jg_vnodes(model_code(object), type = "both")
+  nodes <- nodes[names(nodes) != nodes]
+  if (length(nodes)) {
+    names(nodes) <- gsub("\\", "\\\\",  names(nodes), fixed = TRUE)
+    for(i in seq_along(nodes)) {
+      row.names(coef) <- gsub(paste0("^", nodes[i], ("(?=$|[[])")), 
+                              names(nodes)[i], row.names(coef), perl = TRUE)
+    }
+  }
+  coef
+}
+
 coef.jagr_analysis <- function (object, parm, level, estimate, 
                                 as_list, latex, ...) {
   
@@ -210,17 +223,8 @@ coef.jagr_analysis <- function (object, parm, level, estimate,
   coef <- coef(as.jagr_chains(object), parm = parm, 
                level = level, estimate = estimate, 
                as_list = as_list, ...)
-  
-  if (latex) {
-    nodes <- juggler::jg_vnodes(model_code(object), type = "both")
-    nodes <- nodes[names(nodes) != nodes]
-    if (length(nodes)) {
-      names(nodes) <- gsub("\\", "\\\\",  names(nodes), fixed = TRUE)
-      for(i in seq_along(nodes))
-        row.names(coef) <- gsub(paste0("^", nodes[i], ("(?=$|[[])")), 
-                                  names(nodes)[i], row.names(coef), perl = TRUE)
-    }
-  }
+  if (latex) 
+    coef %<>% replace_coef_parameter_names (object)
   coef
 }
 
