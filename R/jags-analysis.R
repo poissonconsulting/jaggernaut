@@ -38,7 +38,7 @@
 #' 
 #' model <- jags_model("
 #' model { 
-#'  bLambda ~ dlnorm(0,10^-2) 
+#'  bLambda ~ dlnorm(0,10^-2) # $\\bLambda$
 #'  for (i in 1:length(x)) { 
 #'    x[i]~dpois(bLambda) 
 #'  } 

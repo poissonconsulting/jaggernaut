@@ -48,8 +48,9 @@
 #' Plummer M (2012) JAGS Version 3.3.0 User Manual \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
 #' 
 #' @docType package
-#' @import assertthat coda rjags doParallel itertools magrittr
-#' @importFrom foreach getDoParWorkers foreach %dopar% 
+#' @import assertthat coda rjags doParallel itertools
+#' @importFrom foreach getDoParWorkers foreach %dopar%
+#' @importFrom magrittr %<>% %>% 
 #' @name jaggernaut
 #' @aliases package-jaggernaut jaggernaut-package
 #' @seealso \code{\link{jags_model}},
@@ -59,7 +60,7 @@
 #' 
 #' mod <- jags_model("
 #' model { 
-#'  bLambda ~ dlnorm(0,10^-2) 
+#'  bLambda ~ dlnorm(0,10^-2) # $\\lambda$
 #'  for (i in 1:length(x)) { 
 #'    x[i]~dpois(bLambda) 
 #'  } 
@@ -72,6 +73,7 @@
 #' plot(an)
 #' convergence(an)
 #' coef(an)
+#' coef(an, latex = TRUE)
 #' summary(an)
 #'  
 #'  

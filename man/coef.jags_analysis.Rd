@@ -5,7 +5,7 @@
 \title{Calculate parameter estimates}
 \usage{
 \method{coef}{jags_analysis}(object, parm = "fixed", level = "current",
-  estimate = "current", as_list = FALSE, ...)
+  estimate = "current", as_list = FALSE, latex = FALSE, ...)
 }
 \arguments{
 \item{object}{a \code{jags_analysis} object}
@@ -24,6 +24,8 @@ estimate is as currently specified by \code{opts_jagr} in the global options.}
 
 \item{as_list}{a logical scalar indicating whether the coefs should be in the
 form of a list (as_list = TRUE) or the default (as_list = FALSE) a data.frame.}
+
+\item{latex}{A flag indicating whether to replace parameter names with latex math comments.}
 
 \item{...}{further arguments passed to or from other methods.}
 }

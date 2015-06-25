@@ -50,7 +50,7 @@ or requests to the package maintainer at \email{<joe@poissonconsulting.ca>}.
 \examples{
 mod <- jags_model("
 model {
- bLambda ~ dlnorm(0,10^-2)
+ bLambda ~ dlnorm(0,10^-2) # $\\\\lambda$
  for (i in 1:length(x)) {
    x[i]~dpois(bLambda)
  }
@@ -63,6 +63,7 @@ an <- jags_analysis (mod, dat, mode = "demo")
 plot(an)
 convergence(an)
 coef(an)
+coef(an, latex = TRUE)
 summary(an)
 
 

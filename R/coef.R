@@ -136,12 +136,12 @@ coef.jagr_chains <- function (object, parm, level, estimate,
   assert_that(is.number(level))
   
   mat <- as.matrix(object)
-    
+  
   mat <- mat[,colnames(mat) %in% parm,drop = FALSE]
   
   if (level > 0) {
-  return (coef_matrix (mat, level = level, estimate = estimate, 
-               as_list = as_list))
+    return (coef_matrix (mat, level = level, estimate = estimate, 
+                         as_list = as_list))
   }
   data <- data.frame(row = 1:ncol(mat))  
   jags_sample_coef(object, parm, data)
@@ -203,20 +203,32 @@ coef.jags_sample <- function (object, level = "current", estimate = "current",
 }
 
 coef.jagr_analysis <- function (object, parm, level, estimate, 
-                                      as_list, ...) {
+                                as_list, latex, ...) {
   
   parm <- expand_parm(object, parm = parm)
   
-  coef(as.jagr_chains(object), parm = parm, 
-       level = level, estimate = estimate, 
-       as_list = as_list, ...)
+  coef <- coef(as.jagr_chains(object), parm = parm, 
+               level = level, estimate = estimate, 
+               as_list = as_list, ...)
+  
+  if (latex) {
+    nodes <- juggler::jg_vnodes(model_code(object), type = "both")
+    nodes <- nodes[names(nodes) != nodes]
+    if (length(nodes)) {
+      names(nodes) %<>% gsub("\\", "\\\\", ., fixed = TRUE)
+      for(i in seq_along(nodes))
+        row.names(coef) %<>% gsub(paste0("^", nodes[i], ("(?=$|[[])")), 
+                                  names(nodes)[i], ., perl = TRUE)
+    }
+  }
+  coef
 }
 
 coef_jagr_analysis <- function (object, parm, level, estimate, 
-                                      as_list, ...) {
+                                as_list, latex, ...) {
   stopifnot(is.jagr_analysis(object))
   coef(object, parm = parm, level = level, estimate = estimate,
-       as_list = as_list, ...)
+       as_list = as_list, latex = latex, ...)
 }
 
 #' @title Calculate parameter estimates
@@ -236,6 +248,7 @@ coef_jagr_analysis <- function (object, parm, level, estimate,
 #' estimate is as currently specified by \code{opts_jagr} in the global options.
 #' @param as_list a logical scalar indicating whether the coefs should be in the
 #' form of a list (as_list = TRUE) or the default (as_list = FALSE) a data.frame.
+#' @param latex A flag indicating whether to replace parameter names with latex math comments.
 #' @param ... further arguments passed to or from other methods.
 #' @return a data.frame of the parameter estimates with the point estimate and 
 #' lower and upper credible limits as well as the standard deviation, percent
@@ -245,7 +258,9 @@ coef_jagr_analysis <- function (object, parm, level, estimate,
 #' @export
 coef.jags_analysis <- function (object, parm = "fixed", level = "current", 
                                 estimate = "current", 
-                                as_list = FALSE, ...) {
+                                as_list = FALSE, latex = FALSE, ...) {
+  
+  assert_that(is.flag(latex) && noNA(latex))
   
   if(!is_character_vector(parm))
     stop("parm must be a character vector")
@@ -278,10 +293,10 @@ coef.jags_analysis <- function (object, parm = "fixed", level = "current",
   if(is_one_model(object)) {
     return (coef(analysis(object), parm = parm, level = level, 
                  estimate = estimate, 
-                 as_list = as_list, ...))
+                 as_list = as_list, latex = latex, ...))
   }
   
   lapply(analyses(object), coef_jagr_analysis, 
-                     parm = parm, level = level, estimate = estimate,
-                     as_list = as_list, ...)
+         parm = parm, level = level, estimate = estimate,
+         as_list = as_list, latex = latex, ...)
 }

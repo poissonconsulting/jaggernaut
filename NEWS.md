@@ -1,3 +1,8 @@
+# jaggernaut v2.3.1
+
+- `coef.jags_analysis` now has argument `latex` to replace parameter names
+with latex math comments. useful for generation of sweave tables.
+
 # jaggernaut v2.3.0
 
 - added ability to get mean and SD for centered predictor `Var` (#59,63) by

@@ -116,7 +116,7 @@ use of the \code{random_effects} argument see the \code{predict} function.
 \examples{
 model <- jags_model("
 model {
- bLambda ~ dlnorm(0,10^-2)
+ bLambda ~ dlnorm(0,10^-2) # $\\\\lamda$
  for (i in 1:length(x)) {
    x[i]~dpois(bLambda)
  }
