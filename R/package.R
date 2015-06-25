@@ -50,7 +50,7 @@
 #' @docType package
 #' @import assertthat coda rjags doParallel itertools
 #' @importFrom foreach getDoParWorkers foreach %dopar%
-#' @importFrom magrittr %<>% %>% 
+#' @importFrom magrittr %<>% %>%
 #' @name jaggernaut
 #' @aliases package-jaggernaut jaggernaut-package
 #' @seealso \code{\link{jags_model}},

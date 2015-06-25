@@ -215,10 +215,10 @@ coef.jagr_analysis <- function (object, parm, level, estimate,
     nodes <- juggler::jg_vnodes(model_code(object), type = "both")
     nodes <- nodes[names(nodes) != nodes]
     if (length(nodes)) {
-      names(nodes) %<>% gsub("\\", "\\\\", ., fixed = TRUE)
+      names(nodes) <- gsub("\\", "\\\\",  names(nodes), fixed = TRUE)
       for(i in seq_along(nodes))
-        row.names(coef) %<>% gsub(paste0("^", nodes[i], ("(?=$|[[])")), 
-                                  names(nodes)[i], ., perl = TRUE)
+        row.names(coef) <- gsub(paste0("^", nodes[i], ("(?=$|[[])")), 
+                                  names(nodes)[i], row.names(coef), perl = TRUE)
     }
   }
   coef
