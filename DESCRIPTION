@@ -1,9 +1,10 @@
 Package: jaggernaut
-Version: 2.3.1
+Version: 2.3.1.9001
 Date: 2015-06-25
-Title: Bayesian analyses using JAGS
-Author: Joe Thorley [aut, cre]
-Maintainer: Joe Thorley <joe@poissonconsulting.ca>
+Title: Bayesian Analyses using JAGS
+Authors@R: c(
+    person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c("aut", "cre"))
+  )
 License: MIT + file LICENSE
 Description: An R package to facilitate Bayesian analyses using JAGS
     (Just Another Gibbs Sampler). Key features include the
@@ -18,7 +19,6 @@ Description: An R package to facilitate Bayesian analyses using JAGS
     frames quantifying the effect (and effect size) of particular
     variables with the other variables held constant.
 URL: https://github.com/poissonconsulting/jaggernaut
-BugReports: https://github.com/poissonconsulting/jaggernaut/issues
 SystemRequirements: jags (>= 3.3.0)
 Depends:
     R (>= 3.2.0),
