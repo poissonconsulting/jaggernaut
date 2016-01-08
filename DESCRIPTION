@@ -1,6 +1,5 @@
 Package: jaggernaut
-Version: 2.3.1.9001
-Date: 2015-06-25
+Version: 2.3.1.9002
 Title: Bayesian Analyses using JAGS
 Authors@R: c(
     person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c("aut", "cre"))
@@ -21,7 +20,7 @@ Description: An R package to facilitate Bayesian analyses using JAGS
 URL: https://github.com/poissonconsulting/jaggernaut
 SystemRequirements: jags (>= 3.3.0)
 Depends:
-    R (>= 3.2.0),
+    R (>= 3.1.0),
     foreach (>= 1.4.2),
     doParallel (>= 1.0.8)
 Imports:
