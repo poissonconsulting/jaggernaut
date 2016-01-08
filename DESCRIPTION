@@ -40,3 +40,4 @@ Suggests:
     reshape2 (>= 1.4.1),
     ggplot2 (>= 1.0.1),
     scales (>= 0.2.4)
+RoxygenNote: 5.0.1
