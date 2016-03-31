@@ -1,3 +1,7 @@
+# jaggernaut v2.3.2
+
+- Fixed bug where coef on jag_sample object grabbing columns with 1 or more digits in name.
+
 # jaggernaut v2.3.1
 
 - `coef.jags_analysis` now has argument `latex` to replace parameter names

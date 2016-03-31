@@ -12,7 +12,7 @@ samples.jagr_chains <- function (object) {
 }
 
 samples.jags_sample <- function (object) {
-  return (as.data.frame(object[,grep("[[:digit:]]", colnames(object))]))
+  return (as.data.frame(object[,grep("^[[:digit:]]+$", colnames(object))]))
 }
 
 "samples<-.jagr_chains" <- function (object, value) {
