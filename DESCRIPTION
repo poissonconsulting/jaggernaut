@@ -1,6 +1,6 @@
 Package: jaggernaut
-Version: 2.3.2
-Date: 2016-03-30
+Version: 2.3.3
+Date: 2016-05-12
 Title: Bayesian Analyses using JAGS
 Authors@R: c(
     person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c("aut", "cre"))
@@ -19,19 +19,21 @@ Description: An R package to facilitate Bayesian analyses using JAGS
     frames quantifying the effect (and effect size) of particular
     variables with the other variables held constant.
 URL: https://github.com/poissonconsulting/jaggernaut
-SystemRequirements: jags (>= 3.3.0)
+SystemRequirements: jags (>= 4.2.0)
 Depends:
     R (>= 3.1.0),
     foreach,
     doParallel
 Imports:
-    stats,
     assertthat,
     abind,
     plyr,
     magrittr,
-    datalist (>= 0.5.0),
+    datalist (>= 0.5.1),
     juggler (>= 0.1.5),
+    graphics,
+    stats,
+    utils,
     itertools,
     coda,
     rjags

@@ -1,31 +1,37 @@
-# jaggernaut v2.3.2
+# NEWS jaggernaut
+
+## v2.3.3
+
+- importFrom graphics par plot etc to avoid message
+
+## v2.3.2
 
 - Fixed bug where coef on jag_sample object grabbing columns with 1 or more digits in name.
 
-# jaggernaut v2.3.1
+## v2.3.1
 
 - `coef.jags_analysis` now has argument `latex` to replace parameter names
 with latex math comments. useful for generation of sweave tables.
 
-# jaggernaut v2.3.0
+## v2.3.0
 
 - added ability to get mean and SD for centered predictor `Var` (#59,63) by
 specifying `Var_MU` and `Var_SD` in derived code
 
-# jaggernaut v2.2.11
+## v2.2.11
 
 - updated to `datalist` v0.4.1
 
-# jaggernaut v2.2.10
+## v2.2.10
 
 - `predict.jags_analysis` now works with new columns in `select_data_derived`
 
-# jaggernaut v2.2.9
+## v2.2.9
 
 - implemeted travis checking
 - fixed bug `coef.jags_analysis` now works with `parm = "no"`
 
-# jaggernaut v2.2.8
+## v2.2.8
 
 - if chains run in parallel and not enough workers when updating gives informative error message
 - if chains run in series then continues to run in series when updating
@@ -34,51 +40,51 @@ specifying `Var_MU` and `Var_SD` in derived code
 - now only runs chains in parallel if at least as many workers
 - renamed rhat as Rhat in output
 
-# jaggernaut v2.2.7
+## v2.2.7
 
 - `coef` table estimates now rounded to equivalent number of significant digits
 whether or not fraction
 
-# jaggernaut v2.2.6
+## v2.2.6
 
 - `modify_data_derived(analysis) <-` no longer throws error when passed function
 
-# jaggernaut v2.2.5
+## v2.2.5
 
 - rounds coefficient table estimates, credible intervals and standard deviation
 depending on number of samples
 - rounds `auto_corr` and `cross_cor` estimates to decimal places
 
-# jaggernaut v2.2.4
+## v2.2.4
 
 - significance values in coefficient tables now cannot be less
 than 1 / number of samples
 
-# jaggernaut v2.2.3
+## v2.2.3
 
 - stripped out cpp code for internal function `bayesian_p_value` so easier to build from source
 
-# jaggernaut v2.2.2
+## v2.2.2
 
 - `auto_corr` now produces matrix of lags by parameters by averaging chains
 and dropping cross-correlations
 
-# jaggernaut v2.2.1
+## v2.2.1
 
 - `summary.jags_analysis` get model names and lists convergence as rhat
 
-# jaggernaut v2.2.0
+## v2.2.0
 
 - `model_name` and `model` replaced with `model_id`
 - added `default_model_id` argument and function to specify which model
 to use for default predictions, residuals etc
 
-## jaggernaut v2.1.1
+### v2.1.1
 
 - `predictive_check` now returns parameter names as rownnames as opposed
 to a columnn
 
-# jaggernaut v2.1.0
+## v2.1.0
 
 - renamed `jags_discrepancies` as `predictive_check` and now
 returns coef table and can be used for multiple discrepancy measures
@@ -91,7 +97,7 @@ but not use to calculate convergence - useful for parameters with
 bernoulli distribution
 
 
-## jaggernaut v2.0.0
+### v2.0.0
 
 #### Major changes include:
 

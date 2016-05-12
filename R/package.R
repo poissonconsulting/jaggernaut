@@ -51,6 +51,9 @@
 #' @import assertthat coda rjags doParallel itertools
 #' @importFrom foreach getDoParWorkers foreach %dopar%
 #' @importFrom magrittr %<>% %>%
+#' @importFrom graphics par plot
+#' @importFrom stats coef median predict update variable.names
+#' @importFrom utils capture.output head
 #' @name jaggernaut
 #' @aliases package-jaggernaut jaggernaut-package
 #' @seealso \code{\link{jags_model}},
