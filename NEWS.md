@@ -1,5 +1,9 @@
 # NEWS jaggernaut
 
+## v2.3.4
+
+- `predict.jags_analysis` argument `length_out` maximum increased from 200 to 1000.
+
 ## v2.3.3
 
 - importFrom graphics par plot etc to avoid message

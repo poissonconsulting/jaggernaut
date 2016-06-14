@@ -74,9 +74,9 @@ predict.jags_analysis <- function (object, newdata = NULL,
                                    obs_by = FALSE, length_out = 50, ...) {
   
   assert_that(is.scalar(model_id))
-    
+  
   if(!is_null(newdata) && !datalist::is_convertible_data(newdata) &&
-       !identical(newdata, "") && !is_character_vector(newdata))
+     !identical(newdata, "") && !is_character_vector(newdata))
     stop("newdata must be NULL or a data.frame or list of data or a character vector")
   
   if(!is_character_scalar(parm))
@@ -106,8 +106,8 @@ predict.jags_analysis <- function (object, newdata = NULL,
   if(!is_character_scalar(estimate))
     stop("estimate must be a character vector")
   
-  if(!is_integer_scalar(length_out) || !is_bounded(length_out, 10, 100))
-    stop("length_out must be a integer between 10 and 100")
+  if(!is_integer_scalar(length_out) || !is_bounded(length_out, 10, 1000))
+    stop("length_out must be a integer between 10 and 1000")
   
   if(!is_logical_scalar(obs_by) && !is_character_vector(obs_by))
     stop("obs_by must be a logical scalar or a character vector")
@@ -181,6 +181,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
   if (is.null(newdata)) {
     newdata <- data
   } else if (is_character_vector(newdata)) {
+    
     observed <- obs_by
     if(!is.character(observed))
       observed <- NULL
@@ -189,7 +190,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
       newdata <- NULL
     
     newdata <- datalist::new_data(data, sequence = newdata, observed = observed, 
-                        length_out = length_out)
+                                  length_out = length_out)
   }
   
   if (is_TRUE(base)) {
