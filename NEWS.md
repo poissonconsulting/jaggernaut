@@ -1,5 +1,9 @@
 # NEWS jaggernaut
 
+## v2.4.0
+
+- Add function `convergence_analysis` to test if two analyses have similar posteriors.
+
 ## v2.3.4
 
 - `predict.jags_analysis` argument `length_out` maximum increased from 200 to 1000.

@@ -1,5 +1,5 @@
 Package: jaggernaut
-Version: 2.3.4.9000
+Version: 2.4.0
 Date: 2016-08-02
 Title: Bayesian Analyses using JAGS
 Authors@R: c(
