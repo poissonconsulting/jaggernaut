@@ -1,6 +1,6 @@
 Package: jaggernaut
-Version: 2.3.4
-Date: 2016-06-14
+Version: 2.3.4.9000
+Date: 2016-08-02
 Title: Bayesian Analyses using JAGS
 Authors@R: c(
     person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c("aut", "cre"))
@@ -27,6 +27,7 @@ Depends:
 Imports:
     assertthat,
     abind,
+    datacheckr,
     plyr,
     magrittr,
     datalist (>= 0.5.1),
@@ -36,7 +37,8 @@ Imports:
     utils,
     itertools,
     coda,
-    rjags
+    rjags,
+    runjags
 Suggests:
     testthat,
     datasets,
