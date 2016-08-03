@@ -1,45 +1,49 @@
 # NEWS jaggernaut
 
-## v2.4.0
+### v2.4.1
+
+- `convergence_analysis` now works with different numbers of iterations.
+
+### v2.4.0
 
 - Add function `convergence_analysis` to test if two analyses have similar posteriors.
 
-## v2.3.4
+#### v2.3.4
 
 - `predict.jags_analysis` argument `length_out` maximum increased from 200 to 1000.
 
-## v2.3.3
+#### v2.3.3
 
 - importFrom graphics par plot etc to avoid message
 
-## v2.3.2
+#### v2.3.2
 
 - Fixed bug where coef on jag_sample object grabbing columns with 1 or more digits in name.
 
-## v2.3.1
+#### v2.3.1
 
 - `coef.jags_analysis` now has argument `latex` to replace parameter names
 with latex math comments. useful for generation of sweave tables.
 
-## v2.3.0
+### v2.3.0
 
 - added ability to get mean and SD for centered predictor `Var` (#59,63) by
 specifying `Var_MU` and `Var_SD` in derived code
 
-## v2.2.11
+#### v2.2.11
 
 - updated to `datalist` v0.4.1
 
-## v2.2.10
+#### v2.2.10
 
 - `predict.jags_analysis` now works with new columns in `select_data_derived`
 
-## v2.2.9
+#### v2.2.9
 
 - implemeted travis checking
 - fixed bug `coef.jags_analysis` now works with `parm = "no"`
 
-## v2.2.8
+#### v2.2.8
 
 - if chains run in parallel and not enough workers when updating gives informative error message
 - if chains run in series then continues to run in series when updating

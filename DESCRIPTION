@@ -1,6 +1,6 @@
 Package: jaggernaut
-Version: 2.4.0
-Date: 2016-08-02
+Version: 2.4.1
+Date: 2016-08-03
 Title: Bayesian Analyses using JAGS
 Authors@R: c(
     person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c("aut", "cre"))
@@ -45,4 +45,7 @@ Suggests:
     reshape2,
     ggplot2,
     scales
+Remotes: 
+    poissonconsulting/datalist,
+    poissonconsulting/juggler
 RoxygenNote: 5.0.1

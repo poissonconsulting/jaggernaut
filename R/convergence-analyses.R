@@ -26,6 +26,9 @@ convergence_analyses <- function(object, object2, parm = "all", combine = TRUE) 
   
   mcmc1 <- runjags::combine.mcmc(list(mcmc1))
   mcmc2 <- runjags::combine.mcmc(list(mcmc2))
+  niter <- min(niter(mcmc1), niter(mcmc2))
+  mcmc1 <- as.mcmc(mcmc1[seq_len(niter),])
+  mcmc2 <- as.mcmc(mcmc2[seq_len(niter),])
   mcmc <- list(mcmc1, mcmc2)
   class(mcmc) <- "mcmc.list"
   rhat <- convergence(mcmc, vars = parm1)
