@@ -1,14 +1,10 @@
-# Sample .travis.yml for R projects
-
 language: r
-warnings_are_errors: true
 sudo: required
 
 r_binary_packages:
  - rjags
 
-r_github_packages:
- - poissonconsulting/tulip
- - poissonconsulting/datalist
- - poissonconsulting/juggler
- 
+r:
+  - oldrel
+  - release
+  - devel

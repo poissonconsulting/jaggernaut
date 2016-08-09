@@ -1,5 +1,9 @@
 # NEWS jaggernaut
 
+### v2.4.2
+
+- update Remotes
+
 ### v2.4.1
 
 - `convergence_analysis` now works with different numbers of iterations.

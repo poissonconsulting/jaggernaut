@@ -26,9 +26,6 @@ To install the latest version of jaggernaut:
 
     # install.packages("devtools")
     library(devtools)
-    install_github("poissonconsulting/tulip")
-    install_github("poissonconsulting/datalist")
-    install_github("poissonconsulting/juggler")
     install_github("poissonconsulting/jaggernaut")
     library(jaggernaut)
     
