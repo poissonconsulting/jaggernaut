@@ -63,9 +63,8 @@ test_that("four models", {
                        select_data = c("C")
   )
   
-  data(peregrine)
-  data <- peregrine
-  
+  data <- jaggernaut::falcon
+
   data$C <- data$Pairs
   
   models <- combine(model1, model2, model3, model4)

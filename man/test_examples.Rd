@@ -107,8 +107,7 @@ mod <- jags_model("
   random_effects = list(eps = "Year"),
   select_data = c("C","Year*")
   )
- data(peregrine)
- dat <- peregrine
+ dat <- jaggernaut::falcon
  dat$C <- dat$Pairs
  an <- jags_analysis (mod, dat, mode = "debug")
  an <- jags_analysis (mod, dat, mode = "test")

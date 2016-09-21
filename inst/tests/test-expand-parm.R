@@ -18,22 +18,21 @@ test_that("expand_parm returns correct values", {
                     C[i] ~ dpois(eC[i])
                     }
                     }",
- derived_code = "data{
+                    derived_code = "data{
                     for (i in 1:length(Year)) {
                     log(prediction[i]) <- alpha + beta1 * Year[i]
                     + beta2 * Year[i]^2 + beta3 * Year[i]^3
                     }
  }",
-  random_effects = list(eps = "Year"),
-  select_data = c("C","Year*")
+                    random_effects = list(eps = "Year"),
+                    select_data = c("C","Year*")
   )
-
-  data(peregrine)
-  dat <- peregrine
-
+  
+  dat <- jaggernaut::falcon
+  
   dat$C <- dat$Pairs
   an <- jags_analysis (mod, dat, niters = 10^3, mode = "test")
-    
+  
   expect_equal(expand_parm(analysis(an),"all"), sort(c("alpha","beta1","beta2","beta3",paste0("eps[",1:40,"]"),"sigma")))
   expect_equal(expand_parm(analysis(an),"fixed"), c("alpha","beta1","beta2","beta3","sigma"))
   expect_equal(expand_parm(analysis(an),"random"), sort(paste0("eps[",1:40,"]")))
@@ -58,38 +57,38 @@ test_that("expand_parm returns correct values", {
                     C[i] ~ dpois(eC[i])
                     }
                     }",
- derived_code = "data{
+                    derived_code = "data{
  for (i in 1:length(Year)) {
  prediction[i] <- sigma
  }
  }",
-  random_effects = list(eps = "Year"),
- monitor = c("beta", "sigma-"),
- select_data = c("C","Year*")
+                    random_effects = list(eps = "Year"),
+                    monitor = c("beta", "sigma-"),
+                    select_data = c("C","Year*")
   )
- 
- data(peregrine)
- dat <- peregrine
- 
- dat$C <- dat$Pairs
- an <- jags_analysis (mod, dat, niters = 10^3, mode = "test")
+  
+  dat <- jaggernaut::falcon
 
- expect_equal(monitor(an), c("beta", "sigma-"))
- expect_equal(rownames(coef(an)), c("beta[1]", "beta[2]", "beta[3]"))
- expect_equal(rownames(coef(an, parm = "sigma")), c("sigma"))
- expect_equal(rownames(coef(an, parm = c("all", "sigma"))), c("beta[1]", "beta[2]", "beta[3]", "sigma"))
-
- expect_equal(rownames(convergence(an, combine = FALSE)), c("beta[1]", "beta[2]", "beta[3]"))
- expect_equal(rownames(convergence(an, parm = "sigma", combine = FALSE)), c("sigma"))
- expect_equal(rownames(convergence(an, parm = c("all", "sigma"), combine = FALSE)), c("beta[1]", "beta[2]", "beta[3]", "sigma"))
- 
- expect_equal(colnames(auto_corr(an)), c("beta[1]", "beta[2]", "beta[3]"))
- expect_equal(colnames(auto_corr(an, parm = "sigma")), c("sigma"))
- expect_equal(colnames(auto_corr(an, parm = c("sigma", "all"))), c("beta[1]", "beta[2]", "beta[3]", "sigma"))  
-
-expect_equal(rownames(cross_corr(an)), c("beta[1]", "beta[2]", "beta[3]"))
-expect_equal(rownames(cross_corr(an, parm = "sigma")), c("sigma"))
-expect_equal(rownames(cross_corr(an, parm = c("all", "sigma"))), c("beta[1]", "beta[2]", "beta[3]", "sigma"))
-
-expect_equal(predict(an, newdata = "")$estimate, coef(an, parm = "sigma")$estimate)
+  
+  dat$C <- dat$Pairs
+  an <- jags_analysis (mod, dat, niters = 10^3, mode = "test")
+  
+  expect_equal(monitor(an), c("beta", "sigma-"))
+  expect_equal(rownames(coef(an)), c("beta[1]", "beta[2]", "beta[3]"))
+  expect_equal(rownames(coef(an, parm = "sigma")), c("sigma"))
+  expect_equal(rownames(coef(an, parm = c("all", "sigma"))), c("beta[1]", "beta[2]", "beta[3]", "sigma"))
+  
+  expect_equal(rownames(convergence(an, combine = FALSE)), c("beta[1]", "beta[2]", "beta[3]"))
+  expect_equal(rownames(convergence(an, parm = "sigma", combine = FALSE)), c("sigma"))
+  expect_equal(rownames(convergence(an, parm = c("all", "sigma"), combine = FALSE)), c("beta[1]", "beta[2]", "beta[3]", "sigma"))
+  
+  expect_equal(colnames(auto_corr(an)), c("beta[1]", "beta[2]", "beta[3]"))
+  expect_equal(colnames(auto_corr(an, parm = "sigma")), c("sigma"))
+  expect_equal(colnames(auto_corr(an, parm = c("sigma", "all"))), c("beta[1]", "beta[2]", "beta[3]", "sigma"))  
+  
+  expect_equal(rownames(cross_corr(an)), c("beta[1]", "beta[2]", "beta[3]"))
+  expect_equal(rownames(cross_corr(an, parm = "sigma")), c("sigma"))
+  expect_equal(rownames(cross_corr(an, parm = c("all", "sigma"))), c("beta[1]", "beta[2]", "beta[3]", "sigma"))
+  
+  expect_equal(predict(an, newdata = "")$estimate, coef(an, parm = "sigma")$estimate)
 })

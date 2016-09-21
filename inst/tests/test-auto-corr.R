@@ -44,8 +44,7 @@ test_that("test multi par", {
 select_data = c("C","Year*")
   )
 
-data(peregrine)
-data <- peregrine
+data <- jaggernaut::falcon
 
 data$C <- data$Pairs
 

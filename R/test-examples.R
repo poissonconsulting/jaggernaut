@@ -106,8 +106,7 @@
 #'   select_data = c("C","Year*")
 #'   )
 
-#'  data(peregrine)
-#'  dat <- peregrine
+#'  dat <- jaggernaut::falcon
 
 #'  dat$C <- dat$Pairs
 #'  an <- jags_analysis (mod, dat, mode = "debug")

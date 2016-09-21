@@ -44,4 +44,5 @@ Suggests:
     reshape2,
     ggplot2,
     scales
+LazyData: true
 RoxygenNote: 5.0.1

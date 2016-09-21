@@ -1,10 +1,10 @@
 library(devtools)
 
-peregrine <- data.frame(Year = 1964:2003)
+falcon <- data.frame(Year = 1974:2013)
 
 set.seed(105)
-peregrine$Pairs <- rpois(nrow(peregrine), 20)
-peregrine$R.pairs <- rbinom(nrow(peregrine), peregrine$Pairs, 0.6)
-peregrine$Eyasses <- rbinom(nrow(peregrine), peregrine$R.pairs, 0.4)
+falcon$Pairs <- rpois(nrow(falcon), 20)
+falcon$R.pairs <- rbinom(nrow(falcon), falcon$Pairs, 0.6)
+falcon$Eyasses <- rbinom(nrow(falcon), falcon$R.pairs, 0.4)
 
-use_data(peregrine, overwrite = TRUE)
+use_data(falcon, overwrite = TRUE)

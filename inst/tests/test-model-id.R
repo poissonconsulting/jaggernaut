@@ -105,8 +105,7 @@ model4 <- jags_model("
                      select_data = c("C")
 )
 
-data(peregrine)
-data <- peregrine
+data <- jaggernaut::falcon
 
 data$C <- data$Pairs
 
