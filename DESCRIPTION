@@ -30,7 +30,6 @@ Imports:
     datacheckr,
     plyr,
     magrittr,
-    juggler (>= 0.1.6),
     graphics,
     stats,
     utils,
@@ -44,6 +43,4 @@ Suggests:
     reshape2,
     ggplot2,
     scales
-Remotes: 
-    poissonconsulting/juggler
 RoxygenNote: 5.0.1

@@ -203,7 +203,7 @@ coef.jags_sample <- function (object, level = "current", estimate = "current",
 }
 
 replace_coef_parameter_names <- function (coef, object) {
-  nodes <- juggler::jg_vnodes(model_code(object), type = "both")
+  nodes <- jg_vnodes(model_code(object), type = "both")
   nodes <- nodes[names(nodes) != nodes]
   if (length(nodes)) {
     names(nodes) <- gsub("\\", "\\\\",  names(nodes), fixed = TRUE)

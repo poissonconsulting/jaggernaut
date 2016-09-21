@@ -24,7 +24,6 @@ derived_code <- function (object, ...) {
 #' @param value a character element or NULL.
 #' @return The replacement method changes the derived_code component of the object.
 #' @seealso \code{\link{derived_code}} and \code{\link{jaggernaut}}  
-#' @importFrom juggler jg_check jg_nblock jg_block_names "jg_block_names<-"
 #' @export
 "derived_code<-" <- function (object, value) {
   UseMethod("derived_code<-", object)
