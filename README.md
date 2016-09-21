@@ -1,37 +1,38 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
 [![Travis-CI Build Status](https://travis-ci.org/poissonconsulting/jaggernaut.svg?branch=master)](https://travis-ci.org/poissonconsulting/jaggernaut)
 
-# jaggernaut
+jaggernaut
+==========
 
-jaggernaut is an R package to facilitate Bayesian analyses using JAGS 
-(Just Another Gibbs Sampler).
+Introduction
+------------
 
-Key features include 
+jaggernaut is an R package to facilitate Bayesian analyses using JAGS (Just Another Gibbs Sampler).
 
-* the conversion of a data frame into a suitable format for input into JAGS
+Key features include
 
-* the option to automatically update a model (increase the length of the MCMC chains)
-until convergence is achieved
+-   the conversion of a data frame into a suitable format for input into JAGS
 
-* the option to run MCMC chains on parallel processes
+-   the option to automatically update a model (increase the length of the MCMC chains) until convergence is achieved
 
-* the ability to extract derived parameters from an existing model using BUGS code 
-(in the JAGS dialect) without additional MCMC sampling
+-   the option to run MCMC chains on parallel processes
 
-* simple generation of data frames quantifying the effect (and effect size) of 
-particular variables with the other variables held constant
+-   the ability to extract derived parameters from an existing model using BUGS code (in the JAGS dialect) without additional MCMC sampling
 
-## Install
+-   simple generation of data frames quantifying the effect (and effect size) of particular variables with the other variables held constant
 
-To install the latest version of jaggernaut:
+Installation
+------------
+
+To install from GitHub
 
     # install.packages("devtools")
-    library(devtools)
-    install_github("poissonconsulting/jaggernaut")
-    library(jaggernaut)
-    
-## Contact
+    devtools::install_github("poissonconsulting/jaggernaut")
 
-You are welcome to:
+Contribution
+------------
 
-* submit suggestions and bug-reports at: https://github.com/poissonconsulting/jaggernaut/issues
-* send a pull request on: https://github.com/poissonconsulting/jaggernaut/
+Please report any [issues](https://github.com/poissonconsulting/jaggernaut/issues).
+
+[Pull requests](https://github.com/poissonconsulting/jaggernaut/pulls) are always welcome.
