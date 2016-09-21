@@ -25,26 +25,7 @@
 #' 
 #' Options are queried and set using the \code{\link{opts_jagr}} function.
 #' 
-#' The data sets accompanying this package are those used in the real 
-#' examples in Kery and Schaub's (2011) book Bayesian Population Analysis 
-#' using WinBUGS.
-#' To see all available data sets type 
-#' \code{data()}.  To get further information on for example 
-#' the \code{peregrine}
-#' data set type \code{?peregrine}.
-#' 
-#' For illustrative purposes the 
-#' examples in Kery and Schaub (2011) are in the process of being implemented 
-#' in jaggernaut as demos. To see the available demos type \code{demo()}.
-#' To run the demo for the peregrine data set use the command \code{demo(peregrine)}.
-#' 
-#' Please report any bugs or pass on any comments
-#' or requests to the package maintainer at \email{<joe@@poissonconsulting.ca>}.
-#'
 #' @references 
-#' Kery M & Schaub M (2011) Bayesian Population Analysis
-#' using WinBUGS. Academic Press. (\url{http://www.vogelwarte.ch/bpa})
-#' 
 #' Plummer M (2012) JAGS Version 3.3.0 User Manual \url{http://sourceforge.net/projects/mcmc-jags/files/Manuals/}
 #' 
 #' @docType package
@@ -78,19 +59,5 @@
 #' coef(an)
 #' coef(an, latex = TRUE)
 #' summary(an)
-#'  
-#'  
-#' \dontrun{ 
-#' 
-#' data(package = "jaggernaut") 
-#' data(peregrine)
-#' summary(peregrine)
-#' demo(package = "jaggernaut")
-#' 
-#' demo(peregrine)
-#' 
-#' # further information on the peregrine data set
-#' ?peregrine
-#' }
 #'
 NULL

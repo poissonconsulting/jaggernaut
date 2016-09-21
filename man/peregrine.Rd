@@ -5,15 +5,12 @@
 \alias{peregrine}
 \title{Peregrine falcon breeding population data}
 \format{A data frame with 40 rows and 4 columns}
-\source{
-Kery & Schaub (2011 p.64-65) courtesy of R.-J. Monneret
-}
 \usage{
 peregrine
 }
 \description{
-The peregrine falcon (\emph{Falco peregrinus}) population
-breeding in the French Jura from 1964 to 2003.
+Simulated peregrine falcon population
+breeding from 1964 to 2003.
 
  The variables are as follows:
 \itemize{
@@ -26,14 +23,6 @@ breeding in the French Jura from 1964 to 2003.
 \examples{
 data(peregrine)
 summary(peregrine)
-\dontrun{
-
-demo(peregrine)
-}
-}
-\references{
-Kery M & Schaub M (2011) Bayesian Population Analysis
-using WinBUGS. Academic Press. (\url{http://www.vogelwarte.ch/bpa})
 }
 \keyword{datasets}
 

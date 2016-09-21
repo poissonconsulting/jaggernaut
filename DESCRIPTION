@@ -38,6 +38,7 @@ Imports:
     rjags,
     runjags
 Suggests:
+    devtools,
     testthat,
     datasets,
     reshape2,
