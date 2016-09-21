@@ -1,0 +1,31 @@
+context("variable")
+
+test_that("creates correct class of variable", {
+  vlogical <- variable(c(FALSE,TRUE,FALSE))
+  vinteger <- variable(1:10)
+  vnumeric <- variable(1:10 + 0.1)
+  vfactor <- variable(factor(1:10))
+  vdate <- variable(as.Date("2000-01-01") + 1:10)
+  vposixt <- variable(as.POSIXct("2000-01-01", tz= "UTC") + 1:10)
+  
+  mlogical <- variable(matrix(TRUE))
+  minteger <- variable(matrix(as.integer(1)))
+  mdouble <- variable(matrix(1))
+
+  alogical <- variable(array(TRUE))
+  ainteger <- variable(array(as.integer(1)))
+  adouble <- variable(array(1))
+  
+  expect_that(vlogical, is_a("vlogical"))
+  expect_that(vinteger, is_a("vinteger"))
+  expect_that(vnumeric, is_a("vnumeric"))
+  expect_that(vfactor, is_a("vfactor"))
+  expect_that(vdate, is_a("vdate"))
+  expect_that(vposixt, is_a("vposixt"))
+  expect_that(mlogical, is_a("mlogical"))
+  expect_that(minteger, is_a("minteger"))
+  expect_that(mdouble, is_a("mdouble"))
+  expect_that(alogical, is_a("alogical"))
+  expect_that(ainteger, is_a("ainteger"))
+  expect_that(adouble, is_a("adouble"))
+})

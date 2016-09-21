@@ -1,7 +1,7 @@
 jagr_analysis <- function (model, data, niters, nworkers) {    
   
   assert_that(is.jagr_model(model))
-  assert_that(datalist::is_convertible_data(data))
+  assert_that(is_convertible_data(data))
   assert_that(is.count(niters) && noNA(niters))
   assert_that(is.count(nworkers) && noNA(nworkers))
   
@@ -15,7 +15,7 @@ jagr_analysis <- function (model, data, niters, nworkers) {
   if (is.function(modify_data(model))) 
     data <- modify_data(model)(data)
   
-  assert_that(datalist::is_converted_data(data))
+  assert_that(is_converted_data(data))
   
   if (is.function(gen_inits(model))) {
     inits <- list()
@@ -25,7 +25,7 @@ jagr_analysis <- function (model, data, niters, nworkers) {
   } else
     inits <- NULL
   
-  assert_that(datalist::is_converted_data(data))
+  assert_that(is_converted_data(data))
   assert_that(is.count(niters) && noNA(niters))
   assert_that(is.count(nworkers) && noNA(nworkers))
   

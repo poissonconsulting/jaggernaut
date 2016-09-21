@@ -1,0 +1,63 @@
+context("get_min")
+
+test_that("get_min returns vector of correct class", {
+  dlogical <- variable(as.logical(0:9))
+  dnumeric <- variable(1:10 + 0.1)
+  dinteger <- variable(1:10)
+  dfactor <- variable(factor(1:10))
+  ddate <- variable(as.Date("2000-01-01") + 1:10)
+  dposixt <- variable(as.POSIXct("2000-01-01", tz= "UTC") + 1:10)
+  
+  expect_that(get_min(dlogical), is_a("logical"))
+  expect_that(get_min(dnumeric), is_a("numeric"))
+  expect_that(get_min(dinteger), is_a("integer"))
+  expect_that(get_min(dfactor), is_a("factor"))
+  expect_that(get_min(ddate), is_a("Date"))
+  expect_that(get_min(dposixt), is_a("POSIXct"))
+  
+  expect_that(get_min(dlogical, observed = TRUE), is_a("logical"))
+  expect_that(get_min(dnumeric, observed = TRUE), is_a("numeric"))
+  expect_that(get_min(dinteger, observed = TRUE), is_a("integer"))
+  expect_that(get_min(dfactor, observed = TRUE), is_a("factor"))
+  expect_that(get_min(ddate, observed = TRUE), is_a("Date"))
+  expect_that(get_min(dposixt, observed = TRUE), is_a("POSIXct"))
+})
+
+test_that("get_min returns vector of specified length", {
+  dlogical <- variable(as.logical(0:9))
+  dnumeric <- variable(1:10 + 0.1)
+  dinteger <- variable(1:10)
+  dfactor <- variable(factor(1:10))
+  ddate <- variable(as.Date("2000-01-01") + 1:10)
+  dposixt <- variable(as.POSIXct("2000-01-01", tz= "UTC") + 1:10)
+  
+  expect_that(length(get_min(dlogical)), equals(1))
+  expect_that(length(get_min(dnumeric)), equals(1))
+  expect_that(length(get_min(dinteger)), equals(1))
+  expect_that(length(get_min(dfactor)), equals(1))
+  expect_that(length(get_min(ddate)), equals(1))
+  expect_that(length(get_min(dposixt)), equals(1))
+  
+  expect_that(length(get_min(dlogical, observed = TRUE)), equals(1))
+  expect_that(length(get_min(dnumeric, observed = TRUE)), equals(1))
+  expect_that(length(get_min(dinteger, observed = TRUE)), equals(1))
+  expect_that(length(get_min(dfactor, observed = TRUE)), equals(1))
+  expect_that(length(get_min(ddate, observed = TRUE)), equals(1))
+  expect_that(length(get_min(dposixt, observed = TRUE)), equals(1))
+})
+
+test_that("get_min returns correct value", {
+  dlogical <- variable(as.logical(0:9))
+  dnumeric <- variable(1:10 + 0.1)
+  dinteger <- variable(1:10)
+  dfactor <- variable(factor(1:10))
+  ddate <- variable(as.Date("2000-01-01") + 1:10)
+  dposixt <- variable(as.POSIXct("2000-01-01", tz= "UTC") + 1:10)
+  
+  expect_that(get_min(dlogical), equals(FALSE))
+  expect_that(get_min(dnumeric), equals(1.1))
+  expect_that(get_min(dinteger), equals(1))
+  expect_that(get_min(dfactor), equals(factor(1:10)[1]))
+  expect_that(get_min(ddate), equals(as.Date("2000-01-02")))
+  expect_that(get_min(dposixt), equals(as.POSIXct("2000-01-01", tz= "UTC") + 1))
+})

@@ -73,7 +73,7 @@ dataset.jags_analysis <- function (object, converted = FALSE, ...) {
 }
 
 "dataset<-.jags_analysis" <- function (object, value) {
-  stopifnot(datalist::is_convertible_data(value))
+  stopifnot(is_convertible_data(value))
   
   object$data <- value
   

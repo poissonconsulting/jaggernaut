@@ -3,8 +3,8 @@ predict_jagr <- function (object, parm, data, base, level, estimate,
   
   stopifnot(is.jags_analysis(object) && is_one_model(object))
   stopifnot(is_character_scalar(parm))
-  stopifnot(datalist::is_convertible_data(data))
-  stopifnot(is.null(base) || (datalist::is_convertible_data_frame(base) && datalist::is_convertible_data_frame(data)))
+  stopifnot(is_convertible_data(data))
+  stopifnot(is.null(base) || (is_convertible_data_frame(base) && is_convertible_data_frame(data)))
   stopifnot(is_numeric_scalar(level))
   stopifnot(is_bounded(level, 0.75, 0.99) || level == 0)
   stopifnot(estimate %in% c("mean","median"))
@@ -13,7 +13,7 @@ predict_jagr <- function (object, parm, data, base, level, estimate,
   data_sample <- derived (object, parm = parm, data = data, nworkers = nworkers) 
   data_sample <- jags_sample(data_sample, parm = parm, data = data)
   
-  if (datalist::is_convertible_data_frame(base)) {
+  if (is_convertible_data_frame(base)) {
     base_sample <- derived (object, parm = parm, data = base, nworkers = nworkers)
     base_sample <- jags_sample(base_sample, parm = parm, data = base)
     

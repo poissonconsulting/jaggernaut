@@ -54,7 +54,7 @@
 #' 
 #' Its also important to realize that values always replaces the corresponding
 #' values in base but only replaces the corresponding values in newdata if they
-#' are unaltered, i.e., as they are in datalist::new_data(dataset(object)).
+#' are unaltered, i.e., as they are in new_data(dataset(object)).
 #' 
 #' @return the \code{coef} table for the derived parameter of interest 
 #' or if level = "no" an object of class \code{jags_samples}
@@ -75,17 +75,17 @@ predict.jags_analysis <- function (object, newdata = NULL,
   
   assert_that(is.scalar(model_id))
   
-  if(!is_null(newdata) && !datalist::is_convertible_data(newdata) &&
+  if(!is_null(newdata) && !is_convertible_data(newdata) &&
      !identical(newdata, "") && !is_character_vector(newdata))
     stop("newdata must be NULL or a data.frame or list of data or a character vector")
   
   if(!is_character_scalar(parm))
     stop("parm must be a character scalar")
   
-  if(!is_logical_scalar(base) && !(datalist::is_convertible_data_frame(base) && nrow(base) == 1))
+  if(!is_logical_scalar(base) && !(is_convertible_data_frame(base) && nrow(base) == 1))
     stop("base must be an logical scalar or a data.frame with one row")
   
-  if(!is_null(values) && !(datalist::is_convertible_data_frame(values) && nrow(values) == 1))
+  if(!is_null(values) && !(is_convertible_data_frame(values) && nrow(values) == 1))
     stop("values must be NULL or a data.frame with a single row of data")
   
   if(!is_null(modify_data_derived) && !is_function(modify_data_derived))
@@ -164,8 +164,8 @@ predict.jags_analysis <- function (object, newdata = NULL,
   
   data <- dataset(object)
   
-  if(datalist::is_convertible_data_frame(data)) {
-    if(datalist::is_convertible_data_list(newdata))
+  if(is_convertible_data_frame(data)) {
+    if(is_convertible_data_list(newdata))
       stop("as original dataset is a data frame newdata must not be a data list")
     if (!is_FALSE(obs_by) && !all(obs_by %in% colnames(data)))
       stop("all obs_by must be in data")
@@ -189,7 +189,7 @@ predict.jags_analysis <- function (object, newdata = NULL,
     if(identical(newdata, ""))
       newdata <- NULL
     
-    newdata <- datalist::new_data(data, sequence = newdata, observed = observed, 
+    newdata <- new_data(data, sequence = newdata, observed = observed, 
                                   length_out = length_out)
   }
   
@@ -197,25 +197,25 @@ predict.jags_analysis <- function (object, newdata = NULL,
     observed <- obs_by
     if(!is.character(observed))
       observed <- NULL
-    base <- datalist::new_data(data, observed = observed)
+    base <- new_data(data, observed = observed)
   } else if(is_FALSE(base))
     base <- NULL
   
-  if (datalist::is_convertible_data_list(data)) {
+  if (is_convertible_data_list(data)) {
     bol <- !names(data) %in% names(newdata)
     if (any(bol)) {
       newdata <- c(newdata, data[bol])
     }
     newdata <- newdata[unique(c(names(data), names_select(select_data_derived(object))))]
   } else {
-    dat <- datalist::new_data(data)
+    dat <- new_data(data)
     bol <- !names(dat) %in% names(newdata)
     if (any(bol)) {
       newdata <- merge(newdata, dat[bol])
     }
     newdata <- newdata[unique(c(names(data), names_select(select_data_derived(object))))]
     
-    if (datalist::is_convertible_data_frame(base)) {
+    if (is_convertible_data_frame(base)) {
       bol <- !names(dat) %in% names(base)
       if (any(bol)) {
         base <- cbind(base, dat[bol])
@@ -223,14 +223,14 @@ predict.jags_analysis <- function (object, newdata = NULL,
       base <- base[names(data)]
     }
     
-    if (datalist::is_convertible_data_frame(values)) {
+    if (is_convertible_data_frame(values)) {
       for (name in names(values)) {
         if (name %in% names(newdata)) {
           x <- newdata[[name]]
           if (all(x == dat[[name]])) {
             newdata[[name]] <- values[[name]]
           }
-          if (datalist::is_convertible_data_frame(base)) {
+          if (is_convertible_data_frame(base)) {
             base[[name]] <- values[[name]]
           }
         }

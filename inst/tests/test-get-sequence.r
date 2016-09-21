@@ -1,0 +1,50 @@
+context("get_sequence")
+
+test_that("get_sequence returns vector of correct class", {
+  dlogical <- variable(as.logical(0:9))
+  dnumeric <- variable(1:10 + 0.1)
+  dinteger <- variable(1:10)
+  dfactor <- variable(factor(1:10))
+  ddate <- variable(as.Date("2000-01-01") + 1:10)
+  dposixt <- variable(as.POSIXct("2000-01-01", tz= "UTC") + 1:10)
+  
+  expect_that(get_sequence(dlogical), is_a("logical"))
+  expect_that(get_sequence(dnumeric), is_a("numeric"))
+  expect_that(get_sequence(dinteger), is_a("integer"))
+  expect_that(get_sequence(dfactor), is_a("factor"))
+  expect_that(get_sequence(ddate), is_a("Date"))
+  expect_that(get_sequence(dposixt), is_a("POSIXct"))
+})
+
+test_that("get_sequence returns vector of specified length", {
+  dlogical <- variable(as.logical(0:9))
+  dnumeric <- variable(1:10 + 0.1)
+  dinteger <- variable(1:10)
+  dfactor <- variable(factor(1:10))
+  ddate <- variable(as.Date("2000-01-01") + 1:10)
+  dposixt <- variable(as.POSIXct("2000-01-01", tz= "UTC") + 1:10)
+  
+  expect_that(length(get_sequence(dlogical)), equals(2))
+  expect_that(length(get_sequence(dnumeric, length_out = 24)), equals(24))
+  expect_that(length(get_sequence(dinteger, length_out = 5)), equals(5))
+  expect_that(length(get_sequence(dinteger, length_out = 20)), equals(10))
+  expect_that(length(get_sequence(dfactor)), equals(10))
+  expect_that(length(get_sequence(ddate, length_out = 5)), equals(5))
+  expect_that(length(get_sequence(dposixt, length_out = 11)), equals(10))
+})
+
+test_that("get_sequence returns correct range", {
+  dlogical <- variable(as.logical(0:9))
+  dnumeric <- variable(1:10 + 0.1)
+  dinteger <- variable(1:10)
+  dfactor <- variable(factor(1:10))
+  ddate <- variable(as.Date("2000-01-01") + 1:10)
+  dposixt <- variable(as.POSIXct("2000-01-01", tz= "UTC") + 1:10)
+  
+  expect_that(get_sequence(dlogical), equals(c(FALSE,TRUE)))
+  expect_that(range(get_sequence(dnumeric)), equals(c(1.1,10.1)))
+  expect_that(range(get_sequence(dinteger)), equals(c(1,10)))
+  expect_that(get_sequence(dfactor), equals(factor(1:10)))
+  expect_that(range(get_sequence(ddate)), equals(as.Date(c("2000-01-02","2000-01-11"))))
+  expect_that(range(get_sequence(dposixt)), equals(as.POSIXct("2000-01-01", tz= "UTC") + c(1,10)))
+})

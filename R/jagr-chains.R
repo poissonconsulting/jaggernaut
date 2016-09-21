@@ -3,7 +3,7 @@ jagr_chains <- function (inits, data, file, monitor, n.chain = 1,
                                     n.thin = 1) {
   
   stopifnot(is.character(monitor) && not_empty(monitor))
-  stopifnot(datalist::is_converted_data(data))
+  stopifnot(is_converted_data(data))
   
   assert_that(is.count(n.chain) && noNA(n.chain))
   assert_that(is.null(inits) || is.list(inits))
