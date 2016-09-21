@@ -1,5 +1,9 @@
 # NEWS jaggernaut
 
+### v2.5.0
+
+- Imported github dependencies.
+
 ### v2.4.2
 
 - update Remotes
