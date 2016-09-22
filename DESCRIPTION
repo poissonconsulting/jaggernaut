@@ -1,21 +1,21 @@
 Package: jaggernaut
 Version: 2.5.0
 Date: 2016-09-21
-Title: Bayesian Analyses using JAGS
+Title: Bayesian Analyses using 'JAGS'
 Authors@R: c(
     person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c("aut", "cre"))
   )
 License: MIT + file LICENSE
-Description: An R package to facilitate Bayesian analyses using JAGS
+Description: Facilitates Bayesian analyses using 'JAGS'
     (Just Another Gibbs Sampler). Key features include the
     conversion of a data frame into a suitable format for input
-    into JAGS; the option to manually or automatically increase the
-    length of the MCMC (Markov Chain Monte Carlo) chains until
-    convergence is achieved; the option to run MCMC chains on
+    into 'JAGS'; the option to manually or automatically increase the
+    length of the 'MCMC' (Markov Chain Monte Carlo) chains until
+    convergence is achieved; the option to run 'MCMC' chains on
     separate processes; the ability to extract derived parameters
     including posterior predictive checks
-    from an existing model using BUGS code (in the JAGS dialect)
-    without additional MCMC sampling; simple generation of data
+    from an existing model using 'BUGS' code (in the 'JAGS' dialect)
+    without additional 'MCMC' sampling; simple generation of data
     frames quantifying the effect (and effect size) of particular
     variables with the other variables held constant.
 URL: https://github.com/poissonconsulting/jaggernaut
