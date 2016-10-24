@@ -1,6 +1,6 @@
 Package: jaggernaut
-Version: 2.5.0
-Date: 2016-09-21
+Version: 2.5.1
+Date: 2016-10-24
 Title: Bayesian Analyses using 'JAGS'
 Authors@R: c(
     person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c("aut", "cre"))
