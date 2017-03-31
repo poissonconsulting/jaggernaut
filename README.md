@@ -1,9 +1,11 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-[![Travis-CI Build Status](https://travis-ci.org/poissonconsulting/jaggernaut.svg?branch=master)](https://travis-ci.org/poissonconsulting/jaggernaut) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/poissonconsulting/jaggernaut?branch=master&svg=true)](https://ci.appveyor.com/project/poissonconsulting/jaggernaut) [![codecov](https://codecov.io/gh/poissonconsulting/jaggernaut/branch/master/graph/badge.svg)](https://codecov.io/gh/poissonconsulting/jaggernaut) [![DOI](https://zenodo.org/badge/7877200.svg)](https://zenodo.org/badge/latestdoi/7877200)
+![stability-frozen](https://img.shields.io/badge/stability-locked-blue.svg) [![Travis-CI Build Status](https://travis-ci.org/poissonconsulting/jaggernaut.svg?branch=master)](https://travis-ci.org/poissonconsulting/jaggernaut) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/poissonconsulting/jaggernaut?branch=master&svg=true)](https://ci.appveyor.com/project/poissonconsulting/jaggernaut) [![codecov](https://codecov.io/gh/poissonconsulting/jaggernaut/branch/master/graph/badge.svg)](https://codecov.io/gh/poissonconsulting/jaggernaut) [![DOI](https://zenodo.org/badge/7877200.svg)](https://zenodo.org/badge/latestdoi/7877200)
 
 jaggernaut
 ==========
+
+Development has moved to [jmbr](https://github.com/poissonconsulting/jmbr).
 
 Introduction
 ------------
