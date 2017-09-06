@@ -27,4 +27,3 @@ that it is to be included in the calculation of convergence.
 \seealso{
 \code{\link{jaggernaut}}
 }
-

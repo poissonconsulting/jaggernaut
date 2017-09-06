@@ -24,4 +24,3 @@ is_converted_data_frame(convert_data(trees))
 \code{\link{is_convertible_data}} and 
 \code{\link{convert_data}}
 }
-

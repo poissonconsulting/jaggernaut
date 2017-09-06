@@ -20,4 +20,3 @@ Get the random_effects component of a JAGS object.
 \seealso{
 \code{\link{jaggernaut}}
 }
-

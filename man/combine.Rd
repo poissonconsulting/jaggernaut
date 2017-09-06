@@ -17,4 +17,3 @@ a JAGS object of the original class
 \description{
 Adds two or more JAGS object of the same class.
 }
-

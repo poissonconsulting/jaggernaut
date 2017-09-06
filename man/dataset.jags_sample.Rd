@@ -17,4 +17,3 @@ The dataset.
 \description{
 Gets the dataset from a \code{jags_sample} object.
 }
-

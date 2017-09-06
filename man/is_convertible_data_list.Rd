@@ -26,4 +26,3 @@ is_convertible_data_list(trees)
 \seealso{
 \code{\link{is_convertible_data}}
 }
-

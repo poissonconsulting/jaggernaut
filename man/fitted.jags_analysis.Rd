@@ -52,4 +52,3 @@ Calculate fitted values with credible limits for a JAGS analysis
 \code{\link{jags_model}}, \code{\link{jags_analysis}}
 and \code{\link{predict.jags_analysis}}
 }
-

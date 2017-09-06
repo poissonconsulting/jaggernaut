@@ -1,9 +1,11 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-![stability-frozen](https://img.shields.io/badge/stability-locked-blue.svg) [![Travis-CI Build Status](https://travis-ci.org/poissonconsulting/jaggernaut.svg?branch=master)](https://travis-ci.org/poissonconsulting/jaggernaut) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/poissonconsulting/jaggernaut?branch=master&svg=true)](https://ci.appveyor.com/project/poissonconsulting/jaggernaut) [![codecov](https://codecov.io/gh/poissonconsulting/jaggernaut/branch/master/graph/badge.svg)](https://codecov.io/gh/poissonconsulting/jaggernaut) [![DOI](https://zenodo.org/badge/7877200.svg)](https://zenodo.org/badge/latestdoi/7877200)
+[![stability-deprecated](https://img.shields.io/badge/stability-deprecated-red.svg)](https://github.com/joethorley/stability-badges#deprecated) [![Travis-CI Build Status](https://travis-ci.org/poissonconsulting/poiscon.svg?branch=master)](https://travis-ci.org/poissonconsulting/poiscon) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/poissonconsulting/poiscon?branch=master&svg=true)](https://ci.appveyor.com/project/poissonconsulting/poiscon) [![Coverage Status](https://img.shields.io/codecov/c/github/poissonconsulting/poiscon/master.svg)](https://codecov.io/github/poissonconsulting/poiscon?branch=master) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) [![DOI](https://zenodo.org/badge/7877200.svg)](https://zenodo.org/badge/latestdoi/7877200)
 
 jaggernaut
 ==========
+
+**DEPRECATED**
 
 Development has moved to [jmbr](https://github.com/poissonconsulting/jmbr).
 

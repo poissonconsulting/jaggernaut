@@ -20,4 +20,3 @@ Fixes JAGS model code. Currently only
 drops blocks with invalid names and reorders blocks 
 (JAGS requires blocks to be ordered).
 }
-

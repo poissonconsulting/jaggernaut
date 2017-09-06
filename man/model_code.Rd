@@ -20,4 +20,3 @@ Get the model_code component of a JAGS object.
 \seealso{
 \code{\link{jaggernaut}}
 }
-

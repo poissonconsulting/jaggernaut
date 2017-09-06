@@ -20,4 +20,3 @@ Gets the gen_inits component of of a JAGS object.
 \seealso{
 \code{\link{jaggernaut}}
 }
-

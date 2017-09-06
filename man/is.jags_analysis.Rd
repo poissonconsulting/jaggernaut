@@ -20,4 +20,3 @@ Tests for objects of class \code{jags_analysis}.
 \code{\link{jags_analysis}} and 
 \code{\link{jaggernaut}}.
 }
-

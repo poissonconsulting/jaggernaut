@@ -77,4 +77,3 @@ Plummer M (2012) JAGS Version 3.3.0 User Manual \url{http://sourceforge.net/proj
 \code{\link{jags_model}} 
 and \code{\link{jaggernaut}}
 }
-

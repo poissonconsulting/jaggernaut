@@ -91,4 +91,3 @@ are unaltered, i.e., as they are in new_data(dataset(object)).
 \code{\link{coef.jags_analysis}}
  and \code{\link{jaggernaut}}
 }
-

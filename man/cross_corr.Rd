@@ -23,4 +23,3 @@ Get cross-correlation value for JAGS objects
 \seealso{
 \code{coda::crosscorr}
 }
-

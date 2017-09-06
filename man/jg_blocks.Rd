@@ -20,4 +20,3 @@ character vector where the names are the block names.
 \examples{
 jg_blocks("data {X <- 2} model { Y ~ dpois(X) }")
 }
-

@@ -20,4 +20,3 @@ Tests for objects of class \code{jags_sample}.
 \code{\link{merge_jags_samples}},  
 \code{\link{ddply_jags_sample}} and \code{\link{coef.jags_sample}}.
 }
-

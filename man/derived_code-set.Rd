@@ -20,4 +20,3 @@ Sets the derived_code component of a JAGS object.
 \seealso{
 \code{\link{derived_code}} and \code{\link{jaggernaut}}
 }
-

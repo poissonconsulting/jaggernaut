@@ -22,4 +22,3 @@ Subset a JAGS model x.
 \seealso{
 \code{\link{subset}} and \code{\link{jags_analysis}}
 }
-

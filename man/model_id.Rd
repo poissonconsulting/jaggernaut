@@ -23,4 +23,3 @@ Get the model_id component of a JAGS object.
 \seealso{
 \code{\link{jaggernaut}}
 }
-

@@ -21,4 +21,3 @@ Adds two or more \code{jags_model} objects.
 \code{\link{combine}}, \code{\link{jags_model}}
 and \code{\link{jaggernaut}}.
 }
-

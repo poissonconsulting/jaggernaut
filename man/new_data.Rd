@@ -55,4 +55,3 @@ new_data(data, sequence = c("date", "factor"))
 new_data(data, sequence = c("numeric"), observed = c("numeric"))
 
 }
-

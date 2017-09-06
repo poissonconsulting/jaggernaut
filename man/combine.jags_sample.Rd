@@ -23,4 +23,3 @@ a jags_sample object
 \description{
 Combine JAGS samples in multiple jags_sample objects by by using function fun
 }
-

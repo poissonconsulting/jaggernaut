@@ -72,4 +72,3 @@ predictive_check(analysis1)
 \code{\link{jags_model}}, \code{\link{jags_analysis}}
 ,\code{\link{predict.jags_analysis}} and \code{\link{coef.jags_analysis}}
 }
-

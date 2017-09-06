@@ -27,4 +27,3 @@ is_converted_data(list(x = factor(1:10), y = 0.33, z = matrix(1:9, ncol = 3)))
 \code{\link{is_convertible_data}} and 
 \code{\link{convert_data}}
 }
-

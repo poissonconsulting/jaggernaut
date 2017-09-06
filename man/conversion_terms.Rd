@@ -39,4 +39,3 @@ conversion_terms(data, centre = "date", standardise = "date")
 \seealso{
 \code{\link{convert_data}}
 }
-

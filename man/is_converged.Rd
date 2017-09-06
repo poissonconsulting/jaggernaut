@@ -21,4 +21,3 @@ Tests the convergence of a JAGS object.
 \seealso{
 \code{\link{jaggernaut}}
 }
-

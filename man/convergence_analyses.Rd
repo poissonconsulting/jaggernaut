@@ -20,4 +20,3 @@ the maximum R-hat value.}
 \description{
 Combine Models
 }
-

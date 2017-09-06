@@ -20,4 +20,3 @@ Where a JAGS word must start with a letter
 and can only contain letters, numbers, '.'
 and '_'.
 }
-

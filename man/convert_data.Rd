@@ -59,4 +59,3 @@ convert_data(data, standardise = TRUE)
 convert_data(data, numericise = FALSE, standardise = "date")
 convert_data(data, numericise = FALSE, centre = "date", standardise = "date")
 }
-

@@ -20,4 +20,3 @@ Gets the dataset(s) from a JAGS object.
 \seealso{
 \code{\link{dataset}}
 }
-

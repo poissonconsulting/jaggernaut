@@ -21,4 +21,3 @@ Tests the convergence of a JAGS analysis.
 \seealso{
 \code{\link{convergence_threshold}} and \code{\link{jaggernaut}}
 }
-

@@ -23,4 +23,3 @@ Get auto-correlation value(s) for JAGS objects
 \seealso{
 \code{coda::autocorr}
 }
-

@@ -19,4 +19,3 @@ Throws an error if unbalanced brackets
 \examples{
 jg_nblock("data {X <- 2} model { Y ~ dpois(X) }")
 }
-

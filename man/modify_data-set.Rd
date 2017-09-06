@@ -17,4 +17,3 @@ Set the modify_data component of a JAGS object.
 \seealso{
 \code{\link{jaggernaut}}
 }
-

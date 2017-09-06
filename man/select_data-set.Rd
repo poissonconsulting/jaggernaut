@@ -17,4 +17,3 @@ Set the select_data component of a JAGS object.
 \seealso{
 \code{\link{jaggernaut}}
 }
-

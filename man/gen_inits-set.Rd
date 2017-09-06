@@ -17,4 +17,3 @@ Sets the gen_inits component of a JAGS object.
 \seealso{
 \code{\link{gen_inits}} and \code{\link{jaggernaut}}
 }
-

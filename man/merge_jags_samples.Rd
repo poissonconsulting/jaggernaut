@@ -23,4 +23,3 @@ Merges JAGS samples in multiple jags_sample objects by by using function fun
 \code{\link{predict.jags_analysis}} and 
 \code{\link{ddply_jags_sample}}
 }
-

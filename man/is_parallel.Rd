@@ -19,4 +19,3 @@ Tests JAGS object has parallel chains.
 \seealso{
 \code{\link{jaggernaut}}
 }
-

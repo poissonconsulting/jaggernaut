@@ -18,4 +18,3 @@ Reverses strings
 \examples{
 reverse_strings(c("abc","def"))
 }
-

@@ -23,4 +23,3 @@ using the coda::plot.mcmc function.
 \seealso{
 \code{\link{jags_analysis}} and \code{\link[coda]{plot.mcmc}}
 }
-

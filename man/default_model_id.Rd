@@ -20,4 +20,3 @@ Get the default_model_id component of a JAGS object.
 \seealso{
 \code{\link{jaggernaut}}
 }
-

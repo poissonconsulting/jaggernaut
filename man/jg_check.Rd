@@ -18,4 +18,3 @@ In addition, a unique warning is issued for each failed check.
 \description{
 Checks JAGS model code
 }
-

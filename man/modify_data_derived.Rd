@@ -20,4 +20,3 @@ Get the modify_data_derived component of a JAGS object.
 \seealso{
 \code{\link{jaggernaut}}
 }
-

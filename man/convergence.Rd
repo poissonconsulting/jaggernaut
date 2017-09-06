@@ -23,4 +23,3 @@ a vector, matrix or array of convergence values
 \description{
 Get R-hat value(s) for JAGS objects
 }
-

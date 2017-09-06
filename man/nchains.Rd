@@ -15,4 +15,3 @@ an integer element indicating the number of MCMC chains in object
 \description{
 Gets the number of MCMC chains in a JAGS object
 }
-

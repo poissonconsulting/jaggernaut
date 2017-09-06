@@ -47,4 +47,3 @@ in a JAGS analysis
 \seealso{
 \code{\link{jags_model}} and \code{\link{jags_analysis}}
 }
-

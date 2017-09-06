@@ -19,4 +19,3 @@ the 1st of Jan 2000 is equal to 1.
 \examples{
 date2integer(integer2date(-1:3))
 }
-

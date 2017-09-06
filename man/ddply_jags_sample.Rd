@@ -22,4 +22,3 @@ Combines JAGS samples in a jags_sample object by by using function fun
 \seealso{
 \code{\link{predict.jags_analysis}}
 }
-

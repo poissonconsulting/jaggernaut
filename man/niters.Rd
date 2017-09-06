@@ -15,4 +15,3 @@ an integer element indicating the number of MCMC iterations used to generate obj
 \description{
 Gets the number of MCMC iterations used to generate a JAGS object
 }
-

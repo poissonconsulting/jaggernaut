@@ -24,4 +24,3 @@ Returns the original dataset from a \code{jags_analysis} object.
 \code{\link{dataset}}, \code{\link{jags_analysis}}
 and \code{\link{jaggernaut}}
 }
-

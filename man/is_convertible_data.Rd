@@ -27,4 +27,3 @@ is_convertible_data(trees)
 \code{\link{is_convertible_data_list}} and 
 \code{\link{is_convertible_data_frame}}
 }
-

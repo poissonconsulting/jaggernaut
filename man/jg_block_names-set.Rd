@@ -24,4 +24,3 @@ Strips out comments.
 jg_block_names(x) <- c("settings", "model")
 print(x)
 }
-

@@ -17,4 +17,3 @@ a data.frame or list(s) of the data
 \description{
 Gets the dataset(s) from a JAGS object.
 }
-

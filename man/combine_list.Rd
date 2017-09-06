@@ -20,4 +20,3 @@ Combines elements of a list by calling the specific combine function.
 \seealso{
 \code{\link{combine}}
 }
-

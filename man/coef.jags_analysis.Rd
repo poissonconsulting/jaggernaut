@@ -40,4 +40,3 @@ Calculates parameter estimates for a JAGS analysis
 \seealso{
 \code{\link{jags_analysis}}, \code{\link{opts_jagr}} and \code{\link{jaggernaut}}
 }
-

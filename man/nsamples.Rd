@@ -15,4 +15,3 @@ an integer element indicating the number of MCMC samples in object
 \description{
 Gets the number of MCMC samples in a JAGS object
 }
-

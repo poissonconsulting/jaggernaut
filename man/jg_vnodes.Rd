@@ -40,4 +40,3 @@ model {
 jg_vnodes(model_code)
 
 }
-

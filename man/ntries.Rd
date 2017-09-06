@@ -20,4 +20,3 @@ Get the ntries of a JAGS object.
 \seealso{
 \code{\link{jaggernaut}}
 }
-

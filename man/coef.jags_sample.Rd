@@ -35,4 +35,3 @@ Calculates coefficients for a jags_sample object
 \code{\link{opts_jagr}} 
 and \code{\link{jaggernaut}}
 }
-

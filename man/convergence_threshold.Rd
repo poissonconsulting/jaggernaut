@@ -20,4 +20,3 @@ Gets the R-hat threshold of a JAGS object.
 \seealso{
 \code{\link{jaggernaut}}
 }
-

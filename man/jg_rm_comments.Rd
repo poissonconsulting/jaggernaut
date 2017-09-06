@@ -17,4 +17,3 @@ Removes comments in JAGS model code.
 A comment is everything from a # to the end
 of a line of the end of the string.
 }
-

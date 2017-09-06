@@ -17,4 +17,3 @@ an integer element indicating the number of analyses in object
 \description{
 Gets the number of analyses in a JAGS object
 }
-

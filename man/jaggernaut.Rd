@@ -3,8 +3,9 @@
 \docType{package}
 \name{jaggernaut}
 \alias{jaggernaut}
-\alias{jaggernaut-package}
 \alias{package-jaggernaut}
+\alias{jaggernaut-package}
+\alias{jaggernaut-package}
 \title{Bayesian Analysis with JAGS}
 \description{
 An R package to facilitate Bayesian analysis
@@ -60,4 +61,3 @@ Plummer M (2012) JAGS Version 3.3.0 User Manual \url{http://sourceforge.net/proj
 \code{\link{jags_analysis}}
 and \code{\link{opts_jagr}}.
 }
-

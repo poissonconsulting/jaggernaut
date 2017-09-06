@@ -1,6 +1,6 @@
 Package: jaggernaut
-Version: 2.5.1
-Date: 2016-10-24
+Version: 2.5.2
+Date: 2017-09-05
 Title: Bayesian Analyses using 'JAGS'
 Authors@R: c(
     person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c("aut", "cre"))
@@ -45,4 +45,4 @@ Suggests:
     ggplot2,
     scales
 LazyData: true
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

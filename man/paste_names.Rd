@@ -21,4 +21,3 @@ Paste names
 paste_names(c("x","y","z"))
 paste_names(c("x","y","z"), TRUE)
 }
-

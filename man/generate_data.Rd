@@ -48,4 +48,3 @@ generate_data (data, range = c("date", "factor"))
 generate_data (data, range = c("numeric"))
 
 }
-

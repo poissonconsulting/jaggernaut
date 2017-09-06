@@ -144,4 +144,3 @@ registerDoSEQ()
 \seealso{
 \code{\link{jaggernaut}}
 }
-
